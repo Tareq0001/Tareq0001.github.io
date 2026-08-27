@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tareq | Software Engineer & AI Architect</title>
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #13131f;
+            --surface-hover: #1c1c2e;
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.4);
+            --secondary: #ec4899;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #2dd4bf20;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background Gradients */
+        .bg-glow {
+            position: fixed;
+            width: 60vw; height: 60vw;
+            border-radius: 50%;
+            filter: blur(150px);
+            z-index: -1;
+            opacity: 0.15;
+            animation: pulse 10s ease-in-out infinite alternate;
+        }
+        .glow-1 { top: -20%; left: -10%; background: var(--primary); }
+        .glow-2 { bottom: -20%; right: -10%; background: var(--secondary); animation-delay: -5s; }
+
+        @keyframes pulse {
+            0% { transform: scale(1) translate(0,0); }
+            100% { transform: scale(1.1) translate(5%, 5%); }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        header {
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+        .avatar {
+            width: 150px; height: 150px;
+            border-radius: 50%;
+            border: 4px solid var(--surface);
+            box-shadow: 0 0 30px var(--primary-glow);
+            margin-bottom: 24px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .avatar:hover { transform: scale(1.05); }
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .title {
+            font-size: 1.25rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 24px;
+            letter-spacing: 1px;
+        }
+        .bio {
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            font-size: 1.1rem;
+        }
+        .social-links a {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+        }
+        .btn-github {
+            background: var(--text-main);
+            color: var(--bg);
+        }
+        .btn-github:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255,255,255,0.1);
+        }
+
+        /* Section Titles */
+        section { padding: 60px 0; }
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, var(--border), transparent);
+        }
+
+        /* Cards Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            background: var(--surface-hover);
+        }
+        .card:hover::before { opacity: 1; }
+        
+        .card-icon {
+            font-size: 2rem; margin-bottom: 20px;
+        }
+        .card h3 {
+            font-size: 1.3rem; margin-bottom: 12px; color: #fff;
+        }
+        .card p {
+            color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px; flex-grow: 1;
+        }
+        .tech-stack {
+            display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;
+        }
+        .tag {
+            background: rgba(255,255,255,0.05);
+            color: var(--text-muted);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .card-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-flex; align-items: center; gap: 8px;
+            transition: color 0.2s;
+        }
+        .card-link:hover { color: #818cf8; }
+
+        /* Stats Table (Polyglot) */
+        .table-container {
+            background: var(--surface);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 20px 24px; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: rgba(255,255,255,0.02); color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background: rgba(255,255,255,0.02); }
+        .td-title { font-weight: 600; color: #fff; }
+        .td-link a { color: var(--primary); text-decoration: none; font-weight: 600; }
+        
+        /* Footer */
+        footer {
+            text-align: center; padding: 60px 0; color: var(--text-muted); font-size: 0.9rem;
+            border-top: 1px solid var(--border); margin-top: 60px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .grid { grid-template-columns: 1fr; }
+            .table-container { overflow-x: auto; }
+            th, td { padding: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+
+    <div class="container">
+        
+        <!-- HERO -->
+        <header>
+            <img src="https://avatars.githubusercontent.com/Tareq0001" alt="Tareq" class="avatar">
+            <h1>Tareq</h1>
+            <div class="title">Software Engineer & AI Architect</div>
+            <p class="bio">A highly versatile engineer with 50+ repositories demonstrating mastery across the entire stack. From building real-time multi-language distributed systems to deploying advanced AI platforms and enterprise data pipelines.</p>
+            
+            <div class="social-links">
+                <a href="https://github.com/Tareq0001" class="btn-github" target="_blank">
+                    <svg height="20" width="20" viewBox="0 0 16 16" style="fill:currentColor; margin-right:8px;"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+                    View GitHub Profile
+                </a>
+            </div>
+        </header>
+
+        <!-- FEATURED MASTERPIECES -->
+        <section>
+            <h2 class="section-title">🏆 Featured Masterpieces</h2>
+            <div class="grid">
+                
+                <div class="card">
+                    <div class="card-icon">🔄</div>
+                    <h3>Repo Refactor Engine</h3>
+                    <p>The most advanced AI-powered codebase migration platform. Clones any repo, reads the architecture with Claude 200K context, and translates files using GPT-4 with atomic rollbacks.</p>
+                    <div class="tech-stack">
+                        <span class="tag">Python</span>
+                        <span class="tag">FastAPI</span>
+                        <span class="tag">Docker</span>
+                        <span class="tag">AST</span>
+                    </div>
+                    <a href="https://github.com/Tareq0001/repo-refactor-engine" class="card-link" target="_blank">View Repository →</a>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🧠</div>
+                    <h3>Enterprise RAG Pipeline</h3>
+                    <p>Advanced GraphRAG + LangGraph multi-agent AI pipeline. A sophisticated retrieval-augmented generation system for ingesting massive datasets and answering complex relational queries.</p>
+                    <div class="tech-stack">
+                        <span class="tag">Neo4j</span>
+                        <span class="tag">Qdrant</span>
+                        <span class="tag">LangGraph</span>
+                        <span class="tag">LLMs</span>
+                    </div>
+                    <a href="https://github.com/Tareq0001/enterprise-rag-pipeline" class="card-link" target="_blank">View Repository →</a>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🛡️</div>
+                    <h3>AI Invoice Auditor</h3>
+                    <p>Machine learning fraud detection engine. Automated system that audits invoices using Isolation Forests and deep learning to flag anomalies and fraudulent patterns.</p>
+                    <div class="tech-stack">
+                        <span class="tag">Scikit-Learn</span>
+                        <span class="tag">Next.js</span>
+                        <span class="tag">Celery</span>
+                        <span class="tag">Redis</span>
+                    </div>
+                    <a href="https://github.com/Tareq0001/ai-invoice-auditor" class="card-link" target="_blank">View Repository →</a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- POLYGLOT ARCHITECTURE -->
+        <section>
+            <h2 class="section-title">🌍 Polyglot Systems (Multi-Language)</h2>
+            <p style="color: var(--text-muted); margin-bottom: 24px;">Demonstrating deep expertise in integrating diverse technologies into cohesive distributed systems.</p>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>Architecture</th>
+                            <th>Languages Used</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="td-title">Polyglot E-commerce</td>
+                            <td>Microservices Backend</td>
+                            <td><code>Go</code> <code>Python</code> <code>Node.js</code></td>
+                            <td class="td-link"><a href="https://github.com/Tareq0001/polyglot-ecommerce-microservices" target="_blank">View ↗</a></td>
+                        </tr>
+                        <tr>
+                            <td class="td-title">Realtime Analytics</td>
+                            <td>Telemetry Pipeline</td>
+                            <td><code>Rust</code> <code>TypeScript</code> <code>SQL</code></td>
+                            <td class="td-link"><a href="https://github.com/Tareq0001/realtime-analytics-dashboard" target="_blank">View ↗</a></td>
+                        </tr>
+                        <tr>
+                            <td class="td-title">Cross-Platform Manager</td>
+                            <td>Native Desktop + Web Core</td>
+                            <td><code>C#</code> <code>Python</code> <code>HTML/CSS</code></td>
+                            <td class="td-link"><a href="https://github.com/Tareq0001/cross-platform-task-manager" target="_blank">View ↗</a></td>
+                        </tr>
+                        <tr>
+                            <td class="td-title">Secure File Vault</td>
+                            <td>Cryptographic Storage</td>
+                            <td><code>C</code> <code>Java</code> <code>PHP</code></td>
+                            <td class="td-link"><a href="https://github.com/Tareq0001/secure-file-vault" target="_blank">View ↗</a></td>
+                        </tr>
+                        <tr>
+                            <td class="td-title">AI Voice Pipeline</td>
+                            <td>Automated Data Flow</td>
+                            <td><code>Bash</code> <code>Python</code> <code>Ruby</code></td>
+                            <td class="td-link"><a href="https://github.com/Tareq0001/ai-voice-pipeline" target="_blank">View ↗</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- MACHINE LEARNING -->
+        <section>
+            <h2 class="section-title">🤖 Machine Learning & Data Science</h2>
+            <div class="grid">
+                
+                <div class="card">
+                    <div class="card-icon">🏡</div>
+                    <h3>House Price Predictor</h3>
+                    <p>Supervised Regression. A model using RandomForestRegressor to predict real estate valuations based on high-dimensional synthetic feature engineering.</p>
+                    <div class="tech-stack">
+                        <span class="tag">Scikit-Learn</span>
+                        <span class="tag">Pandas</span>
+                    </div>
+                    <a href="https://github.com/Tareq0001/house-price-regression" class="card-link" target="_blank">View Repository →</a>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🩺</div>
+                    <h3>Medical Disease Classifier</h3>
+                    <p>Supervised Classification. A diagnostic tool utilizing LogisticRegression to classify disease presence based on patient health metrics with probability scoring.</p>
+                    <div class="tech-stack">
+                        <span class="tag">Classification</span>
+                        <span class="tag">FastAPI</span>
+                    </div>
+                    <a href="https://github.com/Tareq0001/disease-classifier" class="card-link" target="_blank">View Repository →</a>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">👥</div>
+                    <h3>Customer Segmentation</h3>
+                    <p>Unsupervised Clustering. A behavioral clustering engine using K-Means to group customers into actionable segments based on spending behaviors.</p>
+                    <div class="tech-stack">
+                        <span class="tag">K-Means</span>
+                        <span class="tag">Data Sci</span>
+                    </div>
+                    <a href="https://github.com/Tareq0001/customer-segmentation" class="card-link" target="_blank">View Repository →</a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ENTERPRISE DATA -->
+        <section>
+            <h2 class="section-title">🏗️ Enterprise Infrastructure & Data</h2>
+            <div class="grid" style="grid-template-columns: 1fr;">
+                
+                <div class="card" style="flex-direction: row; align-items: center; gap: 24px; padding: 24px;">
+                    <div class="card-icon" style="margin: 0;">🌐</div>
+                    <div style="flex: 1;">
+                        <h3 style="margin-bottom: 8px;">Enterprise OmniData Platform</h3>
+                        <p style="margin-bottom: 8px;">Massive data lakehouse architecture utilizing Kafka, Spark, Airflow, dbt, Terraform, and Docker.</p>
+                        <a href="https://github.com/Tareq0001/enterprise-omnidata-platform" class="card-link" target="_blank">View Repository →</a>
+                    </div>
+                </div>
+
+                <div class="card" style="flex-direction: row; align-items: center; gap: 24px; padding: 24px;">
+                    <div class="card-icon" style="margin: 0;">🎫</div>
+                    <div style="flex: 1;">
+                        <h3 style="margin-bottom: 8px;">Ticketing Queue System</h3>
+                        <p style="margin-bottom: 8px;">High-throughput event-driven queueing system using Node, Express, BullMQ, and Redis.</p>
+                        <a href="https://github.com/Tareq0001/ticketing-queue-system" class="card-link" target="_blank">View Repository →</a>
+                    </div>
+                </div>
+
+                <div class="card" style="flex-direction: row; align-items: center; gap: 24px; padding: 24px;">
+                    <div class="card-icon" style="margin: 0;">⚡</div>
+                    <div style="flex: 1;">
+                        <h3 style="margin-bottom: 8px;">Realtime Auction Platform</h3>
+                        <p style="margin-bottom: 8px;">Low-latency bidding engine built with Next.js, Socket.io, and Redis pub/sub.</p>
+                        <a href="https://github.com/Tareq0001/realtime-auction-platform" class="card-link" target="_blank">View Repository →</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <footer>
+            <p>Designed and engineered by Tareq — Elevating standard code to Silicon Valley architecture.</p>
+            <p style="margin-top: 8px;">© 2026 Tareq0001 Portfolio</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
