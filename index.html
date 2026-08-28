@@ -2,7 +2,7 @@
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Tareq Aboushi | AI Architect & Quantum Distributed Systems</title>
     
     <!-- Meta tags for social / recruiter previews -->
@@ -10,6 +10,7 @@
     <meta property="og:title" content="Tareq Aboushi | AI Architect & Systems Engineer">
     <meta property="og:description" content="Explore Flagship Autonomous AI Agents, Real-Time Streaming Meshes, and SOTA ML Inference Engines.">
     <meta property="og:type" content="website">
+    <meta name="theme-color" content="#02040a">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,6 +49,7 @@
             padding: 0;
             box-sizing: border-box;
             -webkit-font-smoothing: antialiased;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -56,8 +58,6 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             overflow-x: hidden;
             line-height: 1.6;
-            selection-background-color: var(--primary);
-            selection-color: #fff;
         }
 
         /* 3D WebGL Canvas */
@@ -71,7 +71,7 @@
             pointer-events: none;
         }
 
-        /* Ambient Glow Spotlight */
+        /* Ambient Glow Spotlight (Desktop only) */
         .spotlight {
             position: fixed;
             top: 0;
@@ -86,6 +86,10 @@
             transition: transform 0.06s cubic-bezier(0.1, 1, 0.1, 1);
         }
 
+        @media (max-width: 768px) {
+            .spotlight { display: none; }
+        }
+
         /* Cyberpunk Scanline overlay */
         .scanlines {
             position: fixed;
@@ -94,7 +98,7 @@
             background-size: 100% 3px, 6px 100%;
             z-index: 2;
             pointer-events: none;
-            opacity: 0.6;
+            opacity: 0.5;
         }
 
         /* Top HUD Navbar */
@@ -105,14 +109,14 @@
             z-index: 100;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            background: rgba(2, 4, 10, 0.8);
+            background: rgba(2, 4, 10, 0.85);
             border-bottom: 1px solid var(--border-glass);
         }
 
         .hud-container {
             max-width: 1380px;
             margin: 0 auto;
-            padding: 14px 24px;
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -121,14 +125,14 @@
         .logo-group {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             text-decoration: none;
             color: #fff;
         }
 
         .logo-symbol {
-            width: 34px;
-            height: 34px;
+            width: 32px;
+            height: 32px;
             border-radius: 8px;
             background: linear-gradient(135deg, var(--primary), var(--cyan));
             display: flex;
@@ -136,33 +140,33 @@
             justify-content: center;
             font-family: 'Syne', sans-serif;
             font-weight: 900;
-            font-size: 1rem;
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.6);
+            font-size: 0.95rem;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
         }
 
         .logo-text {
             font-family: 'Space Grotesk', sans-serif;
             font-weight: 800;
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             letter-spacing: -0.5px;
         }
 
         .nav-center-actions {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
         }
 
         /* Quick Search Pill */
         .search-pill {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--border-glass);
-            padding: 6px 14px;
+            padding: 6px 12px;
             border-radius: 100px;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: var(--text-muted);
             cursor: pointer;
             transition: all 0.2s;
@@ -171,25 +175,29 @@
         .search-pill:hover {
             border-color: var(--primary-glow);
             color: #fff;
-            box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
         }
 
         .key-badge {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 4px;
-            padding: 1px 6px;
+            padding: 1px 5px;
             font-family: 'Fira Code', monospace;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #fff;
+        }
+
+        @media (max-width: 600px) {
+            .key-badge { display: none; }
+            .search-pill span { display: none; }
         }
 
         .audio-toggle-btn {
             background: transparent;
             border: 1px solid var(--border-glass);
             color: var(--text-muted);
-            width: 36px;
-            height: 36px;
+            width: 34px;
+            height: 34px;
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -208,43 +216,43 @@
         .main-wrapper {
             max-width: 1380px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 20px;
             position: relative;
             z-index: 10;
         }
 
         /* Hero Section */
         .hero {
-            min-height: 90vh;
+            min-height: 85vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding-top: 130px;
-            padding-bottom: 60px;
+            padding-top: 110px;
+            padding-bottom: 40px;
         }
 
         .hero-telemetry-badge {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             background: rgba(139, 92, 246, 0.08);
             border: 1px solid rgba(139, 92, 246, 0.35);
-            padding: 8px 18px;
+            padding: 6px 14px;
             border-radius: 100px;
             font-family: 'Fira Code', monospace;
-            font-size: 0.8rem;
+            font-size: clamp(0.7rem, 2.5vw, 0.8rem);
             color: var(--primary-glow);
             width: fit-content;
-            margin-bottom: 28px;
-            box-shadow: 0 0 25px rgba(139, 92, 246, 0.2);
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
         }
 
         .pulsing-orb {
-            width: 8px;
-            height: 8px;
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
             background: var(--emerald);
-            box-shadow: 0 0 12px var(--emerald);
+            box-shadow: 0 0 10px var(--emerald);
             animation: pulse-ring 2s infinite;
         }
 
@@ -253,17 +261,49 @@
             50% { transform: scale(1.4); opacity: 0.5; }
         }
 
-        .hero h1 {
-            font-family: 'Syne', sans-serif;
-            font-size: 4.6rem;
-            font-weight: 900;
-            line-height: 1.05;
-            letter-spacing: -2px;
-            margin-bottom: 24px;
+        .hero-profile-avatar {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
         }
 
-        @media (max-width: 968px) {
-            .hero h1 { font-size: 3rem; }
+        .avatar-frame {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--primary), var(--cyan));
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .avatar-frame img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #000;
+        }
+
+        .avatar-title h3 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .avatar-title p {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--cyan);
+        }
+
+        .hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2.2rem, 7vw, 4.4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -1.5px;
+            margin-bottom: 20px;
         }
 
         .gradient-title {
@@ -273,10 +313,10 @@
         }
 
         .hero-lead {
-            font-size: 1.25rem;
+            font-size: clamp(1rem, 3.2vw, 1.2rem);
             color: var(--text-muted);
-            max-width: 760px;
-            margin-bottom: 40px;
+            max-width: 740px;
+            margin-bottom: 32px;
             line-height: 1.6;
         }
 
@@ -284,45 +324,49 @@
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 18px;
+            gap: 14px;
         }
 
         .btn-neon {
             display: inline-flex;
             align-items: center;
-            gap: 12px;
-            padding: 14px 32px;
+            justify-content: center;
+            gap: 10px;
+            padding: 13px 28px;
             border-radius: 12px;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.95rem;
             text-decoration: none;
             color: #fff;
             background: linear-gradient(135deg, #7c3aed, #4f46e5);
-            box-shadow: 0 0 35px rgba(124, 58, 237, 0.5);
+            box-shadow: 0 0 30px rgba(124, 58, 237, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.3s ease;
             cursor: pointer;
+            min-height: 48px;
         }
 
         .btn-neon:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 0 50px rgba(124, 58, 237, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 0 40px rgba(124, 58, 237, 0.7);
         }
 
         .btn-glass-alt {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            padding: 14px 28px;
+            justify-content: center;
+            gap: 8px;
+            padding: 13px 22px;
             border-radius: 12px;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.95rem;
             text-decoration: none;
             color: var(--text-main);
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid var(--border-glass);
             backdrop-filter: blur(10px);
-            transition: all 0.3s;
+            transition: all 0.25s;
+            min-height: 48px;
         }
 
         .btn-glass-alt:hover {
@@ -331,26 +375,36 @@
             transform: translateY(-2px);
         }
 
+        @media (max-width: 600px) {
+            .hero-cta-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .btn-neon, .btn-glass-alt {
+                width: 100%;
+            }
+        }
+
         /* Live Telemetry Ticker Cards */
         .ticker-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-top: 60px;
+            gap: 16px;
+            margin-top: 48px;
         }
 
         @media (max-width: 968px) {
-            .ticker-grid { grid-template-columns: repeat(2, 1fr); }
+            .ticker-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
         }
-        @media (max-width: 540px) {
-            .ticker-grid { grid-template-columns: 1fr; }
+        @media (max-width: 480px) {
+            .ticker-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
         }
 
         .ticker-card {
             background: var(--bg-card);
             border: 1px solid var(--border-glass);
             border-radius: 16px;
-            padding: 24px;
+            padding: 18px;
             backdrop-filter: blur(16px);
             position: relative;
             overflow: hidden;
@@ -359,24 +413,23 @@
 
         .ticker-card:hover {
             border-color: var(--border-glow-primary);
-            transform: translateY(-4px);
         }
 
         .ticker-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         .ticker-icon {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--cyan);
         }
 
         .ticker-val {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 2.2rem;
+            font-size: clamp(1.5rem, 4vw, 2rem);
             font-weight: 800;
             color: #fff;
             line-height: 1;
@@ -385,7 +438,7 @@
 
         .ticker-label {
             font-family: 'Fira Code', monospace;
-            font-size: 0.75rem;
+            font-size: 0.68rem;
             color: var(--text-dim);
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -393,78 +446,87 @@
 
         /* Bento Grid Flagship Section */
         .section-wrap {
-            padding: 100px 0;
+            padding: 80px 0;
+        }
+
+        @media (max-width: 768px) {
+            .section-wrap { padding: 50px 0; }
         }
 
         .section-headline {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            margin-bottom: 40px;
+            margin-bottom: 32px;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 16px;
         }
 
         .section-title {
             font-family: 'Syne', sans-serif;
-            font-size: 2.8rem;
+            font-size: clamp(1.8rem, 5vw, 2.6rem);
             font-weight: 800;
-            letter-spacing: -1px;
+            letter-spacing: -0.5px;
         }
 
         .category-filter-bar {
             display: flex;
             gap: 6px;
             background: rgba(10, 15, 30, 0.8);
-            padding: 6px;
+            padding: 5px;
             border-radius: 12px;
             border: 1px solid var(--border-glass);
+            overflow-x: auto;
+            max-width: 100%;
+            -webkit-overflow-scrolling: touch;
         }
 
         .cat-btn {
             background: transparent;
             border: none;
             color: var(--text-muted);
-            padding: 8px 18px;
+            padding: 8px 14px;
             border-radius: 8px;
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             cursor: pointer;
             transition: all 0.2s;
+            white-space: nowrap;
         }
 
         .cat-btn.active, .cat-btn:hover {
             background: var(--primary);
             color: #fff;
-            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
         }
 
         .bento-master-grid {
             display: grid;
             grid-template-columns: repeat(12, 1fr);
-            gap: 24px;
+            gap: 20px;
         }
 
-        /* 3D Perspective Card Tilt */
+        @media (max-width: 768px) {
+            .bento-master-grid { gap: 16px; }
+        }
+
+        /* 3D Perspective Card */
         .bento-3d-card {
             background: var(--bg-card);
             border: 1px solid var(--border-glass);
-            border-radius: 24px;
-            padding: 36px;
+            border-radius: 20px;
+            padding: clamp(20px, 4vw, 32px);
             backdrop-filter: blur(16px);
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            transform-style: preserve-3d;
-            transition: border-color 0.4s, box-shadow 0.4s, background 0.4s;
+            transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
         }
 
         .bento-3d-card:hover {
             border-color: var(--border-glow-primary);
             background: var(--bg-card-hover);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(139, 92, 246, 0.2);
         }
 
         .span-12 { grid-column: span 12; }
@@ -479,14 +541,14 @@
         .card-pill {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 6px 14px;
+            gap: 6px;
+            padding: 5px 12px;
             border-radius: 8px;
             font-family: 'Fira Code', monospace;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             font-weight: 700;
             text-transform: uppercase;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             width: fit-content;
         }
 
@@ -494,7 +556,6 @@
             background: rgba(245, 158, 11, 0.15);
             border: 1px solid rgba(245, 158, 11, 0.4);
             color: #fbbf24;
-            box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
         }
 
         .pill-stream {
@@ -517,41 +578,48 @@
 
         .bento-3d-card h3 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.8rem;
+            font-size: clamp(1.4rem, 3.5vw, 1.75rem);
             font-weight: 800;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             letter-spacing: -0.5px;
         }
 
         .bento-3d-card p {
             color: var(--text-muted);
-            font-size: 1rem;
+            font-size: 0.92rem;
             line-height: 1.6;
-            margin-bottom: 28px;
+            margin-bottom: 20px;
             flex-grow: 1;
         }
 
         /* Benchmark Metric HUD within Cards */
         .card-benchmark-hud {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
             background: rgba(2, 4, 10, 0.6);
             border: 1px solid var(--border-glass);
-            border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 24px;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 480px) {
+            .card-benchmark-hud {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
         }
 
         .hud-stat-box .num {
             font-family: 'Fira Code', monospace;
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--emerald);
         }
 
         .hud-stat-box .desc {
-            font-size: 0.72rem;
+            font-size: 0.68rem;
             color: var(--text-dim);
             text-transform: uppercase;
         }
@@ -559,72 +627,75 @@
         .badge-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 28px;
+            gap: 6px;
+            margin-bottom: 24px;
         }
 
         .badge-tag {
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid var(--border-glass);
-            padding: 5px 12px;
+            padding: 4px 10px;
             border-radius: 6px;
             font-family: 'Fira Code', monospace;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: #cbd5e1;
         }
 
         .card-action-link {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             color: #fff;
             text-decoration: none;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             transition: gap 0.2s, color 0.2s;
         }
 
         .card-action-link:hover {
             color: var(--primary-glow);
-            gap: 14px;
+            gap: 12px;
         }
 
         /* Interactive Multi-Language Code Inspector */
         .code-inspector-section {
             background: var(--bg-card);
             border: 1px solid var(--border-glass);
-            border-radius: 24px;
+            border-radius: 20px;
             overflow: hidden;
-            margin: 60px 0 100px 0;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+            margin: 40px 0 80px 0;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
         }
 
         .inspector-nav {
             background: rgba(2, 4, 10, 0.9);
-            padding: 14px 24px;
+            padding: 12px 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--border-glass);
+            overflow-x: auto;
         }
 
         .file-tab-group {
             display: flex;
-            gap: 8px;
+            gap: 6px;
+            overflow-x: auto;
         }
 
         .file-tab {
             background: transparent;
             border: 1px solid transparent;
             color: var(--text-muted);
-            padding: 6px 14px;
+            padding: 6px 12px;
             border-radius: 6px;
             font-family: 'Fira Code', monospace;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            white-space: nowrap;
             transition: all 0.2s;
         }
 
@@ -635,26 +706,27 @@
         }
 
         .code-pre-box {
-            padding: 28px;
+            padding: clamp(16px, 3vw, 24px);
             font-family: 'Fira Code', monospace;
-            font-size: 0.9rem;
-            line-height: 1.7;
+            font-size: clamp(0.75rem, 2.5vw, 0.88rem);
+            line-height: 1.6;
             overflow-x: auto;
             color: #e2e8f0;
             background: rgba(2, 4, 10, 0.5);
+            -webkit-overflow-scrolling: touch;
         }
 
         /* Command Palette Modal (Ctrl+K) */
         .cmd-modal-backdrop {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(12px);
             z-index: 999;
             display: none;
             align-items: flex-start;
             justify-content: center;
-            padding-top: 15vh;
+            padding: 12vh 16px 20px 16px;
         }
 
         .cmd-modal-backdrop.open {
@@ -663,19 +735,19 @@
 
         .cmd-palette {
             width: 100%;
-            max-width: 640px;
+            max-width: 600px;
             background: #090d1a;
             border: 1px solid var(--border-glow-primary);
-            border-radius: 20px;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 50px rgba(139, 92, 246, 0.3);
+            border-radius: 18px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.9);
             overflow: hidden;
         }
 
         .cmd-input-wrap {
             display: flex;
             align-items: center;
-            gap: 14px;
-            padding: 20px 24px;
+            gap: 12px;
+            padding: 16px 20px;
             border-bottom: 1px solid var(--border-glass);
         }
 
@@ -685,29 +757,29 @@
             border: none;
             outline: none;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #fff;
         }
 
         .cmd-results-list {
-            max-height: 340px;
+            max-height: 300px;
             overflow-y: auto;
-            padding: 12px;
+            padding: 8px;
         }
 
         .cmd-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 16px;
-            border-radius: 10px;
+            padding: 10px 14px;
+            border-radius: 8px;
             color: var(--text-muted);
             text-decoration: none;
             cursor: pointer;
             transition: all 0.15s;
         }
 
-        .cmd-item:hover, .cmd-item.selected {
+        .cmd-item:hover {
             background: rgba(139, 92, 246, 0.15);
             color: #fff;
         }
@@ -715,8 +787,8 @@
         .cmd-item-left {
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 0.95rem;
+            gap: 10px;
+            font-size: 0.88rem;
             font-weight: 600;
         }
 
@@ -724,68 +796,67 @@
         .contact-box {
             background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(2, 4, 10, 0.95));
             border: 1px solid var(--border-glass);
-            border-radius: 28px;
-            padding: 56px;
+            border-radius: 24px;
+            padding: clamp(24px, 5vw, 48px);
             display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 56px;
-            margin-bottom: 80px;
-            box-shadow: 0 30px 70px rgba(0,0,0,0.8);
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
         }
 
-        @media (max-width: 968px) {
+        @media (max-width: 868px) {
             .contact-box {
                 grid-template-columns: 1fr;
-                padding: 32px;
+                gap: 32px;
             }
         }
 
         .contact-link-card {
             display: flex;
             align-items: center;
-            gap: 16px;
-            padding: 14px 20px;
+            gap: 14px;
+            padding: 12px 16px;
             border-radius: 12px;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border-glass);
             color: #fff;
             text-decoration: none;
             font-weight: 600;
+            font-size: 0.9rem;
             transition: all 0.2s;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .contact-link-card:hover {
             background: rgba(139, 92, 246, 0.1);
             border-color: var(--primary-glow);
-            transform: translateX(4px);
         }
 
         .glass-input {
             width: 100%;
             background: rgba(2, 4, 10, 0.6);
             border: 1px solid var(--border-glass);
-            padding: 14px 18px;
+            padding: 13px 16px;
             border-radius: 12px;
             color: #fff;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             outline: none;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             transition: border-color 0.2s;
         }
 
         .glass-input:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(139, 92, 246, 0.25);
+            box-shadow: 0 0 12px rgba(139, 92, 246, 0.25);
         }
 
         footer {
             border-top: 1px solid var(--border-glass);
-            padding: 40px 0;
+            padding: 32px 0;
             text-align: center;
             font-family: 'Fira Code', monospace;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-dim);
         }
     </style>
@@ -798,7 +869,7 @@
     <!-- Scanline overlay -->
     <div class="scanlines"></div>
 
-    <!-- Mouse Spotlight -->
+    <!-- Mouse Spotlight (Desktop) -->
     <div class="spotlight" id="spotlight"></div>
 
     <!-- Top Navigation HUD -->
@@ -816,7 +887,7 @@
                     <span class="key-badge">Ctrl+K</span>
                 </div>
 
-                <button class="audio-toggle-btn" id="audio-toggle" onclick="toggleAudio()" title="Toggle Sci-Fi Synthesizer Sound FX">
+                <button class="audio-toggle-btn" id="audio-toggle" onclick="toggleAudio()" title="Toggle Sound">
                     <i class="fa-solid fa-volume-xmark" id="audio-icon"></i>
                 </button>
             </div>
@@ -826,15 +897,25 @@
     <main class="main-wrapper">
         <!-- Hero Section -->
         <section class="hero">
+            <div class="hero-profile-avatar">
+                <div class="avatar-frame">
+                    <img src="https://avatars.githubusercontent.com/u/120612984?v=4" alt="Tareq Aboushi" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'64\' height=\'64\' viewBox=\'0 0 64 64\'><circle cx=\'32\' cy=\'32\' r=\'32\' fill=\'%238b5cf6\'/><text x=\'32\' y=\'39\' font-size=\'20\' font-weight=\'bold\' fill=\'%23ffffff\' text-anchor=\'middle\'>TA</text></svg>'">
+                </div>
+                <div class="avatar-title">
+                    <h3>Tareq Aboushi</h3>
+                    <p>AI Architect & Systems Engineer</p>
+                </div>
+            </div>
+
             <div class="hero-telemetry-badge">
                 <span class="pulsing-orb"></span>
-                <span>SYSTEM STATUS: APEX ARCHITECT & SOTA ML ENGINE ACTIVE</span>
+                <span>APEX ARCHITECT & SOTA NEURAL SYSTEMS</span>
             </div>
 
             <h1>
                 Architecting <br>
-                <span class="gradient-title">Autonomous Agent Meshes</span><br>
-                & SOTA Neural Engines.
+                <span class="gradient-title">Autonomous Agents</span><br>
+                & SOTA ML Meshes.
             </h1>
 
             <p class="hero-lead">
@@ -843,10 +924,10 @@
 
             <div class="hero-cta-group">
                 <a href="#flagships" class="btn-neon" onclick="playBeep(600)">
-                    <i class="fa-solid fa-cubes"></i> Explore Quantum Systems
+                    <i class="fa-solid fa-cubes"></i> Explore Systems
                 </a>
                 <a href="https://linkedin.com/in/tareq-abuoshi-ai" target="_blank" class="btn-glass-alt" onclick="playBeep(400)">
-                    <i class="fa-brands fa-linkedin" style="color: #0ea5e9;"></i> LinkedIn Profile
+                    <i class="fa-brands fa-linkedin" style="color: #0ea5e9;"></i> LinkedIn
                 </a>
                 <a href="https://github.com/Tareq0001" target="_blank" class="btn-glass-alt" onclick="playBeep(400)">
                     <i class="fa-brands fa-github"></i> 50+ GitHub Repos
@@ -857,38 +938,38 @@
             <div class="ticker-grid">
                 <div class="ticker-card">
                     <div class="ticker-header">
-                        <span class="ticker-label">Agent Sandbox Cold-Start</span>
+                        <span class="ticker-label">Sandbox Cold-Start</span>
                         <i class="fa-solid fa-bolt ticker-icon"></i>
                     </div>
                     <div class="ticker-val" style="color: var(--emerald);">&lt; 450 μs</div>
-                    <div class="ticker-label">1000x Faster than Docker</div>
+                    <div class="ticker-label">1000x vs Docker</div>
                 </div>
 
                 <div class="ticker-card">
                     <div class="ticker-header">
-                        <span class="ticker-label">VLM Stream Throughput</span>
+                        <span class="ticker-label">VLM Throughput</span>
                         <i class="fa-solid fa-eye ticker-icon"></i>
                     </div>
                     <div class="ticker-val" style="color: var(--primary-glow);">428 FPS</div>
-                    <div class="ticker-label">TensorRT-LLM INT8</div>
+                    <div class="ticker-label">TensorRT-LLM</div>
                 </div>
 
                 <div class="ticker-card">
                     <div class="ticker-header">
-                        <span class="ticker-label">Quant RL Sharpe Ratio</span>
+                        <span class="ticker-label">Quant RL Sharpe</span>
                         <i class="fa-solid fa-chart-line ticker-icon"></i>
                     </div>
                     <div class="ticker-val" style="color: var(--cyan);">3.84</div>
-                    <div class="ticker-label">Temporal GNN + PPO</div>
+                    <div class="ticker-label">T-GNN + PPO</div>
                 </div>
 
                 <div class="ticker-card">
                     <div class="ticker-header">
-                        <span class="ticker-label">Zero-Day Precision</span>
+                        <span class="ticker-label">Anomaly Precision</span>
                         <i class="fa-solid fa-shield-virus ticker-icon"></i>
                     </div>
                     <div class="ticker-val" style="color: var(--amber);">99.82%</div>
-                    <div class="ticker-label">Patch Transformer MAE</div>
+                    <div class="ticker-label">Patch Transformer</div>
                 </div>
             </div>
         </section>
@@ -897,7 +978,7 @@
         <section id="flagships" class="section-wrap">
             <div class="section-headline">
                 <div>
-                    <div style="font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--primary-glow); font-weight: 700; margin-bottom: 6px;">
+                    <div style="font-family: 'Fira Code', monospace; font-size: 0.8rem; color: var(--primary-glow); font-weight: 700; margin-bottom: 4px;">
                         // DISTRIBUTED & NEURAL FLAGSHIPS
                     </div>
                     <h2 class="section-title">Flagship Architectures</h2>
@@ -905,7 +986,7 @@
 
                 <div class="category-filter-bar">
                     <button class="cat-btn active" onclick="filterBento('all')">All Systems</button>
-                    <button class="cat-btn" onclick="filterBento('agent')">Agentic Swarms</button>
+                    <button class="cat-btn" onclick="filterBento('agent')">Agentic</button>
                     <button class="cat-btn" onclick="filterBento('ml')">SOTA ML</button>
                     <button class="cat-btn" onclick="filterBento('dist')">Distributed</button>
                 </div>
@@ -919,7 +1000,7 @@
                     </div>
                     <h3>Hyperion AgentOS</h3>
                     <p>
-                        A distributed orchestration mesh and runtime for autonomous AI agent swarms. Delivers zero-overhead WebAssembly micro-sandboxes, HashiCorp Raft distributed consensus, and cognitive tree-of-thought planning loops.
+                        Distributed orchestration mesh and runtime for autonomous AI agent swarms. Delivers zero-overhead WebAssembly micro-sandboxes, HashiCorp Raft distributed consensus, and cognitive tree-of-thought planning loops.
                     </p>
 
                     <div class="card-benchmark-hud">
@@ -929,7 +1010,7 @@
                         </div>
                         <div class="hud-stat-box">
                             <div class="num">50,000+</div>
-                            <div class="desc">Swarm Concurrency</div>
+                            <div class="desc">Swarm Scale / Node</div>
                         </div>
                         <div class="hud-stat-box">
                             <div class="num">1.2 ms</div>
@@ -941,7 +1022,7 @@
                         <span class="badge-tag">Rust (Wasmtime)</span>
                         <span class="badge-tag">Go (Raft Cluster)</span>
                         <span class="badge-tag">Python (DSPy)</span>
-                        <span class="badge-tag">Qdrant Mesh</span>
+                        <span class="badge-tag">Qdrant</span>
                     </div>
 
                     <a href="https://github.com/Tareq0001/Hyperion-AgentOS" target="_blank" class="card-action-link">
@@ -1072,7 +1153,7 @@
         <section class="section-wrap">
             <div class="section-headline">
                 <div>
-                    <div style="font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--emerald); font-weight: 700; margin-bottom: 6px;">
+                    <div style="font-family: 'Fira Code', monospace; font-size: 0.8rem; color: var(--emerald); font-weight: 700; margin-bottom: 4px;">
                         // ARCHITECTURE IMPLEMENTATION INSPECTOR
                     </div>
                     <h2 class="section-title">Production Source Highlights</h2>
@@ -1083,17 +1164,14 @@
                 <div class="inspector-nav">
                     <div class="file-tab-group">
                         <button class="file-tab active" onclick="switchCode('wasm')">
-                            <i class="fa-brands fa-rust" style="color: #dea584;"></i> hyperion_wasm_sandbox.rs
+                            <i class="fa-brands fa-rust" style="color: #dea584;"></i> wasm_sandbox.rs
                         </button>
                         <button class="file-tab" onclick="switchCode('raft')">
-                            <i class="fa-brands fa-golang" style="color: #00add8;"></i> raft_consensus_mesh.go
+                            <i class="fa-brands fa-golang" style="color: #00add8;"></i> raft_consensus.go
                         </button>
                         <button class="file-tab" onclick="switchCode('vlm')">
-                            <i class="fa-brands fa-python" style="color: #3572a5;"></i> aura_tensorrt_vlm.py
+                            <i class="fa-brands fa-python" style="color: #3572a5;"></i> tensorrt_vlm.py
                         </button>
-                    </div>
-                    <div style="font-size: 0.75rem; color: var(--text-dim); font-family: 'Fira Code', monospace;">
-                        UTF-8 • Zero-Copy Memory
                     </div>
                 </div>
 
@@ -1104,7 +1182,7 @@ async fn spawn_agent_sandbox(
     payload: web::Json<AgentPayload>,
 ) -> impl Responder {
     let mut config = Config::new();
-    config.consume_fuel(true); // Enforce strict deterministic CPU quotas
+    config.consume_fuel(true); // Deterministic CPU quota
     
     let start = std::time::Instant::now();
     let duration = start.elapsed().as_micros() as u64;
@@ -1130,25 +1208,25 @@ async fn spawn_agent_sandbox(
         <section id="contact">
             <div class="contact-box">
                 <div>
-                    <h2 style="font-family: 'Syne', sans-serif; font-size: 2.8rem; font-weight: 800; line-height: 1.1; margin-bottom: 20px;">
+                    <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 5vw, 2.6rem); font-weight: 800; line-height: 1.1; margin-bottom: 16px;">
                         Let's Build Systems That Defy Limits.
                     </h2>
-                    <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 36px;">
+                    <p style="color: var(--text-muted); font-size: 1rem; margin-bottom: 28px;">
                         Open for select Senior Engineering, AI Architecture, and Distributed Systems roles. Messages route directly to my personal terminal.
                     </p>
 
                     <a href="mailto:abuoshey@gmail.com" class="contact-link-card">
-                        <i class="fa-solid fa-envelope" style="color: var(--primary-glow); font-size: 1.2rem;"></i>
+                        <i class="fa-solid fa-envelope" style="color: var(--primary-glow); font-size: 1.1rem;"></i>
                         <span>abuoshey@gmail.com</span>
                     </a>
 
                     <a href="https://linkedin.com/in/tareq-abuoshi-ai" target="_blank" class="contact-link-card">
-                        <i class="fa-brands fa-linkedin" style="color: #0ea5e9; font-size: 1.2rem;"></i>
+                        <i class="fa-brands fa-linkedin" style="color: #0ea5e9; font-size: 1.1rem;"></i>
                         <span>linkedin.com/in/tareq-abuoshi-ai</span>
                     </a>
 
                     <a href="https://github.com/Tareq0001" target="_blank" class="contact-link-card">
-                        <i class="fa-brands fa-github" style="color: #f8fafc; font-size: 1.2rem;"></i>
+                        <i class="fa-brands fa-github" style="color: #f8fafc; font-size: 1.1rem;"></i>
                         <span>github.com/Tareq0001</span>
                     </a>
                 </div>
@@ -1160,7 +1238,7 @@ async fn spawn_agent_sandbox(
                     
                     <input type="text" name="name" class="glass-input" placeholder="Your Name / Organization" required>
                     <input type="email" name="email" class="glass-input" placeholder="Work Email" required>
-                    <textarea name="message" class="glass-input" style="min-height: 140px; resize: vertical;" placeholder="Project Scope or Role Details..." required></textarea>
+                    <textarea name="message" class="glass-input" style="min-height: 120px; resize: vertical;" placeholder="Project Scope or Role Details..." required></textarea>
                     
                     <button type="submit" class="btn-neon" style="width: 100%; justify-content: center;" onclick="playBeep(800)">
                         <i class="fa-solid fa-paper-plane"></i> Transmit Direct Message
@@ -1184,19 +1262,19 @@ async fn spawn_agent_sandbox(
             </div>
             <div class="cmd-results-list" id="cmd-list">
                 <a href="https://github.com/Tareq0001/Hyperion-AgentOS" target="_blank" class="cmd-item">
-                    <div class="cmd-item-left"><i class="fa-solid fa-crown" style="color: #fbbf24;"></i> Hyperion AgentOS (WASM Swarm Mesh)</div>
+                    <div class="cmd-item-left"><i class="fa-solid fa-crown" style="color: #fbbf24;"></i> Hyperion AgentOS (WASM Swarm)</div>
                     <span class="key-badge">GitHub</span>
                 </a>
                 <a href="https://github.com/Tareq0001/Nova-Distributed-Mesh" target="_blank" class="cmd-item">
-                    <div class="cmd-item-left"><i class="fa-solid fa-wave-square" style="color: var(--cyan);"></i> Nova Distributed Mesh (Kafka/Rust)</div>
+                    <div class="cmd-item-left"><i class="fa-solid fa-wave-square" style="color: var(--cyan);"></i> Nova Distributed Mesh (Kafka)</div>
                     <span class="key-badge">GitHub</span>
                 </a>
                 <a href="https://github.com/Tareq0001/Aura-Vision-LLaVA-Inference" target="_blank" class="cmd-item">
-                    <div class="cmd-item-left"><i class="fa-solid fa-eye" style="color: var(--rose);"></i> Aura Vision Engine (400+ FPS VLM)</div>
+                    <div class="cmd-item-left"><i class="fa-solid fa-eye" style="color: var(--rose);"></i> Aura Vision (400+ FPS VLM)</div>
                     <span class="key-badge">GitHub</span>
                 </a>
                 <a href="https://github.com/Tareq0001/Chronos-DeepQuant-RL" target="_blank" class="cmd-item">
-                    <div class="cmd-item-left"><i class="fa-solid fa-chart-line" style="color: var(--emerald);"></i> Chronos DeepQuant RL (T-GNN + PPO)</div>
+                    <div class="cmd-item-left"><i class="fa-solid fa-chart-line" style="color: var(--emerald);"></i> Chronos DeepQuant RL (T-GNN)</div>
                     <span class="key-badge">GitHub</span>
                 </a>
                 <a href="https://github.com/Tareq0001/NeuroSentry-Anomaly-Transformer" target="_blank" class="cmd-item">
@@ -1204,29 +1282,31 @@ async fn spawn_agent_sandbox(
                     <span class="key-badge">GitHub</span>
                 </a>
                 <a href="mailto:abuoshey@gmail.com" class="cmd-item">
-                    <div class="cmd-item-left"><i class="fa-solid fa-envelope" style="color: var(--primary-glow);"></i> Send Direct Email (abuoshey@gmail.com)</div>
+                    <div class="cmd-item-left"><i class="fa-solid fa-envelope" style="color: var(--primary-glow);"></i> Send Direct Email</div>
                     <span class="key-badge">Email</span>
                 </a>
             </div>
         </div>
     </div>
 
-    <!-- Scripts: 3D Hologram, Audio Synthesizer, Spotlight, Command Palette -->
+    <!-- Scripts: 3D Hologram (Touch-friendly & Desktop), Audio Synth, Spotlight, Command Palette -->
     <script>
         // 1. Three.js 3D Quantum Hologram / Neural Particle Sphere
         let scene, camera, renderer, particleSphere;
+        const isMobile = window.innerWidth <= 768;
+
         function init3D() {
             const canvas = document.getElementById('webgl-canvas');
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 25;
+            camera.position.z = isMobile ? 32 : 25;
 
-            renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: !isMobile });
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-            // Create Torus / Quantum Sphere of glowing particles
-            const count = 1800;
+            // Optimized particle count for 60/120 FPS
+            const count = isMobile ? 900 : 1600;
             const geometry = new THREE.BufferGeometry();
             const positions = new Float32Array(count * 3);
             const colors = new Float32Array(count * 3);
@@ -1237,7 +1317,7 @@ async fn spawn_agent_sandbox(
             for (let i = 0; i < count; i++) {
                 const u = Math.random() * Math.PI * 2;
                 const v = Math.random() * Math.PI * 2;
-                const r = 11 + (Math.random() - 0.5) * 3;
+                const r = (isMobile ? 13 : 11) + (Math.random() - 0.5) * 3;
 
                 positions[i * 3] = r * Math.sin(u) * Math.cos(v);
                 positions[i * 3 + 1] = r * Math.sin(u) * Math.sin(v);
@@ -1253,10 +1333,10 @@ async fn spawn_agent_sandbox(
             geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
             const material = new THREE.PointsMaterial({
-                size: 0.12,
+                size: isMobile ? 0.16 : 0.12,
                 vertexColors: true,
                 transparent: true,
-                opacity: 0.7,
+                opacity: isMobile ? 0.8 : 0.7,
                 blending: THREE.AdditiveBlending
             });
 
@@ -1265,13 +1345,35 @@ async fn spawn_agent_sandbox(
         }
 
         let mouseX = 0, mouseY = 0;
+        
+        // Mouse Move for Desktop
         window.addEventListener('mousemove', (e) => {
             mouseX = (e.clientX - window.innerWidth / 2) * 0.001;
             mouseY = (e.clientY - window.innerHeight / 2) * 0.001;
 
             const spotlight = document.getElementById('spotlight');
-            spotlight.style.transform = `translate(${e.clientX - 400}px, ${e.clientY - 400}px)`;
+            if (spotlight) {
+                spotlight.style.transform = `translate(${e.clientX - 400}px, ${e.clientY - 400}px)`;
+            }
         });
+
+        // Touch Gesture for Mobile: Touch swipe rotates the 3D quantum sphere!
+        let touchStartX = 0, touchStartY = 0;
+        window.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+            }
+        }, { passive: true });
+
+        window.addEventListener('touchmove', (e) => {
+            if (e.touches.length === 1) {
+                const deltaX = e.touches[0].clientX - touchStartX;
+                const deltaY = e.touches[0].clientY - touchStartY;
+                mouseX = deltaX * 0.003;
+                mouseY = deltaY * 0.003;
+            }
+        }, { passive: true });
 
         function animate3D() {
             requestAnimationFrame(animate3D);
@@ -1360,7 +1462,7 @@ async fn spawn_agent_sandbox(
     payload: web::Json<AgentPayload>,
 ) -> impl Responder {
     let mut config = Config::new();
-    config.consume_fuel(true); // Enforce strict deterministic CPU quotas
+    config.consume_fuel(true); // Deterministic CPU quota
     
     let start = std::time::Instant::now();
     let duration = start.elapsed().as_micros() as u64;
