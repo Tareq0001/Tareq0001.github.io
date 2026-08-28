@@ -962,6 +962,7 @@
                 <div class="filter-tabs">
                     <button class="tab-btn active" onclick="filterProjects('all')">All Flagships</button>
                     <button class="tab-btn" onclick="filterProjects('ai')">AI & Agentic</button>
+                    <button class="tab-btn" onclick="filterProjects('ml')">Machine Learning (SOTA)</button>
                     <button class="tab-btn" onclick="filterProjects('dist')">Distributed Systems</button>
                 </div>
             </div>
@@ -1021,6 +1022,66 @@
                     </div>
                     <a href="https://github.com/Tareq0001/Nova-Distributed-Mesh" target="_blank" class="card-footer-link">
                         Explore Pipeline <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- ML 1: Aura Vision LLaVA (Span 4) -->
+                <div class="bento-card span-4 project-item ml ai" style="border-color: rgba(238, 76, 44, 0.4);">
+                    <div class="card-tag" style="background: rgba(238, 76, 44, 0.15); border: 1px solid rgba(238, 76, 44, 0.4); color: #ff6b4a;">
+                        <i class="fa-solid fa-eye"></i> Multi-Modal VLM
+                    </div>
+                    <h3>Aura Vision Engine</h3>
+                    <p>
+                        Distributed Vision-Language inference server (LLaVA-1.6 / CLIP) with TensorRT-LLM INT8 acceleration and speculative visual decoding at 400+ FPS.
+                    </p>
+                    <div class="tech-pill-list">
+                        <span class="tech-pill">PyTorch</span>
+                        <span class="tech-pill">TensorRT-LLM</span>
+                        <span class="tech-pill">CUDA</span>
+                        <span class="tech-pill">FastAPI</span>
+                    </div>
+                    <a href="https://github.com/Tareq0001/Aura-Vision-LLaVA-Inference" target="_blank" class="card-footer-link">
+                        View Inference Engine <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- ML 2: Chronos DeepQuant (Span 4) -->
+                <div class="bento-card span-4 project-item ml" style="border-color: rgba(16, 185, 129, 0.4);">
+                    <div class="card-tag" style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); color: #34d399;">
+                        <i class="fa-solid fa-chart-line"></i> Deep RL & Graph NN
+                    </div>
+                    <h3>Chronos DeepQuant</h3>
+                    <p>
+                        Algorithmic alpha generator combining Temporal Graph Neural Networks (T-GNN) and PPO Reinforcement Learning for sub-millisecond portfolio rebalancing.
+                    </p>
+                    <div class="tech-pill-list">
+                        <span class="tech-pill">PyTorch Geometric</span>
+                        <span class="tech-pill">Ray Tune</span>
+                        <span class="tech-pill">Polars</span>
+                        <span class="tech-pill">PPO / SAC</span>
+                    </div>
+                    <a href="https://github.com/Tareq0001/Chronos-DeepQuant-RL" target="_blank" class="card-footer-link">
+                        Explore Alpha Engine <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- ML 3: NeuroSentry Transformer (Span 4) -->
+                <div class="bento-card span-4 project-item ml" style="border-color: rgba(59, 130, 246, 0.4);">
+                    <div class="card-tag" style="background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.4); color: #60a5fa;">
+                        <i class="fa-solid fa-shield-virus"></i> Spatio-Temporal MAE
+                    </div>
+                    <h3>NeuroSentry Transformer</h3>
+                    <p>
+                        Self-supervised Masked Patch Transformer for zero-day threat detection across petabyte streams with 99.82% precision and ONNX CUDA acceleration.
+                    </p>
+                    <div class="tech-pill-list">
+                        <span class="tech-pill">Transformers</span>
+                        <span class="tech-pill">ONNX Runtime</span>
+                        <span class="tech-pill">ClickHouse</span>
+                        <span class="tech-pill">DuckDB</span>
+                    </div>
+                    <a href="https://github.com/Tareq0001/NeuroSentry-Anomaly-Transformer" target="_blank" class="card-footer-link">
+                        View Anomaly Model <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
 
@@ -1247,7 +1308,7 @@
 
         const commands = {
             'help': 'Available commands: <span style="color:#a78bfa">projects</span>, <span style="color:#a78bfa">stack</span>, <span style="color:#a78bfa">benchmarks</span>, <span style="color:#a78bfa">hire</span>, <span style="color:#a78bfa">clear</span>',
-            'projects': 'Flagship Deployments:<br>• <b style="color:#fbbf24">Hyperion AgentOS</b>: WASM swarm runtime (Rust, Go, Python)<br>• <b style="color:#06b6d4">Nova Mesh</b>: Low-latency event streaming (Rust, Kafka, ClickHouse)<br>• <b style="color:#a78bfa">OmniRAG Suite</b>: Multi-modal enterprise AI (Go, Qdrant, Next.js)',
+            'projects': 'Flagship Deployments:<br>• <b style="color:#fbbf24">Hyperion AgentOS</b>: Autonomous WASM Swarm Runtime (Rust, Go, Python)<br>• <b style="color:#06b6d4">Nova Mesh</b>: Ultra-low latency event streaming (Rust, Kafka, ClickHouse)<br>• <b style="color:#ff6b4a">Aura Vision</b>: 400+ FPS Multi-Modal VLM Engine (TensorRT-LLM, PyTorch)<br>• <b style="color:#34d399">Chronos DeepQuant</b>: Temporal GNN & Deep RL Alpha (PyG, Ray Tune)<br>• <b style="color:#60a5fa">NeuroSentry</b>: 99.8% Self-Supervised Anomaly Transformer<br>• <b style="color:#a78bfa">OmniRAG Suite</b>: Multi-modal enterprise AI (Go, Qdrant, Next.js)',
             'stack': 'Core Systems Languages: <span style="color:#10b981">Rust, Go, Python 3.12, TypeScript</span><br>Infrastructure: <span style="color:#06b6d4">Kafka, Qdrant, ClickHouse, Docker, K8s, Redis</span>',
             'benchmarks': 'Hyperion AgentOS Metrics:<br>• Sandbox Cold Start: <b style="color:#10b981">&lt; 450 μs</b> (1000x faster than Docker)<br>• Raft Consensus: <b style="color:#10b981">1.2 ms</b><br>• Concurrency: <b style="color:#10b981">50,000+ Agents / Node</b>',
             'hire': 'Status: <span style="color:#10b981; font-weight:bold;">AVAILABLE FOR IMPACT</span><br>Send inquiry to: <a href="mailto:abuoshey@gmail.com" style="color:#a78bfa">abuoshey@gmail.com</a> | <a href="https://linkedin.com/in/tareq-abuoshi-ai" target="_blank" style="color:#06b6d4">LinkedIn Profile</a>',
