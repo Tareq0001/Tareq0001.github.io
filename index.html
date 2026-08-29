@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" dir="ltr" class="scroll-smooth" id="html-root">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Tareq Aboushi | AI Architect & Quantum Distributed Systems</title>
     
-    <!-- Meta tags for social / recruiter previews -->
+    <!-- Meta tags -->
     <meta name="description" content="Portfolio of Tareq Aboushi: AI Architect & Distributed Systems Engineer specializing in Rust, Go, Python, Multi-Agent Swarms, and SOTA ML.">
     <meta property="og:title" content="Tareq Aboushi | AI Architect & Systems Engineer">
     <meta property="og:description" content="Explore Flagship Autonomous AI Agents, Real-Time Streaming Meshes, and SOTA ML Inference Engines.">
     <meta property="og:type" content="website">
     <meta name="theme-color" content="#02040a">
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts: English & Arabic -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;700;800&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;700;800&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
     
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -58,6 +58,33 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             overflow-x: hidden;
             line-height: 1.6;
+            transition: font-family 0.2s ease;
+        }
+
+        /* Arabic Typography & RTL overrides */
+        html[dir="rtl"] body {
+            font-family: 'IBM Plex Sans Arabic', 'Plus Jakarta Sans', sans-serif;
+        }
+
+        html[dir="rtl"] .hero h1,
+        html[dir="rtl"] .section-title,
+        html[dir="rtl"] .logo-symbol,
+        html[dir="rtl"] h2,
+        html[dir="rtl"] h3 {
+            font-family: 'IBM Plex Sans Arabic', 'Syne', sans-serif;
+            letter-spacing: normal;
+        }
+
+        html[dir="rtl"] .ticker-val,
+        html[dir="rtl"] .hud-stat-box .num,
+        html[dir="rtl"] .code-pre-box,
+        html[dir="rtl"] .badge-tag,
+        html[dir="rtl"] .card-pill {
+            font-family: 'Fira Code', monospace;
+        }
+
+        html[dir="rtl"] .card-action-link i.fa-arrow-right {
+            transform: scaleX(-1);
         }
 
         /* 3D WebGL Canvas */
@@ -71,7 +98,7 @@
             pointer-events: none;
         }
 
-        /* Ambient Glow Spotlight (Desktop only) */
+        /* Ambient Glow Spotlight */
         .spotlight {
             position: fixed;
             top: 0;
@@ -90,7 +117,7 @@
             .spotlight { display: none; }
         }
 
-        /* Cyberpunk Scanline overlay */
+        /* Cyberpunk Scanlines */
         .scanlines {
             position: fixed;
             inset: 0;
@@ -154,7 +181,31 @@
         .nav-center-actions {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
+        }
+
+        /* Language Toggle Button */
+        .lang-btn {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            background: rgba(139, 92, 246, 0.12);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-family: 'IBM Plex Sans Arabic', 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+        }
+
+        .lang-btn:hover {
+            background: var(--primary);
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.6);
+            transform: translateY(-1px);
         }
 
         /* Quick Search Pill */
@@ -187,9 +238,8 @@
             color: #fff;
         }
 
-        @media (max-width: 600px) {
-            .key-badge { display: none; }
-            .search-pill span { display: none; }
+        @media (max-width: 680px) {
+            .search-pill { display: none; }
         }
 
         .audio-toggle-btn {
@@ -212,7 +262,7 @@
             box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
         }
 
-        /* Main Wrapper */
+        /* Main Container */
         .main-wrapper {
             max-width: 1380px;
             margin: 0 auto;
@@ -227,8 +277,44 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding-top: 110px;
+            padding-top: 115px;
             padding-bottom: 40px;
+        }
+
+        .hero-profile-avatar {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .avatar-frame {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--primary), var(--cyan));
+            box-shadow: 0 0 22px rgba(139, 92, 246, 0.45);
+        }
+
+        .avatar-frame img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #000;
+        }
+
+        .avatar-title h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .avatar-title p {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            color: var(--cyan);
         }
 
         .hero-telemetry-badge {
@@ -261,47 +347,11 @@
             50% { transform: scale(1.4); opacity: 0.5; }
         }
 
-        .hero-profile-avatar {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-
-        .avatar-frame {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            padding: 2px;
-            background: linear-gradient(135deg, var(--primary), var(--cyan));
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
-        }
-
-        .avatar-frame img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            background: #000;
-        }
-
-        .avatar-title h3 {
-            font-size: 1.15rem;
-            font-weight: 800;
-            color: #fff;
-        }
-
-        .avatar-title p {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.8rem;
-            color: var(--cyan);
-        }
-
         .hero h1 {
             font-family: 'Syne', sans-serif;
-            font-size: clamp(2.2rem, 7vw, 4.4rem);
+            font-size: clamp(2.2rem, 6.8vw, 4.4rem);
             font-weight: 900;
-            line-height: 1.1;
+            line-height: 1.12;
             letter-spacing: -1.5px;
             margin-bottom: 20px;
         }
@@ -315,9 +365,9 @@
         .hero-lead {
             font-size: clamp(1rem, 3.2vw, 1.2rem);
             color: var(--text-muted);
-            max-width: 740px;
+            max-width: 760px;
             margin-bottom: 32px;
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         .hero-cta-group {
@@ -487,9 +537,9 @@
             color: var(--text-muted);
             padding: 8px 14px;
             border-radius: 8px;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'IBM Plex Sans Arabic', 'Plus Jakarta Sans', sans-serif;
             font-weight: 600;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             cursor: pointer;
             transition: all 0.2s;
             white-space: nowrap;
@@ -587,7 +637,7 @@
         .bento-3d-card p {
             color: var(--text-muted);
             font-size: 0.92rem;
-            line-height: 1.6;
+            line-height: 1.65;
             margin-bottom: 20px;
             flex-grow: 1;
         }
@@ -714,6 +764,8 @@
             color: #e2e8f0;
             background: rgba(2, 4, 10, 0.5);
             -webkit-overflow-scrolling: touch;
+            direction: ltr !important;
+            text-align: left !important;
         }
 
         /* Command Palette Modal (Ctrl+K) */
@@ -756,7 +808,7 @@
             background: transparent;
             border: none;
             outline: none;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Plus Jakarta Sans', 'IBM Plex Sans Arabic', sans-serif;
             font-size: 1rem;
             color: #fff;
         }
@@ -839,7 +891,7 @@
             padding: 13px 16px;
             border-radius: 12px;
             color: #fff;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Plus Jakarta Sans', 'IBM Plex Sans Arabic', sans-serif;
             font-size: 0.92rem;
             outline: none;
             margin-bottom: 14px;
@@ -855,7 +907,7 @@
             border-top: 1px solid var(--border-glass);
             padding: 32px 0;
             text-align: center;
-            font-family: 'Fira Code', monospace;
+            font-family: 'Fira Code', 'IBM Plex Sans Arabic', monospace;
             font-size: 0.75rem;
             color: var(--text-dim);
         }
@@ -866,10 +918,10 @@
     <!-- 3D WebGL Canvas -->
     <canvas id="webgl-canvas"></canvas>
 
-    <!-- Scanline overlay -->
+    <!-- Scanlines -->
     <div class="scanlines"></div>
 
-    <!-- Mouse Spotlight (Desktop) -->
+    <!-- Mouse Spotlight -->
     <div class="spotlight" id="spotlight"></div>
 
     <!-- Top Navigation HUD -->
@@ -881,9 +933,15 @@
             </a>
 
             <div class="nav-center-actions">
+                <!-- Language Switcher Button -->
+                <button class="lang-btn" id="lang-toggle-btn" onclick="toggleLanguage()">
+                    <i class="fa-solid fa-globe"></i>
+                    <span id="lang-btn-text">العربية</span>
+                </button>
+
                 <div class="search-pill" onclick="openCmdPalette()">
                     <i class="fa-solid fa-terminal"></i>
-                    <span>Quick Command</span>
+                    <span data-i18n="nav_quick_cmd">Quick Command</span>
                     <span class="key-badge">Ctrl+K</span>
                 </div>
 
@@ -899,38 +957,38 @@
         <section class="hero">
             <div class="hero-profile-avatar">
                 <div class="avatar-frame">
-                    <img src="https://avatars.githubusercontent.com/u/120612984?v=4" alt="Tareq Aboushi" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'64\' height=\'64\' viewBox=\'0 0 64 64\'><circle cx=\'32\' cy=\'32\' r=\'32\' fill=\'%238b5cf6\'/><text x=\'32\' y=\'39\' font-size=\'20\' font-weight=\'bold\' fill=\'%23ffffff\' text-anchor=\'middle\'>TA</text></svg>'">
+                    <img src="https://avatars.githubusercontent.com/u/120612984?v=4" alt="Tareq Aboushi" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'68\' height=\'68\' viewBox=\'0 0 68 68\'><circle cx=\'34\' cy=\'34\' r=\'34\' fill=\'%238b5cf6\'/><text x=\'34\' y=\'41\' font-size=\'22\' font-weight=\'bold\' fill=\'%23ffffff\' text-anchor=\'middle\'>TA</text></svg>'">
                 </div>
                 <div class="avatar-title">
-                    <h3>Tareq Aboushi</h3>
-                    <p>AI Architect & Systems Engineer</p>
+                    <h3 data-i18n="profile_name">Tareq Aboushi</h3>
+                    <p data-i18n="profile_role">AI Architect & Systems Engineer</p>
                 </div>
             </div>
 
             <div class="hero-telemetry-badge">
                 <span class="pulsing-orb"></span>
-                <span>APEX ARCHITECT & SOTA NEURAL SYSTEMS</span>
+                <span data-i18n="hero_badge">APEX ARCHITECT & SOTA NEURAL SYSTEMS</span>
             </div>
 
-            <h1>
+            <h1 data-i18n="hero_title">
                 Architecting <br>
                 <span class="gradient-title">Autonomous Agents</span><br>
                 & SOTA ML Meshes.
             </h1>
 
-            <p class="hero-lead">
+            <p class="hero-lead" data-i18n="hero_lead">
                 Senior Software Engineer & AI Architect specializing in WebAssembly micro-sandboxes, sub-millisecond distributed consensus (Raft), multi-modal VLM inference (TensorRT), and Deep Reinforcement Learning.
             </p>
 
             <div class="hero-cta-group">
                 <a href="#flagships" class="btn-neon" onclick="playBeep(600)">
-                    <i class="fa-solid fa-cubes"></i> Explore Systems
+                    <i class="fa-solid fa-cubes"></i> <span data-i18n="cta_explore">Explore Systems</span>
                 </a>
                 <a href="https://linkedin.com/in/tareq-abuoshi-ai" target="_blank" class="btn-glass-alt" onclick="playBeep(400)">
-                    <i class="fa-brands fa-linkedin" style="color: #0ea5e9;"></i> LinkedIn
+                    <i class="fa-brands fa-linkedin" style="color: #0ea5e9;"></i> <span data-i18n="cta_linkedin">LinkedIn</span>
                 </a>
                 <a href="https://github.com/Tareq0001" target="_blank" class="btn-glass-alt" onclick="playBeep(400)">
-                    <i class="fa-brands fa-github"></i> 50+ GitHub Repos
+                    <i class="fa-brands fa-github"></i> <span data-i18n="cta_github">50+ GitHub Repos</span>
                 </a>
             </div>
 
@@ -938,16 +996,16 @@
             <div class="ticker-grid">
                 <div class="ticker-card">
                     <div class="ticker-header">
-                        <span class="ticker-label">Sandbox Cold-Start</span>
+                        <span class="ticker-label" data-i18n="metric_1_lbl">Sandbox Cold-Start</span>
                         <i class="fa-solid fa-bolt ticker-icon"></i>
                     </div>
                     <div class="ticker-val" style="color: var(--emerald);">&lt; 450 μs</div>
-                    <div class="ticker-label">1000x vs Docker</div>
+                    <div class="ticker-label" data-i18n="metric_1_sub">1000x vs Docker</div>
                 </div>
 
                 <div class="ticker-card">
                     <div class="ticker-header">
-                        <span class="ticker-label">VLM Throughput</span>
+                        <span class="ticker-label" data-i18n="metric_2_lbl">VLM Throughput</span>
                         <i class="fa-solid fa-eye ticker-icon"></i>
                     </div>
                     <div class="ticker-val" style="color: var(--primary-glow);">428 FPS</div>
@@ -956,7 +1014,7 @@
 
                 <div class="ticker-card">
                     <div class="ticker-header">
-                        <span class="ticker-label">Quant RL Sharpe</span>
+                        <span class="ticker-label" data-i18n="metric_3_lbl">Quant RL Sharpe</span>
                         <i class="fa-solid fa-chart-line ticker-icon"></i>
                     </div>
                     <div class="ticker-val" style="color: var(--cyan);">3.84</div>
@@ -965,7 +1023,7 @@
 
                 <div class="ticker-card">
                     <div class="ticker-header">
-                        <span class="ticker-label">Anomaly Precision</span>
+                        <span class="ticker-label" data-i18n="metric_4_lbl">Anomaly Precision</span>
                         <i class="fa-solid fa-shield-virus ticker-icon"></i>
                     </div>
                     <div class="ticker-val" style="color: var(--amber);">99.82%</div>
@@ -978,43 +1036,43 @@
         <section id="flagships" class="section-wrap">
             <div class="section-headline">
                 <div>
-                    <div style="font-family: 'Fira Code', monospace; font-size: 0.8rem; color: var(--primary-glow); font-weight: 700; margin-bottom: 4px;">
+                    <div style="font-family: 'Fira Code', monospace; font-size: 0.8rem; color: var(--primary-glow); font-weight: 700; margin-bottom: 4px;" data-i18n="flagship_tag">
                         // DISTRIBUTED & NEURAL FLAGSHIPS
                     </div>
-                    <h2 class="section-title">Flagship Architectures</h2>
+                    <h2 class="section-title" data-i18n="flagship_title">Flagship Architectures</h2>
                 </div>
 
                 <div class="category-filter-bar">
-                    <button class="cat-btn active" onclick="filterBento('all')">All Systems</button>
-                    <button class="cat-btn" onclick="filterBento('agent')">Agentic</button>
-                    <button class="cat-btn" onclick="filterBento('ml')">SOTA ML</button>
-                    <button class="cat-btn" onclick="filterBento('dist')">Distributed</button>
+                    <button class="cat-btn active" onclick="filterBento('all')" data-i18n="filter_all">All Systems</button>
+                    <button class="cat-btn" onclick="filterBento('agent')" data-i18n="filter_agent">Agentic</button>
+                    <button class="cat-btn" onclick="filterBento('ml')" data-i18n="filter_ml">SOTA ML</button>
+                    <button class="cat-btn" onclick="filterBento('dist')" data-i18n="filter_dist">Distributed</button>
                 </div>
             </div>
 
             <div class="bento-master-grid">
                 <!-- Bento 1: Hyperion AgentOS (Span 8) -->
                 <div class="bento-3d-card span-8 bento-item agent dist">
-                    <div class="card-pill pill-apex">
+                    <div class="card-pill pill-apex" data-i18n="card_1_pill">
                         <i class="fa-solid fa-crown"></i> Apex Autonomous Mesh 2026
                     </div>
-                    <h3>Hyperion AgentOS</h3>
-                    <p>
+                    <h3 data-i18n="card_1_title">Hyperion AgentOS</h3>
+                    <p data-i18n="card_1_desc">
                         Distributed orchestration mesh and runtime for autonomous AI agent swarms. Delivers zero-overhead WebAssembly micro-sandboxes, HashiCorp Raft distributed consensus, and cognitive tree-of-thought planning loops.
                     </p>
 
                     <div class="card-benchmark-hud">
                         <div class="hud-stat-box">
                             <div class="num">&lt; 450 μs</div>
-                            <div class="desc">WASM Cold-Start</div>
+                            <div class="desc" data-i18n="card_1_stat1">WASM Cold-Start</div>
                         </div>
                         <div class="hud-stat-box">
                             <div class="num">50,000+</div>
-                            <div class="desc">Swarm Scale / Node</div>
+                            <div class="desc" data-i18n="card_1_stat2">Swarm Concurrency</div>
                         </div>
                         <div class="hud-stat-box">
                             <div class="num">1.2 ms</div>
-                            <div class="desc">Raft Consensus</div>
+                            <div class="desc" data-i18n="card_1_stat3">Raft Consensus</div>
                         </div>
                     </div>
 
@@ -1026,17 +1084,17 @@
                     </div>
 
                     <a href="https://github.com/Tareq0001/Hyperion-AgentOS" target="_blank" class="card-action-link">
-                        Inspect Architecture Repository <i class="fa-solid fa-arrow-right"></i>
+                        <span data-i18n="card_1_link">Inspect Architecture Repository</span> <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
 
                 <!-- Bento 2: Nova Distributed Mesh (Span 4) -->
                 <div class="bento-3d-card span-4 bento-item dist">
-                    <div class="card-pill pill-stream">
+                    <div class="card-pill pill-stream" data-i18n="card_2_pill">
                         <i class="fa-solid fa-wave-square"></i> Real-Time Stream
                     </div>
-                    <h3>Nova Distributed Mesh</h3>
-                    <p>
+                    <h3 data-i18n="card_2_title">Nova Distributed Mesh</h3>
+                    <p data-i18n="card_2_desc">
                         Ultra-low latency event streaming and OLAP analytics engine. Ingests millions of real-time telemetry events/sec with zero packet loss.
                     </p>
                     <div class="badge-tags">
@@ -1046,17 +1104,17 @@
                         <span class="badge-tag">Go</span>
                     </div>
                     <a href="https://github.com/Tareq0001/Nova-Distributed-Mesh" target="_blank" class="card-action-link">
-                        Explore Pipeline <i class="fa-solid fa-arrow-right"></i>
+                        <span data-i18n="card_2_link">Explore Pipeline</span> <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
 
                 <!-- Bento 3: Aura Vision LLaVA (Span 4) -->
                 <div class="bento-3d-card span-4 bento-item ml">
-                    <div class="card-pill pill-ml">
+                    <div class="card-pill pill-ml" data-i18n="card_3_pill">
                         <i class="fa-solid fa-eye"></i> Multi-Modal VLM
                     </div>
-                    <h3>Aura Vision Engine</h3>
-                    <p>
+                    <h3 data-i18n="card_3_title">Aura Vision Engine</h3>
+                    <p data-i18n="card_3_desc">
                         Distributed Vision-Language inference server (LLaVA-1.6 / CLIP) with TensorRT-LLM INT8 acceleration and speculative visual decoding at 400+ FPS.
                     </p>
                     <div class="badge-tags">
@@ -1065,17 +1123,17 @@
                         <span class="badge-tag">CUDA 12</span>
                     </div>
                     <a href="https://github.com/Tareq0001/Aura-Vision-LLaVA-Inference" target="_blank" class="card-action-link">
-                        View VLM Engine <i class="fa-solid fa-arrow-right"></i>
+                        <span data-i18n="card_3_link">View VLM Engine</span> <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
 
                 <!-- Bento 4: Chronos DeepQuant RL (Span 4) -->
                 <div class="bento-3d-card span-4 bento-item ml">
-                    <div class="card-pill pill-ml">
+                    <div class="card-pill pill-ml" data-i18n="card_4_pill">
                         <i class="fa-solid fa-chart-line"></i> Deep RL & Graph NN
                     </div>
-                    <h3>Chronos DeepQuant</h3>
-                    <p>
+                    <h3 data-i18n="card_4_title">Chronos DeepQuant</h3>
+                    <p data-i18n="card_4_desc">
                         Algorithmic alpha generator combining Temporal Graph Neural Networks (T-GNN) and PPO Reinforcement Learning for sub-millisecond portfolio rebalancing.
                     </p>
                     <div class="badge-tags">
@@ -1084,17 +1142,17 @@
                         <span class="badge-tag">Polars</span>
                     </div>
                     <a href="https://github.com/Tareq0001/Chronos-DeepQuant-RL" target="_blank" class="card-action-link">
-                        Explore Alpha Engine <i class="fa-solid fa-arrow-right"></i>
+                        <span data-i18n="card_4_link">Explore Alpha Engine</span> <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
 
                 <!-- Bento 5: NeuroSentry Transformer (Span 4) -->
                 <div class="bento-3d-card span-4 bento-item ml">
-                    <div class="card-pill pill-ml">
+                    <div class="card-pill pill-ml" data-i18n="card_5_pill">
                         <i class="fa-solid fa-shield-virus"></i> Spatio-Temporal MAE
                     </div>
-                    <h3>NeuroSentry Transformer</h3>
-                    <p>
+                    <h3 data-i18n="card_5_title">NeuroSentry Transformer</h3>
+                    <p data-i18n="card_5_desc">
                         Self-supervised Masked Patch Transformer for zero-day threat detection across petabyte streams with 99.82% precision and ONNX CUDA acceleration.
                     </p>
                     <div class="badge-tags">
@@ -1103,17 +1161,17 @@
                         <span class="badge-tag">DuckDB</span>
                     </div>
                     <a href="https://github.com/Tareq0001/NeuroSentry-Anomaly-Transformer" target="_blank" class="card-action-link">
-                        View Anomaly Model <i class="fa-solid fa-arrow-right"></i>
+                        <span data-i18n="card_5_link">View Anomaly Model</span> <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
 
                 <!-- Bento 6: OmniRAG Enterprise Suite (Span 6) -->
                 <div class="bento-3d-card span-6 bento-item agent">
-                    <div class="card-pill pill-ai">
+                    <div class="card-pill pill-ai" data-i18n="card_6_pill">
                         <i class="fa-solid fa-brain"></i> Enterprise AI
                     </div>
-                    <h3>OmniRAG Enterprise Suite</h3>
-                    <p>
+                    <h3 data-i18n="card_6_title">OmniRAG Enterprise Suite</h3>
+                    <p data-i18n="card_6_desc">
                         Cloud-native Knowledge Retrieval & Analytics platform. Features multi-modal recursive document chunking, semantic citation vectors, and RBAC authentication.
                     </p>
                     <div class="badge-tags">
@@ -1123,17 +1181,17 @@
                         <span class="badge-tag">PostgreSQL</span>
                     </div>
                     <a href="https://github.com/Tareq0001/OmniRAG-Enterprise" target="_blank" class="card-action-link">
-                        View Codebase <i class="fa-solid fa-arrow-right"></i>
+                        <span data-i18n="card_6_link">View Codebase</span> <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
 
                 <!-- Bento 7: Repo Refactor Engine (Span 6) -->
                 <div class="bento-3d-card span-6 bento-item agent">
-                    <div class="card-pill pill-ai">
+                    <div class="card-pill pill-ai" data-i18n="card_7_pill">
                         <i class="fa-solid fa-code-compare"></i> Autonomous Migration
                     </div>
-                    <h3>Repo Refactor Engine</h3>
-                    <p>
+                    <h3 data-i18n="card_7_title">Repo Refactor Engine</h3>
+                    <p data-i18n="card_7_desc">
                         AI pipeline that autonomously translates entire codebases across languages using Abstract Syntax Tree (AST) analysis and 11-phase atomic rollback snapshots.
                     </p>
                     <div class="badge-tags">
@@ -1143,7 +1201,7 @@
                         <span class="badge-tag">Docker</span>
                     </div>
                     <a href="https://github.com/Tareq0001/repo-refactor-engine" target="_blank" class="card-action-link">
-                        View Engine <i class="fa-solid fa-arrow-right"></i>
+                        <span data-i18n="card_7_link">View Engine</span> <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
@@ -1153,10 +1211,10 @@
         <section class="section-wrap">
             <div class="section-headline">
                 <div>
-                    <div style="font-family: 'Fira Code', monospace; font-size: 0.8rem; color: var(--emerald); font-weight: 700; margin-bottom: 4px;">
+                    <div style="font-family: 'Fira Code', monospace; font-size: 0.8rem; color: var(--emerald); font-weight: 700; margin-bottom: 4px;" data-i18n="inspector_tag">
                         // ARCHITECTURE IMPLEMENTATION INSPECTOR
                     </div>
-                    <h2 class="section-title">Production Source Highlights</h2>
+                    <h2 class="section-title" data-i18n="inspector_title">Production Source Highlights</h2>
                 </div>
             </div>
 
@@ -1208,10 +1266,10 @@ async fn spawn_agent_sandbox(
         <section id="contact">
             <div class="contact-box">
                 <div>
-                    <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 5vw, 2.6rem); font-weight: 800; line-height: 1.1; margin-bottom: 16px;">
+                    <h2 style="font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 5vw, 2.6rem); font-weight: 800; line-height: 1.15; margin-bottom: 16px;" data-i18n="contact_title">
                         Let's Build Systems That Defy Limits.
                     </h2>
-                    <p style="color: var(--text-muted); font-size: 1rem; margin-bottom: 28px;">
+                    <p style="color: var(--text-muted); font-size: 1rem; margin-bottom: 28px;" data-i18n="contact_desc">
                         Open for select Senior Engineering, AI Architecture, and Distributed Systems roles. Messages route directly to my personal terminal.
                     </p>
 
@@ -1236,12 +1294,12 @@ async fn spawn_agent_sandbox(
                     <input type="hidden" name="_captcha" value="false">
                     <input type="hidden" name="_next" value="https://tareq0001.github.io/">
                     
-                    <input type="text" name="name" class="glass-input" placeholder="Your Name / Organization" required>
-                    <input type="email" name="email" class="glass-input" placeholder="Work Email" required>
-                    <textarea name="message" class="glass-input" style="min-height: 120px; resize: vertical;" placeholder="Project Scope or Role Details..." required></textarea>
+                    <input type="text" name="name" class="glass-input" id="input-name" placeholder="Your Name / Organization" required>
+                    <input type="email" name="email" class="glass-input" id="input-email" placeholder="Work Email" required>
+                    <textarea name="message" class="glass-input" id="input-msg" style="min-height: 120px; resize: vertical;" placeholder="Project Scope or Role Details..." required></textarea>
                     
                     <button type="submit" class="btn-neon" style="width: 100%; justify-content: center;" onclick="playBeep(800)">
-                        <i class="fa-solid fa-paper-plane"></i> Transmit Direct Message
+                        <i class="fa-solid fa-paper-plane"></i> <span data-i18n="form_submit">Transmit Direct Message</span>
                     </button>
                 </form>
             </div>
@@ -1249,7 +1307,7 @@ async fn spawn_agent_sandbox(
     </main>
 
     <footer>
-        <p>© 2026 Tareq Aboushi. Engineered with Zero-Compromise Precision. All systems operational.</p>
+        <p data-i18n="footer_text">© 2026 Tareq Aboushi. Engineered with Zero-Compromise Precision. All systems operational.</p>
     </footer>
 
     <!-- Command Palette Modal (Ctrl+K) -->
@@ -1282,16 +1340,199 @@ async fn spawn_agent_sandbox(
                     <span class="key-badge">GitHub</span>
                 </a>
                 <a href="mailto:abuoshey@gmail.com" class="cmd-item">
-                    <div class="cmd-item-left"><i class="fa-solid fa-envelope" style="color: var(--primary-glow);"></i> Send Direct Email</div>
+                    <div class="cmd-item-left"><i class="fa-solid fa-envelope" style="color: var(--primary-glow);"></i> <span data-i18n="cmd_send_email">Send Direct Email</span></div>
                     <span class="key-badge">Email</span>
                 </a>
             </div>
         </div>
     </div>
 
-    <!-- Scripts: 3D Hologram (Touch-friendly & Desktop), Audio Synth, Spotlight, Command Palette -->
+    <!-- Scripts: Bilingual Engine, 3D Hologram, Audio Synth, Command Palette -->
     <script>
-        // 1. Three.js 3D Quantum Hologram / Neural Particle Sphere
+        // ==========================================
+        // 1. Bilingual i18n Translation Engine
+        // ==========================================
+        const i18nData = {
+            en: {
+                lang_btn: "العربية",
+                nav_quick_cmd: "Quick Command",
+                profile_name: "Tareq Aboushi",
+                profile_role: "AI Architect & Systems Engineer",
+                hero_badge: "APEX ARCHITECT & SOTA NEURAL SYSTEMS",
+                hero_title: 'Architecting <br><span class="gradient-title">Autonomous Agents</span><br>& SOTA ML Meshes.',
+                hero_lead: "Senior Software Engineer & AI Architect specializing in WebAssembly micro-sandboxes, sub-millisecond distributed consensus (Raft), multi-modal VLM inference (TensorRT), and Deep Reinforcement Learning.",
+                cta_explore: "Explore Systems",
+                cta_linkedin: "LinkedIn",
+                cta_github: "50+ GitHub Repos",
+                metric_1_lbl: "Sandbox Cold-Start",
+                metric_1_sub: "1000x vs Docker",
+                metric_2_lbl: "VLM Throughput",
+                metric_3_lbl: "Quant RL Sharpe",
+                metric_4_lbl: "Anomaly Precision",
+                flagship_tag: "// DISTRIBUTED & NEURAL FLAGSHIPS",
+                flagship_title: "Flagship Architectures",
+                filter_all: "All Systems",
+                filter_agent: "Agentic",
+                filter_ml: "SOTA ML",
+                filter_dist: "Distributed",
+                card_1_pill: '<i class="fa-solid fa-crown"></i> Apex Autonomous Mesh 2026',
+                card_1_title: "Hyperion AgentOS",
+                card_1_desc: "Distributed orchestration mesh and runtime for autonomous AI agent swarms. Delivers zero-overhead WebAssembly micro-sandboxes, HashiCorp Raft distributed consensus, and cognitive tree-of-thought planning loops.",
+                card_1_stat1: "WASM Cold-Start",
+                card_1_stat2: "Swarm Concurrency",
+                card_1_stat3: "Raft Consensus",
+                card_1_link: "Inspect Architecture Repository",
+                card_2_pill: '<i class="fa-solid fa-wave-square"></i> Real-Time Stream',
+                card_2_title: "Nova Distributed Mesh",
+                card_2_desc: "Ultra-low latency event streaming and OLAP analytics engine. Ingests millions of real-time telemetry events/sec with zero packet loss.",
+                card_2_link: "Explore Pipeline",
+                card_3_pill: '<i class="fa-solid fa-eye"></i> Multi-Modal VLM',
+                card_3_title: "Aura Vision Engine",
+                card_3_desc: "Distributed Vision-Language inference server (LLaVA-1.6 / CLIP) with TensorRT-LLM INT8 acceleration and speculative visual decoding at 400+ FPS.",
+                card_3_link: "View VLM Engine",
+                card_4_pill: '<i class="fa-solid fa-chart-line"></i> Deep RL & Graph NN',
+                card_4_title: "Chronos DeepQuant",
+                card_4_desc: "Algorithmic alpha generator combining Temporal Graph Neural Networks (T-GNN) and PPO Reinforcement Learning for sub-millisecond portfolio rebalancing.",
+                card_4_link: "Explore Alpha Engine",
+                card_5_pill: '<i class="fa-solid fa-shield-virus"></i> Spatio-Temporal MAE',
+                card_5_title: "NeuroSentry Transformer",
+                card_5_desc: "Self-supervised Masked Patch Transformer for zero-day threat detection across petabyte streams with 99.82% precision and ONNX CUDA acceleration.",
+                card_5_link: "View Anomaly Model",
+                card_6_pill: '<i class="fa-solid fa-brain"></i> Enterprise AI',
+                card_6_title: "OmniRAG Enterprise Suite",
+                card_6_desc: "Cloud-native Knowledge Retrieval & Analytics platform. Features multi-modal recursive document chunking, semantic citation vectors, and RBAC authentication.",
+                card_6_link: "View Codebase",
+                card_7_pill: '<i class="fa-solid fa-code-compare"></i> Autonomous Migration',
+                card_7_title: "Repo Refactor Engine",
+                card_7_desc: "AI pipeline that autonomously translates entire codebases across languages using Abstract Syntax Tree (AST) analysis and 11-phase atomic rollback snapshots.",
+                card_7_link: "View Engine",
+                inspector_tag: "// ARCHITECTURE IMPLEMENTATION INSPECTOR",
+                inspector_title: "Production Source Highlights",
+                contact_title: "Let's Build Systems That Defy Limits.",
+                contact_desc: "Open for select Senior Engineering, AI Architecture, and Distributed Systems roles. Messages route directly to my personal terminal.",
+                form_name_ph: "Your Name / Organization",
+                form_email_ph: "Work Email",
+                form_msg_ph: "Project Scope or Role Details...",
+                form_submit: "Transmit Direct Message",
+                footer_text: "© 2026 Tareq Aboushi. Engineered with Zero-Compromise Precision. All systems operational.",
+                cmd_search_ph: "Type a command or jump to project...",
+                cmd_send_email: "Send Direct Email"
+            },
+            ar: {
+                lang_btn: "English",
+                nav_quick_cmd: "أمر سريع",
+                profile_name: "طارق العبوشي",
+                profile_role: "مهندس معماري لأنظمة الذكاء الاصطناعي والموزعة",
+                hero_badge: "مهندس معماري للأنظمة الموزعة ونماذج الذكاء الاصطناعي الفائقة",
+                hero_title: 'هندسة معمارية <br><span class="gradient-title">للأسراب الذكية المستقلة</span><br>والأنظمة الموزعة الخارقة.',
+                hero_lead: "مهندس برمجيات أول ومهندس ذكاء اصطناعي متخصص في بيئات WebAssembly المعزولة، خوارزميات الإجماع الموزعة (Raft) بأجزاء من الميلي ثانية، تسريع نماذج الرؤية واللغة (TensorRT)، والتعلم التعزيزي العميق.",
+                cta_explore: "استكشف الأنظمة",
+                cta_linkedin: "حساب لينكد إن",
+                cta_github: "+50 مشروع على GitHub",
+                metric_1_lbl: "إقلاع بيئة العزل (WASM)",
+                metric_1_sub: "أسرع 1000x من Docker",
+                metric_2_lbl: "معالجة الفيديو (VLM)",
+                metric_3_lbl: "معامل شارب المالي (RL)",
+                metric_4_lbl: "دقة اكتشاف الشذوذ",
+                flagship_tag: "// الأنظمة المعمارية الموزعة والذكاء الاصطناعي",
+                flagship_title: "المشاريع المعمارية الرائدة",
+                filter_all: "كافة الأنظمة",
+                filter_agent: "أسراب ذكية",
+                filter_ml: "تعلم آلة فائق",
+                filter_dist: "أنظمة موزعة",
+                card_1_pill: '<i class="fa-solid fa-crown"></i> قمة أسراب الذكاء الاصطناعي 2026',
+                card_1_title: "نظام تشغيل الأسراب الذكية Hyperion",
+                card_1_desc: "منصة تشغيل وإدارة أسراب الذكاء الاصطناعي المستقلة الموزعة. توفر بيئات عزل فائقة الخفة بـ WebAssembly، إجماع موزع بخوارزمية Raft، ومحركات تفكير شجري متعددة الوكلاء.",
+                card_1_stat1: "إقلاع بيئة العزل",
+                card_1_stat2: "تزامن الأسراب / خادم",
+                card_1_stat3: "زمن إجماع Raft",
+                card_1_link: "فحص مستودع البنية المعمارية",
+                card_2_pill: '<i class="fa-solid fa-wave-square"></i> بث بيانات حي',
+                card_2_title: "شبكة البث الموزعة Nova",
+                card_2_desc: "محرك بث بيانات ومعالجة تحليلية (OLAP) فائق السرعة. يستقبل ملايين الأحداث في الثانية بدون فقدان أي حزمة بيانات.",
+                card_2_link: "استكشف مسار البيانات",
+                card_3_pill: '<i class="fa-solid fa-eye"></i> نماذج الرؤية واللغة VLM',
+                card_3_title: "محرك الرؤية الذكي Aura",
+                card_3_desc: "خادم استدلال موزع لنماذج الرؤية واللغة (LLaVA-1.6 / CLIP) مسرع بـ TensorRT-LLM ومعالجة فورية تتجاوز 400 إطار في الثانية.",
+                card_3_link: "معاينة محرك الرؤية",
+                card_4_pill: '<i class="fa-solid fa-chart-line"></i> تعلم تعزيزي وشبكات بيانية',
+                card_4_title: "محرك التداول الذكي Chronos",
+                card_4_desc: "مولد خوارزميات مالية يدمج الشبكات العصبية البيانية الزمنية (T-GNN) مع التعلم التعزيزي (PPO) لإعادة توازن المحافظ الاستثمارية في أجزاء من الميلي ثانية.",
+                card_4_link: "استكشف محرك التداول",
+                card_5_pill: '<i class="fa-solid fa-shield-virus"></i> محول مكاني-زماني ذاتي التعلم',
+                card_5_title: "محول اكتشاف الشذوذ NeuroSentry",
+                card_5_desc: "نموذج محول ذاتي التعلم لاكتشاف ثغرات Zero-Day والشذوذ في تدفقات البيانات الضخمة (Petabyte Scale) بدقة 99.82% مع تسريع ONNX.",
+                card_5_link: "معاينة نموذج الأمان",
+                card_6_pill: '<i class="fa-solid fa-brain"></i> ذكاء اصطناعي للمنشآت',
+                card_6_title: "حزمة استرجاع المعرفة OmniRAG",
+                card_6_desc: "منصة سحابية متقدمة للبحث الدلالي وتحليل مستندات الشركات الضخمة باستخدام خوارزميات RAG ونظام أمان وتحكم بالوصول صارم.",
+                card_6_link: "معاينة الكود المصدري",
+                card_7_pill: '<i class="fa-solid fa-code-compare"></i> ترجمة وهجرة الأكواد الذكية',
+                card_7_title: "محرك هجرة المستودعات Repo Refactor",
+                card_7_desc: "منظومة ذكاء اصطناعي تترجم مستودعات الكود بالكامل بين لغات البرمجة باستخدام تحليل شجرة النحو المجردة (AST) ونظام تراجع فوري.",
+                card_7_link: "معاينة المحرك البرمجي",
+                inspector_tag: "// فاحص الكود المصدري المعماري",
+                inspector_title: "نماذج من الكود المصدري الفعلي",
+                contact_title: "لنصنع أنظمة تتجاوز الحدود.",
+                contact_desc: "متاح للمناصب القيادية في هندسة البرمجيات، معمارية الذكاء الاصطناعي، والأنظمة الموزعة. تصل الرسائل مباشرة إلى بريدي الشخصي.",
+                form_name_ph: "الاسم الكريم / اسم المنظمة أو الشركة",
+                form_email_ph: "البريد الإلكتروني للعمل",
+                form_msg_ph: "تفاصيل الفرصة الوظيفية أو نطاق المشروع...",
+                form_submit: "إرسال الرسالة مباشرة",
+                footer_text: "© 2026 طارق العبوشي. تم البناء بأعلى درجات الدقة الهندسية. جميع الأنظمة تعمل بكفاءة قصوى.",
+                cmd_search_ph: "اكتب أمراً أو انتقل إلى مشروع...",
+                cmd_send_email: "إرسال بريد إلكتروني مباشر"
+            }
+        };
+
+        let currentLang = localStorage.getItem('tareq_lang') || 'en';
+
+        function applyLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('tareq_lang', lang);
+            const html = document.getElementById('html-root');
+            html.setAttribute('lang', lang);
+            html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+
+            const t = i18nData[lang];
+            
+            // Translate all elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) {
+                    el.innerHTML = t[key];
+                }
+            });
+
+            // Update language switcher button text
+            document.getElementById('lang-btn-text').textContent = t.lang_btn;
+
+            // Update form placeholders
+            const inName = document.getElementById('input-name');
+            const inEmail = document.getElementById('input-email');
+            const inMsg = document.getElementById('input-msg');
+            const inCmd = document.getElementById('cmd-search');
+
+            if (inName) inName.placeholder = t.form_name_ph;
+            if (inEmail) inEmail.placeholder = t.form_email_ph;
+            if (inMsg) inMsg.placeholder = t.form_msg_ph;
+            if (inCmd) inCmd.placeholder = t.cmd_search_ph;
+        }
+
+        function toggleLanguage() {
+            const nextLang = currentLang === 'en' ? 'ar' : 'en';
+            applyLanguage(nextLang);
+            playBeep(currentLang === 'ar' ? 880 : 660);
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            applyLanguage(currentLang);
+        });
+
+        // ==========================================
+        // 2. Three.js 3D Quantum Hologram / Neural Orb
+        // ==========================================
         let scene, camera, renderer, particleSphere;
         const isMobile = window.innerWidth <= 768;
 
@@ -1305,7 +1546,6 @@ async fn spawn_agent_sandbox(
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-            // Optimized particle count for 60/120 FPS
             const count = isMobile ? 900 : 1600;
             const geometry = new THREE.BufferGeometry();
             const positions = new Float32Array(count * 3);
@@ -1346,7 +1586,6 @@ async fn spawn_agent_sandbox(
 
         let mouseX = 0, mouseY = 0;
         
-        // Mouse Move for Desktop
         window.addEventListener('mousemove', (e) => {
             mouseX = (e.clientX - window.innerWidth / 2) * 0.001;
             mouseY = (e.clientY - window.innerHeight / 2) * 0.001;
@@ -1357,7 +1596,6 @@ async fn spawn_agent_sandbox(
             }
         });
 
-        // Touch Gesture for Mobile: Touch swipe rotates the 3D quantum sphere!
         let touchStartX = 0, touchStartY = 0;
         window.addEventListener('touchstart', (e) => {
             if (e.touches.length === 1) {
@@ -1395,7 +1633,9 @@ async fn spawn_agent_sandbox(
         init3D();
         animate3D();
 
-        // 2. Web Audio API Cyber Synthesizer
+        // ==========================================
+        // 3. Web Audio API Cyber Synthesizer
+        // ==========================================
         let audioCtx = null;
         let audioEnabled = false;
 
@@ -1430,7 +1670,9 @@ async fn spawn_agent_sandbox(
             } catch (e) {}
         }
 
-        // 3. Command Palette (Ctrl+K)
+        // ==========================================
+        // 4. Command Palette (Ctrl+K)
+        // ==========================================
         function openCmdPalette() {
             document.getElementById('cmd-backdrop').classList.add('open');
             document.getElementById('cmd-search').focus();
@@ -1453,7 +1695,9 @@ async fn spawn_agent_sandbox(
             if (e.key === 'Escape') closeCmdPalette();
         });
 
-        // 4. Code Inspector Switcher
+        // ==========================================
+        // 5. Code Inspector Switcher
+        // ==========================================
         const codeSnippets = {
             'wasm': `// Hyperion AgentOS: Rust Wasmtime Micro-Sandbox Runtime
 #[post("/v1/agents/spawn")]
@@ -1533,7 +1777,9 @@ class AuraVLMInferenceEngine:
             playBeep(520);
         }
 
-        // 5. Bento Category Filter
+        // ==========================================
+        // 6. Bento Category Filter
+        // ==========================================
         function filterBento(cat) {
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
             event.target.classList.add('active');
