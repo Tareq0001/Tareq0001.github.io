@@ -66,21 +66,34 @@
             font-family: 'IBM Plex Sans Arabic', 'Plus Jakarta Sans', sans-serif;
         }
 
+        html[dir="rtl"] * {
+            letter-spacing: 0 !important;
+        }
+
         html[dir="rtl"] .hero h1,
         html[dir="rtl"] .section-title,
         html[dir="rtl"] .logo-symbol,
+        html[dir="rtl"] .hero-telemetry-badge,
+        html[dir="rtl"] .avatar-title p,
+        html[dir="rtl"] .ticker-label,
+        html[dir="rtl"] .card-pill,
+        html[dir="rtl"] .hud-stat-box .desc,
+        html[dir="rtl"] .badge-tag,
         html[dir="rtl"] h2,
-        html[dir="rtl"] h3 {
-            font-family: 'IBM Plex Sans Arabic', 'Syne', sans-serif;
-            letter-spacing: normal;
+        html[dir="rtl"] h3,
+        html[dir="rtl"] h4,
+        html[dir="rtl"] p,
+        html[dir="rtl"] span,
+        html[dir="rtl"] button {
+            font-family: 'IBM Plex Sans Arabic', 'Plus Jakarta Sans', sans-serif !important;
+            letter-spacing: 0 !important;
+            word-spacing: normal !important;
         }
 
         html[dir="rtl"] .ticker-val,
         html[dir="rtl"] .hud-stat-box .num,
-        html[dir="rtl"] .code-pre-box,
-        html[dir="rtl"] .badge-tag,
-        html[dir="rtl"] .card-pill {
-            font-family: 'Fira Code', monospace;
+        html[dir="rtl"] .code-pre-box {
+            font-family: 'Fira Code', monospace !important;
         }
 
         html[dir="rtl"] .card-action-link i.fa-arrow-right {
@@ -1443,11 +1456,11 @@ async fn spawn_agent_sandbox(
             ar: {
                 lang_btn: "English",
                 nav_quick_cmd: "أمر سريع",
-                profile_name: "طارق العبوشي",
-                profile_role: "مهندس معماري لأنظمة الذكاء الاصطناعي والموزعة",
-                hero_badge: "مهندس معماري للأنظمة الموزعة ونماذج الذكاء الاصطناعي الفائقة",
-                hero_title: 'هندسة معمارية <br><span class="gradient-title">للأسراب الذكية المستقلة</span><br>والأنظمة الموزعة الخارقة.',
-                hero_lead: "مهندس برمجيات أول ومهندس ذكاء اصطناعي متخصص في بيئات WebAssembly المعزولة، خوارزميات الإجماع الموزعة (Raft) بأجزاء من الميلي ثانية، تسريع نماذج الرؤية واللغة (TensorRT)، والتعلم التعزيزي العميق.",
+                profile_name: "طارق أبوعشي",
+                profile_role: "مهندس معماري للذكاء الاصطناعي والأنظمة الموزعة",
+                hero_badge: "مهندس معماري للأنظمة الموزعة والذكاء الاصطناعي",
+                hero_title: 'هندسة معمارية <br><span class="gradient-title">للأسراب الذكية المستقلة</span><br>والأنظمة الموزعة.',
+                hero_lead: "مهندس برمجيات أول ومهندس ذكاء اصطناعي متخصص في بيئات WebAssembly المعزولة، خوارزميات الإجماع الموزعة (Raft)، تسريع نماذج الرؤية واللغة (TensorRT)، والتعلم التعزيزي العميق.",
                 cta_explore: "استكشف الأنظمة",
                 cta_linkedin: "حساب لينكد إن",
                 cta_github: "+50 مشروع على GitHub",
@@ -1501,7 +1514,7 @@ async fn spawn_agent_sandbox(
                 form_email_ph: "البريد الإلكتروني للعمل",
                 form_msg_ph: "تفاصيل الفرصة الوظيفية أو نطاق المشروع...",
                 form_submit: "إرسال الرسالة مباشرة",
-                footer_text: "© 2026 طارق العبوشي. تم البناء بأعلى درجات الدقة الهندسية. جميع الأنظمة تعمل بكفاءة قصوى.",
+                footer_text: "© 2026 طارق أبوعشي. تم البناء بأعلى درجات الدقة الهندسية. جميع الأنظمة تعمل بكفاءة قصوى.",
                 cmd_search_ph: "اكتب أمراً أو انتقل إلى مشروع...",
                 cmd_send_email: "إرسال بريد إلكتروني مباشر"
             }
