@@ -208,38 +208,60 @@
             transform: translateY(-1px);
         }
 
-        /* Quick Search Pill */
+        /* Quick Search Pill / Button */
         .search-pill {
             display: flex;
             align-items: center;
             gap: 8px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--border-glass);
-            padding: 6px 12px;
+            padding: 6px 14px;
             border-radius: 100px;
-            font-size: 0.78rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .search-pill:hover {
             border-color: var(--primary-glow);
+            background: rgba(139, 92, 246, 0.15);
             color: #fff;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+            transform: translateY(-1px);
         }
 
         .key-badge {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 4px;
-            padding: 1px 5px;
+            padding: 1px 6px;
             font-family: 'Fira Code', monospace;
             font-size: 0.65rem;
             color: #fff;
         }
 
         @media (max-width: 680px) {
-            .search-pill { display: none; }
+            .search-pill {
+                padding: 6px 10px;
+            }
+            .key-badge {
+                display: none;
+            }
+            .search-pill span {
+                display: inline-block;
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .search-pill span {
+                display: none;
+            }
+            .search-pill {
+                padding: 6px 10px;
+                border-radius: 8px;
+            }
         }
 
         .audio-toggle-btn {
