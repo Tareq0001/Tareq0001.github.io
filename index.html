@@ -1404,6 +1404,56 @@
                         </a>
                     </div>
                 </div>
+
+                <!-- 9. Asir-3D-PWA (Span 12 Showcase) -->
+                <div class="bento-3d-card span-12 bento-item mobile" style="border-color: rgba(16, 185, 129, 0.45); background: linear-gradient(145deg, rgba(10, 24, 17, 0.8) 0%, rgba(13, 17, 23, 0.95) 100%);">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 12px;">
+                        <div class="card-pill pill-sec" data-i18n="c_asir_pill" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border-color: rgba(16, 185, 129, 0.4);">
+                            <i class="fa-solid fa-mobile-screen"></i> PWA & Hybrid Mobile 3D
+                        </div>
+                        <div style="font-family: 'Fira Code', monospace; font-size: 0.8rem; color: #ffd700; font-weight: 700;">
+                            ✨ <span data-i18n="c_asir_badge">Designed by Tareq Aboushi</span>
+                        </div>
+                    </div>
+                    <h3 data-i18n="c_asir_title" style="font-size: 1.4rem;">Asir 3D: Above the Clouds (PWA Hybrid Game)</h3>
+                    <p data-i18n="c_asir_desc" style="max-width: 900px; font-size: 0.95rem; line-height: 1.6;">
+                        High-performance browser & mobile hybrid 3D flight game inspired by the peaks and heritage of Asir and Al-Soudah. Features standalone offline PWA caching, virtual touch joystick with spring physics, real-time soft shadows, procedural Web Audio synthesizer, and energy shield dynamics.
+                    </p>
+                    <div class="hud-stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); margin: 16px 0;">
+                        <div class="hud-stat-box">
+                            <div class="num">60 FPS</div>
+                            <div class="desc" data-i18n="c_asir_stat1">WebGL2 / Three.js</div>
+                        </div>
+                        <div class="hud-stat-box">
+                            <div class="num">PWA 100%</div>
+                            <div class="desc" data-i18n="c_asir_stat2">Offline & Standalone</div>
+                        </div>
+                        <div class="hud-stat-box">
+                            <div class="num">0 KB Audio</div>
+                            <div class="desc" data-i18n="c_asir_stat3">Procedural Web Audio</div>
+                        </div>
+                        <div class="hud-stat-box">
+                            <div class="num">Capacitor</div>
+                            <div class="desc" data-i18n="c_asir_stat4">Native APK Ready</div>
+                        </div>
+                    </div>
+                    <div class="badge-tags">
+                        <span class="badge-tag">Three.js r170</span>
+                        <span class="badge-tag">Progressive Web App (PWA)</span>
+                        <span class="badge-tag">Service Worker Caching</span>
+                        <span class="badge-tag">Touch Joystick & Haptics</span>
+                        <span class="badge-tag">PCF Soft Shadows</span>
+                        <span class="badge-tag">Al-Qatt Al-Asiri Art</span>
+                    </div>
+                    <div class="card-actions-row">
+                        <a href="https://github.com/Tareq0001/Asir-3D-PWA" target="_blank" class="card-action-link">
+                            <span data-i18n="c_asir_link">Inspect PWA Codebase</span> <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <a href="https://tareq0001.github.io/Asir-3D-PWA/" target="_blank" class="card-badge-link" style="background: rgba(16, 185, 129, 0.2); border-color: rgba(16, 185, 129, 0.6); color: #10b981;">
+                            <i class="fa-solid fa-gamepad"></i> <span data-i18n="c_asir_demo">Play & Install Live PWA</span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -1526,6 +1576,10 @@ char _license[] SEC("license") = "GPL";</code></pre>
                     <div class="cmd-item-left"><i class="fa-solid fa-couch" style="color: #f43f5e;"></i> Lumina3D Spatial Studio (WebGPU)</div>
                     <span class="key-badge">3D Live</span>
                 </a>
+                <a href="https://tareq0001.github.io/Asir-3D-PWA/" target="_blank" class="cmd-item">
+                    <div class="cmd-item-left"><i class="fa-solid fa-gamepad" style="color: #10b981;"></i> Asir 3D PWA Mobile Flight Game</div>
+                    <span class="key-badge">3D PWA</span>
+                </a>
                 <a href="https://github.com/Tareq0001/ChronoMamba-SSM-Engine" target="_blank" class="cmd-item">
                     <div class="cmd-item-left"><i class="fa-solid fa-wave-square" style="color: #06b6d4;"></i> ChronoMamba SSM & Liquid AI</div>
                     <span class="key-badge">GitHub</span>
@@ -1637,6 +1691,17 @@ char _license[] SEC("license") = "GPL";</code></pre>
                 c_aerovla_desc: "Vision-Language-Action (VLA) manipulation engine running on edge hardware (Jetson Orin). Grounds natural language human instructions into 7-DoF continuous kinematic trajectories at 50Hz.",
                 c_aerovla_link: "View Robotics VLA Code",
 
+                c_asir_pill: '<i class="fa-solid fa-mobile-screen"></i> PWA & Hybrid Mobile 3D',
+                c_asir_badge: "Designed by Tareq Aboushi",
+                c_asir_title: "Asir 3D: Above the Clouds (PWA Hybrid Game)",
+                c_asir_desc: "High-performance browser & mobile hybrid 3D flight game inspired by the peaks and heritage of Asir and Al-Soudah. Features standalone offline PWA caching, virtual touch joystick with spring physics, real-time soft shadows, procedural Web Audio synthesizer, and energy shield dynamics.",
+                c_asir_stat1: "WebGL2 / Three.js",
+                c_asir_stat2: "Offline & Standalone",
+                c_asir_stat3: "Procedural Web Audio",
+                c_asir_stat4: "Native APK Ready",
+                c_asir_link: "Inspect PWA Codebase",
+                c_asir_demo: "Play & Install Live PWA",
+
                 inspector_tag: "// ARCHITECTURE IMPLEMENTATION INSPECTOR",
                 inspector_title: "Production Source Highlights",
                 contact_title: "Let's Build Systems That Defy Limits.",
@@ -1740,6 +1805,17 @@ char _license[] SEC("license") = "GPL";</code></pre>
                 c_aerovla_title: "محرك التحكم الحركي للروبوتات AeroVLA",
                 c_aerovla_desc: "محرك تحكم وتوجيه للأذرع الروبوتية (Vision-Language-Action) يعمل على المعالجات الطرفية (Jetson Orin). يترجم الأوامر البشرية إلى مسارات حركية مستمرة بسرعة 50Hz.",
                 c_aerovla_link: "فحص كود الروبوتات VLA",
+
+                c_asir_pill: '<i class="fa-solid fa-mobile-screen"></i> لعبة هجينة للجوال (PWA)',
+                c_asir_badge: "إعداد وتصميم طارق أبوعشي",
+                c_asir_title: "عسير 3D: فوق السحاب (تطبيق PWA هجين)",
+                c_asir_desc: "لعبة طيران وتحدٍ ثلاثية الأبعاد هجينة للجوال مستوحاة من جبال السروات والسودة وتراث عسير الأصيل. تدعم التثبيت كتطبيق مستقل دون شريط متصفح والعمل بدون إنترنت (PWA Offline)، مع عصا تحكم باللمس وظلال واقعية ودرع طاقة تفاعلي.",
+                c_asir_stat1: "رسوميات WebGL2 / 3D",
+                c_asir_stat2: "تطبيق هجين أوفلاين",
+                c_asir_stat3: "صوتيات توليدية مدمجة",
+                c_asir_stat4: "جاهز كـ APK أصلي",
+                c_asir_link: "معاينة كود الـ PWA",
+                c_asir_demo: "العب وثبّت اللعبة مباشرة",
 
                 inspector_tag: "// فاحص الكود المصدري المعماري",
                 inspector_title: "نماذج من الكود المصدري الفعلي",
