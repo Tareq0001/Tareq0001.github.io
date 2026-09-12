@@ -1848,16 +1848,22 @@ char _license[] SEC("license") = "GPL";</code></pre>
             scene.add(particleSphere);
         }
 
+        let targetMouseX = 0, targetMouseY = 0;
         let mouseX = 0, mouseY = 0;
         
         window.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX - window.innerWidth / 2) * 0.001;
-            mouseY = (e.clientY - window.innerHeight / 2) * 0.001;
+            targetMouseX = (e.clientX - window.innerWidth / 2) * 0.001;
+            targetMouseY = (e.clientY - window.innerHeight / 2) * 0.001;
 
             const spotlight = document.getElementById('spotlight');
             if (spotlight) {
                 spotlight.style.transform = `translate(${e.clientX - 400}px, ${e.clientY - 400}px)`;
             }
+        });
+
+        window.addEventListener('mouseleave', () => {
+            targetMouseX = 0;
+            targetMouseY = 0;
         });
 
         let touchStartX = 0, touchStartY = 0;
@@ -1872,20 +1878,36 @@ char _license[] SEC("license") = "GPL";</code></pre>
             if (e.touches.length === 1) {
                 const deltaX = e.touches[0].clientX - touchStartX;
                 const deltaY = e.touches[0].clientY - touchStartY;
-                mouseX = deltaX * 0.003;
-                mouseY = deltaY * 0.003;
+                targetMouseX = deltaX * 0.0004;
+                targetMouseY = deltaY * 0.0004;
             }
+        }, { passive: true });
+
+        window.addEventListener('touchend', () => {
+            targetMouseX = 0;
+            targetMouseY = 0;
+        }, { passive: true });
+
+        window.addEventListener('touchcancel', () => {
+            targetMouseX = 0;
+            targetMouseY = 0;
         }, { passive: true });
 
         function animate3D() {
             requestAnimationFrame(animate3D);
 
             if (particleSphere) {
-                particleSphere.rotation.y += 0.0015;
-                particleSphere.rotation.x += 0.0008;
+                // Smooth easing for serene, organic tracking
+                mouseX += (targetMouseX - mouseX) * 0.05;
+                mouseY += (targetMouseY - mouseY) * 0.05;
 
-                particleSphere.rotation.y += mouseX * 0.05;
-                particleSphere.rotation.x += mouseY * 0.05;
+                // Dignified, calm base rotation
+                particleSphere.rotation.y += 0.0008;
+                particleSphere.rotation.x += 0.0004;
+
+                // Harmonious, significantly slower interaction with mouse/touch
+                particleSphere.rotation.y += mouseX * 0.0035;
+                particleSphere.rotation.x += mouseY * 0.0035;
             }
 
             renderer.render(scene, camera);
