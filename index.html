@@ -1918,6 +1918,32 @@
                         </a>
                     </div>
                 </div>
+                <!-- VentusGrid-Global-Weather-Simulator (Span 6) -->
+                <div class="bento-3d-card span-6 bento-item spatial industrial" style="border-color: rgba(0, 240, 255, 0.4);">
+                    <div class="card-pill pill-sec" data-i18n="c_ventusgrid_pill" style="color: #00f0ff; border-color: rgba(0, 240, 255, 0.4); background: rgba(0, 240, 255, 0.1);">
+                        <i class="fa-solid fa-wind"></i> 4D Atmospheric Dynamics & Wind Radar
+                    </div>
+                    <h3 data-i18n="c_ventusgrid_title">VentusGrid 4D Global Atmospheric Dynamics</h3>
+                    <p data-i18n="c_ventusgrid_desc">
+                        High-fidelity 4D global atmospheric dynamics engine and fluid wind streamline simulator. Features 2D Navier-Stokes advection, Holland tropical cyclone vortex dynamics, Skew-T ln P thermodynamic sounding, and Marshall-Palmer Doppler precipitation radar.
+                    </p>
+                    <div class="badge-tags">
+                        <span class="badge-tag">Navier-Stokes Advection</span>
+                        <span class="badge-tag">Geostrophic Wind Balance</span>
+                        <span class="badge-tag">Holland Cyclone Model</span>
+                        <span class="badge-tag">Skew-T ln P Sounding</span>
+                        <span class="badge-tag">Marshall-Palmer dBZ</span>
+                        <span class="badge-tag">Jet Stream 250hPa</span>
+                    </div>
+                    <div class="card-actions-row">
+                        <a href="https://github.com/Tareq0001/VentusGrid-Global-Weather-Simulator" target="_blank" class="card-action-link">
+                            <span data-i18n="c_ventusgrid_link">View Weather Code</span> <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <a href="https://tareq0001.github.io/VentusGrid-Global-Weather-Simulator/" target="_blank" class="card-badge-link" style="background: rgba(0, 240, 255, 0.15); border-color: rgba(0, 240, 255, 0.4); color: #00f0ff;">
+                            <i class="fa-solid fa-cloud-bolt"></i> <span data-i18n="c_ventusgrid_demo">Launch VentusGrid</span>
+                        </a>
+                    </div>
+                </div>
 
             </div>
         </section>
@@ -2119,6 +2145,10 @@ char _license[] SEC("license") = "GPL";</code></pre>
                     <div class="cmd-item-left"><i class="fa-solid fa-plane-departure" style="color: #00ff88;"></i> AeroHorizon 4D Air Traffic Radar</div>
                     <span class="key-badge">Live Demo</span>
                 </a>
+                <a href="https://tareq0001.github.io/VentusGrid-Global-Weather-Simulator/" target="_blank" class="cmd-item">
+                    <div class="cmd-item-left"><i class="fa-solid fa-wind" style="color: #00f0ff;"></i> VentusGrid 4D Atmospheric Dynamics</div>
+                    <span class="key-badge">Live Demo</span>
+                </a>
                 <a href="mailto:abuoshey@gmail.com" class="cmd-item">
                     <div class="cmd-item-left"><i class="fa-solid fa-envelope" style="color: #06b6d4;"></i> <span data-i18n="cmd_send_email">Send Direct Email</span></div>
                     <span class="key-badge">Mail</span>
@@ -2306,6 +2336,11 @@ char _license[] SEC("license") = "GPL";</code></pre>
                 c_aerohorizon_desc: "Next-generation 4D global air traffic control radar and aerodynamic flight simulator. Features real-time ADS-B Mode-S 1090MHz transponder decoding, glass cockpit PFD artificial horizon, TCAS II collision avoidance, and 3.0° ILS glideslope cross-sections.",
                 c_aerohorizon_link: "View Flight Radar Code",
                 c_aerohorizon_demo: "Launch AeroHorizon",
+                c_ventusgrid_pill: '<i class="fa-solid fa-wind"></i> 4D Atmospheric Dynamics & Wind Radar',
+                c_ventusgrid_title: "VentusGrid 4D Global Atmospheric Dynamics",
+                c_ventusgrid_desc: "High-fidelity 4D global atmospheric dynamics engine and fluid wind streamline simulator. Features 2D Navier-Stokes advection, Holland tropical cyclone vortex dynamics, Skew-T ln P thermodynamic sounding, and Marshall-Palmer Doppler precipitation radar.",
+                c_ventusgrid_link: "View Weather Code",
+                c_ventusgrid_demo: "Launch VentusGrid",
 
 
                 inspector_tag: "// ARCHITECTURE IMPLEMENTATION INSPECTOR",
@@ -2530,6 +2565,12 @@ char _license[] SEC("license") = "GPL";</code></pre>
                 c_aerohorizon_desc: "الجيل القادم من أنظمة رادار الملاحة الجوية ومحاكاة الطيران رباعية الأبعاد كبديل متفوق لـ FlightRadar24؛ يدمج فك تشفير إشارات ترانسبوندر Mode-S 1090MHz، وقمرة القيادة الرقمية PFD بأفق اصطناعي، ونظام تفادي التصادم TCAS II، ومسار الهبوط الآلي ILS.",
                 c_aerohorizon_link: "عرض كود رادار الطيران",
                 c_aerohorizon_demo: "تشغيل رادار AeroHorizon",
+
+                c_ventusgrid_pill: '<i class="fa-solid fa-wind"></i> محاكي الغلاف الجوي 4D وانسياب الرياح',
+                c_ventusgrid_title: "منصة محاكاة الغلاف الجوي وديناميكا الرياح VentusGrid",
+                c_ventusgrid_desc: "الجيل القادم من أنظمة محاكاة الغلاف الجوي وديناميكا الموائع ثلاثية الأبعاد كبديل متفوق لـ Windy.com؛ يدمج محاكاة نافييه-ستوكس لحركة الرياح، ونموذج هولاند للأعاصير المدارية، ومخطط السبر الجوي Skew-T لحساب طاقة CAPE، ورادار دوبلر للأمطار.",
+                c_ventusgrid_link: "عرض كود محاكي الطقس",
+                c_ventusgrid_demo: "تشغيل منصة VentusGrid",
                 inspector_tag: "// فاحص الكود المصدري المعماري",
                 inspector_title: "نماذج من الكود المصدري الفعلي",
                 contact_title: "لنصنع أنظمة تتجاوز الحدود.",
