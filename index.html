@@ -1892,6 +1892,32 @@
                         </a>
                     </div>
                 </div>
+                <!-- AeroHorizon-Global-FlightRadar (Span 6) -->
+                <div class="bento-3d-card span-6 bento-item spatial industrial" style="border-color: rgba(0, 255, 136, 0.4);">
+                    <div class="card-pill pill-sec" data-i18n="c_aerohorizon_pill" style="color: #00ff88; border-color: rgba(0, 255, 136, 0.4); background: rgba(0, 255, 136, 0.1);">
+                        <i class="fa-solid fa-plane-departure"></i> 4D Air Traffic Radar & Cockpit EFIS
+                    </div>
+                    <h3 data-i18n="c_aerohorizon_title">AeroHorizon 4D Air Traffic Radar & Simulator</h3>
+                    <p data-i18n="c_aerohorizon_desc">
+                        Next-generation 4D global air traffic control radar and aerodynamic flight simulator. Features real-time ADS-B Mode-S 1090MHz transponder decoding, glass cockpit PFD artificial horizon, TCAS II collision avoidance, and 3.0° ILS glideslope cross-sections.
+                    </p>
+                    <div class="badge-tags">
+                        <span class="badge-tag">ADS-B Mode-S 1090MHz</span>
+                        <span class="badge-tag">6-DOF Aerodynamics</span>
+                        <span class="badge-tag">Glass Cockpit PFD</span>
+                        <span class="badge-tag">TCAS II Collision Alert</span>
+                        <span class="badge-tag">3.0° ILS Glideslope</span>
+                        <span class="badge-tag">ASDE-X Surface Radar</span>
+                    </div>
+                    <div class="card-actions-row">
+                        <a href="https://github.com/Tareq0001/AeroHorizon-Global-FlightRadar" target="_blank" class="card-action-link">
+                            <span data-i18n="c_aerohorizon_link">View Flight Radar Code</span> <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <a href="https://tareq0001.github.io/AeroHorizon-Global-FlightRadar/" target="_blank" class="card-badge-link" style="background: rgba(0, 255, 136, 0.15); border-color: rgba(0, 255, 136, 0.4); color: #00ff88;">
+                            <i class="fa-solid fa-plane-circle-check"></i> <span data-i18n="c_aerohorizon_demo">Launch AeroHorizon</span>
+                        </a>
+                    </div>
+                </div>
 
             </div>
         </section>
@@ -2089,6 +2115,10 @@ char _license[] SEC("license") = "GPL";</code></pre>
                     <div class="cmd-item-left"><i class="fa-solid fa-atom" style="color: #a855f7;"></i> QuantumForge Quantum Computing Studio</div>
                     <span class="key-badge">Live Demo</span>
                 </a>
+                <a href="https://tareq0001.github.io/AeroHorizon-Global-FlightRadar/" target="_blank" class="cmd-item">
+                    <div class="cmd-item-left"><i class="fa-solid fa-plane-departure" style="color: #00ff88;"></i> AeroHorizon 4D Air Traffic Radar</div>
+                    <span class="key-badge">Live Demo</span>
+                </a>
                 <a href="mailto:abuoshey@gmail.com" class="cmd-item">
                     <div class="cmd-item-left"><i class="fa-solid fa-envelope" style="color: #06b6d4;"></i> <span data-i18n="cmd_send_email">Send Direct Email</span></div>
                     <span class="key-badge">Mail</span>
@@ -2271,6 +2301,11 @@ char _license[] SEC("license") = "GPL";</code></pre>
                 c_quantumforge_desc: "Full-scale state-vector quantum computing synthesizer with complex linear algebra unitary gate simulation, real-time 3D Bloch sphere projections, Born rule stochastic sampling, and bidirectional OpenQASM 3.0 compilation.",
                 c_quantumforge_link: "View Quantum Code",
                 c_quantumforge_demo: "Launch Quantum Studio",
+                c_aerohorizon_pill: '<i class="fa-solid fa-plane-departure"></i> 4D Air Traffic Radar & Cockpit EFIS',
+                c_aerohorizon_title: "AeroHorizon 4D Air Traffic Radar & Simulator",
+                c_aerohorizon_desc: "Next-generation 4D global air traffic control radar and aerodynamic flight simulator. Features real-time ADS-B Mode-S 1090MHz transponder decoding, glass cockpit PFD artificial horizon, TCAS II collision avoidance, and 3.0° ILS glideslope cross-sections.",
+                c_aerohorizon_link: "View Flight Radar Code",
+                c_aerohorizon_demo: "Launch AeroHorizon",
 
 
                 inspector_tag: "// ARCHITECTURE IMPLEMENTATION INSPECTOR",
@@ -2489,6 +2524,12 @@ char _license[] SEC("license") = "GPL";</code></pre>
                 c_quantumforge_desc: "بيئة تطوير كمومية متكاملة تعتمد الجبر الخطي المركب لحساب متجهات الحالة حتى 8 كيوبت، مع إسقاط ثلاثي الأبعاد لكرة بلوخ (Bloch Sphere)، وقياس الاحتمالات بقاعدة بورن، ومترجم لغة OpenQASM 3.0 البرمجية.",
                 c_quantumforge_link: "عرض كود الحوسبة الكمومية",
                 c_quantumforge_demo: "تشغيل منصة QuantumForge",
+
+                c_aerohorizon_pill: '<i class="fa-solid fa-plane-departure"></i> رادار الملاحة الجوية 4D وقمرة القيادة EFIS',
+                c_aerohorizon_title: "منصة رادار الملاحة الجوية وحركة الطيران 4D AeroHorizon",
+                c_aerohorizon_desc: "الجيل القادم من أنظمة رادار الملاحة الجوية ومحاكاة الطيران رباعية الأبعاد كبديل متفوق لـ FlightRadar24؛ يدمج فك تشفير إشارات ترانسبوندر Mode-S 1090MHz، وقمرة القيادة الرقمية PFD بأفق اصطناعي، ونظام تفادي التصادم TCAS II، ومسار الهبوط الآلي ILS.",
+                c_aerohorizon_link: "عرض كود رادار الطيران",
+                c_aerohorizon_demo: "تشغيل رادار AeroHorizon",
                 inspector_tag: "// فاحص الكود المصدري المعماري",
                 inspector_title: "نماذج من الكود المصدري الفعلي",
                 contact_title: "لنصنع أنظمة تتجاوز الحدود.",
