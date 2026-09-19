@@ -72,6 +72,43 @@
               </a>
             </div>
           </div>
+        </article>
+
+        <!-- ApexTerminal-Institutional-Market-Engine (Span 6) -->
+        <article class="bento-card bento-span-6 bento-3d" data-category="industrial" style="--card-accent: #ff9800;">
+          <div class="card-glow" style="background: radial-gradient(circle at 50% 0%, rgba(255, 152, 0, 0.25), transparent 70%);"></div>
+          <div class="card-header">
+            <div class="card-pill pill-sec" data-i18n="c_terminal_pill" style="color: #ff9800; border-color: rgba(255, 152, 0, 0.4); background: rgba(255, 152, 0, 0.1);">
+              <i class="fa-solid fa-chart-line"></i> L3 Order Book & Financial Terminal
+            </div>
+            <div class="card-badges">
+              <span class="badge-tech">L3 Matching Engine</span>
+              <span class="badge-tech">Avellaneda-Stoikov MM</span>
+              <span class="badge-tech">Monte Carlo VaR</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <h3 data-i18n="c_terminal_title">ApexTerminal Institutional Market Engine</h3>
+            <p data-i18n="c_terminal_desc">
+              Institutional alternative to Bloomberg Terminal & TradingView Pro. Features an authentic Level-3 (L3) limit order book with sub-ms Price-Time Priority FIFO matching, Avellaneda-Stoikov quantitative market makers, 1,000-path Monte Carlo risk modeling (VaR 95/99%), Nelson-Siegel sovereign yield curve, and 60 FPS Canvas candlesticks.
+            </p>
+            <div class="card-stats-grid">
+              <div class="stat-box"><span class="stat-n">&lt; 1ms</span><span class="stat-l">L3 Matching</span></div>
+              <div class="stat-box"><span class="stat-n">1,000</span><span class="stat-l">Monte Carlo Paths</span></div>
+              <div class="stat-box"><span class="stat-n">60 FPS</span><span class="stat-l">Canvas Charting</span></div>
+              <div class="stat-box"><span class="stat-n">Bloomberg</span><span class="stat-l">Command CLI</span></div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <a href="https://github.com/Tareq0001/ApexTerminal-Institutional-Market-Engine" target="_blank" class="card-action-link">
+              <span data-i18n="c_terminal_link">View Terminal Code</span> <i class="fa-solid fa-arrow-right"></i>
+            </a>
+            <div class="card-footer-right">
+              <a href="https://tareq0001.github.io/ApexTerminal-Institutional-Market-Engine/" target="_blank" class="card-badge-link" style="background: rgba(255, 152, 0, 0.15); color: #ff9800; border: 1px solid rgba(255, 152, 0, 0.3);">
+                <i class="fa-solid fa-terminal"></i> <span data-i18n="c_terminal_demo">Launch ApexTerminal</span>
+              </a>
+            </div>
+          </div>
         </article> html>
 <html lang="en" dir="ltr" class="scroll-smooth" id="html-root">
 <head>
@@ -2231,6 +2268,10 @@ char _license[] SEC("license") = "GPL";</code></pre>
             <div class="cmd-item-left"><i class="fa-solid fa-table-cells" style="color: #107c41;"></i> MatrixSheet Reactive Spreadsheet</div>
             <span class="cmd-shortcut">Open ↗</span>
           </a>
+          <a href="https://tareq0001.github.io/ApexTerminal-Institutional-Market-Engine/" target="_blank" class="cmd-item">
+            <div class="cmd-item-left"><i class="fa-solid fa-terminal" style="color: #ff9800;"></i> ApexTerminal L3 Market Engine</div>
+            <span class="cmd-shortcut">Open ↗</span>
+          </a>
                 <a href="mailto:abuoshey@gmail.com" class="cmd-item">
                     <div class="cmd-item-left"><i class="fa-solid fa-envelope" style="color: #06b6d4;"></i> <span data-i18n="cmd_send_email">Send Direct Email</span></div>
                     <span class="key-badge">Mail</span>
@@ -2435,6 +2476,11 @@ char _license[] SEC("license") = "GPL";</code></pre>
         c_matrixsheet_desc: "بديل ومحاكي احترافي لـ Microsoft Excel بمترجم شجرة الإعراب AST، ومكتبة تضم 50+ دالة رياضية ومالية، ومخطط الاعتماديات الموجه DAG مع فرز Kahn الطوبولوجي وكشف الحلقات المغلقة (#CYCLE!)، وأسهم التدقيق التفاعلية SVG Trace Precedents ورسوم بيانية حية.",
         c_matrixsheet_link: "كود محرك إكسل",
         c_matrixsheet_demo: "تشغيل MatrixSheet",
+        c_terminal_pill: '<i class="fa-solid fa-chart-line"></i> محطة التداول ومطابقة الأوامر L3',
+        c_terminal_title: "محطة التداول والمطابقة المالية ApexTerminal",
+        c_terminal_desc: "بديل ومحاكي احترافي لمحطة بلومبيرغ (Bloomberg Terminal) ومنصة TradingView Pro بمحرك مطابقة أوامر حقيقي من المستوى الثالث (L3 LOB) بأولوية السعر والزمن FIFO، وصناع سوق آليين بنموذج أفيلانيدا-ستويكوف، ومحاكاة مخاطر مونت كارلو لـ 1,000 مسار (VaR)، ومنحنى عوائد السندات نيلسون-سيغل، ورسوم بيانية سريعة عند 60 إطار.",
+        c_terminal_link: "كود محطة التداول",
+        c_terminal_demo: "تشغيل ApexTerminal",
         c_apexx_pill: '<i class="fa-brands fa-x-twitter"></i> Social Graph & Algorithmic Feed',
         c_apexx_title: "ApexX Social Graph & Algorithmic Feed Engine",
         c_apexx_desc: "High-fidelity Twitter/X simulation and social graph engine. Features candidate generation & Heavy Ranker ranking, discrete-event viral cascade propagation (SIR epidemic model), 2D force-directed network graph at 60 FPS, rich tweet composer with polls & threads, and live audio Spaces.",
@@ -2446,6 +2492,11 @@ char _license[] SEC("license") = "GPL";</code></pre>
         c_matrixsheet_desc: "Institutional browser alternative to Microsoft Excel & Google Sheets. Built with a recursive-descent AST formula parser, 50+ Excel functions, Directed Acyclic Graph (DAG) with Kahn\'s topological sort, circular reference cycle detection (#CYCLE!), interactive SVG formula auditing, and dynamic range-bound charts.",
         c_matrixsheet_link: "View Spreadsheet Code",
         c_matrixsheet_demo: "Launch MatrixSheet",
+        c_terminal_pill: '<i class="fa-solid fa-chart-line"></i> L3 Order Book & Financial Terminal',
+        c_terminal_title: "ApexTerminal Institutional Market Engine",
+        c_terminal_desc: "Institutional alternative to Bloomberg Terminal & TradingView Pro. Features an authentic Level-3 (L3) limit order book with sub-ms Price-Time Priority FIFO matching, Avellaneda-Stoikov quantitative market makers, 1,000-path Monte Carlo risk modeling (VaR 95/99%), Nelson-Siegel sovereign yield curve, and 60 FPS Canvas candlesticks.",
+        c_terminal_link: "View Terminal Code",
+        c_terminal_demo: "Launch ApexTerminal",
 
 
                 inspector_tag: "// ARCHITECTURE IMPLEMENTATION INSPECTOR",
