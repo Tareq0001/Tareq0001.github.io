@@ -1,0 +1,3448 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="xp-html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Microsoft Windows XP Professional - Tareq Aboushi Portfolio</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='7' height='7' fill='%23f25022'/><rect x='9' width='7' height='7' fill='%237fba00'/><rect y='9' width='7' height='7' fill='%2300a4ef'/><rect x='9' y='9' width='7' height='7' fill='%23ffb900'/></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Tahoma, "Segoe UI", Arial, sans-serif;
+            font-size: 11px;
+            color: #000;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            background: #004e98;
+            position: relative;
+        }
+
+        /* -------------------------------------------------------------------------
+           AUTHENTIC BLISS WALLPAPER & HYPER-REALISTIC XP DESKTOP
+        ------------------------------------------------------------------------- */
+        .bliss-desktop {
+            position: absolute;
+            inset: 0;
+            bottom: 30px;
+            background: #004e98 url('bliss.jpg') no-repeat center center fixed;
+            background-size: cover;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* Selection Marquee Box */
+        .selection-box {
+            position: absolute;
+            border: 1px dotted #0b5fff;
+            background: rgba(11, 95, 255, 0.22);
+            pointer-events: none;
+            z-index: 40;
+            display: none;
+        }
+
+        /* Desktop Context Menu */
+        .xp-context-menu {
+            position: absolute;
+            background: #ffffff;
+            border: 1px solid #716f64;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+            padding: 2px;
+            z-index: 9999;
+            min-width: 190px;
+            font-size: 11px;
+            display: none;
+        }
+        .xp-context-item {
+            padding: 4px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #000;
+        }
+        .xp-context-item:hover {
+            background: #316ac5;
+            color: #ffffff;
+        }
+        .xp-context-sep {
+            height: 1px;
+            background: #d4d0c8;
+            margin: 3px 2px;
+        }
+
+        /* Explorer Dropdown Menus */
+        .xp-menubar-dropdown {
+            position: absolute;
+            top: 22px;
+            background: #ffffff;
+            border: 1px solid #716f64;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.35);
+            padding: 2px;
+            z-index: 1000;
+            min-width: 150px;
+            display: none;
+            font-size: 11px;
+        }
+        .xp-menubar-dropdown .xp-menu-item {
+            padding: 3px 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #000;
+        }
+        .xp-menubar-dropdown .xp-menu-item:hover {
+            background: #316ac5;
+            color: #ffffff;
+        }
+        .xp-menubar-dropdown .xp-menu-sep {
+            height: 1px;
+            background: #d4d0c8;
+            margin: 3px 2px;
+        }
+
+        /* Taskbar Tray Balloon Popup */
+        .xp-balloon {
+            position: absolute;
+            bottom: 38px;
+            right: 14px;
+            background: #ffffe1;
+            border: 1px solid #000000;
+            border-radius: 6px;
+            box-shadow: 2px 3px 8px rgba(0,0,0,0.4);
+            padding: 10px 14px;
+            max-width: 280px;
+            z-index: 9999;
+            font-size: 11px;
+            line-height: 1.45;
+            animation: balloonFadeIn 0.3s ease;
+        }
+        html[dir="ltr"] .xp-balloon {
+            right: auto;
+            left: 14px;
+        }
+        .xp-balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            right: 28px;
+            border-width: 8px 6px 0;
+            border-style: solid;
+            border-color: #ffffe1 transparent;
+            display: block;
+            width: 0;
+        }
+        html[dir="ltr"] .xp-balloon::after {
+            right: auto;
+            left: 28px;
+        }
+        @keyframes balloonFadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .xp-balloon-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: bold;
+            color: #003399;
+            margin-bottom: 4px;
+        }
+        .xp-balloon-close {
+            cursor: pointer;
+            font-size: 14px;
+            color: #555;
+            font-weight: bold;
+            line-height: 1;
+        }
+        .xp-balloon-close:hover {
+            color: #000;
+        }
+
+        /* Minesweeper LED & Buttons */
+        .xp-lcd {
+            background: #000000;
+            color: #ff0000;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            font-size: 18px;
+            letter-spacing: 2px;
+            padding: 2px 4px;
+            border: 2px inset #ffffff;
+            width: 46px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .xp-face-btn {
+            width: 26px;
+            height: 26px;
+            background: #c0c0c0;
+            border: 2px outset #ffffff;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 0;
+        }
+        .xp-face-btn:active {
+            border: 2px inset #ffffff;
+        }
+        .mine-cell {
+            width: 20px;
+            height: 20px;
+            background: #c0c0c0;
+            border: 2px outset #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+            user-select: none;
+            box-sizing: border-box;
+        }
+        .mine-cell.revealed {
+            border: 1px solid #7b7b7b;
+            background: #bdbdbd;
+        }
+        .mine-cell.mine-exploded {
+            background: #ef4444 !important;
+            border: 1px solid #7b7b7b;
+        }
+
+        /* -------------------------------------------------------------------------
+           DESKTOP ICONS GRID
+        ------------------------------------------------------------------------- */
+        .desktop-icons-container {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            gap: 14px;
+            z-index: 10;
+        }
+
+        html[dir="ltr"] .desktop-icons-container {
+            right: auto;
+            left: 12px;
+        }
+
+        .desktop-icon {
+            width: 78px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            padding: 6px 4px;
+            border-radius: 3px;
+            border: 1px solid transparent;
+            transition: background 0.1s;
+        }
+
+        .desktop-icon:hover {
+            background: rgba(11, 95, 255, 0.2);
+            border: 1px solid rgba(11, 95, 255, 0.4);
+        }
+
+        .desktop-icon.selected {
+            background: rgba(11, 95, 255, 0.35);
+            border: 1px dotted #ffffff;
+        }
+
+        .desktop-icon-img {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 4px;
+            filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.4));
+        }
+
+        .desktop-icon-label {
+            color: #ffffff;
+            font-size: 11px;
+            line-height: 1.25;
+            text-shadow: 1px 1px 2px #000, -1px -1px 2px #000, 1px -1px 2px #000, -1px 1px 2px #000;
+            word-break: break-word;
+            padding: 1px 3px;
+        }
+
+        /* -------------------------------------------------------------------------
+           TASKBAR (Authentic Luna Blue XP Taskbar)
+        ------------------------------------------------------------------------- */
+        .xp-taskbar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30px;
+            background: linear-gradient(to bottom, #245edb 0%, #3f8cf3 9%, #245edb 18%, #245edb 92%, #1941a5 100%);
+            border-top: 1px solid #3682ea;
+            display: flex;
+            align-items: center;
+            z-index: 9999;
+            box-shadow: 0 -1px 3px rgba(0,0,0,0.3);
+        }
+
+        .xp-start-btn {
+            height: 30px;
+            padding: 0 16px 0 10px;
+            background: linear-gradient(to bottom, #3c8a38 0%, #58b64e 8%, #419938 15%, #3c8a38 88%, #276522 100%);
+            border: none;
+            border-radius: 0 10px 10px 0;
+            box-shadow: inset 0 1px 1px #98e88e, 2px 0 4px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #ffffff;
+            font-family: Tahoma, "Segoe UI", sans-serif;
+            font-weight: bold;
+            font-size: 13px;
+            font-style: italic;
+            text-shadow: 1px 1px 2px #184414;
+            cursor: pointer;
+            outline: none;
+        }
+
+        html[dir="ltr"] .xp-start-btn {
+            border-radius: 0 10px 10px 0;
+        }
+
+        html[dir="rtl"] .xp-start-btn {
+            border-radius: 10px 0 0 10px;
+            padding: 0 10px 0 16px;
+        }
+
+        .xp-start-btn:hover {
+            background: linear-gradient(to bottom, #44993f 0%, #68cf5c 8%, #49aa3e 15%, #44993f 88%, #2d7727 100%);
+        }
+
+        .xp-start-btn:active {
+            background: linear-gradient(to bottom, #2b6a27 0%, #3a8a35 15%, #2b6a27 100%);
+            box-shadow: inset 1px 1px 3px rgba(0,0,0,0.6);
+        }
+
+        .xp-tasks-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            padding: 0 6px;
+            overflow-x: auto;
+            height: 100%;
+        }
+
+        .xp-task-tab {
+            height: 24px;
+            min-width: 130px;
+            max-width: 170px;
+            padding: 0 8px;
+            background: linear-gradient(to bottom, #3c81ee 0%, #2966dc 10%, #1e52c8 100%);
+            border: 1px solid #163f9e;
+            border-radius: 3px;
+            box-shadow: inset 0 1px 1px #7baaf7;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #ffffff;
+            font-size: 11px;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-shadow: 1px 1px 1px #103070;
+        }
+        .xp-task-tab span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0; }
+
+        .xp-task-tab.active {
+            background: linear-gradient(to bottom, #1943a5 0%, #2050be 15%, #2963dc 100%);
+            box-shadow: inset 1px 1px 2px #0a1f55;
+            font-weight: bold;
+        }
+
+        .xp-systray {
+            height: 100%;
+            background: linear-gradient(to bottom, #0f8bf1 0%, #0c59b8 15%, #0b51a8 85%, #0f8bf1 100%);
+            border-left: 1px solid #09428b;
+            box-shadow: inset 1px 0 1px #41a5f9;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            gap: 8px;
+            color: #ffffff;
+            font-size: 11px;
+        }
+
+        html[dir="rtl"] .xp-systray {
+            border-left: none;
+            border-right: 1px solid #09428b;
+            box-shadow: inset -1px 0 1px #41a5f9;
+        }
+
+        .xp-tray-icon {
+            font-size: 13px;
+            cursor: pointer;
+            opacity: 0.9;
+        }
+
+        .xp-tray-icon:hover {
+            opacity: 1;
+        }
+
+        /* -------------------------------------------------------------------------
+           START MENU (Two-Column Authentic Luna Blue Start Menu)
+        ------------------------------------------------------------------------- */
+        .xp-start-menu {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            width: 380px;
+            background: #ffffff;
+            border: 1px solid #0055ea;
+            border-radius: 6px 6px 0 0;
+            box-shadow: 2px -2px 10px rgba(0,0,0,0.5);
+            display: none;
+            flex-direction: column;
+            z-index: 10000;
+            overflow: hidden;
+        }
+
+        html[dir="rtl"] .xp-start-menu {
+            left: auto;
+            right: 0;
+        }
+
+        .start-menu-header {
+            height: 54px;
+            background: linear-gradient(to bottom, #1d57db 0%, #4387ed 15%, #1952d4 100%);
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            gap: 10px;
+            color: #ffffff;
+            box-shadow: inset 0 1px 1px #80b2f8, 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .start-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 4px;
+            border: 2px solid #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+            background: linear-gradient(135deg, #10b981, #0284c7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 20px;
+        }
+
+        .start-username {
+            font-weight: bold;
+            font-size: 14px;
+            text-shadow: 1px 1px 2px #092c7d;
+        }
+
+        .start-menu-body {
+            display: flex;
+            border-top: 1px solid #4582e6;
+            min-height: 360px;
+        }
+
+        .start-left-pane {
+            flex: 1.1;
+            background: #ffffff;
+            padding: 8px 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .start-right-pane {
+            flex: 1;
+            background: #d3e5fa;
+            border-left: 1px solid #9bbfe6;
+            padding: 8px 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        html[dir="rtl"] .start-right-pane {
+            border-left: none;
+            border-right: 1px solid #9bbfe6;
+        }
+
+        .start-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            color: #000;
+            text-decoration: none;
+        }
+
+        .start-item:hover {
+            background: #316ac5;
+            color: #ffffff;
+        }
+
+        .start-item:hover .start-item-sub {
+            color: #e0eaff;
+        }
+
+        .start-item-icon {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .start-item-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .start-item-title {
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+        .start-item-sub {
+            font-size: 10px;
+            color: #555555;
+        }
+
+        .start-separator {
+            height: 1px;
+            background: #d4d0c8;
+            margin: 4px 6px;
+        }
+
+        .start-menu-footer {
+            height: 40px;
+            background: linear-gradient(to bottom, #438bf2 0%, #2062d8 15%, #184bb8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 12px;
+            gap: 12px;
+            color: #ffffff;
+            border-top: 1px solid #73abf7;
+        }
+
+        .start-footer-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 3px;
+        }
+
+        .start-footer-btn:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        /* -------------------------------------------------------------------------
+           GENERIC XP WINDOW STYLES
+        ------------------------------------------------------------------------- */
+        .xp-window {
+            position: absolute;
+            background: #ece9d8;
+            border: 3px solid #0055ea;
+            border-radius: 8px 8px 0 0;
+            box-shadow: 3px 5px 18px rgba(0,0,0,0.45);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 100;
+        }
+
+        .xp-window.active {
+            border-color: #0055ea;
+            z-index: 200;
+        }
+
+        .xp-window.inactive {
+            border-color: #7a96df;
+        }
+
+        .xp-titlebar {
+            height: 28px;
+            background: linear-gradient(to bottom, #0058ee 0%, #3593ff 4%, #288eff 6%, #127dff 8%, #036ffc 10%, #0262ee 14%, #0057e5 20%, #0054e3 40%, #0055e7 70%, #0054e5 90%, #0040be 100%);
+            padding: 0 6px 0 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 12px;
+            text-shadow: 1px 1px 1px #0f2c68;
+            cursor: move;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .xp-window.inactive .xp-titlebar {
+            background: linear-gradient(to bottom, #7697e7 0%, #a2baf4 10%, #7697e7 100%);
+            color: #d8e4f8;
+            text-shadow: none;
+        }
+
+        .xp-title-content {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .xp-window-controls {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .xp-btn-ctrl {
+            width: 21px;
+            height: 21px;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.8), 0 1px 2px rgba(0,0,0,0.3);
+            border: 1px solid #ffffff;
+        }
+
+        .xp-btn-min, .xp-btn-max {
+            background: linear-gradient(to bottom, #3984ea 0%, #2067d5 50%, #0045c7 100%);
+            color: #ffffff;
+        }
+
+        .xp-btn-close {
+            background: linear-gradient(to bottom, #f27c62 0%, #e04426 50%, #c41e00 100%);
+            color: #ffffff;
+        }
+
+        .xp-btn-ctrl:hover {
+            filter: brightness(1.15);
+        }
+
+        .xp-menubar {
+            height: 22px;
+            background: #ece9d8;
+            border-bottom: 1px solid #d4d0c8;
+            display: flex;
+            align-items: center;
+            padding: 0 4px;
+            gap: 12px;
+            font-size: 11px;
+            color: #000;
+        }
+
+        .xp-menubar span {
+            padding: 2px 5px;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+
+        .xp-menubar span:hover {
+            background: #316ac5;
+            color: #ffffff;
+        }
+
+        .xp-toolbar {
+            height: 38px;
+            background: linear-gradient(to bottom, #f6f5ee 0%, #e2ded0 100%);
+            border-bottom: 1px solid #d4d0c8;
+            display: flex;
+            align-items: center;
+            padding: 0 6px;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .xp-tool-btn {
+            height: 24px;
+            padding: 0 8px;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: #000;
+            cursor: pointer;
+        }
+
+        .xp-tool-btn:hover {
+            background: #fbfaf6;
+            border: 1px solid #b6b3ab;
+            box-shadow: inset 0 1px 0 #ffffff;
+        }
+
+        .xp-tool-btn.active {
+            background: #e3dfd3;
+            border: 1px solid #8e8a80;
+            box-shadow: inset 1px 1px 1px rgba(0,0,0,0.15);
+        }
+
+        /* Address Bar */
+        .xp-addressbar-row {
+            height: 26px;
+            background: #ece9d8;
+            border-bottom: 1px solid #d4d0c8;
+            display: flex;
+            align-items: center;
+            padding: 0 6px;
+            gap: 6px;
+        }
+
+        .xp-address-input {
+            flex: 1;
+            height: 20px;
+            background: #ffffff;
+            border: 1px solid #7f9db9;
+            padding: 0 6px;
+            font-size: 11px;
+            color: #000;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .xp-address-input input {
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 11px;
+            font-family: inherit;
+        }
+
+        .xp-search-input {
+            width: 170px;
+            height: 20px;
+            background: #ffffff;
+            border: 1px solid #7f9db9;
+            padding: 0 6px;
+            font-size: 11px;
+            outline: none;
+            border-radius: 2px;
+        }
+
+        .xp-window-body {
+            flex: 1;
+            background: #ffffff;
+            overflow: auto;
+            position: relative;
+        }
+
+        .xp-statusbar {
+            height: 20px;
+            background: #ece9d8;
+            border-top: 1px solid #d4d0c8;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 8px;
+            font-size: 11px;
+            color: #444;
+        }
+
+        /* -------------------------------------------------------------------------
+           EXPLORER LAYOUT & SIDEBAR PANE
+        ------------------------------------------------------------------------- */
+        .explorer-layout {
+            display: flex;
+            height: 100%;
+            width: 100%;
+        }
+
+        .explorer-sidebar {
+            width: 210px;
+            background: linear-gradient(to bottom, #748aff 0%, #4057d3 100%);
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow-y: auto;
+            border-right: 1px solid #2b3eb5;
+            flex-shrink: 0;
+        }
+
+        html[dir="rtl"] .explorer-sidebar {
+            border-right: none;
+            border-left: 1px solid #2b3eb5;
+        }
+
+        .sidebar-section {
+            background: #ffffff;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .sidebar-sec-title {
+            background: linear-gradient(to right, #2050be, #4a7be6);
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 11px;
+            padding: 4px 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .sidebar-sec-body {
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            background: #d6dff7;
+        }
+
+        .sidebar-nav-item {
+            color: #0c3298;
+            text-decoration: none;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 3px 4px;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        .sidebar-nav-item:hover {
+            color: #e04426;
+            text-decoration: underline;
+            background: rgba(255,255,255,0.4);
+        }
+
+        .sidebar-nav-item.active {
+            background: #316ac5;
+            color: #ffffff !important;
+            font-weight: bold;
+            text-decoration: none !important;
+        }
+
+        .sidebar-details-pane {
+            background: #d6dff7;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 11px;
+            border-top: 1px solid #b2c2eb;
+        }
+
+        .details-thumb {
+            width: 44px;
+            height: 44px;
+            background: #ffffff;
+            border: 1px solid #7f9db9;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 0 auto 4px auto;
+        }
+
+        /* -------------------------------------------------------------------------
+           EXPLORER CONTENT & VIEW MODES
+        ------------------------------------------------------------------------- */
+        .explorer-content {
+            flex: 1;
+            background: #ffffff;
+            overflow-y: auto;
+            padding: 12px;
+        }
+
+        .explorer-cat-header {
+            font-size: 12px;
+            font-weight: bold;
+            color: #0c3298;
+            border-bottom: 1px solid #7f9db9;
+            padding-bottom: 4px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* View Mode: Tiles (Default) */
+        .items-grid-tiles {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .xp-project-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            background: #fbfbfd;
+            transition: all 0.1s;
+        }
+
+        .xp-project-card:hover {
+            background: #eef3ff;
+            border-color: #b5c7f2;
+        }
+
+        .xp-project-card.selected {
+            background: #316ac5 !important;
+            border-color: #0c3298;
+            color: #ffffff !important;
+        }
+
+        .xp-project-card.selected strong,
+        .xp-project-card.selected p,
+        .xp-project-card.selected .card-tag {
+            color: #ffffff !important;
+        }
+
+        .card-icon-wrap {
+            width: 36px;
+            height: 36px;
+            border-radius: 4px;
+            background: #ffffff;
+            border: 1px solid #d4d0c8;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .card-body-wrap {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            overflow: hidden;
+        }
+
+        .card-body-wrap strong {
+            font-size: 11px;
+            color: #0c3298;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-body-wrap p {
+            font-size: 10px;
+            color: #555555;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-tags-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3px;
+            margin-top: 4px;
+        }
+
+        .card-tag {
+            font-size: 9px;
+            padding: 1px 4px;
+            border-radius: 2px;
+            background: #e4eaf8;
+            color: #1a4299;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        /* View Mode: Large Icons */
+        .items-grid-icons {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+            gap: 14px 10px;
+            padding: 10px 4px;
+            margin-bottom: 20px;
+            justify-items: center;
+        }
+
+        .items-grid-icons .xp-project-card {
+            width: 88px;
+            max-width: 88px;
+            min-width: 0;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 6px 4px;
+            border-radius: 3px;
+            box-sizing: border-box;
+            overflow: hidden;
+            background: transparent;
+        }
+
+        .items-grid-icons .card-icon-wrap {
+            width: 46px;
+            height: 46px;
+            font-size: 24px;
+            margin-bottom: 4px;
+            flex-shrink: 0;
+        }
+
+        .items-grid-icons .card-body-wrap {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .items-grid-icons .card-body-wrap strong {
+            width: 100%;
+            max-width: 100%;
+            font-size: 11px;
+            line-height: 1.25;
+            text-align: center;
+            white-space: normal;
+            word-break: break-word;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .items-grid-icons .xp-project-card.selected .card-body-wrap strong {
+            background: #316ac5;
+            color: #ffffff !important;
+            border-radius: 2px;
+            padding: 1px 3px;
+        }
+
+        .items-grid-icons .card-body-wrap p,
+        .items-grid-icons .card-tags-row {
+            display: none;
+        }
+
+        
+        /* Windows Media Player 9 & Calculator Styles */
+        .wmp-ctrl-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
+            border: 1px solid #7dd3fc;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+        }
+        .wmp-ctrl-btn:hover { filter: brightness(1.2); }
+        .wmp-ctrl-btn:active { transform: scale(0.95); }
+
+        .calc-btn {
+            background: #f0ede0;
+            border: 2px outset #ffffff;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            font-weight: bold;
+            color: #000000;
+            cursor: pointer;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .calc-btn:active { border-style: inset; }
+        .calc-btn.num { color: #003399; }
+        .calc-btn.op { color: #b91c1c; }
+        .calc-btn.danger { color: #dc2626; }
+        .calc-btn.warning { color: #ea580c; }
+        .calc-btn.equals { color: #15803d; }
+    
+        /* View Mode: Details Table */
+        .items-table-details {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            margin-bottom: 20px;
+        }
+
+        .items-table-details th {
+            background: #ece9d8;
+            border: 1px solid #d4d0c8;
+            padding: 4px 6px;
+            text-align: inherit;
+            font-weight: normal;
+            box-shadow: inset 0 1px 0 #fff;
+        }
+
+        .items-table-details td {
+            padding: 4px 6px;
+            border-bottom: 1px solid #f0ede0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .items-table-details tr:hover {
+            background: #eef3ff;
+            cursor: pointer;
+        }
+
+        .items-table-details tr.selected {
+            background: #316ac5;
+            color: #ffffff;
+        }
+
+        /* -------------------------------------------------------------------------
+           SYSTEM PROPERTIES DIALOG (win-sysprop)
+        ------------------------------------------------------------------------- */
+        .sysprop-tabs {
+            display: flex;
+            gap: 2px;
+            padding: 6px 8px 0 8px;
+            background: #ece9d8;
+            border-bottom: 1px solid #919b9c;
+        }
+
+        .sysprop-tab-btn {
+            padding: 4px 12px;
+            background: #e0ded0;
+            border: 1px solid #919b9c;
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+            font-size: 11px;
+            cursor: pointer;
+            margin-bottom: -1px;
+        }
+
+        .sysprop-tab-btn.active {
+            background: #ece9d8;
+            font-weight: bold;
+            border-bottom: 1px solid #ece9d8;
+            z-index: 2;
+        }
+
+        .sysprop-content {
+            padding: 16px;
+            background: #ece9d8;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .sysprop-box {
+            border: 1px solid #d4d0c8;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 12px;
+            background: rgba(255,255,255,0.4);
+        }
+
+        /* -------------------------------------------------------------------------
+           INTERNET EXPLORER 6 (win-ie)
+        ------------------------------------------------------------------------- */
+        .ie-fav-bar {
+            height: 24px;
+            background: #ece9d8;
+            border-bottom: 1px solid #d4d0c8;
+            display: flex;
+            align-items: center;
+            padding: 0 6px;
+            gap: 8px;
+            overflow-x: auto;
+        }
+
+        .ie-fav-btn {
+            padding: 2px 6px;
+            border: 1px solid transparent;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .ie-fav-btn:hover {
+            border-color: #316ac5;
+            background: #ffffff;
+        }
+
+        /* -------------------------------------------------------------------------
+           WORDPAD OFFICIAL CV (win-cv)
+        ------------------------------------------------------------------------- */
+        .wordpad-page {
+            background: #ffffff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+            max-width: 680px;
+            margin: 16px auto;
+            padding: 36px 40px;
+            border: 1px solid #c0c0c0;
+            font-family: Tahoma, Arial, sans-serif;
+            color: #111827;
+            line-height: 1.5;
+        }
+
+        /* -------------------------------------------------------------------------
+           MOBILE RESPONSIVENESS (POCKET PC MODE)
+        ------------------------------------------------------------------------- */
+        @media (max-width: 640px) {
+            .xp-window {
+                width: 100vw !important;
+                height: calc(100vh - 30px) !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                border-radius: 0 !important;
+                border: none !important;
+            }
+            .explorer-sidebar {
+                display: none;
+            }
+            .xp-start-menu {
+                width: 100vw;
+            }
+            .items-grid-tiles {
+                grid-template-columns: 1fr;
+            }
+            .xp-task-tab {
+                min-width: 80px;
+                max-width: 110px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- -------------------------------------------------------------------------
+         AUTHENTIC BLISS DESKTOP (1080p PHOTOGRAPH) & MARQUEE SELECTION
+    ------------------------------------------------------------------------- -->
+    <div class="bliss-desktop" id="bliss-desktop">
+        <!-- Marquee Selection Box -->
+        <div id="selection-box" class="selection-box"></div>
+
+        <!-- Desktop Icons Grid -->
+        <div class="desktop-icons-container">
+            <div class="desktop-icon" onclick="openWindow('win-explorer')">
+                <div class="desktop-icon-img" style="color: #facc15;"><i class="fa-solid fa-computer"></i></div>
+                <div class="desktop-icon-label" data-i18n="icon_my_computer">جهاز الكمبيوتر والمشاريع</div>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('win-cv')">
+                <div class="desktop-icon-img" style="color: #38bdf8;"><i class="fa-solid fa-file-lines"></i></div>
+                <div class="desktop-icon-label" data-i18n="icon_cv">السيرة الذاتية (Tareq_CV.doc)</div>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('win-sysprop')">
+                <div class="desktop-icon-img" style="color: #6366f1;"><i class="fa-solid fa-sliders"></i></div>
+                <div class="desktop-icon-label" data-i18n="icon_sysprop">خصائص النظام والمهارات</div>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('win-ie')">
+                <div class="desktop-icon-img" style="color: #0284c7;"><i class="fa-brands fa-internet-explorer"></i></div>
+                <div class="desktop-icon-label" data-i18n="icon_ie">Internet Explorer (المشاريع الحية)</div>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('win-cmd')">
+                <div class="desktop-icon-img" style="color: #4ade80;"><i class="fa-solid fa-terminal"></i></div>
+                <div class="desktop-icon-label" data-i18n="icon_cmd">موجه الأوامر (CMD)</div>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('win-mail')">
+                <div class="desktop-icon-img" style="color: #fb7185;"><i class="fa-solid fa-envelope"></i></div>
+                <div class="desktop-icon-label" data-i18n="icon_mail">Outlook Express (تواصل معي)</div>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('win-minesweeper')">
+                <div class="desktop-icon-img" style="color: #ef4444;"><i class="fa-solid fa-bomb"></i></div>
+                <div class="desktop-icon-label" data-i18n="icon_minesweeper">كاسحة الألغام (Minesweeper)</div>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('win-notepad')">
+                <div class="desktop-icon-img" style="color: #3b82f6;"><i class="fa-solid fa-note-sticky"></i></div>
+                <div class="desktop-icon-label" data-i18n="icon_notepad">المفكرة (README.TXT)</div>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('win-display')">
+                <div class="desktop-icon-img" style="color: #a855f7;"><i class="fa-solid fa-display"></i></div>
+                <div class="desktop-icon-label" data-i18n="icon_display">خصائص العرض (Display)</div>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('win-wmp')">
+                <div class="desktop-icon-img" style="color: #0284c7;"><i class="fa-solid fa-circle-play"></i></div>
+                <div class="desktop-icon-label" data-i18n="icon_wmp">Windows Media Player</div>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('win-calc')">
+                <div class="desktop-icon-img" style="color: #ea580c;"><i class="fa-solid fa-calculator"></i></div>
+                <div class="desktop-icon-label" data-i18n="icon_calc">الحاسبة (Calculator)</div>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('win-trash')">
+                <div class="desktop-icon-img" style="color: #cbd5e1;"><i class="fa-solid fa-trash-can"></i></div>
+                <div class="desktop-icon-label" data-i18n="icon_trash">سلة المحذوفات</div>
+            </div>
+        </div>
+
+        <!-- Desktop Context Menu -->
+        <div id="xp-context-menu" class="xp-context-menu">
+            <div class="xp-context-item" onclick="refreshDesktop()"><i class="fa-solid fa-arrows-rotate" style="color:#16a34a; width:16px;"></i> <span data-i18n="ctx_refresh">تحديث (Refresh F5)</span></div>
+            <div class="xp-context-sep"></div>
+            <div class="xp-context-item" onclick="openWindow('win-notepad')"><i class="fa-solid fa-file-circle-plus" style="color:#f59e0b; width:16px;"></i> <span data-i18n="ctx_new_txt">جديد > مستند نصي</span></div>
+            <div class="xp-context-sep"></div>
+            <div class="xp-context-item" onclick="openWindow('win-display')"><i class="fa-solid fa-desktop" style="color:#6366f1; width:16px;"></i> <span data-i18n="ctx_properties">خصائص العرض (Properties)</span></div>
+        </div>
+    </div>
+
+    <!-- -------------------------------------------------------------------------
+         TASKBAR & START BUTTON
+    ------------------------------------------------------------------------- -->
+    <div class="xp-taskbar">
+        <button class="xp-start-btn" onclick="toggleStartMenu()">
+            <svg width="18" height="18" viewBox="0 0 16 16">
+                <rect width="7" height="7" fill="#f25022"/>
+                <rect x="9" width="7" height="7" fill="#7fba00"/>
+                <rect y="9" width="7" height="7" fill="#00a4ef"/>
+                <rect x="9" y="9" width="7" height="7" fill="#ffb900"/>
+            </svg>
+            <span data-i18n="start_text">ابدأ</span>
+        </button>
+
+        <div class="xp-tasks-container" id="xp-task-tabs"></div>
+
+        <div class="xp-systray">
+            <span class="xp-tray-icon" title="Language Switcher (AR/EN)" onclick="toggleLanguage()"><strong id="lang-indicator">AR</strong></span>
+            <span class="xp-tray-icon" title="Master Volume" onclick="toggleTrayVolume()"><i class="fa-solid fa-volume-high"></i></span>
+            <span class="xp-tray-icon" title="GitHub" onclick="window.open('https://github.com/Tareq0001','_blank')"><i class="fa-brands fa-github"></i></span>
+            <span id="xp-clock">10:00 م</span>
+        </div>
+
+        <!-- System Tray Volume Popup -->
+        <div id="tray-volume-popup" style="display: none; position: absolute; bottom: 36px; left: 55px; width: 75px; background: #ece9d8; border: 2px outset #ffffff; box-shadow: 2px 2px 6px rgba(0,0,0,0.4); padding: 8px 6px; z-index: 10000; text-align: center; font-size: 10px;">
+            <div style="font-weight: bold; margin-bottom: 4px; color: #000;">الصوت</div>
+            <input type="range" id="master-volume-slider" min="0" max="100" value="80" orient="vertical" style="writing-mode: bt-lr; -webkit-appearance: slider-vertical; width: 14px; height: 75px; margin: 4px auto;" oninput="setMasterVolume(this.value)">
+            <div style="margin-top: 6px;">
+                <label style="font-size: 9px; cursor: pointer; color: #000;"><input type="checkbox" id="master-mute-check" onchange="toggleMasterMute(this.checked)"> كتم</label>
+            </div>
+        </div>
+
+        <!-- System Tray Balloon Notification -->
+        <div id="xp-balloon" class="xp-balloon" style="display: none;">
+            <div class="xp-balloon-header">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <i class="fa-solid fa-circle-info" style="color: #0284c7; font-size: 14px;"></i>
+                    <span>Tareq XP Professional</span>
+                </div>
+                <span class="xp-balloon-close" onclick="closeBalloon()">&times;</span>
+            </div>
+            <div style="color: #333; margin-top: 2px;">
+                تم تحميل كافة الأنظمة والمشاريع بنجاح (54 مشروعاً). انقر مرتين على <strong>جهاز الكمبيوتر</strong> أو استعرض الأقراص مباشرة.
+            </div>
+        </div>
+    </div>
+
+    <!-- -------------------------------------------------------------------------
+         START MENU
+    ------------------------------------------------------------------------- -->
+    <div class="xp-start-menu" id="xp-start-menu">
+        <div class="start-menu-header">
+            <div class="start-avatar"><i class="fa-solid fa-user-astronaut"></i></div>
+            <div>
+                <div class="start-username">Tareq Aboushi (أ. طارق ابوعشي)</div>
+                <div style="font-size: 10px; opacity: 0.9;">AI Architect &amp; Systems Engineer</div>
+            </div>
+        </div>
+        <div class="start-menu-body">
+            <div class="start-left-pane">
+                <div class="start-item" onclick="openWindow('win-explorer'); toggleStartMenu();">
+                    <div class="start-item-icon" style="color: #facc15;"><i class="fa-solid fa-folder-open"></i></div>
+                    <div class="start-item-text">
+                        <span class="start-item-title" data-i18n="sm_explorer">كافة المشاريع البرمجية (54 مشروع)</span>
+                        <span class="start-item-sub">استعراض محركات الأقراص والتصنيفات</span>
+                    </div>
+                </div>
+                <div class="start-item" onclick="openWindow('win-cv'); toggleStartMenu();">
+                    <div class="start-item-icon" style="color: #38bdf8;"><i class="fa-solid fa-file-pdf"></i></div>
+                    <div class="start-item-text">
+                        <span class="start-item-title" data-i18n="sm_cv">السيرة الذاتية الرسمية (WordPad)</span>
+                        <span class="start-item-sub">تحميل الـ PDF المعتمد لعام 2026</span>
+                    </div>
+                </div>
+                <div class="start-item" onclick="openWindow('win-sysprop'); toggleStartMenu();">
+                    <div class="start-item-icon" style="color: #6366f1;"><i class="fa-solid fa-sliders"></i></div>
+                    <div class="start-item-text">
+                        <span class="start-item-title" data-i18n="sm_sysprop">خصائص النظام والمهارات</span>
+                        <span class="start-item-sub">الشهادات الأكاديمية ومصفوفة المهارات</span>
+                    </div>
+                </div>
+                <div class="start-item" onclick="openWindow('win-ie'); toggleStartMenu();">
+                    <div class="start-item-icon" style="color: #0284c7;"><i class="fa-brands fa-internet-explorer"></i></div>
+                    <div class="start-item-text">
+                        <span class="start-item-title">Internet Explorer</span>
+                        <span class="start-item-sub">بوابة المشاريع الحية والمفضلات</span>
+                    </div>
+                </div>
+                <div class="start-item" onclick="openWindow('win-cmd'); toggleStartMenu();">
+                    <div class="start-item-icon" style="color: #4ade80;"><i class="fa-solid fa-terminal"></i></div>
+                    <div class="start-item-text">
+                        <span class="start-item-title">Command Prompt</span>
+                        <span class="start-item-sub">موجه أوامر نظام ويندوز التفاعلي</span>
+                    </div>
+                </div>
+                <div class="start-item" onclick="openWindow('win-mail'); toggleStartMenu();">
+                    <div class="start-item-icon" style="color: #fb7185;"><i class="fa-solid fa-envelope"></i></div>
+                    <div class="start-item-text">
+                        <span class="start-item-title">Outlook Express</span>
+                        <span class="start-item-sub">إرسال بريد وتواصل مباشر مع طارق</span>
+                    </div>
+                </div>
+                <div class="start-item" onclick="openWindow('win-minesweeper'); toggleStartMenu();">
+                    <div class="start-item-icon" style="color: #ef4444;"><i class="fa-solid fa-bomb"></i></div>
+                    <div class="start-item-text">
+                        <span class="start-item-title">كاسحة الألغام (Minesweeper)</span>
+                        <span class="start-item-sub">لعبة ترفيهية كلاسيكية تفاعلية</span>
+                    </div>
+                </div>
+                <div class="start-item" onclick="openWindow('win-notepad'); toggleStartMenu();">
+                    <div class="start-item-icon" style="color: #3b82f6;"><i class="fa-solid fa-note-sticky"></i></div>
+                    <div class="start-item-text">
+                        <span class="start-item-title">المفكرة (README.TXT)</span>
+                        <span class="start-item-sub">ملاحظات النظام وتفاصيل المطور</span>
+                    </div>
+                </div>
+                <div class="start-item" onclick="openWindow('win-wmp'); toggleStartMenu();">
+                    <div class="start-item-icon" style="color: #0284c7;"><i class="fa-solid fa-circle-play"></i></div>
+                    <div class="start-item-text">
+                        <span class="start-item-title">Windows Media Player</span>
+                        <span class="start-item-sub">مشغل الوسائط وموسيقى السينثسايزر</span>
+                    </div>
+                </div>
+                <div class="start-item" onclick="openWindow('win-calc'); toggleStartMenu();">
+                    <div class="start-item-icon" style="color: #ea580c;"><i class="fa-solid fa-calculator"></i></div>
+                    <div class="start-item-text">
+                        <span class="start-item-title">الحاسبة (Calculator)</span>
+                        <span class="start-item-sub">آلة حاسبة رقمية سريعة</span>
+                    </div>
+                </div>
+            </div>
+            <div class="start-right-pane">
+                <div class="start-item" onclick="filterExplorer('ALL'); openWindow('win-explorer'); toggleStartMenu();">
+                    <div class="start-item-icon" style="color: #f59e0b;"><i class="fa-solid fa-hard-drive"></i></div>
+                    <div class="start-item-text">
+                        <span class="start-item-title">جهاز الكمبيوتر (My Computer)</span>
+                    </div>
+                </div>
+                <div class="start-item" onclick="window.open('https://github.com/Tareq0001','_blank'); toggleStartMenu();">
+                    <div class="start-item-icon" style="color: #111827;"><i class="fa-brands fa-github"></i></div>
+                    <div class="start-item-text">
+                        <span class="start-item-title">مواضع شبكتي (GitHub Profile)</span>
+                    </div>
+                </div>
+                <div class="start-item" onclick="window.open('https://linkedin.com/in/tareq-abuoshi-ai','_blank'); toggleStartMenu();">
+                    <div class="start-item-icon" style="color: #0284c7;"><i class="fa-brands fa-linkedin"></i></div>
+                    <div class="start-item-text">
+                        <span class="start-item-title">LinkedIn Profile</span>
+                    </div>
+                </div>
+                <div class="start-separator"></div>
+                <div class="start-item" onclick="downloadOfficialCV(); toggleStartMenu();">
+                    <div class="start-item-icon" style="color: #e11d48;"><i class="fa-solid fa-download"></i></div>
+                    <div class="start-item-text">
+                        <span class="start-item-title">تحميل السيرة الذاتية (PDF)</span>
+                    </div>
+                </div>
+                <div class="start-item" onclick="window.location.href='/';">
+                    <div class="start-item-icon" style="color: #8b5cf6;"><i class="fa-solid fa-cube"></i></div>
+                    <div class="start-item-text">
+                        <span class="start-item-title">ملف الأعمال الحديث (3D Modern)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="start-menu-footer">
+            <div class="start-footer-btn" onclick="toggleLanguage(); toggleStartMenu();">
+                <i class="fa-solid fa-globe"></i>
+                <span data-i18n="sm_lang">تغيير اللغة (Language)</span>
+            </div>
+            <div class="start-footer-btn" onclick="soundDing(); alert('نظام ويندوز XP يعمل بأعلى كفاءة لخدمة ملف أعمال المهندس طارق ابوعشي.'); toggleStartMenu();">
+                <i class="fa-solid fa-power-off"></i>
+                <span data-i18n="sm_shutdown">إيقاف التشغيل</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- -------------------------------------------------------------------------
+         WINDOW 1: WINDOWS EXPLORER (54+ PROJECTS BROWSER)
+    ------------------------------------------------------------------------- -->
+    <div class="xp-window active" id="win-explorer" style="top: 25px; left: calc(50% - 440px); width: 880px; height: 560px;">
+        <div class="xp-titlebar" ondblclick="maximizeWindow(this.parentElement.id)" onmousedown="startDrag(event, 'win-explorer')">
+            <div class="xp-title-content">
+                <i class="fa-solid fa-computer" style="color: #facc15;"></i>
+                <span id="explorer-title-text" data-i18n="title_explorer">جهاز الكمبيوتر - ملف مشاريع طارق ابوعشي</span>
+            </div>
+            <div class="xp-window-controls">
+                <div class="xp-btn-ctrl xp-btn-min" onclick="minimizeWindow('win-explorer')">&#8722;</div>
+                <div class="xp-btn-ctrl xp-btn-max" onclick="maximizeWindow('win-explorer')">&#9633;</div>
+                <div class="xp-btn-ctrl xp-btn-close" onclick="closeWindow('win-explorer')">&times;</div>
+            </div>
+        </div>
+        <div class="xp-menubar" style="position: relative;">
+            <span id="menu-btn-file" onclick="toggleExplorerMenu(event, 'file')" data-i18n="menu_file">ملف</span>
+            <span id="menu-btn-edit" onclick="soundNav();" data-i18n="menu_edit">تحرير</span>
+            <span id="menu-btn-view" onclick="toggleExplorerMenu(event, 'view')" data-i18n="menu_view">عرض</span>
+            <span id="menu-btn-favorites" onclick="openWindow('win-ie');" data-i18n="menu_favorites">المفضلة</span>
+            <span id="menu-btn-tools" onclick="openWindow('win-sysprop');" data-i18n="menu_tools">أدوات</span>
+            <span id="menu-btn-help" onclick="toggleExplorerMenu(event, 'help')" data-i18n="menu_help">تعليمات</span>
+
+            <!-- Dropdown: File -->
+            <div id="drop-menu-file" class="xp-menubar-dropdown">
+                <div class="xp-menu-item" onclick="openWindow('win-explorer')"><i class="fa-solid fa-window-restore" style="color:#0284c7;"></i> نافذة جديدة</div>
+                <div class="xp-menu-item" onclick="openWindow('win-notepad')"><i class="fa-solid fa-file" style="color:#f59e0b;"></i> مستند جديد</div>
+                <div class="xp-menu-sep"></div>
+                <div class="xp-menu-item" onclick="closeWindow('win-explorer')"><i class="fa-solid fa-xmark" style="color:#ef4444;"></i> إغلاق</div>
+            </div>
+
+            <!-- Dropdown: View -->
+            <div id="drop-menu-view" class="xp-menubar-dropdown">
+                <div class="xp-menu-item" onclick="setViewMode('tiles')"><i class="fa-solid fa-table-cells" style="color:#0284c7;"></i> تجانب (Tiles)</div>
+                <div class="xp-menu-item" onclick="setViewMode('icons')"><i class="fa-solid fa-icons" style="color:#0284c7;"></i> رموز (Icons)</div>
+                <div class="xp-menu-item" onclick="setViewMode('details')"><i class="fa-solid fa-list-ul" style="color:#0284c7;"></i> تفاصيل (Details)</div>
+                <div class="xp-menu-sep"></div>
+                <div class="xp-menu-item" onclick="refreshDesktop()"><i class="fa-solid fa-arrows-rotate" style="color:#16a34a;"></i> تحديث (F5)</div>
+            </div>
+
+            <!-- Dropdown: Help -->
+            <div id="drop-menu-help" class="xp-menubar-dropdown">
+                <div class="xp-menu-item" onclick="openWindow('win-sysprop')"><i class="fa-solid fa-circle-info" style="color:#6366f1;"></i> عن النظام والمهارات</div>
+                <div class="xp-menu-item" onclick="openWindow('win-notepad')"><i class="fa-solid fa-book" style="color:#3b82f6;"></i> قراءة README.TXT</div>
+            </div>
+        </div>
+        <div class="xp-toolbar">
+            <button class="xp-tool-btn" onclick="soundNav(); filterExplorer('ALL');"><i class="fa-solid fa-arrow-up"></i> <span data-i18n="btn_up">للأعلى</span></button>
+            <div style="width: 1px; height: 18px; background: #ccc; margin: 0 4px;"></div>
+            <button class="xp-tool-btn active" id="btn-view-tiles" onclick="setViewMode('tiles')"><i class="fa-solid fa-table-cells"></i> <span data-i18n="view_tiles">تجانب</span></button>
+            <button class="xp-tool-btn" id="btn-view-icons" onclick="setViewMode('icons')"><i class="fa-solid fa-icons"></i> <span data-i18n="view_icons">رموز</span></button>
+            <button class="xp-tool-btn" id="btn-view-details" onclick="setViewMode('details')"><i class="fa-solid fa-list-ul"></i> <span data-i18n="view_details">تفاصيل</span></button>
+            <div style="width: 1px; height: 18px; background: #ccc; margin: 0 4px;"></div>
+            <input type="text" class="xp-search-input" id="explorer-search" placeholder="بحث في المشاريع (e.g. eBPF, C++, AI)..." oninput="handleSearch(this.value)">
+        </div>
+        <div class="xp-addressbar-row">
+            <span style="color: #666;" data-i18n="lbl_address">العنوان:</span>
+            <div class="xp-address-input">
+                <i class="fa-solid fa-folder" style="color: #facc15;"></i>
+                <input type="text" id="explorer-address-bar" value="C:\Tareq\Projects\" readonly>
+            </div>
+        </div>
+        <div class="xp-window-body" style="padding: 0;">
+            <div class="explorer-layout">
+                <!-- Sidebar -->
+                <div class="explorer-sidebar">
+                    <div class="sidebar-section">
+                        <div class="sidebar-sec-title">
+                            <span data-i18n="side_sys_tasks">مهام النظام</span>
+                            <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="sidebar-sec-body">
+                            <span class="sidebar-nav-item" onclick="openWindow('win-cv')"><i class="fa-solid fa-file-pdf" style="color: #e11d48;"></i> السيرة الذاتية الرسمية</span>
+                            <span class="sidebar-nav-item" onclick="downloadOfficialCV()"><i class="fa-solid fa-download" style="color: #16a34a;"></i> تحميل الـ PDF المعتمد</span>
+                            <span class="sidebar-nav-item" onclick="window.open('https://github.com/Tareq0001','_blank')"><i class="fa-brands fa-github"></i> ملف GitHub</span>
+                            <span class="sidebar-nav-item" onclick="window.open('https://linkedin.com/in/tareq-abuoshi-ai','_blank')"><i class="fa-brands fa-linkedin" style="color: #0284c7;"></i> LinkedIn</span>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <div class="sidebar-sec-title">
+                            <span data-i18n="side_drives">الأقراص والتصنيفات</span>
+                            <i class="fa-solid fa-chevron-up"></i>
+                        </div>
+                        <div class="sidebar-sec-body">
+                            <span class="sidebar-nav-item active" id="nav-all" onclick="filterExplorer('ALL')"><i class="fa-solid fa-hard-drive"></i> كافة المشاريع (54)</span>
+                            <span class="sidebar-nav-item" id="nav-c" onclick="filterExplorer('C:')"><i class="fa-solid fa-bolt" style="color: #f59e0b;"></i> (C:) النواة والتداول</span>
+                            <span class="sidebar-nav-item" id="nav-d" onclick="filterExplorer('D:')"><i class="fa-solid fa-brain" style="color: #ec4899;"></i> (D:) الذكاء الاصطناعي</span>
+                            <span class="sidebar-nav-item" id="nav-e" onclick="filterExplorer('E:')"><i class="fa-solid fa-cube" style="color: #06b6d4;"></i> (E:) الحوسبة المكانية 3D</span>
+                            <span class="sidebar-nav-item" id="nav-f" onclick="filterExplorer('F:')"><i class="fa-solid fa-robot" style="color: #10b981;"></i> (F:) الروبوتات والـ IIoT</span>
+                            <span class="sidebar-nav-item" id="nav-g" onclick="filterExplorer('G:')"><i class="fa-solid fa-network-wired" style="color: #8b5cf6;"></i> (G:) الأنظمة السحابية</span>
+                            <span class="sidebar-nav-item" id="nav-h" onclick="filterExplorer('H:')"><i class="fa-solid fa-mobile-screen" style="color: #3b82f6;"></i> (H:) تطبيقات الجوال</span>
+                        </div>
+                    </div>
+
+                    <!-- Details Pane -->
+                    <div class="sidebar-section" id="sidebar-details-section">
+                        <div class="sidebar-sec-title">
+                            <span data-i18n="side_details">تفاصيل المشروع</span>
+                            <i class="fa-solid fa-info-circle"></i>
+                        </div>
+                        <div class="sidebar-details-pane" id="sidebar-details-pane">
+                            <div class="details-thumb" id="det-thumb" style="color: #2563eb;"><i class="fa-solid fa-bolt"></i></div>
+                            <strong id="det-title" style="color: #0c3298; font-size: 11px; text-align: center;">Titan Matching Engine</strong>
+                            <span id="det-cat" style="font-size: 10px; color: #666; text-align: center;">High-Frequency Trading</span>
+                            <p id="det-desc" style="font-size: 10px; color: #333; line-height: 1.35; margin-top: 4px;">محرك مطابقة أوامر فائق السرعة بلغة C++20 مع زمن استجابة دون 680 نانوثانية.</p>
+                            <div id="det-benchmarks" style="font-size: 9px; font-weight: bold; color: #166534; margin: 4px 0;">Latency: &lt;680ns</div>
+                            <div style="display: flex; gap: 4px; flex-direction: column; margin-top: 6px;">
+                                <button class="xp-tool-btn" id="det-demo-btn" style="justify-content: center; background: #2563eb; color: #fff; font-weight: bold;" onclick="launchSelectedDemo()">
+                                    <i class="fa-solid fa-play"></i> تشغيل المعاينة الحية
+                                </button>
+                                <button class="xp-tool-btn" id="det-repo-btn" style="justify-content: center; border: 1px solid #7f9db9;" onclick="openSelectedRepo()">
+                                    <i class="fa-brands fa-github"></i> مستودع GitHub
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main File Area -->
+                <div class="explorer-content" id="explorer-content-area"></div>
+            </div>
+        </div>
+        <div class="xp-statusbar">
+            <span id="explorer-status-count">54 عنصر معروض</span>
+            <span>المساحة الحرة: 256 GB على نظام ملفات NTFS</span>
+        </div>
+    </div>
+
+    <!-- -------------------------------------------------------------------------
+         WINDOW 2: OFFICIAL CV (WORDPAD)
+    ------------------------------------------------------------------------- -->
+    <div class="xp-window" id="win-cv" style="display: none; top: 25px; right: 90px; width: 780px; height: 580px;">
+        <div class="xp-titlebar" ondblclick="maximizeWindow(this.parentElement.id)" onmousedown="startDrag(event, 'win-cv')">
+            <div class="xp-title-content">
+                <i class="fa-solid fa-file-lines" style="color: #38bdf8;"></i>
+                <span data-i18n="title_cv_doc">Tareq_Aboushi_CV.doc - WordPad</span>
+            </div>
+            <div class="xp-window-controls">
+                <div class="xp-btn-ctrl xp-btn-min" onclick="minimizeWindow('win-cv')">&#8722;</div>
+                <div class="xp-btn-ctrl xp-btn-max" onclick="maximizeWindow('win-cv')">&#9633;</div>
+                <div class="xp-btn-ctrl xp-btn-close" onclick="closeWindow('win-cv')">&times;</div>
+            </div>
+        </div>
+        <div class="xp-menubar">
+            <span data-i18n="menu_file">ملف</span>
+            <span data-i18n="menu_edit">تحرير</span>
+            <span data-i18n="menu_view">عرض</span>
+            <span data-i18n="menu_insert">إدراج</span>
+            <span data-i18n="menu_format">تنسيق</span>
+            <span data-i18n="menu_help">تعليمات</span>
+        </div>
+        <div class="xp-toolbar">
+            <button class="xp-tool-btn" onclick="downloadOfficialCV()"><i class="fa-solid fa-download" style="color: #16a34a;"></i> <strong data-i18n="btn_dl_official_pdf">تحميل الـ PDF الأصلي</strong></button>
+            <button class="xp-tool-btn" onclick="window.print()"><i class="fa-solid fa-print"></i> <span data-i18n="btn_print">طباعة المستند</span></button>
+            <div style="width: 1px; height: 18px; background: #ccc; margin: 0 4px;"></div>
+            <span style="font-size: 11px; color: #555;" data-i18n="doc_verified_status">النسخة الرسمية المعتمدة لعام 2026</span>
+        </div>
+        <div class="xp-window-body" style="background: #808080; padding: 16px;">
+            <div class="wordpad-page">
+                <div style="border-bottom: 2px solid #2563eb; padding-bottom: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
+                    <div>
+                        <h1 style="font-size: 24px; color: #1e3a8a; margin-bottom: 4px;">طارق أبوعشي</h1>
+                        <p style="font-size: 14px; font-weight: bold; color: #2563eb;">مهندس برمجيات وخبير معماريات الذكاء الاصطناعي</p>
+                        <p style="font-size: 11px; color: #4b5563; margin-top: 4px;">
+                            <i class="fa-solid fa-phone"></i> +966 534 418 634 &nbsp;|&nbsp;
+                            <i class="fa-solid fa-envelope"></i> abuoshey@gmail.com &nbsp;|&nbsp;
+                            <i class="fa-solid fa-location-dot"></i> المملكة العربية السعودية
+                        </p>
+                    </div>
+                    <button class="xp-tool-btn" style="background: #2563eb; color: #fff; font-weight: bold; border: 1px solid #1e3a8a;" onclick="downloadOfficialCV()">
+                        <i class="fa-solid fa-file-pdf"></i> Download Official PDF
+                    </button>
+                </div>
+
+                <!-- Professional Summary -->
+                <div style="margin-bottom: 16px;">
+                    <h3 style="font-size: 13px; color: #1e3a8a; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px; margin-bottom: 6px;">الملخص التنفيذي (Professional Summary)</h3>
+                    <p style="font-size: 11px; color: #374151; line-height: 1.6;">
+                        مهندس برمجيات وخبير معماريات أنظمة ذكاء اصطناعي بخبرة عريقة في هندسة الأنظمة الموزعة فائقة السرعة ومنخفضة الكمون، واستدلال نماذج الذكاء الاصطناعي الكبرى (MoE, SSM Mamba)، وأمن شبكات مساحة النواة (Linux eBPF/XDP)، ورسومات الحوسبة المكانية ثلاثية الأبعاد بمتصفح الويب (WebGPU, Three.js). إنجاز معتمد لأكثر من 54 نظاماً ومحركاً مؤسسياً حياً تم نشرها بنجاح.
+                    </p>
+                </div>
+
+                <!-- Work Experience -->
+                <div style="margin-bottom: 16px;">
+                    <h3 style="font-size: 13px; color: #1e3a8a; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px; margin-bottom: 8px;">الخبرات المهنية (Work Experience)</h3>
+                    
+                    <div style="margin-bottom: 10px;">
+                        <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 11px;">
+                            <span style="color: #111827;">معلم حاسب آلي ومدير قسم تقنية المعلومات</span>
+                            <span style="color: #2563eb;">2024 &ndash; الآن</span>
+                        </div>
+                        <div style="font-size: 11px; color: #6b7280; margin-bottom: 4px;">المدارس الأهلية | المملكة العربية السعودية</div>
+                        <ul style="padding-right: 18px; font-size: 11px; color: #4b5563; line-height: 1.5;">
+                            <li>إدارة عمليات البيانات وتصميم قواعد بيانات مهيكلة للسجلات الأكاديمية والإدارية، مع ضمان سلامة البيانات وأمانها وسهولة الوصول إليها.</li>
+                            <li>إدارة منصات التعلم الإلكتروني (LMS) وقيادة تصميم وصيانة البوابات الإلكترونية للمدرسة.</li>
+                            <li>تطوير وتدريس مناهج علوم الحاسب مع التركيز على البرمجة الحديثة وتطبيقات الذكاء الاصطناعي.</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 11px;">
+                            <span style="color: #111827;">متدرب تعاوني (هندسة البرمجيات)</span>
+                            <span style="color: #2563eb;">2023 &ndash; 2024</span>
+                        </div>
+                        <div style="font-size: 11px; color: #6b7280; margin-bottom: 4px;">الشركة السعودية للكهرباء (SEC) | المملكة العربية السعودية</div>
+                        <ul style="padding-right: 18px; font-size: 11px; color: #4b5563; line-height: 1.5;">
+                            <li>تصميم وإدارة نماذج بيانات معقدة لتنظيم وتسهيل تدفقات تحليل البيانات، مع استثمار مخرجات التحليل في دعم مسارات اتخاذ القرار المؤسسي.</li>
+                            <li>المساهمة في رفع كفاءة إنجاز الفريق بنسبة 20% من خلال أتمتة مهام تدفق البيانات الروتينية وتطبيق أفضل ممارسات المنهجية المرنة.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Education & Certifications -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div>
+                        <h3 style="font-size: 13px; color: #1e3a8a; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px; margin-bottom: 6px;">المؤهل الأكاديمي</h3>
+                        <p style="font-weight: bold; font-size: 11px; color: #111827;">بكالوريوس علوم الحاسب - مسار الذكاء الاصطناعي</p>
+                        <p style="font-size: 11px; color: #2563eb;">جامعة الملك خالد | 2021 &ndash; 2025</p>
+                    </div>
+                    <div>
+                        <h3 style="font-size: 13px; color: #1e3a8a; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px; margin-bottom: 6px;">الشهادات الاحترافية</h3>
+                        <ul style="padding-right: 16px; font-size: 11px; color: #4b5563; line-height: 1.5;">
+                            <li><strong>STEP</strong> (درجة الكفاءة: 85)</li>
+                            <li><strong>شهادة الذكاء الاصطناعي</strong> &ndash; KAUST</li>
+                            <li><strong>Huawei HCIA</strong> &ndash; Security</li>
+                            <li><strong>الأمن السيبراني المتقدم</strong> &ndash; العطاء الرقمي</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="xp-statusbar">
+            <span>الصفحة 1 من 1</span>
+            <span>جاهز للطباعة والتنزيل</span>
+        </div>
+    </div>
+
+    <!-- -------------------------------------------------------------------------
+         WINDOW 3: SYSTEM PROPERTIES (win-sysprop)
+    ------------------------------------------------------------------------- -->
+    <div class="xp-window" id="win-sysprop" style="display: none; top: 45px; right: 120px; width: 620px; height: 500px;">
+        <div class="xp-titlebar" ondblclick="maximizeWindow(this.parentElement.id)" onmousedown="startDrag(event, 'win-sysprop')">
+            <div class="xp-title-content">
+                <i class="fa-solid fa-sliders" style="color: #6366f1;"></i>
+                <span>خصائص النظام - مصفوفة المهارات والمواصفات التقنية</span>
+            </div>
+            <div class="xp-window-controls">
+                <div class="xp-btn-ctrl xp-btn-close" onclick="closeWindow('win-sysprop')">&times;</div>
+            </div>
+        </div>
+        <div class="sysprop-tabs">
+            <button class="sysprop-tab-btn active" id="tab-btn-gen" onclick="switchSysTab('gen')">عام (General)</button>
+            <button class="sysprop-tab-btn" id="tab-btn-skills" onclick="switchSysTab('skills')">المهارات التقنية (Skills)</button>
+            <button class="sysprop-tab-btn" id="tab-btn-certs" onclick="switchSysTab('certs')">الشهادات المعتمدة (Certs)</button>
+        </div>
+        <div class="sysprop-content" id="sysprop-body">
+            <!-- Content populated via JavaScript -->
+        </div>
+        <div class="xp-statusbar">
+            <span>نظام التشغيل: Microsoft Windows XP Pro (Tareq OS Build 2026)</span>
+            <button class="xp-tool-btn" style="border: 1px solid #7f9db9; padding: 1px 10px;" onclick="closeWindow('win-sysprop')">موافق</button>
+        </div>
+    </div>
+
+    <!-- -------------------------------------------------------------------------
+         WINDOW 4: INTERNET EXPLORER 6 (win-ie)
+    ------------------------------------------------------------------------- -->
+    <div class="xp-window" id="win-ie" style="display: none; top: 40px; right: 60px; width: 840px; height: 540px;">
+        <div class="xp-titlebar" ondblclick="maximizeWindow(this.parentElement.id)" onmousedown="startDrag(event, 'win-ie')">
+            <div class="xp-title-content">
+                <i class="fa-brands fa-internet-explorer" style="color: #0284c7;"></i>
+                <span id="ie-window-title">Internet Explorer - بوابة المشاريع الحية</span>
+            </div>
+            <div class="xp-window-controls">
+                <div class="xp-btn-ctrl xp-btn-min" onclick="minimizeWindow('win-ie')">&#8722;</div>
+                <div class="xp-btn-ctrl xp-btn-max" onclick="maximizeWindow('win-ie')">&#9633;</div>
+                <div class="xp-btn-ctrl xp-btn-close" onclick="closeWindow('win-ie')">&times;</div>
+            </div>
+        </div>
+        <div class="xp-menubar">
+            <span>ملف</span><span>تحرير</span><span>عرض</span><span>المفضلة</span><span>أدوات</span><span>تعليمات</span>
+        </div>
+        <div class="xp-toolbar">
+            <button class="xp-tool-btn" onclick="soundNav()"><i class="fa-solid fa-arrow-right"></i> للخلف</button>
+            <button class="xp-tool-btn" onclick="soundNav()"><i class="fa-solid fa-arrow-left"></i> للأمام</button>
+            <button class="xp-tool-btn" onclick="reloadIframe()"><i class="fa-solid fa-rotate-right"></i> تحديث</button>
+            <button class="xp-tool-btn" onclick="loadIeUrl('https://tareq0001.github.io/Axiom-QuantFinance/')"><i class="fa-solid fa-house"></i> الرئيسية</button>
+            <div style="width: 1px; height: 18px; background: #ccc; margin: 0 4px;"></div>
+            <button class="xp-tool-btn" style="color: #2563eb; font-weight: bold;" onclick="openIeExternal()"><i class="fa-solid fa-arrow-up-right-from-square"></i> فتح في نافذة مستقلة</button>
+        </div>
+        <div class="xp-addressbar-row">
+            <span style="color: #666;">العنوان:</span>
+            <div class="xp-address-input">
+                <i class="fa-brands fa-internet-explorer" style="color: #0284c7;"></i>
+                <input type="text" id="ie-address-bar" value="https://tareq0001.github.io/Axiom-QuantFinance/">
+            </div>
+            <button class="xp-tool-btn" style="border: 1px solid #7f9db9;" onclick="loadIeUrl(document.getElementById('ie-address-bar').value)">انتقال</button>
+        </div>
+        <!-- Favorites Bar -->
+        <div class="ie-fav-bar">
+            <span style="font-weight: bold; color: #555;"><i class="fa-solid fa-star" style="color: #f59e0b;"></i> المفضلة:</span>
+            <span class="ie-fav-btn" onclick="loadIeUrl('https://tareq0001.github.io/Axiom-QuantFinance/')">Axiom QuantFinance</span>
+            <span class="ie-fav-btn" onclick="loadIeUrl('https://tareq0001.github.io/CyberSentinel-SOC-Dashboard/')">CyberSentinel SOC</span>
+            <span class="ie-fav-btn" onclick="loadIeUrl('https://tareq0001.github.io/TerraFarm-Smart-Agriculture/')">TerraFarm Agriculture</span>
+            <span class="ie-fav-btn" onclick="loadIeUrl('https://tareq0001.github.io/Lumina3D-Spatial-Interior/')">Lumina3D Spatial</span>
+            <span class="ie-fav-btn" onclick="loadIeUrl('https://tareq0001.github.io/MatrixSheet-Reactive-Spreadsheet/')">MatrixSheet Excel</span>
+            <span class="ie-fav-btn" onclick="loadIeUrl('/')">Cyberpunk 3D Portfolio</span>
+        </div>
+        <div class="xp-window-body" style="padding: 0;">
+            <iframe id="ie-iframe" src="https://tareq0001.github.io/Axiom-QuantFinance/" style="width: 100%; height: 100%; border: none;"></iframe>
+        </div>
+        <div class="xp-statusbar">
+            <span id="ie-status-text">تم تحميل الموقع بنجاح (Zone: Internet)</span>
+            <span><i class="fa-solid fa-lock" style="color: #16a34a;"></i> محمي باتصال آمن</span>
+        </div>
+    </div>
+
+    <!-- -------------------------------------------------------------------------
+         WINDOW 5: COMMAND PROMPT (win-cmd)
+    ------------------------------------------------------------------------- -->
+    <div class="xp-window" id="win-cmd" style="display: none; top: 70px; right: 100px; width: 680px; height: 440px;">
+        <div class="xp-titlebar" ondblclick="maximizeWindow(this.parentElement.id)" onmousedown="startDrag(event, 'win-cmd')">
+            <div class="xp-title-content">
+                <i class="fa-solid fa-terminal" style="color: #4ade80;"></i>
+                <span>موجه الأوامر - C:\WINDOWS\system32\cmd.exe</span>
+            </div>
+            <div class="xp-window-controls">
+                <div class="xp-btn-ctrl xp-btn-min" onclick="minimizeWindow('win-cmd')">&#8722;</div>
+                <div class="xp-btn-ctrl xp-btn-max" onclick="maximizeWindow('win-cmd')">&#9633;</div>
+                <div class="xp-btn-ctrl xp-btn-close" onclick="closeWindow('win-cmd')">&times;</div>
+            </div>
+        </div>
+        <div class="xp-window-body" style="padding: 0; background: #000000; color: #cccccc; font-family: 'Consolas', 'Lucida Console', monospace; font-size: 13px; line-height: 1.45;">
+            <div id="cmd-screen" style="padding: 10px; height: 100%; overflow-y: auto;" onclick="document.getElementById('cmd-input').focus()">
+                <div>Microsoft Windows XP [Version 5.1.2600]</div>
+                <div>(C) Copyright 1985-2001 Microsoft Corp.</div>
+                <br>
+                <div>مرحباً بك في موجه الأوامر الخاص بالمهندس طارق ابوعشي.</div>
+                <div>اكتب <span style="color: #4ade80; font-weight: bold;">help</span> لعرض قائمة الأوامر المتاحة.</div>
+                <br>
+                <div id="cmd-output"></div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <span style="color: #4ade80;">C:\Documents and Settings\Tareq&gt;</span>
+                    <input type="text" id="cmd-input" style="flex: 1; background: transparent; border: none; outline: none; color: #ffffff; font-family: inherit; font-size: inherit;" autofocus onkeydown="handleCmdKeyDown(event)">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- -------------------------------------------------------------------------
+         WINDOW 6: OUTLOOK EXPRESS (win-mail)
+    ------------------------------------------------------------------------- -->
+    <div class="xp-window" id="win-mail" style="display: none; top: 60px; right: 110px; width: 600px; height: 460px;">
+        <div class="xp-titlebar" ondblclick="maximizeWindow(this.parentElement.id)" onmousedown="startDrag(event, 'win-mail')">
+            <div class="xp-title-content">
+                <i class="fa-solid fa-envelope" style="color: #fb7185;"></i>
+                <span>Outlook Express - رسالة جديدة إلى أ. طارق ابوعشي</span>
+            </div>
+            <div class="xp-window-controls">
+                <div class="xp-btn-ctrl xp-btn-close" onclick="closeWindow('win-mail')">&times;</div>
+            </div>
+        </div>
+        <div class="xp-toolbar">
+            <button class="xp-tool-btn" style="font-weight: bold; color: #2563eb;" onclick="document.getElementById('mail-form').requestSubmit()"><i class="fa-solid fa-paper-plane"></i> إرسال الرسالة</button>
+            <button class="xp-tool-btn" onclick="closeWindow('win-mail')"><i class="fa-solid fa-xmark"></i> إلغاء</button>
+        </div>
+        <div class="xp-window-body" style="padding: 16px; background: #ece9d8;">
+            <form id="mail-form" action="https://formsubmit.co/abuoshey@gmail.com" method="POST" style="display: flex; flex-direction: column; gap: 8px;">
+                <input type="hidden" name="_captcha" value="false">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <label style="width: 70px; font-weight: bold;">إلى:</label>
+                    <input type="text" value="abuoshey@gmail.com (أ. طارق ابوعشي)" readonly style="flex: 1; padding: 4px; border: 1px solid #7f9db9; background: #e0ded0;">
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <label style="width: 70px; font-weight: bold;">اسمك / إيميلك:</label>
+                    <input type="text" name="email" required placeholder="example@domain.com" style="flex: 1; padding: 4px; border: 1px solid #7f9db9;">
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <label style="width: 70px; font-weight: bold;">الموضوع:</label>
+                    <input type="text" name="subject" required placeholder="فرصة عمل / استشارة معمارية / مشروع هندسي" style="flex: 1; padding: 4px; border: 1px solid #7f9db9;">
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 4px; margin-top: 4px;">
+                    <label style="font-weight: bold;">نص الرسالة:</label>
+                    <textarea name="message" required style="width: 100%; height: 180px; padding: 8px; border: 1px solid #7f9db9; font-family: Tahoma, sans-serif; font-size: 12px; resize: vertical;" placeholder="اكتب تفاصيل المشروع أو المنصب المقترح..."></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="xp-statusbar">
+            <span>متصل بخادم البريد الصادر (SMTP Active)</span>
+            <span>التشفير: SSL/TLS</span>
+        </div>
+    </div>
+
+    <!-- -------------------------------------------------------------------------
+         WINDOW 7: RECYCLE BIN (win-trash)
+    ------------------------------------------------------------------------- -->
+    <div class="xp-window" id="win-trash" style="display: none; top: 90px; right: 130px; width: 500px; height: 350px;">
+        <div class="xp-titlebar" ondblclick="maximizeWindow(this.parentElement.id)" onmousedown="startDrag(event, 'win-trash')">
+            <div class="xp-title-content">
+                <i class="fa-solid fa-trash-can" style="color: #cbd5e1;"></i>
+                <span>سلة المحذوفات (Recycle Bin)</span>
+            </div>
+            <div class="xp-window-controls">
+                <div class="xp-btn-ctrl xp-btn-close" onclick="closeWindow('win-trash')">&times;</div>
+            </div>
+        </div>
+        <div class="xp-toolbar">
+            <button class="xp-tool-btn" onclick="soundTrash(); alert('تم إفراغ سلة المحذوفات تماماً!');"><i class="fa-solid fa-broom"></i> إفراغ سلة المحذوفات</button>
+        </div>
+        <div class="xp-window-body" style="padding: 16px; background: #ffffff;">
+            <div style="text-align: center; color: #666; margin-top: 50px;">
+                <i class="fa-solid fa-circle-check" style="font-size: 44px; color: #16a34a; margin-bottom: 12px;"></i>
+                <h3 style="color: #111827; font-size: 14px; margin-bottom: 6px;">سلة المحذوفات خالية</h3>
+                <p style="font-size: 11px;">كافة الأكواد والمشاريع خالية من التكرار والشوائب البرمجية، ومطبقة لأعلى معايير هندسة البرمجيات.</p>
+            </div>
+        </div>
+        <div class="xp-statusbar">
+            <span>0 كائنات</span>
+            <span>0 بايت</span>
+        </div>
+    </div>
+
+    <!-- -------------------------------------------------------------------------
+         WINDOW 8: DISPLAY PROPERTIES (win-display)
+    ------------------------------------------------------------------------- -->
+    <div class="xp-window" id="win-display" style="display: none; top: 60px; right: 140px; width: 440px; height: 430px;">
+        <div class="xp-titlebar" ondblclick="maximizeWindow(this.parentElement.id)" onmousedown="startDrag(event, 'win-display')">
+            <div class="xp-title-content">
+                <i class="fa-solid fa-desktop" style="color: #a855f7;"></i>
+                <span>خصائص العرض (Display Properties)</span>
+            </div>
+            <div class="xp-window-controls">
+                <div class="xp-btn-ctrl xp-btn-close" onclick="closeWindow('win-display')">&times;</div>
+            </div>
+        </div>
+        <div style="background: #ece9d8; padding: 6px 8px 0; border-bottom: 1px solid #999; display: flex; gap: 4px;">
+            <button class="xp-tab-btn active" style="padding: 3px 10px; border: 1px solid #7a96df; border-bottom: none; background: #fff; font-size: 11px; font-weight: bold; border-radius: 3px 3px 0 0;">سطح المكتب (Desktop)</button>
+            <button class="xp-tab-btn" style="padding: 3px 10px; border: 1px solid #ccc; border-bottom: none; background: #ece9d8; font-size: 11px; border-radius: 3px 3px 0 0;" onclick="alert('شاشة التوقف: Windows XP Professional')">شاشة التوقف</button>
+            <button class="xp-tab-btn" style="padding: 3px 10px; border: 1px solid #ccc; border-bottom: none; background: #ece9d8; font-size: 11px; border-radius: 3px 3px 0 0;" onclick="alert('المظهر: نمط Windows XP الافتراضي (Luna Blue)')">المظهر</button>
+        </div>
+        <div class="xp-window-body" style="padding: 12px; background: #ece9d8; flex: 1; display: flex; flex-direction: column; gap: 10px;">
+            <!-- CRT Monitor Preview -->
+            <div style="display: flex; justify-content: center; margin-bottom: 4px;">
+                <div style="width: 170px; height: 125px; background: #b8b8b8; border: 4px solid #808080; border-radius: 12px 12px 4px 4px; box-shadow: inset 2px 2px 5px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; position: relative;">
+                    <div id="crt-screen" style="width: 140px; height: 90px; background: #004e98 url('bliss.jpg') no-repeat center center; background-size: cover; border: 2px solid #333; border-radius: 3px; overflow: hidden; position: relative;">
+                        <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 8px; background: #245edb;"></div>
+                    </div>
+                    <div style="position: absolute; bottom: -12px; width: 55px; height: 12px; background: #999; border-radius: 0 0 6px 6px;"></div>
+                </div>
+            </div>
+            <div>
+                <div style="font-size: 11px; font-weight: bold; margin-bottom: 4px;">خلفية سطح المكتب (Background):</div>
+                <select id="wallpaper-select" size="4" style="width: 100%; border: 2px inset #fff; padding: 2px; font-size: 11px; background: #fff;" onchange="previewWallpaper(this.value)">
+                    <option value="bliss" selected>Bliss (الأصلي الطبيعي 1080p - كاليفورنيا)</option>
+                    <option value="blue">Windows XP Blue (أزرق ملكي كلاسيكي)</option>
+                    <option value="matrix">Matrix Green Terminal (مصفوفة البيانات)</option>
+                    <option value="silver">Luna Silver (رمادي لونا المؤسسي)</option>
+                </select>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 6px; margin-top: auto;">
+                <button class="xp-btn" onclick="applyWallpaper(); closeWindow('win-display');" style="padding: 4px 14px; font-weight: bold;">موافق</button>
+                <button class="xp-btn" onclick="closeWindow('win-display');" style="padding: 4px 14px;">إلغاء الأمر</button>
+                <button class="xp-btn" onclick="applyWallpaper();" style="padding: 4px 14px;">تطبيق</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- -------------------------------------------------------------------------
+         WINDOW 9: MINESWEEPER (win-minesweeper)
+    ------------------------------------------------------------------------- -->
+    <div class="xp-window" id="win-minesweeper" style="display: none; top: 100px; right: 180px; width: 236px; height: 320px;">
+        <div class="xp-titlebar" ondblclick="maximizeWindow(this.parentElement.id)" onmousedown="startDrag(event, 'win-minesweeper')">
+            <div class="xp-title-content">
+                <i class="fa-solid fa-bomb" style="color: #ef4444;"></i>
+                <span>كاسحة الألغام (Minesweeper)</span>
+            </div>
+            <div class="xp-window-controls">
+                <div class="xp-btn-ctrl xp-btn-close" onclick="closeWindow('win-minesweeper')">&times;</div>
+            </div>
+        </div>
+        <div class="xp-menubar">
+            <span onclick="resetMinesweeper()">لعبة (Game)</span>
+            <span onclick="alert('كاسحة ألغام Windows XP Professional\n• النقر بالزر الأيسر: كشف المربع\n• النقر بالزر الأيمن: وضع العلم 🚩')">تعليمات (Help)</span>
+        </div>
+        <div class="xp-window-body" style="padding: 8px; background: #c0c0c0; border: 3px outset #fff; flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+            <div style="width: 100%; border: 3px inset #fff; padding: 4px 6px; display: flex; justify-content: space-between; align-items: center; background: #c0c0c0; box-sizing: border-box;">
+                <div id="mine-count" class="xp-lcd">010</div>
+                <button id="mine-face" class="xp-face-btn" onclick="resetMinesweeper()">🙂</button>
+                <div id="mine-timer" class="xp-lcd">000</div>
+            </div>
+            <div id="mine-grid" style="display: grid; grid-template-columns: repeat(9, 20px); grid-template-rows: repeat(9, 20px); border: 3px inset #fff; background: #7b7b7b; gap: 1px;" oncontextmenu="event.preventDefault()">
+            </div>
+        </div>
+    </div>
+
+    <!-- -------------------------------------------------------------------------
+         WINDOW 10: NOTEPAD (win-notepad)
+    ------------------------------------------------------------------------- -->
+    <div class="xp-window" id="win-notepad" style="display: none; top: 80px; right: 200px; width: 550px; height: 430px;">
+        <div class="xp-titlebar" ondblclick="maximizeWindow(this.parentElement.id)" onmousedown="startDrag(event, 'win-notepad')">
+            <div class="xp-title-content">
+                <i class="fa-solid fa-note-sticky" style="color: #3b82f6;"></i>
+                <span>README.TXT - المفكرة (Notepad)</span>
+            </div>
+            <div class="xp-window-controls">
+                <div class="xp-btn-ctrl xp-btn-min" onclick="minimizeWindow('win-notepad')">&#8722;</div>
+                <div class="xp-btn-ctrl xp-btn-max" onclick="maximizeWindow('win-notepad')">&#9633;</div>
+                <div class="xp-btn-ctrl xp-btn-close" onclick="closeWindow('win-notepad')">&times;</div>
+            </div>
+        </div>
+        <div class="xp-menubar">
+            <span onclick="soundNav()">ملف</span>
+            <span onclick="soundNav()">تحرير</span>
+            <span onclick="soundNav()">تنسيق</span>
+            <span onclick="soundNav()">عرض</span>
+            <span onclick="soundNav()">تعليمات</span>
+        </div>
+        <div class="xp-window-body" style="flex: 1; display: flex; flex-direction: column; background: #ffffff;">
+            <textarea id="notepad-text" style="flex: 1; width: 100%; border: none; outline: none; padding: 10px; font-family: 'Lucida Console', 'Courier New', monospace; font-size: 11px; line-height: 1.5; resize: none; background: #ffffff; color: #000; box-sizing: border-box;" spellcheck="false"></textarea>
+            <div class="xp-statusbar" style="justify-content: flex-end; padding: 2px 8px; font-size: 11px;">
+                <span>سطر 1، عمود 1 | UTF-8</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- -------------------------------------------------------------------------
+         WINDOW 11: WINDOWS MEDIA PLAYER 9 (win-wmp)
+    ------------------------------------------------------------------------- -->
+    <div class="xp-window" id="win-wmp" style="display: none; top: 70px; right: 200px; width: 340px; height: 380px;">
+        <div class="xp-titlebar" ondblclick="maximizeWindow(this.parentElement.id)" onmousedown="startDrag(event, 'win-wmp')">
+            <div class="xp-title-content">
+                <i class="fa-solid fa-play" style="color: #38bdf8;"></i>
+                <span>Windows Media Player</span>
+            </div>
+            <div class="xp-window-controls">
+                <div class="xp-btn-ctrl xp-btn-min" onclick="minimizeWindow('win-wmp')">&#8722;</div>
+                <div class="xp-btn-ctrl xp-btn-close" onclick="closeWindow('win-wmp'); stopWMPMusic();">&times;</div>
+            </div>
+        </div>
+        <div class="xp-menubar">
+            <span onclick="soundNav()">ملف</span>
+            <span onclick="soundNav()">عرض</span>
+            <span onclick="soundNav()">تشغيل</span>
+            <span onclick="soundNav()">أدوات</span>
+            <span onclick="soundNav()">تعليمات</span>
+        </div>
+        <div class="xp-window-body" style="background: #0f172a; flex: 1; display: flex; flex-direction: column; padding: 8px; gap: 8px;">
+            <div style="background: #000000; border: 2px inset #475569; border-radius: 4px; height: 165px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                <canvas id="wmp-canvas" width="310" height="155" style="width: 100%; height: 100%;"></canvas>
+                <div id="wmp-track-title" style="position: absolute; top: 8px; left: 10px; color: #38bdf8; font-size: 11px; font-weight: bold; text-shadow: 0 1px 3px #000;">Tareq Synthwave - Track 01</div>
+            </div>
+            <div style="padding: 2px 4px; display: flex; flex-direction: column; gap: 4px;">
+                <div style="display: flex; justify-content: space-between; color: #94a3b8; font-size: 10px;">
+                    <span id="wmp-current-time">00:00</span>
+                    <span style="color: #38bdf8;">8-Bit Retro Ambience</span>
+                    <span id="wmp-total-time">01:30</span>
+                </div>
+                <div style="height: 6px; background: #334155; border-radius: 3px; overflow: hidden; position: relative;">
+                    <div id="wmp-progress-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #0284c7, #38bdf8);"></div>
+                </div>
+            </div>
+            <div style="background: linear-gradient(180deg, #334155 0%, #1e293b 100%); border: 1px solid #475569; border-radius: 4px; padding: 6px 12px; display: flex; align-items: center; justify-content: space-between; margin-top: auto;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <button class="wmp-ctrl-btn" id="wmp-play-btn" onclick="toggleWMPMusic()" title="Play / Pause"><i class="fa-solid fa-play"></i></button>
+                    <button class="wmp-ctrl-btn" onclick="stopWMPMusic()" title="Stop"><i class="fa-solid fa-stop"></i></button>
+                </div>
+                <div style="display: flex; align-items: center; gap: 6px; color: #cbd5e1; font-size: 11px;">
+                    <i class="fa-solid fa-volume-high"></i>
+                    <input type="range" id="wmp-volume" min="0" max="100" value="80" style="width: 65px; height: 4px;" oninput="setWMPVolume(this.value)">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- -------------------------------------------------------------------------
+         WINDOW 12: CALCULATOR (win-calc)
+    ------------------------------------------------------------------------- -->
+    <div class="xp-window" id="win-calc" style="display: none; top: 110px; right: 240px; width: 236px; height: 275px;">
+        <div class="xp-titlebar" ondblclick="maximizeWindow(this.parentElement.id)" onmousedown="startDrag(event, 'win-calc')">
+            <div class="xp-title-content">
+                <i class="fa-solid fa-calculator" style="color: #ea580c;"></i>
+                <span>الحاسبة (Calculator)</span>
+            </div>
+            <div class="xp-window-controls">
+                <div class="xp-btn-ctrl xp-btn-close" onclick="closeWindow('win-calc')">&times;</div>
+            </div>
+        </div>
+        <div class="xp-menubar">
+            <span onclick="soundNav()">عرض</span>
+            <span onclick="soundNav()">تحرير</span>
+            <span onclick="soundNav()">تعليمات</span>
+        </div>
+        <div class="xp-window-body" style="padding: 8px; background: #ece9d8; display: flex; flex-direction: column; gap: 8px; flex: 1;">
+            <input type="text" id="calc-display" value="0" readonly style="width: 100%; height: 26px; text-align: right; font-family: 'Lucida Console', monospace; font-size: 14px; font-weight: bold; background: #ffffff; border: 2px inset #ffffff; padding: 2px 6px; box-sizing: border-box; direction: ltr;">
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; flex: 1;">
+                <button class="calc-btn danger" onclick="calcAction('C')">C</button>
+                <button class="calc-btn warning" onclick="calcAction('CE')">CE</button>
+                <button class="calc-btn" onclick="calcAction('sqrt')">√</button>
+                <button class="calc-btn op" onclick="calcAction('/')">/</button>
+
+                <button class="calc-btn num" onclick="calcAction('7')">7</button>
+                <button class="calc-btn num" onclick="calcAction('8')">8</button>
+                <button class="calc-btn num" onclick="calcAction('9')">9</button>
+                <button class="calc-btn op" onclick="calcAction('*')">*</button>
+
+                <button class="calc-btn num" onclick="calcAction('4')">4</button>
+                <button class="calc-btn num" onclick="calcAction('5')">5</button>
+                <button class="calc-btn num" onclick="calcAction('6')">6</button>
+                <button class="calc-btn op" onclick="calcAction('-')">-</button>
+
+                <button class="calc-btn num" onclick="calcAction('1')">1</button>
+                <button class="calc-btn num" onclick="calcAction('2')">2</button>
+                <button class="calc-btn num" onclick="calcAction('3')">3</button>
+                <button class="calc-btn op" onclick="calcAction('+')">+</button>
+
+                <button class="calc-btn num" onclick="calcAction('0')">0</button>
+                <button class="calc-btn num" onclick="calcAction('+/-')">±</button>
+                <button class="calc-btn num" onclick="calcAction('.')">.</button>
+                <button class="calc-btn equals" onclick="calcAction('=')">=</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- -------------------------------------------------------------------------
+         CORE SCRIPTS & SOUND SYNTHESIS
+    ------------------------------------------------------------------------- -->
+    <script>
+        // DATA: ALL 54+ UNIFIED ENTERPRISE PROJECTS
+        const ALL_PROJECTS = [{"title": "Aegis ZeroTrust eBPF Security Mesh", "desc": "Kernel-space security fabric powered by eBPF & XDP. Line-rate 10M+ pkts/sec DDoS mitigation, sub-microsecond container syscall auditing, and zero-context-switch anomaly isolation in Linux kernel space.", "category": "Other", "tags": ["Kernel-Space eBPF & XDP"], "repo": "https://github.com/Tareq0001/Aegis-ZeroTrust-eBPF", "demo": null, "benchmarks": {}, "normalized_cat": "Core & Trading", "drive": "C:"}, {"title": "Titan Matching Engine", "desc": "Deterministic Central Limit Order Book (CLOB) matching engine for tier-1 exchanges. Zero-allocation ring buffers and cache-line packed data structures executing orders in sub-680 nanoseconds.", "category": "High-Frequency Trading", "tags": ["Ultra-Low Latency HFT"], "repo": "https://github.com/Tareq0001/Titan-Matching-Engine", "demo": null, "benchmarks": {}, "normalized_cat": "High-Frequency Trading", "drive": "C:"}, {"title": "Hydra Distributed MoE Engine", "desc": "Decentralized P2P inference router for trillion-parameter Mixture-of-Experts models (DeepSeek-V3 / Mixtral 671B). Employs speculative expert routing to reduce cross-node bandwidth by 82% at 384 tokens/sec.", "category": "AI & Deep Learning", "tags": ["Decentralized MoE Inference"], "repo": "https://github.com/Tareq0001/Hydra-Distributed-MoE", "demo": null, "benchmarks": {}, "normalized_cat": "AI & Deep Learning", "drive": "D:"}, {"title": "Lumina3D Spatial Interior Studio", "desc": "Photorealistic browser-native 3D interior design & spatial architecture studio. Real-time PBR lighting warmth modulation (2200K-6500K), dynamic material swapper, and instant USDZ export for Apple Vision Pro.", "category": "3D & Spatial Computing", "tags": ["3D Spatial Architecture"], "repo": "https://github.com/Tareq0001/Lumina3D-Spatial-Interior", "demo": "https://tareq0001.github.io/Lumina3D-Spatial-Interior/", "benchmarks": {}, "normalized_cat": "3D & Spatial Computing", "drive": "E:"}, {"title": "Aetheria 3D Architectural Digital Twin", "desc": "Browser-native architectural digital twin platform. Features interactive vertical floor explosion (axonometric cutaway), real-time sun path & day/sunset/night simulation, 3D laser measurement ruler, and UnrealBloom post-processing.", "category": "3D & Spatial Computing", "tags": ["3D Architectural Digital Twin"], "repo": "https://github.com/Tareq0001/Aetheria-3D-Building", "demo": "https://tareq0001.github.io/Aetheria-3D-Building/", "benchmarks": {}, "normalized_cat": "3D & Spatial Computing", "drive": "E:"}, {"title": "NeuroScan 3D Volumetric MedAI", "desc": "Browser-native PACS neuro-oncology imaging platform. Features 3D volumetric raymarching, synchronous Multi-Planar Reconstruction (MPR), automated deep-learning tumor segmentation, HU radiodensity windowing, and 3D caliper volumetry.", "category": "AI & Deep Learning", "tags": ["Medical AI & 3D Volumetric Imaging"], "repo": "https://github.com/Tareq0001/NeuroScan-3D-MedAI", "demo": "https://tareq0001.github.io/NeuroScan-3D-MedAI/", "benchmarks": {}, "normalized_cat": "AI & Deep Learning", "drive": "D:"}, {"title": "AeroSLAM 3D Drone Autonomy & RRT*", "desc": "Autonomous drone navigation & 3D Visual SLAM simulator. Real-time 360° LiDAR raycasting generating 16,000+ point clouds, dynamic obstacle avoidance, 3D RRT* trajectory planning with spline smoothing, and aerospace avionics HUD.", "category": "3D & Spatial Computing", "tags": ["Autonomous Robotics & SLAM"], "repo": "https://github.com/Tareq0001/AeroSLAM-3D-Nav", "demo": "https://tareq0001.github.io/AeroSLAM-3D-Nav/", "benchmarks": {}, "normalized_cat": "3D & Spatial Computing", "drive": "E:"}, {"title": "GeoMatrix SatIntel Earth Twin", "desc": "Browser-native 3D Earth digital twin & satellite remote sensing analytics suite. Multi-spectral synthesizers (NDVI vegetation, Thermal Heat Island, Night Luminosity), Keplerian LEO orbital tracking (ISS, Sentinel-2A), and strategic city focus telemetry.", "category": "AI & Deep Learning", "tags": ["Geospatial Satellite Intelligence"], "repo": "https://github.com/Tareq0001/GeoMatrix-SatIntel", "demo": "https://tareq0001.github.io/GeoMatrix-SatIntel/", "benchmarks": {}, "normalized_cat": "AI & Deep Learning", "drive": "D:"}, {"title": "ApexMES Smart Manufacturing Execution Suite", "desc": "Full-scale Manufacturing Execution System (MES) featuring ISO 22400 Overall Equipment Effectiveness (OEE), ISA-95 production job scheduling, live shop-floor spindle & vibration telemetry, and Pareto downtime loss analysis.", "category": "Industrial & Robotics", "tags": ["Smart Manufacturing & ISO 22400"], "repo": "https://github.com/Tareq0001/ApexMES-Smart-Manufacturing", "demo": "https://tareq0001.github.io/ApexMES-Smart-Manufacturing/", "benchmarks": {}, "normalized_cat": "Industrial & Robotics", "drive": "F:"}, {"title": "Synapse IIoT Industrial Protocol Gateway", "desc": "Multi-protocol industrial edge integration gateway bridging OPC UA, MQTT Sparkplug B, Modbus TCP, and Siemens S7-1500 with animated bus topology, real-time deadband filtering, and running Z-score anomaly detection.", "category": "Industrial & Robotics", "tags": ["IIoT Edge Bus & SCADA Integration"], "repo": "https://github.com/Tareq0001/SynapseIIoT-Industrial-Gateway", "demo": "https://tareq0001.github.io/SynapseIIoT-Industrial-Gateway/", "benchmarks": {}, "normalized_cat": "Industrial & Robotics", "drive": "F:"}, {"title": "OmniCorp Enterprise Financial ERP Suite", "desc": "Enterprise Resource Planning system built on strict double-entry General Ledger (GL) accounting, cryptographic SHA-256 block hash audit trail, multi-entity corporate budgeting, and Saudi Labor compliant HCM payroll.", "category": "Industrial & Robotics", "tags": ["Double-Entry GL & Corporate ERP"], "repo": "https://github.com/Tareq0001/OmniCorp-Enterprise-ERP", "demo": "https://tareq0001.github.io/OmniCorp-Enterprise-ERP/", "benchmarks": {}, "normalized_cat": "Enterprise SaaS & Backends", "drive": "G:"}, {"title": "ApexPlant Operations, WMS & Predictive Maintenance", "desc": "Plant operations & smart warehouse platform with interactive 2D coordinate rack matrix, mathematical Weibull distribution reliability engine for Remaining Useful Life (RUL) estimation, and plant EHS telemetry.", "category": "Industrial & Robotics", "tags": ["Intelligent WMS & Weibull PdM"], "repo": "https://github.com/Tareq0001/ApexPlant-Operations-WMS", "demo": "https://tareq0001.github.io/ApexPlant-Operations-WMS/", "benchmarks": {}, "normalized_cat": "Industrial & Robotics", "drive": "F:"}, {"title": "AegisChain Logistics Control Tower", "desc": "Multimodal supply chain control tower tracking freight across Saudi & GCC transport corridors, with active IoT pharmaceutical cold-chain thermal excursion alarms, carrier OTIF analytics, and cryptographic e-BL generation.", "category": "Industrial & Robotics", "tags": ["Multimodal Tower & Cold-Chain IoT"], "repo": "https://github.com/Tareq0001/AegisChain-Logistics-ControlTower", "demo": "https://tareq0001.github.io/AegisChain-Logistics-ControlTower/", "benchmarks": {}, "normalized_cat": "Industrial & Robotics", "drive": "F:"}, {"title": "ChronoMamba SSM Inference Engine", "desc": "Continuous-time State-Space (Mamba-2) and Liquid Neural Network (LNN) engine running O(1) memory linear-time inference over 1,000,000+ token telemetry streams without quadratic KV-cache blowup.", "category": "AI & Deep Learning", "tags": ["State Space Model & Liquid AI"], "repo": "https://github.com/Tareq0001/ChronoMamba-SSM-Engine", "demo": null, "benchmarks": {}, "normalized_cat": "AI & Deep Learning", "drive": "D:"}, {"title": "PrismHolo 4D Telepresence Engine", "desc": "Real-time 4D Gaussian Splatting and volumetric holographic stream pipeline for Apple Vision Pro. Ingests multi-view RGB-D feeds and renders 90 FPS avatars at <45ms latency with 10x octree compression.", "category": "3D & Spatial Computing", "tags": ["4D Volumetric Streaming"], "repo": "https://github.com/Tareq0001/PrismHolo-4D-Telepresence", "demo": null, "benchmarks": {}, "normalized_cat": "3D & Spatial Computing", "drive": "E:"}, {"title": "Vortex ZK-Rollup Engine", "desc": "Modular validity rollup engine utilizing recursive Plonky2 zk-SNARKs. Bundles thousands of transactions into succinct 420-byte proofs verified on Ethereum L1 with 15,400+ TPS.", "category": "Other", "tags": ["Zero-Knowledge Rollup"], "repo": "https://github.com/Tareq0001/Vortex-ZK-Rollup", "demo": null, "benchmarks": {}, "normalized_cat": "Core & Trading", "drive": "C:"}, {"title": "AeroVLA Embodied Robotics Engine", "desc": "Vision-Language-Action (VLA) manipulation engine running on edge hardware (Jetson Orin). Grounds natural language human instructions into 7-DoF continuous kinematic trajectories at 50Hz.", "category": "3D & Spatial Computing", "tags": ["Embodied Robotics & VLA"], "repo": "https://github.com/Tareq0001/AeroVLA-Embodied-Robotics", "demo": null, "benchmarks": {}, "normalized_cat": "3D & Spatial Computing", "drive": "E:"}, {"title": "Asir 3D: Above the Clouds (PWA Hybrid Game)", "desc": "High-performance browser & mobile hybrid 3D flight game inspired by the peaks and heritage of Asir and Al-Soudah. Features standalone offline PWA caching, virtual touch joystick with spring physics, real-time soft shadows, procedural Web Audio synthesizer, and energy shield dynamics.", "category": "3D & Spatial Computing", "tags": ["PWA & Hybrid Mobile 3D"], "repo": "https://github.com/Tareq0001/Asir-3D-PWA", "demo": "https://tareq0001.github.io/Asir-3D-PWA/", "benchmarks": {}, "normalized_cat": "3D & Spatial Computing", "drive": "E:"}, {"title": "City Outlaw 3D: Legends (قراند 3D)", "desc": "High-octane open-world action & driving PWA game built with Three.js WebGL2. Features vehicle theft & driving physics, responsive chase camera, raycasting combat arsenal, wanted level AI police pursuits, and mobile touch controls.", "category": "3D & Spatial Computing", "tags": ["Open-World 3D & PWA Action"], "repo": "https://github.com/Tareq0001/City-Outlaw-3D-PWA", "demo": "https://tareq0001.github.io/City-Outlaw-3D-PWA/", "benchmarks": {}, "normalized_cat": "3D & Spatial Computing", "drive": "E:"}, {"title": "AuraVoice: Autonomous Real-Time Voice Agent", "desc": "Silicon Valley-grade real-time voice AI agent operating at sub-200ms roundtrip latency. Features 48kHz Web Audio signal processing, adaptive noise-floor VAD, instant barge-in interruption, 3D harmonic fluid orb visualizer, and dual-mode streaming intelligence.", "category": "AI & Deep Learning", "tags": ["Real-Time Multimodal Voice AI"], "repo": "https://github.com/Tareq0001/AuraVoice-AI-Agent", "demo": "https://tareq0001.github.io/AuraVoice-AI-Agent/", "benchmarks": {}, "normalized_cat": "AI & Deep Learning", "drive": "D:"}, {"title": "CyberSentinel Autonomous SOC & Threat SIEM", "desc": "Enterprise-grade Security Operations Center platform with real-time global attack vector map, MITRE ATT&CK matrix heatmaps, CVSS v3.1 scoring engine, automated incident triage, and DGA anomaly detection.", "category": "Other", "tags": ["Autonomous SOC & Threat Intel"], "repo": "https://github.com/Tareq0001/CyberSentinel-SOC-Dashboard", "demo": "https://tareq0001.github.io/CyberSentinel-SOC-Dashboard/", "benchmarks": {}, "normalized_cat": "Industrial & Robotics", "drive": "F:"}, {"title": "TerraFarm Precision Agriculture & IoT Control", "desc": "Autonomous precision agriculture platform with 16-zone soil sensor telemetry, automated evapotranspiration irrigation, multispectral NDVI crop health analysis, GDD yield prediction, and drone survey planning.", "category": "Industrial & Robotics", "tags": ["Precision IoT AgriTech & Drone Survey"], "repo": "https://github.com/Tareq0001/TerraFarm-Smart-Agriculture", "demo": "https://tareq0001.github.io/TerraFarm-Smart-Agriculture/", "benchmarks": {}, "normalized_cat": "Industrial & Robotics", "drive": "F:"}, {"title": "AetherGrid Renewable Microgrid SCADA", "desc": "Enterprise SCADA dispatch platform with Kirchhoff power flow balance, BESS Coulomb-counting battery telemetry, solar PV irradiance models, single-line bus topology, and dynamic economic dispatch.", "category": "Industrial & Robotics", "tags": ["Clean Energy SCADA & BESS Microgrid"], "repo": "https://github.com/Tareq0001/AetherGrid-Renewable-Microgrid", "demo": "https://tareq0001.github.io/AetherGrid-Renewable-Microgrid/", "benchmarks": {}, "normalized_cat": "Industrial & Robotics", "drive": "F:"}, {"title": "QuantumForge Quantum Computing Studio", "desc": "Full-scale state-vector quantum computing synthesizer with complex linear algebra unitary gate simulation, real-time 3D Bloch sphere projections, Born rule stochastic sampling, and bidirectional OpenQASM 3.0 compilation.", "category": "AI & Deep Learning", "tags": ["Quantum State-Vector IDE & QASM 3.0"], "repo": "https://github.com/Tareq0001/QuantumForge-Quantum-Studio", "demo": "https://tareq0001.github.io/QuantumForge-Quantum-Studio/", "benchmarks": {}, "normalized_cat": "AI & Deep Learning", "drive": "D:"}, {"title": "AeroHorizon 4D Air Traffic Radar & Simulator", "desc": "Next-generation 4D global air traffic control radar and aerodynamic flight simulator. Features real-time ADS-B Mode-S 1090MHz transponder decoding, glass cockpit PFD artificial horizon, TCAS II collision avoidance, and 3.0° ILS glideslope cross-sections.", "category": "Industrial & Robotics", "tags": ["4D Air Traffic Radar & Cockpit EFIS"], "repo": "https://github.com/Tareq0001/AeroHorizon-Global-FlightRadar", "demo": "https://tareq0001.github.io/AeroHorizon-Global-FlightRadar/", "benchmarks": {}, "normalized_cat": "Industrial & Robotics", "drive": "F:"}, {"title": "VentusGrid 4D Global Atmospheric Dynamics", "desc": "High-fidelity 4D global atmospheric dynamics engine and fluid wind streamline simulator. Features 2D Navier-Stokes advection, Holland tropical cyclone vortex dynamics, Skew-T ln P thermodynamic sounding, and Marshall-Palmer Doppler precipitation radar.", "category": "Industrial & Robotics", "tags": ["4D Atmospheric Dynamics & Wind Radar"], "repo": "https://github.com/Tareq0001/VentusGrid-Global-Weather-Simulator", "demo": "https://tareq0001.github.io/VentusGrid-Global-Weather-Simulator/", "benchmarks": {}, "normalized_cat": "Industrial & Robotics", "drive": "F:"}, {"title": "ApexX Social Graph & Algorithmic Feed Engine", "desc": "High-fidelity Twitter/X simulation and social graph engine. Features candidate generation & Heavy Ranker ranking, discrete-event viral cascade propagation (SIR epidemic model), 2D force-directed network graph at 60 FPS, rich tweet composer with polls & threads, and live audio Spaces.", "category": "AI & Deep Learning", "tags": ["Social Graph & Algorithmic Feed"], "repo": "https://github.com/Tareq0001/ApexX-Social-Graph-Engine", "demo": "https://tareq0001.github.io/ApexX-Social-Graph-Engine/", "benchmarks": {}, "normalized_cat": "AI & Deep Learning", "drive": "D:"}, {"title": "MatrixSheet Reactive Spreadsheet Engine", "desc": "Institutional browser alternative to Microsoft Excel & Google Sheets. Built with a recursive-descent AST formula parser, 50+ Excel functions, Directed Acyclic Graph (DAG) with Kahn's topological sort, circular reference cycle detection (#CYCLE!), interactive SVG formula auditing, and dynamic range-bound charts.", "category": "Industrial & Robotics", "tags": ["Reactive Spreadsheet & AST Engine"], "repo": "https://github.com/Tareq0001/MatrixSheet-Reactive-Spreadsheet", "demo": "https://tareq0001.github.io/MatrixSheet-Reactive-Spreadsheet/", "benchmarks": {}, "normalized_cat": "Enterprise SaaS & Backends", "drive": "G:"}, {"title": "ApexTerminal Institutional Market Engine", "desc": "Institutional alternative to Bloomberg Terminal & TradingView Pro. Features an authentic Level-3 (L3) limit order book with sub-ms Price-Time Priority FIFO matching, Avellaneda-Stoikov quantitative market makers, 1,000-path Monte Carlo risk modeling (VaR 95/99%), Nelson-Siegel sovereign yield curve, and 60 FPS Canvas candlesticks.", "category": "Industrial & Robotics", "tags": ["L3 Order Book & Financial Terminal"], "repo": "https://github.com/Tareq0001/ApexTerminal-Institutional-Market-Engine", "demo": "https://tareq0001.github.io/ApexTerminal-Institutional-Market-Engine/", "benchmarks": {}, "normalized_cat": "Industrial & Robotics", "drive": "F:"}, {"title": "Axiom QuantFinance: Tadawul Terminal & Derivatives Lab", "desc": "Institutional quantitative finance workstation and paper trading terminal for Saudi Equities (Tadawul). Features real-time Black-Scholes Greeks, Cox-Ross-Rubinstein binomial lattices, Markowitz Mean-Variance optimization, Monte Carlo VaR/CVaR risk engine, DCF intrinsic valuation, DRIP compounding forecasts, and head-to-head stock comparator.", "category": "Industrial & Robotics", "tags": ["Institutional Quant Trading & Derivatives Lab"], "repo": "https://github.com/Tareq0001/Axiom-QuantFinance", "demo": "https://tareq0001.github.io/Axiom-QuantFinance/", "benchmarks": {}, "normalized_cat": "Industrial & Robotics", "drive": "F:"}, {"title": "ApexVector Spatial Collaborative Design Engine", "desc": "Browser-based alternative to Figma and Sketch. Engineered with an infinite 2D spatial vector canvas, reactive AST auto-layout flexbox engine, autonomous simulated multiplayer cursor presence, instant DevMode CSS/Tailwind compiler, interactive prototype preview mode, and native SVG export.", "category": "Industrial & Robotics", "tags": ["Spatial UI & Vector Design Engine"], "repo": "https://github.com/Tareq0001/ApexVector-Spatial-Design-Engine", "demo": "https://tareq0001.github.io/ApexVector-Spatial-Design-Engine/", "benchmarks": {}, "normalized_cat": "Industrial & Robotics", "drive": "F:"}, {"title": "ApexDAW Pro Modular Audio Workstation", "desc": "Browser alternative to Ableton Live and FL Studio. Built with real-time Web Audio API synthesis, a 16-step analog drum machine, dual-oscillator polyphonic piano keyboard, 60 FPS real-time oscilloscope & 32-band FFT frequency analyzer, Moog ladder filter FX rack, and direct WAV export.", "category": "Industrial & Robotics", "tags": ["Pro Audio & Modular Synth Workstation"], "repo": "https://github.com/Tareq0001/ApexDAW-Modular-Audio-Workstation", "demo": "https://tareq0001.github.io/ApexDAW-Modular-Audio-Workstation/", "benchmarks": {}, "normalized_cat": "Industrial & Robotics", "drive": "F:"}, {"title": "ApexThreat Global Cyber Radar & Defense", "desc": "Institutional alternative to Cloudflare Radar, Norse Attack Map, and Kaspersky CyberMap. Features a 3D WebGL holographic Earth globe, real-time ballistic threat trajectory arcs (DDoS, BGP leaks, zero-day RCE), autonomous eBPF XDP kernel dropper, and dynamic DEFCON threat level gauges.", "category": "3D & Spatial Computing", "tags": ["Global Cyber Threat & Defense Radar"], "repo": "https://github.com/Tareq0001/ApexThreat-Global-Cyber-Radar", "demo": "https://tareq0001.github.io/ApexThreat-Global-Cyber-Radar/", "benchmarks": {}, "normalized_cat": "3D & Spatial Computing", "drive": "E:"}, {"title": "ApexOrbit 3D Orbital Mechanics & Flight Simulator", "desc": "Institutional alternative to NASA Eyes on the Solar System and Kerbal Space Program. Features 3D WebGL Keplerian orbital mechanics, real-time Hohmann interplanetary transfer trajectories (Earth-Moon-Mars), prograde/retrograde orbital burns, Delta-V budgets, and a mission control flight computer.", "category": "Industrial & Robotics", "tags": ["3D Astrodynamics & Mission Control"], "repo": "https://github.com/Tareq0001/ApexOrbit-3D-Orbital-Mechanics-Engine", "demo": "https://tareq0001.github.io/ApexOrbit-3D-Orbital-Mechanics-Engine/", "benchmarks": {}, "normalized_cat": "Industrial & Robotics", "drive": "F:"}, {"title": "ApexAutopilot 3D LiDAR & Vision AI Simulator", "desc": "Institutional alternative to Tesla FSD Visualizer and Waymo World. Features real-time 64-beam LiDAR point cloud generation, 3D bounding box detection, Extended Kalman Filter (EKF) sensor fusion, cubic polynomial path planning ribbons, and emergency braking (AEB).", "category": "AI & Deep Learning", "tags": ["3D LiDAR & Vision Autonomous Perception"], "repo": "https://github.com/Tareq0001/ApexAutopilot-3D-LiDAR-Vision-Simulator", "demo": "https://tareq0001.github.io/ApexAutopilot-3D-LiDAR-Vision-Simulator/", "benchmarks": {}, "normalized_cat": "AI & Deep Learning", "drive": "D:"}, {"title": "ApexQuantum 3D Quantum Computing Simulator", "desc": "Institutional alternative to IBM Quantum Composer and Quirk. Built with an interactive 3D WebGL Bloch sphere, a 4-qubit circuit composer (Hadamard, Pauli, Phase, CNOT, Measurement), a 16-amplitude complex state vector engine, quantum entanglement detection (Bell & GHZ states), and Monte Carlo 1024-shot measurement sampling.", "category": "Industrial & Robotics", "tags": ["Quantum Computing & 3D Bloch Sphere"], "repo": "https://github.com/Tareq0001/ApexQuantum-Interactive-Quantum-Computing-Simulator", "demo": "https://tareq0001.github.io/ApexQuantum-Interactive-Quantum-Computing-Simulator/", "benchmarks": {}, "normalized_cat": "Enterprise SaaS & Backends", "drive": "G:"}, {"title": "Enterprise GraphRAG Pipeline", "desc": "Autonomous multi-agent relational knowledge graph system combining LangGraph, Neo4j, and Qdrant vector database for complex cross-domain intelligence queries.", "category": "AI & Deep Learning", "tags": ["Python", "FastAPI", "LangGraph", "Neo4j", "Qdrant", "Multi-Agent"], "repo": "https://github.com/Tareq0001/Enterprise-GraphRAG-Pipeline", "demo": null, "benchmarks": {"Latency": "Sub-180ms", "Precision": "99.2%"}, "normalized_cat": "AI & Deep Learning", "drive": "D:"}, {"title": "Enterprise OmniData Platform", "desc": "Modern Data Lakehouse simulation featuring distributed ETL pipelines, Apache Airflow DAGs, Apache Spark real-time streaming, and high-throughput ingestion gateway.", "category": "Enterprise SaaS & Backends", "tags": ["Python", "Apache Spark", "Airflow", "Kafka", "dbt", "MinIO"], "repo": "https://github.com/Tareq0001/enterprise-omnidata-platform", "demo": null, "benchmarks": {"Throughput": "500K Evt/s", "SLA": "99.99%"}, "normalized_cat": "Enterprise SaaS & Backends", "drive": "G:"}, {"title": "Real-Time Auction Platform", "desc": "High-throughput distributed auction platform with microsecond state synchronization, Redis sub/pub order queues, and Socket.io bi-directional bidding pipelines.", "category": "Core & Trading", "tags": ["Next.js", "Socket.io", "Redis", "TypeScript", "Node.js"], "repo": "https://github.com/Tareq0001/realtime-auction-platform", "demo": null, "benchmarks": {"Bid Latency": "<1.2ms", "Concurrency": "100K Conn"}, "normalized_cat": "Core & Trading", "drive": "C:"}, {"title": "Ticketing High-Concurrency Queue", "desc": "Distributed enterprise ticket reservation engine with BullMQ, Redis cluster locks, and zero race-condition atomic reservation guarantees.", "category": "Core & Trading", "tags": ["Node.js", "BullMQ", "Redis", "Express", "TypeScript"], "repo": "https://github.com/Tareq0001/ticketing-queue-system", "demo": null, "benchmarks": {"Lock Speed": "<400µs", "Throughput": "50K Tkt/s"}, "normalized_cat": "Core & Trading", "drive": "C:"}, {"title": "House Price Prediction Engine", "desc": "Supervised Machine Learning regression pipeline utilizing RandomForestRegressor, scikit-learn, and FastAPI containerized inference endpoints.", "category": "AI & Deep Learning", "tags": ["Python", "Scikit-Learn", "FastAPI", "Pandas", "Docker"], "repo": "https://github.com/Tareq0001/house-price-regression", "demo": null, "benchmarks": {"R² Score": "0.94", "Inference": "4.2ms"}, "normalized_cat": "AI & Deep Learning", "drive": "D:"}, {"title": "Disease Diagnosis Classifier", "desc": "High-accuracy supervised binary classification pipeline with clinical metric normalization, LogisticRegression/XGBoost, and automated feature selection.", "category": "AI & Deep Learning", "tags": ["Python", "Scikit-Learn", "FastAPI", "Pandas", "Healthcare"], "repo": "https://github.com/Tareq0001/disease-classifier", "demo": null, "benchmarks": {"AUC-ROC": "0.96", "Recall": "98.1%"}, "normalized_cat": "AI & Deep Learning", "drive": "D:"}, {"title": "Customer Segmentation AI", "desc": "Unsupervised clustering model leveraging K-Means, silhouette score optimization, and automated customer behavioral persona generation.", "category": "AI & Deep Learning", "tags": ["Python", "K-Means", "Scikit-Learn", "FastAPI", "Pandas"], "repo": "https://github.com/Tareq0001/customer-segmentation", "demo": null, "benchmarks": {"Clusters": "k=5 Optimal", "Speed": "1.8ms"}, "normalized_cat": "AI & Deep Learning", "drive": "D:"}, {"title": "Enterprise RAG Pipeline", "desc": "Production-ready semantic retrieval and QA architecture featuring FastAPI, LangChain, Qdrant vector store, and chunking optimization.", "category": "AI & Deep Learning", "tags": ["Python", "FastAPI", "LangChain", "Qdrant", "Docker"], "repo": "https://github.com/Tareq0001/enterprise-rag-pipeline", "demo": null, "benchmarks": {"Recall@5": "94.8%", "Query Time": "45ms"}, "normalized_cat": "AI & Deep Learning", "drive": "D:"}, {"title": "TaskHero Offline-First Suite", "desc": "Silicon Valley standard offline-first React Native mobile application utilizing WatermelonDB local SQLite persistence and conflict-free data sync.", "category": "Mobile & Offline Apps", "tags": ["React Native", "WatermelonDB", "TypeScript", "SQLite", "Offline-First"], "repo": "https://github.com/Tareq0001", "demo": null, "benchmarks": {"Sync Speed": "<20ms", "Storage": "Local SQLite"}, "normalized_cat": "Mobile & Offline Apps", "drive": "H:"}, {"title": "ChatConnect Real-Time Messenger", "desc": "End-to-end encrypted messaging mobile client with RabbitMQ message broker, Redis pub/sub state, and offline local cache sync.", "category": "Mobile & Offline Apps", "tags": ["React Native", "RabbitMQ", "Redis", "TypeScript", "WatermelonDB"], "repo": "https://github.com/Tareq0001", "demo": null, "benchmarks": {"Delivery": "<15ms", "Encryption": "AES-256"}, "normalized_cat": "Mobile & Offline Apps", "drive": "H:"}, {"title": "NeuraFlow 16-Channel BCI Neural Signal Decoder", "desc": "Clinical-grade Brain-Computer Interface (BCI) workstation. Real-time 16-channel 10-20 EEG signal decoding, digital Butterworth bandpass & notch DSP filters, 3D scalp topomap with spline interpolation, FFT band decomposition (Delta, Theta, Alpha, Beta, Gamma), and cognitive mental state classification.", "category": "AI & Deep Learning", "tags": ["BCI & Neural DSP", "EEG 10-20 System", "3D Scalp Topomap"], "repo": "https://github.com/Tareq0001/NeuraFlow-BCI-Neural-Decoder", "demo": "https://tareq0001.github.io/NeuraFlow-BCI-Neural-Decoder/", "benchmarks": {"Channels": "16-Ch 10-20", "Sampling": "250 Hz", "FFT Bands": "5 (δ,θ,α,β,γ)"}, "normalized_cat": "AI & Deep Learning", "drive": "D:"}, {"title": "Helios-X Tokamak Plasma Fusion Simulator", "desc": "Scientific simulator & operator control room for a D-T Tokamak magnetic confinement fusion reactor. Models non-linear plasma equilibria, Lawson Criterion breakeven dynamics, magnetic flux surfaces, Miller shaping (elongation κ, triangularity δ), and MHD instability boundaries.", "category": "Industrial & Robotics", "tags": ["Tokamak Fusion", "MHD Plasma Stability", "Lawson Criterion Q>=10"], "repo": "https://github.com/Tareq0001/Helios-Tokamak-Fusion-Simulator", "demo": "https://tareq0001.github.io/Helios-Tokamak-Fusion-Simulator/", "benchmarks": {"Field Bt": "13.0 T", "Current Ip": "22.0 MA", "Ignition": "Q ≥ 10.0"}, "normalized_cat": "Industrial & Robotics", "drive": "F:"}, {"title": "AeroGenesis 3D LEO Mega-Constellation & ISL Mesh", "desc": "3D aerospace simulation workstation modeling LEO mega-constellations and autonomous Inter-Satellite Laser Crosslinks (ISL). Features Walker Delta Keplerian orbit propagation with J2 perturbation, dynamic Dijkstra optical mesh routing (<35ms latency), and space debris conjunction collision avoidance.", "category": "3D & Spatial Computing", "tags": ["LEO Mega-Constellation", "Optical ISL Laser Mesh", "Walker Delta & J2"], "repo": "https://github.com/Tareq0001/AeroGenesis-Satellite-Constellation", "demo": "https://tareq0001.github.io/AeroGenesis-Satellite-Constellation/", "benchmarks": {"Constellation": "Walker Delta", "Laser ISL": "100 Gbps", "Routing": "Dijkstra"}, "normalized_cat": "3D & Spatial Computing", "drive": "E:"}, {"title": "AeroSim 6-DoF FPV Drone Pilot Simulator", "desc": "Browser-native 6-DoF rigid-body aerodynamics flight simulator & pilot academy. Features Newton-Euler equations of motion, quaternion attitude integration, dual flight modes (Acro & Angle), virtual dual gimbals Mode 2, Dryden wind turbulence, 3D neon pylon gates, and full avionics OSD.", "category": "3D & Spatial Computing", "tags": ["6-DoF Flight Dynamics", "FPV Aerodynamics", "Pilot Certification"], "repo": "https://github.com/Tareq0001/AeroSim-FPV-Drone-Pilot", "demo": "https://tareq0001.github.io/AeroSim-FPV-Drone-Pilot/", "benchmarks": {"Dynamics": "6-DoF Rigid Body", "Rates": "700°/s Acro", "Turbulence": "Dryden Wind"}, "normalized_cat": "3D & Spatial Computing", "drive": "E:"}, {"title": "SkySwarm Autonomous UAV Fleet Mission Control", "desc": "Enterprise Ground Control Station (GCS) and autonomous drone swarm operations platform. Features Reynolds Flocking model (Separation, Alignment, Cohesion), MAVLink 2.0 telemetry bus, BVLOS 4D waypoint planning, dynamic RTH fail-safe calculations, and dual FLIR thermal camera target tracking.", "category": "Industrial & Robotics", "tags": ["Autonomous Drone Swarm", "Reynolds Flocking", "MAVLink 2.0 BVLOS"], "repo": "https://github.com/Tareq0001/SkySwarm-UAV-Mission-Control", "demo": "https://tareq0001.github.io/SkySwarm-UAV-Mission-Control/", "benchmarks": {"Fleet": "32 Autonomous UAVs", "Bus": "MAVLink 2.0", "Formations": "V, Grid, Orbit"}, "normalized_cat": "Industrial & Robotics", "drive": "F:"}, {"title": "Vanguard-x86 Bare-Metal OS & Architecture Workstation", "desc": "Pure 100% Intel x86 Assembly (NASM) operating system and CPU architecture workstation. Features a 512-byte MBR bootloader, Fast A20 gate, 32-bit Protected Mode transition via GDT, direct VGA video memory driver (0xB8000), PS/2 keyboard controller driver (IRQ1 Port 0x60), interactive command shell, real-time CPU register inspector, disassembly stepper, and in-browser x86 assembly REPL.", "category": "Core & Trading", "tags": ["Pure x86 Assembly", "Bare-Metal OS", "MBR & Protected Mode", "NASM REPL"], "repo": "https://github.com/Tareq0001/Vanguard-x86-BareMetal-OS", "demo": "https://tareq0001.github.io/Vanguard-x86-BareMetal-OS/", "benchmarks": {"Footprint": "512B MBR", "Mode": "32-Bit Ring 0", "Drivers": "VGA & PS/2"}, "normalized_cat": "Core & Trading", "drive": "C:"}, {"title": "HelixForge 3D CRISPR-Cas9 & Protein Folding Engine", "desc": "Computational genomics, CRISPR-Cas9 guide RNA studio, and 3D ab-initio protein folding molecular dynamics workstation. Features Lennard-Jones 12-6 potential & H-bond energy minimization, live Ramachandran (φ, ψ) dihedral phase space, SantaLucia nearest-neighbor Tm & Doench RS2 cleavage scoring, and Smith-Waterman dynamic programming alignment.", "category": "AI & Deep Learning", "tags": ["CRISPR-Cas9 Genomics", "3D Protein Folding MD", "Ramachandran & Smith-Waterman"], "repo": "https://github.com/Tareq0001/HelixForge-CRISPR-Protein-Engine", "demo": "https://tareq0001.github.io/HelixForge-CRISPR-Protein-Engine/", "benchmarks": {"Forcefield": "Lennard-Jones 12-6", "CRISPR": "SpCas9 NGG RS2", "Alignment": "Smith-Waterman DP"}, "normalized_cat": "AI & Deep Learning", "drive": "D:"}, {"title": "SovereignCFO Corporate Finance, ZATCA & Accounting Suite", "desc": "Institutional multi-entity corporate accounting, double-entry IFRS General Ledger, ZATCA Phase-2 (Fatoora) TLV Base64 cryptographic e-invoicing, 2.5% Corporate Zakat & 15% VAT return engine, IFRS-9 ECL AR aging, and CFO P&L waterfall FP&A suite.", "category": "Enterprise SaaS & Backends", "tags": ["IFRS Double-Entry GL", "ZATCA Phase-2 Fatoora", "Corporate Treasury & FP&A"], "repo": "https://github.com/Tareq0001/SovereignCFO-Enterprise-Finance-Suite", "demo": "https://tareq0001.github.io/SovereignCFO-Enterprise-Finance-Suite/", "benchmarks": {"Ledger": "Strict DR==CR SHA256", "Tax": "ZATCA TLV + 2.5% Zakat", "Standards": "IFRS-16 & IFRS-9"}, "normalized_cat": "Enterprise SaaS & Backends", "drive": "G:"}];
+
+        let currentFilter = 'ALL';
+        let currentSearch = '';
+        let currentViewMode = 'tiles';
+        let selectedProjectIndex = 0;
+        let currentLang = 'ar';
+
+        // -------------------------------------------------------------------------
+        // WEB AUDIO API - AUTHENTIC SYNTHESIZED WINDOWS XP SOUND EFFECTS
+        // -------------------------------------------------------------------------
+        let audioCtx = null;
+        function getAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        // Authentic Windows XP Startup Chime
+        function soundChime() {
+            try {
+                const ctx = getAudioContext();
+                const now = ctx.currentTime;
+                const chords = [
+                    { freq: 392.00, start: 0.0, dur: 1.2 }, // G4
+                    { freq: 523.25, start: 0.2, dur: 1.4 }, // C5
+                    { freq: 659.25, start: 0.4, dur: 1.5 }, // E5
+                    { freq: 783.99, start: 0.6, dur: 2.2 }, // G5
+                    { freq: 1046.50, start: 0.8, dur: 2.6 } // C6
+                ];
+                chords.forEach(c => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(c.freq, now + c.start);
+                    gain.gain.setValueAtTime(0.001, now + c.start);
+                    gain.gain.exponentialRampToValueAtTime(0.18, now + c.start + 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, now + c.start + c.dur);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now + c.start);
+                    osc.stop(now + c.start + c.dur + 0.1);
+                });
+            } catch(e) {}
+        }
+
+        // Classic XP Start.wav Click Sound
+        function soundNav() {
+            try {
+                const ctx = getAudioContext();
+                const now = ctx.currentTime;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(750, now);
+                osc.frequency.exponentialRampToValueAtTime(450, now + 0.04);
+                gain.gain.setValueAtTime(0.12, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.05);
+            } catch(e) {}
+        }
+
+        // Ding / Asterisk Sound
+        function soundDing() {
+            try {
+                const ctx = getAudioContext();
+                const now = ctx.currentTime;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(1046.50, now); // C6
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.5);
+            } catch(e) {}
+        }
+
+        // Trash Sound
+        function soundTrash() {
+            try {
+                const ctx = getAudioContext();
+                const now = ctx.currentTime;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(300, now);
+                osc.frequency.exponentialRampToValueAtTime(100, now + 0.25);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } catch(e) {}
+        }
+
+        // -------------------------------------------------------------------------
+        // WINDOW MANAGER (FOCUS, DRAG, MIN, MAX, CLOSE)
+        // -------------------------------------------------------------------------
+        let zCounter = 200;
+        const openWindows = new Set(['win-explorer']);
+
+        function bringToFront(id) {
+            const win = document.getElementById(id);
+            if (!win) return;
+            zCounter++;
+            win.style.zIndex = zCounter;
+            document.querySelectorAll('.xp-window').forEach(w => {
+                w.classList.remove('active');
+                w.classList.add('inactive');
+            });
+            win.classList.add('active');
+            win.classList.remove('inactive');
+            updateTaskbar();
+        }
+
+        function openWindow(id) {
+            soundNav();
+            const win = document.getElementById(id);
+            if (!win) return;
+            win.style.display = 'flex';
+            openWindows.add(id);
+            bringToFront(id);
+            updateTaskbar();
+        }
+
+        function closeWindow(id) {
+            soundNav();
+            const win = document.getElementById(id);
+            if (!win) return;
+            win.style.display = 'none';
+            openWindows.delete(id);
+            updateTaskbar();
+        }
+
+        function minimizeWindow(id) {
+            soundNav();
+            const win = document.getElementById(id);
+            if (!win) return;
+            win.style.display = 'none';
+            updateTaskbar();
+        }
+
+        function maximizeWindow(id) {
+            soundNav();
+            const win = document.getElementById(id);
+            if (!win) return;
+            if (win.getAttribute('data-maximized') === 'true') {
+                win.style.top = win.getAttribute('data-prev-top');
+                win.style.right = win.getAttribute('data-prev-right');
+                win.style.left = win.getAttribute('data-prev-left') || 'auto';
+                win.style.width = win.getAttribute('data-prev-width');
+                win.style.height = win.getAttribute('data-prev-height');
+                win.removeAttribute('data-maximized');
+            } else {
+                win.setAttribute('data-prev-top', win.style.top);
+                win.setAttribute('data-prev-right', win.style.right);
+                win.setAttribute('data-prev-left', win.style.left);
+                win.setAttribute('data-prev-width', win.style.width);
+                win.setAttribute('data-prev-height', win.style.height);
+                win.style.top = '0px';
+                win.style.right = '0px';
+                win.style.left = '0px';
+                win.style.width = '100vw';
+                win.style.height = 'calc(100vh - 30px)';
+                win.setAttribute('data-maximized', 'true');
+            }
+        }
+
+        function updateTaskbar() {
+            const tabsContainer = document.getElementById('xp-task-tabs');
+            tabsContainer.innerHTML = '';
+            openWindows.forEach(id => {
+                const win = document.getElementById(id);
+                const title = win.querySelector('.xp-title-content span').innerText;
+                const tab = document.createElement('div');
+                tab.className = 'xp-task-tab' + (win.classList.contains('active') && win.style.display !== 'none' ? ' active' : '');
+                tab.innerHTML = `<i class="fa-solid fa-window-maximize"></i> <span>${title}</span>`;
+                tab.onclick = () => {
+                    if (win.style.display === 'none') {
+                        win.style.display = 'flex';
+                        bringToFront(id);
+                    } else if (win.classList.contains('active')) {
+                        minimizeWindow(id);
+                    } else {
+                        bringToFront(id);
+                    }
+                };
+                tabsContainer.appendChild(tab);
+            });
+        }
+
+        // Window Dragging Support
+        let dragTarget = null, dragStartX = 0, dragStartY = 0, initialLeft = 0, initialTop = 0;
+        function startDrag(e, id) {
+            bringToFront(id);
+            dragTarget = document.getElementById(id);
+            if (dragTarget.getAttribute('data-maximized') === 'true') return;
+            const rect = dragTarget.getBoundingClientRect();
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+            initialLeft = rect.left;
+            initialTop = rect.top;
+            window.addEventListener('mousemove', onDrag);
+            window.addEventListener('mouseup', stopDrag);
+        }
+        function onDrag(e) {
+            if (!dragTarget) return;
+            const dx = e.clientX - dragStartX;
+            const dy = e.clientY - dragStartY;
+            dragTarget.style.left = (initialLeft + dx) + 'px';
+            dragTarget.style.top = Math.max(0, initialTop + dy) + 'px';
+            dragTarget.style.right = 'auto';
+        }
+        function stopDrag() {
+            window.removeEventListener('mousemove', onDrag);
+            window.removeEventListener('mouseup', stopDrag);
+            dragTarget = null;
+        }
+
+        // -------------------------------------------------------------------------
+        // EXPLORER LOGIC: DRIVES, FILTERING, SEARCH, VIEW MODES & DETAILS PANE
+        // -------------------------------------------------------------------------
+        const driveNames = {
+            'ALL': { path: 'C:\\Tareq\\Projects\\', ar: 'كافة المشاريع البرمجية (54)', en: 'All Unified Projects (54)' },
+            'C:': { path: 'C:\\Core_Engines\\', ar: '(C:) النواة والتداول الفائق', en: '(C:) Core & Trading Engines' },
+            'D:': { path: 'D:\\AI_DataScience\\', ar: '(D:) نماذج الذكاء الاصطناعي', en: '(D:) AI & Machine Learning' },
+            'E:': { path: 'E:\\Spatial_3D\\', ar: '(E:) الحوسبة المكانية والرسوميات', en: '(E:) 3D & Spatial Computing' },
+            'F:': { path: 'F:\\Robotics_IIoT\\', ar: '(F:) الروبوتات والإنترنت الصناعي', en: '(F:) Robotics & IIoT' },
+            'G:': { path: 'G:\\Enterprise_SaaS\\', ar: '(G:) الأنظمة السحابية الموزعة', en: '(G:) Enterprise SaaS & Cloud' },
+            'H:': { path: 'H:\\Mobile_Apps\\', ar: '(H:) تطبيقات الجوال والبيانات', en: '(H:) Mobile & Offline Apps' }
+        };
+
+        function filterExplorer(drive) {
+            soundNav();
+            currentFilter = drive;
+            document.querySelectorAll('.sidebar-nav-item').forEach(el => el.classList.remove('active'));
+            const activeNav = document.getElementById('nav-' + drive.toLowerCase().replace(':', ''));
+            if (activeNav) activeNav.classList.add('active');
+
+            const info = driveNames[drive] || driveNames['ALL'];
+            document.getElementById('explorer-address-bar').value = info.path;
+            renderExplorer();
+        }
+
+        function handleSearch(val) {
+            currentSearch = val.toLowerCase().trim();
+            renderExplorer();
+        }
+
+        function setViewMode(mode) {
+            soundNav();
+            currentViewMode = mode;
+            document.querySelectorAll('.xp-toolbar .xp-tool-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById('btn-view-' + mode);
+            if (activeBtn) activeBtn.classList.add('active');
+            renderExplorer();
+        }
+
+        function renderExplorer() {
+            const container = document.getElementById('explorer-content-area');
+            container.innerHTML = '';
+
+            let filtered = ALL_PROJECTS.filter(p => {
+                const matchDrive = currentFilter === 'ALL' || p.drive === currentFilter;
+                const matchSearch = !currentSearch || 
+                    p.title.toLowerCase().includes(currentSearch) || 
+                    p.desc.toLowerCase().includes(currentSearch) ||
+                    p.tags.some(t => t.toLowerCase().includes(currentSearch));
+                return matchDrive && matchSearch;
+            });
+
+            document.getElementById('explorer-status-count').innerText = `${filtered.length} عنصر معروض`;
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; color: #777; margin-top: 60px;">
+                        <i class="fa-solid fa-folder-open" style="font-size: 38px; color: #999; margin-bottom: 8px;"></i>
+                        <p style="font-size: 12px; font-weight: bold;">لا توجد عناصر مطابقة لـ "${currentSearch}"</p>
+                        <p style="font-size: 11px;">جرب البحث بكلمات أخرى مثل C++, eBPF, Python, 3D</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Select first filtered project by default if valid
+            if (filtered[0]) {
+                selectProject(ALL_PROJECTS.indexOf(filtered[0]));
+            }
+
+            if (currentViewMode === 'tiles') {
+                const grid = document.createElement('div');
+                grid.className = 'items-grid-tiles';
+                filtered.forEach(p => {
+                    const originalIdx = ALL_PROJECTS.indexOf(p);
+                    const card = document.createElement('div');
+                    card.className = 'xp-project-card' + (originalIdx === selectedProjectIndex ? ' selected' : '');
+                    
+                    let iconClass = 'fa-bolt';
+                    let iconColor = '#f59e0b';
+                    if (p.drive === 'D:') { iconClass = 'fa-brain'; iconColor = '#ec4899'; }
+                    else if (p.drive === 'E:') { iconClass = 'fa-cube'; iconColor = '#06b6d4'; }
+                    else if (p.drive === 'F:') { iconClass = 'fa-robot'; iconColor = '#10b981'; }
+                    else if (p.drive === 'G:') { iconClass = 'fa-network-wired'; iconColor = '#8b5cf6'; }
+                    else if (p.drive === 'H:') { iconClass = 'fa-mobile-screen'; iconColor = '#3b82f6'; }
+
+                    card.innerHTML = `
+                        <div class="card-icon-wrap" style="color: ${iconColor};"><i class="fa-solid ${iconClass}"></i></div>
+                        <div class="card-body-wrap">
+                            <strong>${p.title}</strong>
+                            <p>${p.desc}</p>
+                            <div class="card-tags-row">
+                                ${p.tags.slice(0, 3).map(t => `<span class="card-tag">${t}</span>`).join('')}
+                            </div>
+                        </div>
+                    `;
+                    card.onclick = () => {
+                        selectProject(originalIdx);
+                        document.querySelectorAll('.xp-project-card').forEach(c => c.classList.remove('selected'));
+                        card.classList.add('selected');
+                    };
+                    card.ondblclick = () => {
+                        if (p.demo) openProjectDemo(p.demo, p.title);
+                        else if (p.repo) window.open(p.repo, '_blank');
+                    };
+                    grid.appendChild(card);
+                });
+                container.appendChild(grid);
+
+            } else if (currentViewMode === 'icons') {
+                const grid = document.createElement('div');
+                grid.className = 'items-grid-icons';
+                filtered.forEach(p => {
+                    const originalIdx = ALL_PROJECTS.indexOf(p);
+                    const card = document.createElement('div');
+                    card.className = 'xp-project-card' + (originalIdx === selectedProjectIndex ? ' selected' : '');
+
+                    let iconClass = 'fa-bolt';
+                    let iconColor = '#f59e0b';
+                    if (p.drive === 'D:') { iconClass = 'fa-brain'; iconColor = '#ec4899'; }
+                    else if (p.drive === 'E:') { iconClass = 'fa-cube'; iconColor = '#06b6d4'; }
+                    else if (p.drive === 'F:') { iconClass = 'fa-robot'; iconColor = '#10b981'; }
+                    else if (p.drive === 'G:') { iconClass = 'fa-network-wired'; iconColor = '#8b5cf6'; }
+                    else if (p.drive === 'H:') { iconClass = 'fa-mobile-screen'; iconColor = '#3b82f6'; }
+
+                    card.innerHTML = `
+                        <div class="card-icon-wrap" style="color: ${iconColor};"><i class="fa-solid ${iconClass}"></i></div>
+                        <div class="card-body-wrap">
+                            <strong title="${p.title}">${p.title}</strong>
+                        </div>
+                    `;
+                    card.onclick = () => {
+                        selectProject(originalIdx);
+                        document.querySelectorAll('.xp-project-card').forEach(c => c.classList.remove('selected'));
+                        card.classList.add('selected');
+                    };
+                    card.ondblclick = () => {
+                        if (p.demo) openProjectDemo(p.demo, p.title);
+                        else if (p.repo) window.open(p.repo, '_blank');
+                    };
+                    grid.appendChild(card);
+                });
+                container.appendChild(grid);
+
+            } else if (currentViewMode === 'details') {
+                const table = document.createElement('table');
+                table.className = 'items-table-details';
+                table.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th>الاسم (Name)</th>
+                            <th>الفئة (Category)</th>
+                            <th>التقنيات (Tech Stack)</th>
+                            <th>المستودع (Action)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${filtered.map(p => {
+                            const originalIdx = ALL_PROJECTS.indexOf(p);
+                            return `
+                                <tr class="${originalIdx === selectedProjectIndex ? 'selected' : ''}" onclick="selectProjectTable(this, ${originalIdx})">
+                                    <td><i class="fa-solid fa-file-code" style="color: #2563eb; margin-left: 6px;"></i> <strong>${p.title}</strong></td>
+                                    <td>${p.normalized_cat}</td>
+                                    <td>${p.tags.slice(0, 3).join(', ')}</td>
+                                    <td>
+                                        ${p.demo ? `<a href="#" onclick="openProjectDemo('${p.demo}', '${p.title}'); return false;" style="color: #16a34a; font-weight: bold; margin-left: 8px;">تشغيل</a>` : ''}
+                                        ${p.repo ? `<a href="${p.repo}" target="_blank" style="color: #2563eb;">GitHub</a>` : ''}
+                                    </td>
+                                </tr>
+                            `;
+                        }).join('')}
+                    </tbody>
+                `;
+                container.appendChild(table);
+            }
+        }
+
+        function selectProjectTable(tr, idx) {
+            document.querySelectorAll('.items-table-details tr').forEach(r => r.classList.remove('selected'));
+            tr.classList.add('selected');
+            selectProject(idx);
+        }
+
+        function selectProject(idx) {
+            selectedProjectIndex = idx;
+            const p = ALL_PROJECTS[idx];
+            if (!p) return;
+
+            document.getElementById('det-title').innerText = p.title;
+            document.getElementById('det-cat').innerText = p.normalized_cat + ' (' + p.drive + ')';
+            document.getElementById('det-desc').innerText = p.desc;
+
+            // Benchmarks
+            const benchDiv = document.getElementById('det-benchmarks');
+            if (p.benchmarks && Object.keys(p.benchmarks).length > 0) {
+                const bStr = Object.entries(p.benchmarks).map(([k, v]) => `${k}: ${v}`).join(' | ');
+                benchDiv.innerText = bStr;
+                benchDiv.style.display = 'block';
+            } else {
+                benchDiv.style.display = 'none';
+            }
+
+            // Demo & Repo Buttons
+            const demoBtn = document.getElementById('det-demo-btn');
+            if (p.demo) {
+                demoBtn.style.display = 'flex';
+                demoBtn.innerText = 'تشغيل المعاينة الحية';
+            } else {
+                demoBtn.style.display = 'none';
+            }
+
+            const repoBtn = document.getElementById('det-repo-btn');
+            if (p.repo) {
+                repoBtn.style.display = 'flex';
+            } else {
+                repoBtn.style.display = 'none';
+            }
+        }
+
+        function launchSelectedDemo() {
+            const p = ALL_PROJECTS[selectedProjectIndex];
+            if (p && p.demo) {
+                openProjectDemo(p.demo, p.title);
+            }
+        }
+
+        function openSelectedRepo() {
+            const p = ALL_PROJECTS[selectedProjectIndex];
+            if (p && p.repo) {
+                window.open(p.repo, '_blank');
+            }
+        }
+
+        function openProjectDemo(url, title) {
+            soundNav();
+            loadIeUrl(url);
+            document.getElementById('ie-window-title').innerText = 'Internet Explorer - ' + title;
+            openWindow('win-ie');
+        }
+
+        // -------------------------------------------------------------------------
+        // INTERNET EXPLORER 6 (win-ie)
+        // -------------------------------------------------------------------------
+        function loadIeUrl(url) {
+            soundNav();
+            const iframe = document.getElementById('ie-iframe');
+            document.getElementById('ie-address-bar').value = url;
+            iframe.src = url;
+            document.getElementById('ie-status-text').innerText = 'جاري التحميل: ' + url;
+            iframe.onload = () => {
+                document.getElementById('ie-status-text').innerText = 'تم تحميل الصفحة بنجاح (Zone: Internet)';
+            };
+        }
+
+        function reloadIframe() {
+            soundNav();
+            const iframe = document.getElementById('ie-iframe');
+            iframe.src = iframe.src;
+        }
+
+        function openIeExternal() {
+            const url = document.getElementById('ie-address-bar').value;
+            if (url) window.open(url, '_blank');
+        }
+
+        // -------------------------------------------------------------------------
+        // SYSTEM PROPERTIES DIALOG (win-sysprop)
+        // -------------------------------------------------------------------------
+        function switchSysTab(tab) {
+            soundNav();
+            document.querySelectorAll('.sysprop-tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('tab-btn-' + tab).classList.add('active');
+            const body = document.getElementById('sysprop-body');
+
+            if (tab === 'gen') {
+                body.innerHTML = `
+                    <div style="display: flex; gap: 16px; align-items: flex-start; margin-bottom: 16px;">
+                        <div style="font-size: 54px; color: #0284c7;"><i class="fa-brands fa-windows"></i></div>
+                        <div>
+                            <h3 style="font-size: 13px; color: #1e3a8a; margin-bottom: 2px;">نظام التشغيل:</h3>
+                            <p style="font-size: 11px;">Microsoft Windows XP Professional</p>
+                            <p style="font-size: 11px; color: #555;">Version 2026 Service Pack 3</p>
+                            <p style="font-size: 11px; color: #555;">Registered to: <strong>Tareq Aboushi (أ. طارق ابوعشي)</strong></p>
+                        </div>
+                    </div>
+                    <div class="sysprop-box">
+                        <strong style="color: #1e3a8a; font-size: 11px;">مواصفات المهندس والنظام (Workstation Specs):</strong>
+                        <ul style="padding-right: 18px; margin-top: 6px; font-size: 11px; line-height: 1.6;">
+                            <li><strong>المسمى المهني:</strong> مهندس أنظمة موزعة وخبير معماريات الذكاء الاصطناعي</li>
+                            <li><strong>المؤهل الأكاديمي:</strong> بكالوريوس علوم الحاسب (مسار الذكاء الاصطناعي) &ndash; جامعة الملك خالد</li>
+                            <li><strong>المقر:</strong> المملكة العربية السعودية</li>
+                            <li><strong>الخبرة القيادية:</strong> إدارة تقنية المعلومات، تصميم قواعد البيانات الموزعة، أتمتة الأنظمة</li>
+                            <li><strong>المشاريع المنشورة:</strong> أكثر من 54 نظاماً ومنصة هندسية حية</li>
+                        </ul>
+                    </div>
+                `;
+            } else if (tab === 'skills') {
+                body.innerHTML = `
+                    <div class="sysprop-box">
+                        <strong style="color: #1e3a8a;">1. لغات البرمجة (Core Languages):</strong>
+                        <p style="margin-top: 4px; font-size: 11px; color: #333;">Python, Go, C++20, TypeScript/JavaScript, Java, C#, SQL, Bash</p>
+                    </div>
+                    <div class="sysprop-box">
+                        <strong style="color: #1e3a8a;">2. معماريات النواة والأنظمة فائقة السرعة:</strong>
+                        <p style="margin-top: 4px; font-size: 11px; color: #333;">Linux Kernel eBPF/XDP (10M+ Pkt/s), C++20 L1 Matching Engines (&lt;680ns), Zero-Knowledge Rollups, Microservices</p>
+                    </div>
+                    <div class="sysprop-box">
+                        <strong style="color: #1e3a8a;">3. الذكاء الاصطناعي وعلوم البيانات:</strong>
+                        <p style="margin-top: 4px; font-size: 11px; color: #333;">GraphRAG, LangGraph, Multi-Agent Systems, Mamba-2 SSM, PyTorch, Scikit-Learn, Neo4j, Qdrant Vector Store</p>
+                    </div>
+                    <div class="sysprop-box">
+                        <strong style="color: #1e3a8a;">4. الحوسبة المكانية والويب ثلاثي الأبعاد:</strong>
+                        <p style="margin-top: 4px; font-size: 11px; color: #333;">WebGPU, WebGL, Three.js, Spatial Computing, Canvas Audio Workstations</p>
+                    </div>
+                `;
+            } else if (tab === 'certs') {
+                body.innerHTML = `
+                    <div class="sysprop-box">
+                        <strong style="color: #1e3a8a; font-size: 12px;">الشهادات والاعتمادات الرسمية (Official Certifications):</strong>
+                        <ul style="padding-right: 18px; margin-top: 8px; font-size: 11px; line-height: 1.8;">
+                            <li><i class="fa-solid fa-award" style="color: #f59e0b;"></i> <strong>STEP English Proficiency</strong> &ndash; درجة قياسية معتمدة: <strong>85</strong></li>
+                            <li><i class="fa-solid fa-certificate" style="color: #2563eb;"></i> <strong>شهادة الذكاء الاصطناعي المتقدم</strong> &ndash; جامعة الملك عبدالله للعلوم والتقنية (KAUST)</li>
+                            <li><i class="fa-solid fa-shield-halved" style="color: #16a34a;"></i> <strong>Huawei Certified ICT Associate (HCIA)</strong> &ndash; Security</li>
+                            <li><i class="fa-solid fa-laptop-code" style="color: #ec4899;"></i> <strong>معسكر الأمن السيبراني المتقدم</strong> &ndash; مبادرة العطاء الرقمي</li>
+                        </ul>
+                    </div>
+                `;
+            }
+        }
+
+        // -------------------------------------------------------------------------
+        // COMMAND PROMPT (win-cmd)
+        // -------------------------------------------------------------------------
+        function handleCmdKeyDown(e) {
+            if (e.key === 'Enter') {
+                const input = document.getElementById('cmd-input');
+                const cmd = input.value.trim().toLowerCase();
+                input.value = '';
+                executeCmd(cmd);
+            }
+        }
+
+        function executeCmd(cmd) {
+            soundNav();
+            const output = document.getElementById('cmd-output');
+            const line = document.createElement('div');
+            line.innerHTML = `<span style="color: #4ade80;">C:\Documents and Settings\Tareq&gt;</span> ${cmd}`;
+            output.appendChild(line);
+
+            const res = document.createElement('div');
+            res.style.marginBottom = '8px';
+
+            if (cmd === 'help') {
+                res.innerHTML = `
+                    <div>الأوامر المدعومة في النظام:</div>
+                    <div>&nbsp;&nbsp;<strong>help</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- عرض هذه المساعدة</div>
+                    <div>&nbsp;&nbsp;<strong>dir</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- استعراض مجلد المشاريع</div>
+                    <div>&nbsp;&nbsp;<strong>projects</strong>&nbsp;&nbsp;&nbsp;&nbsp;- سرد كافة المشاريع الـ 54 مع الروابط</div>
+                    <div>&nbsp;&nbsp;<strong>skills</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- عرض مصفوفة المهارات التقنية</div>
+                    <div>&nbsp;&nbsp;<strong>cv</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- ملخص السيرة الذاتية ورابط التحميل</div>
+                    <div>&nbsp;&nbsp;<strong>contact</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- بيانات التواصل البرمجي مع أ. طارق</div>
+                    <div>&nbsp;&nbsp;<strong>cls</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- مسح شاشة موجه الأوامر</div>
+                `;
+            } else if (cmd === 'dir' || cmd === 'ls') {
+                res.innerHTML = `
+                    <div>&nbsp;Volume in drive C is TAREQ_OS</div>
+                    <div>&nbsp;Directory of C:\Documents and Settings\Tareq\Projects</div>
+                    <br>
+                    <div>11/10/2026  10:00 م    &lt;DIR&gt;          Core_Engines (C:)</div>
+                    <div>11/10/2026  10:00 م    &lt;DIR&gt;          AI_DataScience (D:)</div>
+                    <div>11/10/2026  10:00 م    &lt;DIR&gt;          Spatial_3D (E:)</div>
+                    <div>11/10/2026  10:00 م    &lt;DIR&gt;          Robotics_IIoT (F:)</div>
+                    <div>11/10/2026  10:00 م    &lt;DIR&gt;          Enterprise_SaaS (G:)</div>
+                    <div>11/10/2026  10:00 م    &lt;DIR&gt;          Mobile_Apps (H:)</div>
+                    <div>11/10/2026  10:00 م           46,128,490 Tareq_Aboushi_CV.pdf</div>
+                    <br>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;54 File(s)    256,000,000,000 bytes free</div>
+                `;
+            } else if (cmd === 'projects') {
+                res.innerHTML = `<div>كافة المشاريع الـ 54 مدرجة بنجاح. يمكنك فتح مستعرض الملفات عبر الأمر أو النقر على أيقونة جهاز الكمبيوتر.</div>`;
+                openWindow('win-explorer');
+            } else if (cmd === 'skills') {
+                res.innerHTML = `<div>Languages: Python, Go, C++20, TypeScript, SQL | Low-Level: Linux eBPF/XDP | AI: GraphRAG, Mamba-2 SSM</div>`;
+            } else if (cmd === 'cv') {
+                res.innerHTML = `<div>Tareq Aboushi | AI Architect &amp; Systems Engineer | STEP: 85 | King Khalid Univ</div>`;
+                downloadOfficialCV();
+            } else if (cmd === 'contact') {
+                res.innerHTML = `<div>Email: abuoshey@gmail.com | Phone: +966 534 418 634 | GitHub: github.com/Tareq0001</div>`;
+            } else if (cmd === 'cls' || cmd === 'clear') {
+                output.innerHTML = '';
+                return;
+            } else if (cmd === '') {
+                return;
+            } else {
+                res.innerHTML = `<div>'${cmd}' is not recognized as an internal or external command. Type 'help' for commands.</div>`;
+            }
+
+            output.appendChild(res);
+            const scr = document.getElementById('cmd-screen');
+            scr.scrollTop = scr.scrollHeight;
+        }
+
+        // -------------------------------------------------------------------------
+        // START MENU & CLOCK
+        // -------------------------------------------------------------------------
+        function toggleStartMenu() {
+            soundNav();
+            const sm = document.getElementById('xp-start-menu');
+            sm.style.display = sm.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        window.addEventListener('click', (e) => {
+            const sm = document.getElementById('xp-start-menu');
+            const btn = document.querySelector('.xp-start-btn');
+            if (sm.style.display === 'flex' && !sm.contains(e.target) && !btn.contains(e.target)) {
+                sm.style.display = 'none';
+            }
+        });
+
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const mins = now.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'م' : 'ص';
+            hours = hours % 12 || 12;
+            document.getElementById('xp-clock').innerText = `${hours}:${mins} ${ampm}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // -------------------------------------------------------------------------
+        // OFFICIAL CV DIRECT DOWNLOAD
+        // -------------------------------------------------------------------------
+        function downloadOfficialCV() {
+            soundNav();
+            window.location.href = 'Tareq_Aboushi_CV.pdf';
+        }
+
+        // -------------------------------------------------------------------------
+        // INTERNATIONALIZATION (AR / EN)
+        // -------------------------------------------------------------------------
+        const i18nXp = {
+            ar: {
+                icon_my_computer: "جهاز الكمبيوتر والمشاريع",
+                icon_cv: "السيرة الذاتية (Tareq_CV.doc)",
+                icon_sysprop: "خصائص النظام والمهارات",
+                icon_ie: "Internet Explorer (المشاريع الحية)",
+                icon_cmd: "موجه الأوامر (CMD)",
+                icon_mail: "Outlook Express (تواصل معي)",
+                icon_trash: "سلة المحذوفات",
+                icon_minesweeper: "كاسحة الألغام (Minesweeper)",
+                icon_notepad: "المفكرة (README.TXT)",
+                icon_display: "خصائص العرض (Display)",
+                icon_wmp: "Windows Media Player",
+                icon_calc: "الحاسبة (Calculator)",
+                ctx_refresh: "تحديث (Refresh F5)",
+                ctx_new_txt: "جديد > مستند نصي",
+                ctx_properties: "خصائص العرض (Properties)",
+                start_text: "ابدأ",
+                title_explorer: "جهاز الكمبيوتر - ملف مشاريع طارق ابوعشي",
+                title_cv_doc: "Tareq_Aboushi_CV.doc - WordPad",
+                menu_file: "ملف", menu_edit: "تحرير", menu_view: "عرض", menu_favorites: "المفضلة", menu_tools: "أدوات", menu_help: "تعليمات",
+                btn_up: "للأعلى", view_tiles: "تجانب", view_icons: "رموز", view_details: "تفاصيل",
+                lbl_address: "العنوان:", side_sys_tasks: "مهام النظام", side_drives: "الأقراص والتصنيفات", side_details: "تفاصيل المشروع",
+                btn_dl_official_pdf: "تحميل الـ PDF الأصلي", btn_print: "طباعة المستند", doc_verified_status: "النسخة الرسمية المعتمدة لعام 2026",
+                sm_explorer: "كافة المشاريع البرمجية (54 مشروع)", sm_cv: "السيرة الذاتية الرسمية (WordPad)", sm_sysprop: "خصائص النظام والمهارات",
+                sm_lang: "تغيير اللغة (Language)", sm_shutdown: "إيقاف التشغيل"
+            },
+            en: {
+                icon_my_computer: "My Computer & Projects",
+                icon_cv: "Resume (Tareq_CV.doc)",
+                icon_sysprop: "System Properties & Skills",
+                icon_ie: "Internet Explorer (Live Apps)",
+                icon_cmd: "Command Prompt (CMD)",
+                icon_mail: "Outlook Express (Contact)",
+                icon_trash: "Recycle Bin",
+                icon_minesweeper: "Minesweeper Game",
+                icon_notepad: "Notepad (README.TXT)",
+                icon_display: "Display Properties",
+                icon_wmp: "Windows Media Player",
+                icon_calc: "Calculator (calc.exe)",
+                ctx_refresh: "Refresh (F5)",
+                ctx_new_txt: "New > Text Document",
+                ctx_properties: "Display Properties",
+                start_text: "start",
+                title_explorer: "My Computer - Tareq Aboushi Projects",
+                title_cv_doc: "Tareq_Aboushi_CV.doc - WordPad",
+                menu_file: "File", menu_edit: "Edit", menu_view: "View", menu_favorites: "Favorites", menu_tools: "Tools", menu_help: "Help",
+                btn_up: "Up", view_tiles: "Tiles", view_icons: "Icons", view_details: "Details",
+                lbl_address: "Address:", side_sys_tasks: "System Tasks", side_drives: "Drives & Categories", side_details: "Project Details",
+                btn_dl_official_pdf: "Download Official PDF", btn_print: "Print Document", doc_verified_status: "Verified Official Edition 2026",
+                sm_explorer: "All Engineering Projects (54 Projects)", sm_cv: "Official Resume (WordPad)", sm_sysprop: "System Properties & Skills",
+                sm_lang: "تبديل للغة العربية (Arabic)", sm_shutdown: "Turn Off Computer"
+            }
+        };
+
+        function toggleLanguage() {
+            soundNav();
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            const root = document.getElementById('xp-html');
+            root.setAttribute('lang', currentLang);
+            root.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            document.getElementById('lang-indicator').innerText = currentLang.toUpperCase();
+
+            const dict = i18nXp[currentLang];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const k = el.getAttribute('data-i18n');
+                if (dict[k]) el.innerText = dict[k];
+            });
+            renderExplorer();
+            updateTaskbar();
+        }
+
+
+        // -------------------------------------------------------------------------
+        // HYPER-REALISTIC XP REALISM SUITE
+        // -------------------------------------------------------------------------
+        // Sound: Error / Chord
+        function soundError() {
+            try {
+                const ctx = getAudioContext();
+                const now = ctx.currentTime;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.linearRampToValueAtTime(110, now + 0.3);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.35);
+            } catch(e) {}
+        }
+
+        // Sound: Win Fanfare
+        function soundWin() {
+            try {
+                const ctx = getAudioContext();
+                const now = ctx.currentTime;
+                [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, now + idx * 0.12);
+                    gain.gain.setValueAtTime(0.18, now + idx * 0.12);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.12 + 0.3);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now + idx * 0.12);
+                    osc.stop(now + idx * 0.12 + 0.35);
+                });
+            } catch(e) {}
+        }
+
+        
+        // -------------------------------------------------------------------------
+        // WINDOWS MEDIA PLAYER 9 & RETRO AUDIO SYNTHESIS
+        // -------------------------------------------------------------------------
+        let isWMPPlaying = false, wmpTimer = null, wmpElapsed = 0, wmpVisualizerInterval = null;
+        let wmpOscNodes = [], wmpGainNode = null, wmpMasterGain = 0.8;
+
+        function toggleWMPMusic() {
+            soundNav();
+            if (isWMPPlaying) {
+                stopWMPMusic();
+            } else {
+                startWMPMusic();
+            }
+        }
+
+        function startWMPMusic() {
+            try {
+                const ctx = getAudioContext();
+                if (ctx.state === 'suspended') ctx.resume();
+                isWMPPlaying = true;
+                document.getElementById('wmp-play-btn').innerHTML = '<i class="fa-solid fa-pause"></i>';
+                
+                // Synth loop
+                playSynthMelody();
+                wmpTimer = setInterval(() => {
+                    wmpElapsed++;
+                    const mins = String(Math.floor(wmpElapsed / 60)).padStart(2, '0');
+                    const secs = String(wmpElapsed % 60).padStart(2, '0');
+                    document.getElementById('wmp-current-time').innerText = `${mins}:${secs}`;
+                    const prog = Math.min(100, (wmpElapsed / 90) * 100);
+                    document.getElementById('wmp-progress-bar').style.width = prog + '%';
+                    if (wmpElapsed >= 90) stopWMPMusic();
+                }, 1000);
+
+                startWMPVisualizer();
+            } catch(e) {}
+        }
+
+        function stopWMPMusic() {
+            isWMPPlaying = false;
+            clearInterval(wmpTimer);
+            wmpTimer = null;
+            wmpElapsed = 0;
+            document.getElementById('wmp-current-time').innerText = '00:00';
+            document.getElementById('wmp-progress-bar').style.width = '0%';
+            const btn = document.getElementById('wmp-play-btn');
+            if (btn) btn.innerHTML = '<i class="fa-solid fa-play"></i>';
+            stopWMPVisualizer();
+        }
+
+        function playSynthMelody() {
+            if (!isWMPPlaying) return;
+            try {
+                const ctx = getAudioContext();
+                const now = ctx.currentTime;
+                // Arpeggio notes (C4, E4, G4, B4, C5, G4, E4, D4)
+                const notes = [261.63, 329.63, 392.00, 493.88, 523.25, 392.00, 329.63, 293.66];
+                notes.forEach((freq, idx) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, now + idx * 0.22);
+                    gain.gain.setValueAtTime(0.001, now + idx * 0.22);
+                    gain.gain.exponentialRampToValueAtTime(0.12 * wmpMasterGain, now + idx * 0.22 + 0.04);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.22 + 0.2);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now + idx * 0.22);
+                    osc.stop(now + idx * 0.22 + 0.22);
+                });
+                setTimeout(() => {
+                    if (isWMPPlaying) playSynthMelody();
+                }, 1800);
+            } catch(e) {}
+        }
+
+        function setWMPVolume(val) {
+            wmpMasterGain = val / 100;
+        }
+
+        function startWMPVisualizer() {
+            const canvas = document.getElementById('wmp-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            wmpVisualizerInterval = setInterval(() => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                const bars = 24;
+                const barWidth = canvas.width / bars - 2;
+                for (let i = 0; i < bars; i++) {
+                    const h = isWMPPlaying ? Math.random() * (canvas.height - 20) + 10 : 4;
+                    const grad = ctx.createLinearGradient(0, canvas.height, 0, 0);
+                    grad.addColorStop(0, '#0284c7');
+                    grad.addColorStop(0.7, '#38bdf8');
+                    grad.addColorStop(1, '#f43f5e');
+                    ctx.fillStyle = grad;
+                    ctx.fillRect(i * (barWidth + 2), canvas.height - h, barWidth, h);
+                }
+            }, 80);
+        }
+
+        function stopWMPVisualizer() {
+            clearInterval(wmpVisualizerInterval);
+            const canvas = document.getElementById('wmp-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // -------------------------------------------------------------------------
+        // CALCULATOR ENGINE (calc.exe)
+        // -------------------------------------------------------------------------
+        let calcVal = '0', calcPrev = null, calcOp = null, calcWaitNext = false;
+
+        function calcAction(btn) {
+            soundNav();
+            const disp = document.getElementById('calc-display');
+            if (!disp) return;
+
+            if (!isNaN(btn)) {
+                if (calcVal === '0' || calcWaitNext) {
+                    calcVal = btn;
+                    calcWaitNext = false;
+                } else {
+                    calcVal += btn;
+                }
+            } else if (btn === '.') {
+                if (!calcVal.includes('.')) calcVal += '.';
+            } else if (btn === '+/-') {
+                calcVal = String(-parseFloat(calcVal));
+            } else if (btn === 'C') {
+                calcVal = '0';
+                calcPrev = null;
+                calcOp = null;
+                calcWaitNext = false;
+            } else if (btn === 'CE') {
+                calcVal = '0';
+            } else if (btn === 'sqrt') {
+                calcVal = String(Math.sqrt(parseFloat(calcVal)));
+            } else if (['+', '-', '*', '/'].includes(btn)) {
+                calcPrev = parseFloat(calcVal);
+                calcOp = btn;
+                calcWaitNext = true;
+            } else if (btn === '=') {
+                if (calcOp && calcPrev !== null) {
+                    const curr = parseFloat(calcVal);
+                    let res = 0;
+                    if (calcOp === '+') res = calcPrev + curr;
+                    else if (calcOp === '-') res = calcPrev - curr;
+                    else if (calcOp === '*') res = calcPrev * curr;
+                    else if (calcOp === '/') res = curr !== 0 ? calcPrev / curr : 'خطأ';
+                    calcVal = String(res);
+                    calcOp = null;
+                    calcPrev = null;
+                    calcWaitNext = true;
+                }
+            }
+            disp.value = calcVal;
+        }
+
+        // -------------------------------------------------------------------------
+        // SYSTEM TRAY MASTER VOLUME CONTROLS
+        // -------------------------------------------------------------------------
+        function toggleTrayVolume() {
+            soundNav();
+            const p = document.getElementById('tray-volume-popup');
+            if (p) p.style.display = p.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function setMasterVolume(val) {
+            wmpMasterGain = val / 100;
+        }
+
+        function toggleMasterMute(muted) {
+            wmpMasterGain = muted ? 0 : 0.8;
+        }
+
+        // Close tray volume when clicking outside
+        window.addEventListener('click', function(e) {
+            const p = document.getElementById('tray-volume-popup');
+            if (p && !p.contains(e.target) && !e.target.closest('.xp-tray-icon')) {
+                p.style.display = 'none';
+            }
+        });
+    
+        // Desktop Marquee Selection
+        let isMarquee = false, marqueeStartX = 0, marqueeStartY = 0;
+        const desktopEl = document.getElementById('bliss-desktop');
+        const selectionBox = document.getElementById('selection-box');
+
+        if (desktopEl && selectionBox) {
+            desktopEl.addEventListener('mousedown', function(e) {
+                if (e.target === desktopEl || e.target.classList.contains('desktop-icons-container')) {
+                    isMarquee = true;
+                    marqueeStartX = e.clientX;
+                    marqueeStartY = e.clientY;
+                    selectionBox.style.left = marqueeStartX + 'px';
+                    selectionBox.style.top = marqueeStartY + 'px';
+                    selectionBox.style.width = '0px';
+                    selectionBox.style.height = '0px';
+                    selectionBox.style.display = 'block';
+                    document.querySelectorAll('.desktop-icon').forEach(icon => icon.classList.remove('selected'));
+                }
+            });
+
+            window.addEventListener('mousemove', function(e) {
+                if (!isMarquee) return;
+                const currentX = e.clientX;
+                const currentY = e.clientY;
+                const left = Math.min(marqueeStartX, currentX);
+                const top = Math.min(marqueeStartY, currentY);
+                const width = Math.abs(currentX - marqueeStartX);
+                const height = Math.abs(currentY - marqueeStartY);
+
+                selectionBox.style.left = left + 'px';
+                selectionBox.style.top = top + 'px';
+                selectionBox.style.width = width + 'px';
+                selectionBox.style.height = height + 'px';
+
+                // Check collision with desktop icons
+                const boxRect = selectionBox.getBoundingClientRect();
+                document.querySelectorAll('.desktop-icon').forEach(icon => {
+                    const iconRect = icon.getBoundingClientRect();
+                    const overlap = !(boxRect.right < iconRect.left || 
+                                      boxRect.left > iconRect.right || 
+                                      boxRect.bottom < iconRect.top || 
+                                      boxRect.top > iconRect.bottom);
+                    if (overlap) icon.classList.add('selected');
+                    else icon.classList.remove('selected');
+                });
+            });
+
+            window.addEventListener('mouseup', function() {
+                if (isMarquee) {
+                    isMarquee = false;
+                    selectionBox.style.display = 'none';
+                }
+            });
+        }
+
+        // Desktop Context Menu
+        const contextMenu = document.getElementById('xp-context-menu');
+        if (desktopEl && contextMenu) {
+            desktopEl.addEventListener('contextmenu', function(e) {
+                if (e.target.closest('.xp-window') || e.target.closest('.xp-taskbar')) return;
+                e.preventDefault();
+                soundNav();
+                contextMenu.style.display = 'block';
+                contextMenu.style.left = Math.min(e.clientX, window.innerWidth - 200) + 'px';
+                contextMenu.style.top = Math.min(e.clientY, window.innerHeight - 150) + 'px';
+            });
+
+            window.addEventListener('click', function(e) {
+                if (contextMenu && !contextMenu.contains(e.target)) {
+                    contextMenu.style.display = 'none';
+                }
+                closeAllExplorerMenus();
+            });
+        }
+
+        function refreshDesktop() {
+            soundNav();
+            const desk = document.getElementById('bliss-desktop');
+            desk.style.opacity = '0.7';
+            setTimeout(() => { desk.style.opacity = '1'; }, 100);
+        }
+
+        // Explorer Menubar Dropdowns
+        function toggleExplorerMenu(e, menuName) {
+            e.stopPropagation();
+            soundNav();
+            const targetMenu = document.getElementById('drop-menu-' + menuName);
+            const isCurrentlyOpen = targetMenu && targetMenu.style.display === 'block';
+            closeAllExplorerMenus();
+            if (targetMenu && !isCurrentlyOpen) {
+                targetMenu.style.display = 'block';
+            }
+        }
+
+        function closeAllExplorerMenus() {
+            document.querySelectorAll('.xp-menubar-dropdown').forEach(m => m.style.display = 'none');
+        }
+
+        // Wallpaper Selector in Display Properties
+        const wallpapers = {
+            bliss: { url: 'bliss.jpg', bg: '#004e98 url("bliss.jpg") no-repeat center center fixed', preview: 'url("bliss.jpg")' },
+            blue: { url: '', bg: 'linear-gradient(135deg, #004e98 0%, #001f3f 100%)', preview: 'linear-gradient(135deg, #004e98 0%, #001f3f 100%)' },
+            matrix: { url: '', bg: 'radial-gradient(circle, #052e16 0%, #021208 100%)', preview: 'radial-gradient(circle, #052e16 0%, #021208 100%)' },
+            silver: { url: '', bg: 'linear-gradient(135deg, #708090 0%, #2f4f4f 100%)', preview: 'linear-gradient(135deg, #708090 0%, #2f4f4f 100%)' }
+        };
+        let currentSelectedWallpaper = 'bliss';
+
+        function previewWallpaper(val) {
+            soundNav();
+            currentSelectedWallpaper = val;
+            const crt = document.getElementById('crt-screen');
+            if (crt && wallpapers[val]) {
+                crt.style.background = wallpapers[val].preview;
+                crt.style.backgroundSize = 'cover';
+            }
+        }
+
+        function applyWallpaper() {
+            soundNav();
+            const wp = wallpapers[currentSelectedWallpaper];
+            if (wp && desktopEl) {
+                desktopEl.style.background = wp.bg;
+                desktopEl.style.backgroundSize = 'cover';
+            }
+        }
+
+        // Minesweeper Engine (9x9, 10 Mines)
+        let mineGrid = [], mineRevealed = [], mineFlagged = [], mineMines = new Set();
+        let mineGameOver = false, mineGameStarted = false, mineTimerInterval = null, mineTime = 0;
+
+        function resetMinesweeper() {
+            soundNav();
+            clearInterval(mineTimerInterval);
+            mineTimerInterval = null;
+            mineTime = 0;
+            mineGameOver = false;
+            mineGameStarted = false;
+            mineMines.clear();
+            mineRevealed = Array(81).fill(false);
+            mineFlagged = Array(81).fill(false);
+            document.getElementById('mine-timer').innerText = '000';
+            document.getElementById('mine-count').innerText = '010';
+            document.getElementById('mine-face').innerText = '🙂';
+
+            const container = document.getElementById('mine-grid');
+            container.innerHTML = '';
+            for (let i = 0; i < 81; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'mine-cell';
+                cell.setAttribute('data-idx', i);
+                cell.onmousedown = (e) => onMineCellMouseDown(e, i);
+                cell.oncontextmenu = (e) => { e.preventDefault(); onMineRightClick(i); };
+                container.appendChild(cell);
+            }
+        }
+
+        function onMineCellMouseDown(e, idx) {
+            if (mineGameOver) return;
+            if (e.button === 0) {
+                document.getElementById('mine-face').innerText = '😮';
+                window.addEventListener('mouseup', function resetFace() {
+                    if (!mineGameOver) document.getElementById('mine-face').innerText = '🙂';
+                    window.removeEventListener('mouseup', resetFace);
+                }, { once: true });
+                onMineLeftClick(idx);
+            }
+        }
+
+        function onMineLeftClick(idx) {
+            if (mineGameOver || mineFlagged[idx] || mineRevealed[idx]) return;
+            if (!mineGameStarted) {
+                mineGameStarted = true;
+                // Place 10 mines avoiding idx
+                while (mineMines.size < 10) {
+                    const r = Math.floor(Math.random() * 81);
+                    if (r !== idx) mineMines.add(r);
+                }
+                // Start timer
+                mineTimerInterval = setInterval(() => {
+                    mineTime = Math.min(999, mineTime + 1);
+                    document.getElementById('mine-timer').innerText = String(mineTime).padStart(3, '0');
+                }, 1000);
+            }
+
+            if (mineMines.has(idx)) {
+                // Game Over - Exploded
+                mineGameOver = true;
+                clearInterval(mineTimerInterval);
+                document.getElementById('mine-face').innerText = '😵';
+                soundError();
+                // Reveal all mines
+                mineMines.forEach(m => {
+                    const el = document.querySelector(`.mine-cell[data-idx="${m}"]`);
+                    if (el) {
+                        el.innerText = '💣';
+                        el.classList.add('mine-cell', 'revealed');
+                        if (m === idx) el.classList.add('mine-exploded');
+                    }
+                });
+                return;
+            }
+
+            revealMineCell(idx);
+            checkMineWin();
+        }
+
+        function getMineNeighbors(idx) {
+            const r = Math.floor(idx / 9), c = idx % 9;
+            const res = [];
+            for (let dr = -1; dr <= 1; dr++) {
+                for (let dc = -1; dc <= 1; dc++) {
+                    if (dr === 0 && dc === 0) continue;
+                    const nr = r + dr, nc = c + dc;
+                    if (nr >= 0 && nr < 9 && nc >= 0 && nc < 9) {
+                        res.push(nr * 9 + nc);
+                    }
+                }
+            }
+            return res;
+        }
+
+        function revealMineCell(idx) {
+            if (mineRevealed[idx] || mineFlagged[idx]) return;
+            mineRevealed[idx] = true;
+            soundNav();
+            const el = document.querySelector(`.mine-cell[data-idx="${idx}"]`);
+            if (!el) return;
+            el.classList.add('revealed');
+
+            const neighbors = getMineNeighbors(idx);
+            let count = 0;
+            neighbors.forEach(n => { if (mineMines.has(n)) count++; });
+
+            const numColors = ['', '#0000ff', '#008000', '#ff0000', '#000080', '#800000', '#008080', '#000000', '#808080'];
+            if (count > 0) {
+                el.innerText = count;
+                el.style.color = numColors[count] || '#000';
+            } else {
+                el.innerText = '';
+                neighbors.forEach(n => revealMineCell(n));
+            }
+        }
+
+        function onMineRightClick(idx) {
+            if (mineGameOver || mineRevealed[idx]) return;
+            soundNav();
+            mineFlagged[idx] = !mineFlagged[idx];
+            const el = document.querySelector(`.mine-cell[data-idx="${idx}"]`);
+            if (el) {
+                el.innerText = mineFlagged[idx] ? '🚩' : '';
+            }
+            let flaggedCount = mineFlagged.filter(Boolean).length;
+            document.getElementById('mine-count').innerText = String(Math.max(0, 10 - flaggedCount)).padStart(3, '0');
+            checkMineWin();
+        }
+
+        function checkMineWin() {
+            let revealedCount = mineRevealed.filter(Boolean).length;
+            if (revealedCount === 71 && !mineGameOver) {
+                mineGameOver = true;
+                clearInterval(mineTimerInterval);
+                document.getElementById('mine-face').innerText = '😎';
+                soundWin();
+                alert('تهانينا! لقد فزت في لعبة كاسحة الألغام بنجاح! 🏆');
+            }
+        }
+
+        // Notepad Pre-fill
+        const notepadEl = document.getElementById('notepad-text');
+        if (notepadEl) {
+            notepadEl.value = `========================================================================
+    نظام تشغيل ملف أعمال طارق ابوعشي (Tareq XP Professional)
+========================================================================
+
+المالك والمطور: أ. طارق ابوعشي (Tareq Aboushi)
+التخصص: مهندس أنظمة وذكاء اصطناعي (AI Architect & Systems Engineer)
+الموقع: المملكة العربية السعودية 🇸🇦
+
+------------------------------------------------------------------------
+[نبذة عن النظام والمشاريع المعروضة]
+------------------------------------------------------------------------
+- تم بناء هذا النظام ليكون ملف أعمال هندسي حي متكامل بنمط Windows XP
+  (Hyper-Realistic Edition).
+- يتضمن النظام 54 مشروعاً هندسياً حقيقياً موزعاً على 6 أقراص محاكاة:
+  * (C:) Core & Trading - محركات النواة والتداول الفائق والـ eBPF
+  * (D:) AI & Data Science - نماذج الذكاء الاصطناعي و الرؤية الحاسوبية
+  * (E:) 3D & Spatial - الحوسبة المكانية والرسوميات ثلاثية الأبعاد
+  * (F:) Robotics & IIoT - الروبوتات والأنظمة الصناعية والمحاكاة
+  * (G:) Enterprise SaaS - الأنظمة السحابية والمنصات المؤسسية الموزعة
+  * (H:) Mobile Apps - تطبيقات الجوال بنمط Offline-First ومزامنة البيانات
+
+------------------------------------------------------------------------
+[المميزات التفاعلية المتاحة في النظام]
+------------------------------------------------------------------------
+1. خلفية Bliss الأصلية الكاملة عالية الدقة 1080p (كاليفورنيا).
+2. التحديد بالسحب بالماوس على سطح المكتب (Marquee Drag Selection).
+3. القائمة المنبثقة للزر الأيمن (Context Menu) وتخصيص العرض.
+4. لعبة كاسحة الألغام (Minesweeper) كاملة مع المؤقت وعداد الألغام.
+5. موجه الأوامر (CMD) بأوامر تفاعلية كاملة (help, dir, cls, sysinfo).
+6. متصفح Internet Explorer لتشغيل النسخ الحية للمشاريع.
+7. استعراض وتحميل السيرة الذاتية الرسمية (Tareq_Aboushi_CV.pdf).
+
+------------------------------------------------------------------------
+للتواصل والتعاون المهني:
+- GitHub: https://github.com/Tareq0001
+- LinkedIn: https://linkedin.com/in/tareq-abuoshi-ai
+========================================================================`;
+        }
+
+        // Taskbar Balloon Helpers
+        function showBalloon() {
+            const b = document.getElementById('xp-balloon');
+            if (b) {
+                b.style.display = 'block';
+                soundDing();
+                setTimeout(() => { closeBalloon(); }, 12000);
+            }
+        }
+        function closeBalloon() {
+            const b = document.getElementById('xp-balloon');
+            if (b) b.style.display = 'none';
+        }
+
+
+        // PLAY STARTUP CHIME ON FIRST USER INTERACTION
+        window.addEventListener('pointerdown', function initAudio() {
+            getAudioContext();
+            soundChime();
+            window.removeEventListener('pointerdown', initAudio);
+        }, { once: true });
+
+        // INITIALIZE SYSTEM & MINESWEEPER & BALLOON
+        switchSysTab('gen');
+        renderExplorer();
+        updateTaskbar();
+        resetMinesweeper();
+        setTimeout(showBalloon, 1200);
+    </script>
+</body>
+</html>
