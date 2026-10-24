@@ -4160,6 +4160,48 @@
                     </div>
                 </div>
 
+                <!-- 69. AstroDynamics-Mission-Control (Span 12) -->
+                <div class="bento-3d-card span-12 bento-item aerospace spatial" style="border-color: rgba(99, 102, 241, 0.45); background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(14, 165, 233, 0.06) 100%);">
+                    <div class="card-pill pill-spatial" data-i18n="c_astrodyn_pill" style="color: #818cf8; border-color: rgba(129, 140, 248, 0.4); background: rgba(129, 140, 248, 0.12);">
+                        <i class="fa-solid fa-satellite"></i> Astrodynamics, Orbital Mechanics & Deep Space Mission Control
+                    </div>
+                    <h3 data-i18n="c_astrodyn_title">AstroDynamics: N-Body Gravitational Physics & Mission Operations Twin</h3>
+                    <p data-i18n="c_astrodyn_desc">
+                        A space mission control digital twin blending NASA JPL Eyes and ESA ESOC operations. Features a 4th-Order Runge-Kutta (RK4) N-body gravitational integrator with $J_2$ zonal harmonic oblateness perturbation modeling, 6-parameter Keplerian orbital elements engine, interplanetary Hohmann and bi-elliptic transfer planners with gravitational slingshot assists, 3D quaternion ADCS spacecraft attitude control, and Deep Space Network (DSN) RF link budget tracking with speed-of-light propagation latency.
+                    </p>
+                    <div class="card-benchmark-hud">
+                        <div class="hud-stat-box">
+                            <div class="num">RK4 N-Body</div>
+                            <div class="desc" data-i18n="c_astrodyn_stat1">Gravitational Integrator</div>
+                        </div>
+                        <div class="hud-stat-box">
+                            <div class="num">Kepler Elements</div>
+                            <div class="desc" data-i18n="c_astrodyn_stat2">6-DoF Orbit Geometry</div>
+                        </div>
+                        <div class="hud-stat-box">
+                            <div class="num">DSN Link Budget</div>
+                            <div class="desc" data-i18n="c_astrodyn_stat3">Speed-of-Light Delay</div>
+                        </div>
+                    </div>
+                    <div class="badge-tags">
+                        <span class="badge-tag">TypeScript 76%</span>
+                        <span class="badge-tag">4th-Order Runge-Kutta (RK4) N-Body Integrator</span>
+                        <span class="badge-tag">J2 Planetary Oblateness Perturbation</span>
+                        <span class="badge-tag">Hohmann & Slingshot Delta-V Planner</span>
+                        <span class="badge-tag">3D Quaternion ADCS & Reaction Wheels</span>
+                        <span class="badge-tag">DSN Friis Link Budget & Doppler Tracking</span>
+                    </div>
+                    <div class="card-actions-row">
+                        <a href="https://github.com/Tareq0001/AstroDynamics-Mission-Control" target="_blank" class="card-action-link">
+                            <span data-i18n="c_astrodyn_link">Inspect AstroDynamics Code</span> <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <a href="https://tareq0001.github.io/AstroDynamics-Mission-Control/" target="_blank" class="card-badge-link" style="background: rgba(99, 102, 241, 0.15); border-color: rgba(99, 102, 241, 0.4); color: #a5b4fc;">
+                            <i class="fa-solid fa-satellite"></i> <span data-i18n="c_astrodyn_demo">Launch AstroDynamics</span>
+                        </a>
+                    </div>
+                </div>
+
+
 
 
 
@@ -5101,6 +5143,14 @@ char _license[] SEC("license") = "GPL";</code></pre>
                 c_cinemotion_stat3: "Synthesizer & Waves",
                 c_cinemotion_link: "Inspect CineMotion Code",
                 c_cinemotion_demo: "Launch CineMotion Studio",
+                                c_astrodyn_pill: '<i class="fa-solid fa-satellite"></i> Astrodynamics, Orbital Mechanics & Deep Space Mission Control',
+                c_astrodyn_title: "AstroDynamics: N-Body Gravitational Physics & Mission Operations Twin",
+                c_astrodyn_desc: "A space mission control digital twin blending NASA JPL Eyes and ESA ESOC operations. Features a 4th-Order Runge-Kutta (RK4) N-body gravitational integrator with $J_2$ zonal harmonic oblateness perturbation modeling, 6-parameter Keplerian orbital elements engine, interplanetary Hohmann and bi-elliptic transfer planners with gravitational slingshot assists, 3D quaternion ADCS spacecraft attitude control, and Deep Space Network (DSN) RF link budget tracking with speed-of-light propagation latency.",
+                c_astrodyn_stat1: "Gravitational Integrator",
+                c_astrodyn_stat2: "6-DoF Orbit Geometry",
+                c_astrodyn_stat3: "Speed-of-Light Delay",
+                c_astrodyn_link: "Inspect AstroDynamics Code",
+                c_astrodyn_demo: "Launch AstroDynamics",
                 inspector_tag: "// ARCHITECTURE IMPLEMENTATION INSPECTOR",
                 inspector_title: "Production Source Highlights",
                 contact_title: "Let's Build Systems That Defy Limits.",
@@ -5654,6 +5704,14 @@ char _license[] SEC("license") = "GPL";</code></pre>
         c_cinemotion_stat3: "محلل طيفي صوتي FFT",
         c_cinemotion_link: "فحص كود استوديو CineMotion",
         c_cinemotion_demo: "تشغيل استوديو CineMotion",
+                        c_astrodyn_pill: '<i class="fa-solid fa-satellite"></i> ديناميكا المدارات وميكانيكا الفضاء وغرفة التحكم بالمهام الكوكبية',
+        c_astrodyn_title: "AstroDynamics: التوأم الرقمي لميكانيكا الفضاء ومحاكاة الجاذبية متعددة الأجسام",
+        c_astrodyn_desc: "توأم رقمي لغرفة عمليات الفضاء يحاكي مراكز التحكم في NASA JPL وESA. يتضمن مكامل الجاذبية متعدد الأجسام بالرتبة الرابعة (RK4) مع نمذجة اضطراب تفلطح الكواكب الجاذبي J2، محرك العناصر المدارية لكبلر مع حل معادلة كبلر العددية، ومخطط مناورات هوهمان والمقلاع الجاذبي بين الكواكب، ونظام التوجيه والتحكم الوضعي ثلاثي الأبعاد (ADCS) بالكواتيرنيون ومحركات RCS، وشبكة الفضاء العميق (DSN) مع محاكاة التأخير الزمني لسرعة الضوء وانزياح دوبلر.",
+        c_astrodyn_stat1: "مكامل جاذبية RK4",
+        c_astrodyn_stat2: "عناصر كبلر الستة",
+        c_astrodyn_stat3: "شبكة الفضاء العميق DSN",
+        c_astrodyn_link: "فحص كود AstroDynamics",
+        c_astrodyn_demo: "تشغيل منصة AstroDynamics",
                 inspector_tag: "// فاحص الكود المصدري المعماري",
                 inspector_title: "نماذج من الكود المصدري الفعلي",
                 contact_title: "لنصنع أنظمة تتجاوز الحدود.",
