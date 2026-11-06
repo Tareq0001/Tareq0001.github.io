@@ -17,8 +17,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
   <!-- Main CSS -->
-  <script type="module" crossorigin src="./assets/index-BcQrtpZB.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-CScgPJpi.css">
+  <script type="module" crossorigin src="./assets/index-BFKBKPut.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-8yJI7Ohb.css">
 </head>
 <body class="dark-theme">
   <!-- Top Executive Command Header -->
@@ -50,6 +50,10 @@
         <span class="tab-icon"><i class="fa-solid fa-chart-pie"></i></span>
         <span class="tab-label" id="tabLabelCalc">حاسبة نمو الإيرادات والعائد ARR</span>
       </button>
+      <button class="tab-btn" id="tab-edu" data-tab="panel-edu">
+        <span class="tab-icon"><i class="fa-solid fa-graduation-cap"></i></span>
+        <span class="tab-label" id="tabLabelEdu">المختبر التعليمي والمعجم B2B</span>
+      </button>
     </nav>
 
     <!-- Header Actions & Author Badge -->
@@ -58,6 +62,11 @@
         <span class="author-icon"><i class="fa-solid fa-crown"></i></span>
         <span class="author-name" id="authorBadge">إعداد وتطوير: أ. طارق ابوعشي</span>
       </div>
+
+      <button class="action-btn edu-hero-btn" id="openEduTabBtn" title="الانتقال المباشر إلى المختبر التعليمي والمعجم">
+        <span class="btn-icon"><i class="fa-solid fa-graduation-cap"></i></span>
+        <span class="btn-text" id="eduBtnText">أكاديمية B2B</span>
+      </button>
 
       <button class="action-btn report-btn" id="openReportBtn" title="توليد وعرض العرض التجاري المعتمد">
         <span class="btn-icon"><i class="fa-solid fa-file-signature"></i></span>
@@ -91,7 +100,10 @@
         <!-- KPI 1: TCV -->
         <div class="hero-kpi-card gold-glow">
           <div class="hero-kpi-top">
-            <span class="kpi-label" id="kpiTcvLabel"><span id="kpiLabel1">إجمالي قيمة التعاقد (TCV)</span></span>
+            <span class="kpi-label" id="kpiTcvLabel">
+              <span id="kpiLabel1">إجمالي قيمة التعاقد (TCV)</span>
+              <button type="button" class="edu-info-btn" data-info="tcv" title="شرح المفهوم"><i class="fa-solid fa-circle-question"></i></button>
+            </span>
             <span class="kpi-icon-pill gold"><i class="fa-solid fa-file-invoice-dollar"></i></span>
           </div>
           <div class="kpi-value highlight-gold" id="kpiTcv">3,375,000 ر.س</div>
@@ -101,7 +113,10 @@
         <!-- KPI 2: Win Probability -->
         <div class="hero-kpi-card emerald-glow">
           <div class="hero-kpi-top">
-            <span class="kpi-label" id="kpiWinProbLabel"><span id="kpiLabel2">احتمالية إغلاق الصفقة (Win Prob)</span></span>
+            <span class="kpi-label" id="kpiWinProbLabel">
+              <span id="kpiLabel2">احتمالية إغلاق الصفقة (Win Prob)</span>
+              <button type="button" class="edu-info-btn" data-info="winProb" title="شرح المفهوم"><i class="fa-solid fa-circle-question"></i></button>
+            </span>
             <span class="kpi-icon-pill emerald"><i class="fa-solid fa-bullseye"></i></span>
           </div>
           <div class="kpi-value highlight-emerald" id="kpiWinProb">88%</div>
@@ -111,7 +126,10 @@
         <!-- KPI 3: Net Margin / LTV:CAC -->
         <div class="hero-kpi-card cyan-glow">
           <div class="hero-kpi-top">
-            <span class="kpi-label" id="kpiMarginLabel"><span id="kpiLabel3">صافي هامش الربح (Net Margin)</span></span>
+            <span class="kpi-label" id="kpiMarginLabel">
+              <span id="kpiLabel3">صافي هامش الربح (Net Margin)</span>
+              <button type="button" class="edu-info-btn" data-info="ltvCac" title="شرح المفهوم"><i class="fa-solid fa-circle-question"></i></button>
+            </span>
             <span class="kpi-icon-pill cyan"><i class="fa-solid fa-chart-line"></i></span>
           </div>
           <div class="kpi-value highlight-cyan" id="kpiMargin"><span id="kpiLtvCac">71.6%</span></div>
@@ -121,7 +139,10 @@
         <!-- KPI 4: Cycle Velocity -->
         <div class="hero-kpi-card violet-glow">
           <div class="hero-kpi-top">
-            <span class="kpi-label" id="kpiCycleLabel"><span id="kpiLabel4">دورة المبيعات المتوقعة (Cycle Velocity)</span></span>
+            <span class="kpi-label" id="kpiCycleLabel">
+              <span id="kpiLabel4">دورة المبيعات المتوقعة (Cycle Velocity)</span>
+              <button type="button" class="edu-info-btn" data-info="cycle" title="شرح المفهوم"><i class="fa-solid fa-circle-question"></i></button>
+            </span>
             <span class="kpi-icon-pill violet"><i class="fa-solid fa-stopwatch"></i></span>
           </div>
           <div class="kpi-value highlight-violet" id="kpiCycle">68 يوماً</div>
@@ -283,7 +304,10 @@
             <!-- ACV Slider -->
             <div class="slider-field">
               <div class="slider-header">
-                <label for="acvSlider" id="acvLabel">قيمة التعاقد السنوي (ACV):</label>
+                <label for="acvSlider" id="acvLabel">
+                  قيمة التعاقد السنوي (ACV):
+                  <button type="button" class="edu-info-btn" data-info="acv" title="شرح المفهوم"><i class="fa-solid fa-circle-question"></i></button>
+                </label>
                 <span class="slider-val-badge" id="acvVal">1,250,000 ر.س</span>
               </div>
               <input type="range" id="acvSlider" min="150000" max="5000000" step="50000" value="1250000">
@@ -296,7 +320,10 @@
             <!-- Years Slider -->
             <div class="slider-field">
               <div class="slider-header">
-                <label for="yearsSlider" id="yearsLabel">مدة التعاقد الاستراتيجي:</label>
+                <label for="yearsSlider" id="yearsLabel">
+                  مدة التعاقد الاستراتيجي:
+                  <button type="button" class="edu-info-btn" data-info="years" title="شرح المفهوم"><i class="fa-solid fa-circle-question"></i></button>
+                </label>
                 <span class="slider-val-badge" id="yearsVal">3 سنوات</span>
               </div>
               <input type="range" id="yearsSlider" min="1" max="5" step="1" value="3">
@@ -309,7 +336,10 @@
             <!-- Discount Slider -->
             <div class="slider-field">
               <div class="slider-header">
-                <label for="discountSlider" id="discountLabel">نسبة الخصم التفاوضي التجاري:</label>
+                <label for="discountSlider" id="discountLabel">
+                  نسبة الخصم التفاوضي التجاري:
+                  <button type="button" class="edu-info-btn" data-info="discount" title="شرح المفهوم"><i class="fa-solid fa-circle-question"></i></button>
+                </label>
                 <span class="slider-val-badge warning-badge" id="discountVal">10%</span>
               </div>
               <input type="range" id="discountSlider" min="0" max="35" step="1" value="10">
@@ -322,7 +352,10 @@
             <!-- MEDDIC Score Slider -->
             <div class="slider-field">
               <div class="slider-header">
-                <label for="meddicSlider" id="meddicLabel">معيار الجاهزية والتأهيل (MEDDIC):</label>
+                <label for="meddicSlider" id="meddicLabel">
+                  معيار الجاهزية والتأهيل (MEDDIC):
+                  <button type="button" class="edu-info-btn" data-info="meddic" title="شرح المفهوم"><i class="fa-solid fa-circle-question"></i></button>
+                </label>
                 <span class="slider-val-badge success-badge" id="meddicVal">84%</span>
               </div>
               <input type="range" id="meddicSlider" min="30" max="100" step="1" value="84">
@@ -335,7 +368,10 @@
 
           <!-- Strategic Levers Toggles -->
           <div class="control-section">
-            <label class="section-label" id="leversLabel">روافع التفاوض وإغلاق الصفقات (Strategic Levers):</label>
+            <label class="section-label" id="leversLabel">
+              روافع التفاوض وإغلاق الصفقات (Strategic Levers):
+              <button type="button" class="edu-info-btn" data-info="levers" title="شرح المفهوم"><i class="fa-solid fa-circle-question"></i></button>
+            </label>
             <div class="levers-grid levers-list">
               <label class="toggle-card">
                 <input type="checkbox" id="leverRoi" checked>
@@ -573,6 +609,123 @@
       </div>
     </section>
 
+    <!-- ========================================== -->
+    <!-- TAB 4: B2B EDUCATIONAL ACADEMY & LAB       -->
+    <!-- ========================================== -->
+    <section class="tab-panel" id="panel-edu">
+      <div class="academy-layout">
+        
+        <!-- Academy Hero Header -->
+        <div class="academy-hero-header">
+          <div class="academy-hero-left">
+            <div class="academy-badge">
+              <i class="fa-solid fa-graduation-cap"></i>
+              <span id="academyBadgeText">المختبر التعليمي والمعجم التفاعلي B2B</span>
+            </div>
+            <h2 class="academy-title" id="academyTitle">أكاديمية تطوير الأعمال والشراكات الاستراتيجية وذكاء الإيرادات</h2>
+            <p class="academy-subtitle" id="academySubtitle">منهج تفاعلي متكامل يجمع بين الشرح الأكاديمي الرصين، محاكاة السيناريوهات الحية، حل معضلات التفاوض، والاختبار المهاري الختامي المقنن</p>
+          </div>
+          <div class="academy-hero-right">
+            <div class="academy-author-pill">
+              <span class="author-icon"><i class="fa-solid fa-crown"></i></span>
+              <span class="author-name">إعداد وتطوير: أ. طارق ابوعشي</span>
+            </div>
+            <div class="academy-stats-row">
+              <div class="stat-mini-badge"><i class="fa-solid fa-book-open"></i> <span>5 ركائز تعليمية</span></div>
+              <div class="stat-mini-badge"><i class="fa-solid fa-laptop-code"></i> <span>4 سيناريوهات واقعية</span></div>
+              <div class="stat-mini-badge"><i class="fa-solid fa-clipboard-check"></i> <span>10 أسئلة مهارية</span></div>
+              <div class="stat-mini-badge"><i class="fa-solid fa-calculator"></i> <span>معجم ومعادلات B2B</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Academy Inner Subtabs Bar -->
+        <nav class="academy-subnav" aria-label="Academy Sections">
+          <button class="academy-subtab-btn active" data-subtab="modules" id="subtabBtnModules">
+            <i class="fa-solid fa-book-bookmark"></i>
+            <span id="subtabTitleModules">الركائز التعليمية الخمس</span>
+          </button>
+          <button class="academy-subtab-btn" data-subtab="cases" id="subtabBtnCases">
+            <i class="fa-solid fa-laptop-code"></i>
+            <span id="subtabTitleCases">محاكي السيناريوهات والحالات الواقعية</span>
+          </button>
+          <button class="academy-subtab-btn" data-subtab="quiz" id="subtabBtnQuiz">
+            <i class="fa-solid fa-clipboard-question"></i>
+            <span id="subtabTitleQuiz">الاختبار المهاري الختامي (10 أسئلة)</span>
+          </button>
+          <button class="academy-subtab-btn" data-subtab="glossary" id="subtabBtnGlossary">
+            <i class="fa-solid fa-square-root-variable"></i>
+            <span id="subtabTitleGlossary">معجم المعادلات والمصطلحات المشروحة</span>
+          </button>
+        </nav>
+
+        <!-- Subtab 1: The 5 Modules Container -->
+        <div class="academy-subpanel active" id="subpanel-modules">
+          <div class="subpanel-intro-row">
+            <div>
+              <h3 class="subpanel-title"><i class="fa-solid fa-layer-group"></i> الركائز المعرفية الخمس لأخصائي تطوير الأعمال</h3>
+              <p class="subpanel-desc">انقر على أي ركيزة لاستكشاف المفاهيم الجوهرية، الخطوات التنفيذية، النصائح الاستراتيجية، والمعادلات الرياضية المرتبطة بها.</p>
+            </div>
+          </div>
+          <div class="modules-grid" id="modulesContainer">
+            <!-- Dynamically populated from LEARNING_MODULES -->
+          </div>
+        </div>
+
+        <!-- Subtab 2: Real-World Case Studies Simulator -->
+        <div class="academy-subpanel" id="subpanel-cases">
+          <div class="subpanel-intro-row">
+            <div>
+              <h3 class="subpanel-title"><i class="fa-solid fa-chess-knight"></i> محاكي الحالات والسيناريوهات العملية التفاعلية</h3>
+              <p class="subpanel-desc">اختبر قدرتك على حل مشكلات التفاوض وتجاوز تحديات المشتري الاقتصادي وبيروقراطية اللجان في 4 سيناريوهات سعودية حقيقية.</p>
+            </div>
+          </div>
+          <div class="case-simulator-wrap">
+            <div class="case-selector-bar" id="caseSelectorBar">
+              <!-- Case pills populated dynamically -->
+            </div>
+            <div class="case-active-container" id="caseActiveContainer">
+              <!-- Active case study details and interactive options -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Subtab 3: B2B Mastery Quiz -->
+        <div class="academy-subpanel" id="subpanel-quiz">
+          <div class="subpanel-intro-row">
+            <div>
+              <h3 class="subpanel-title"><i class="fa-solid fa-award"></i> الاختبار التفاعلي المقنن لمهارات تطوير الأعمال B2B</h3>
+              <p class="subpanel-desc">10 أسئلة مهارية متنوعة تقيس مدى استيعابك للمفاهيم المالية وإطار MEDDIC واستراتيجيات التفاوض واقتصاديات النمو.</p>
+            </div>
+          </div>
+          <div class="quiz-container-card" id="quizContainerCard">
+            <!-- Populated dynamically: Question, Options, Feedback, Next Button -->
+          </div>
+        </div>
+
+        <!-- Subtab 4: Formulas & Glossary -->
+        <div class="academy-subpanel" id="subpanel-glossary">
+          <div class="glossary-header-controls">
+            <div class="glossary-search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="glossarySearchInput" placeholder="ابحث في المصطلحات والمعادلات (ARR, MEDDIC, TCV, SLA, LTV...)..." />
+            </div>
+            <div class="glossary-filter-pills" id="glossaryFilterPills">
+              <button class="filter-pill active" data-category="all">الكل</button>
+              <button class="filter-pill" data-category="financial">مالية واقتصادية</button>
+              <button class="filter-pill" data-category="methodology">منهجية MEDDIC</button>
+              <button class="filter-pill" data-category="pipeline">مسار الصفقات</button>
+              <button class="filter-pill" data-category="strategy">استراتيجية وروافع</button>
+            </div>
+          </div>
+          <div class="glossary-cards-grid" id="glossaryCardsGrid">
+            <!-- Populated dynamically from GLOSSARY_TERMS -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+
   </main>
 
   <!-- Footer with Exclusive Author Credits -->
@@ -785,6 +938,27 @@
         </footer>
 
       </article>
+    </div>
+  </div>
+
+  <!-- Quick Educational Tooltip Modal -->
+  <div class="edu-tooltip-modal" id="eduTooltipModal" role="dialog" aria-hidden="true">
+    <div class="edu-tooltip-backdrop" id="eduTooltipBackdrop"></div>
+    <div class="edu-tooltip-dialog">
+      <div class="edu-tooltip-header">
+        <div class="edu-tooltip-icon-title">
+          <span class="edu-tooltip-icon"><i class="fa-solid fa-graduation-cap"></i></span>
+          <h4 class="edu-tooltip-title" id="eduTooltipTitle">شرح المفهوم التعليمي</h4>
+        </div>
+        <button type="button" class="edu-tooltip-close-btn" id="eduTooltipCloseBtn" title="إغلاق"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="edu-tooltip-body">
+        <p class="edu-tooltip-desc" id="eduTooltipDesc">وصف المفهوم</p>
+        <div class="edu-tooltip-box">
+          <span class="edu-tooltip-box-title"><i class="fa-solid fa-lightbulb"></i> نصيحة أخصائي تطوير الأعمال:</span>
+          <p class="edu-tooltip-tip" id="eduTooltipTip">نصيحة عملية تطبيقية</p>
+        </div>
+      </div>
     </div>
   </div>
 
