@@ -8,21 +8,24 @@
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
   
-  <!-- Google Fonts: Cairo & JetBrains Mono -->
+  <!-- Google Fonts: Cairo, IBM Plex Sans Arabic, Plus Jakarta Sans & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome 6.5.1 Pro Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
   <!-- Main CSS -->
-  <script type="module" crossorigin src="./assets/index-B5SHomun.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-C4QR4_2B.css">
+  <script type="module" crossorigin src="./assets/index-N7gafXGg.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-D5wqtqTW.css">
 </head>
 <body class="dark-theme">
   <!-- Top Executive Command Header -->
   <header class="app-header">
     <div class="header-brand">
       <div class="brand-logo-glow">
-        <span class="brand-logo-icon">🌱</span>
+        <span class="brand-logo-icon"><i class="fa-solid fa-chart-line"></i></span>
       </div>
       <div class="brand-text">
         <div class="brand-title-row">
@@ -36,15 +39,15 @@
     <!-- Navigation Tabs -->
     <nav class="nav-tabs" aria-label="System Views">
       <button class="tab-btn active" id="tab-3d" data-tab="panel-3d">
-        <span class="tab-icon">🌐</span>
+        <span class="tab-icon"><i class="fa-solid fa-cubes"></i></span>
         <span class="tab-label" id="tabLabel3d">الفضاء ثلاثي الأبعاد وقمع الصفقات</span>
       </button>
       <button class="tab-btn" id="tab-radar" data-tab="panel-radar">
-        <span class="tab-icon">🎯</span>
+        <span class="tab-icon"><i class="fa-solid fa-crosshairs"></i></span>
         <span class="tab-label" id="tabLabelRadar">رادار MEDDIC ومصفوفة الفرص</span>
       </button>
       <button class="tab-btn" id="tab-calc" data-tab="panel-calc">
-        <span class="tab-icon">📈</span>
+        <span class="tab-icon"><i class="fa-solid fa-chart-pie"></i></span>
         <span class="tab-label" id="tabLabelCalc">حاسبة نمو الإيرادات والعائد ARR</span>
       </button>
     </nav>
@@ -52,21 +55,21 @@
     <!-- Header Actions & Author Badge -->
     <div class="header-actions">
       <div class="author-pill" title="Lead Architect & Strategic BD Specialist">
-        <span class="author-icon">🎖️</span>
+        <span class="author-icon"><i class="fa-solid fa-crown"></i></span>
         <span class="author-name" id="authorBadge">إعداد وتطوير: أ. طارق ابوعشي</span>
       </div>
 
       <button class="action-btn report-btn" id="openReportBtn" title="توليد وعرض العرض التجاري المعتمد">
-        <span class="btn-icon">📄</span>
+        <span class="btn-icon"><i class="fa-solid fa-file-signature"></i></span>
         <span class="btn-text" id="reportBtnText">العرض التجاري المعتمد</span>
       </button>
 
       <button class="action-btn icon-only" id="audioToggleBtn" title="تفعيل / كتم المؤثرات الصوتية التفاعلية">
-        <span id="audioIcon">🔊</span>
+        <span id="audioIcon"><i class="fa-solid fa-volume-high"></i></span>
       </button>
 
       <button class="action-btn icon-only" id="themeToggleBtn" title="التبديل بين الوضع الداكن والفاتح">
-        <span id="themeIcon">☀️</span>
+        <span id="themeIcon"><i class="fa-solid fa-sun"></i></span>
       </button>
 
       <button class="action-btn lang-btn" id="langToggleBtn" title="Switch Language / تغيير اللغة">
@@ -164,7 +167,7 @@
 
             <!-- Stage Insight & Specialist Action Banner -->
             <div class="stage-insight-box" id="stageInsightBox">
-              <div class="insight-icon-box">💡</div>
+              <div class="insight-icon-box"><i class="fa-solid fa-lightbulb"></i></div>
               <div class="insight-content">
                 <h4 class="insight-title" id="stageInsightTitle">المرحلة 1: التنقيب والتواصل المؤسسي الفعال (ABM Outreach)</h4>
                 <p class="insight-desc" id="stageInsightDesc">تحديد الحسابات الاستراتيجية ذات الملاءمة العالية (ICP)، والتواصل المباشر مع الرؤساء التنفيذيين ومديري التقنية لفتح قنوات التفاوض وبناء الثقة الأولية.</p>
@@ -329,8 +332,8 @@
           </div>
 
           <!-- Primary CTA Button -->
-          <button class="execute-deal-btn" id="executeDealBtn">
-            <span class="cta-sparkle">✨</span>
+          <button class="execute-deal-btn close-deal-cta-btn" id="executeDealBtn">
+            <span class="cta-sparkle"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
             <span class="cta-text" id="executeBtnText">إتمام التعاقد وتوقيع الشراكة (Execute Closed-Won)</span>
           </button>
         </aside>
@@ -561,11 +564,11 @@
         </div>
         <div class="action-bar-right">
           <button class="modal-btn print-btn" id="printReportBtn">
-            <span>🖨️</span>
+            <span><i class="fa-solid fa-print"></i></span>
             <span>طباعة / حفظ كملف PDF</span>
           </button>
           <button class="modal-btn close-btn" id="closeReportBtn" aria-label="إغلاق">
-            <span>✕</span>
+            <span><i class="fa-solid fa-xmark"></i></span>
           </button>
         </div>
       </div>
@@ -577,7 +580,7 @@
         <header class="doc-header">
           <div class="doc-header-main">
             <div class="doc-brand">
-              <div class="doc-logo-mark">🌱</div>
+              <div class="doc-logo-mark"><i class="fa-solid fa-chart-line"></i></div>
               <div>
                 <h2 class="doc-brand-title">نَمَاء | NAMA ENTERPRISE</h2>
                 <p class="doc-brand-sub">منظومة تطوير الأعمال والشراكات الاستراتيجية وذكاء الإيرادات</p>
@@ -679,28 +682,28 @@
           <h3 class="doc-sec-title">3. الروافع التفاوضية والالتزامات التشغيلية المعتمدة (Strategic Commitments)</h3>
           <div class="doc-commitments-grid" id="docCommitmentsGrid">
             <div class="commitment-item">
-              <span class="commit-icon">💎</span>
+              <span class="commit-icon"><i class="fa-solid fa-gem"></i></span>
               <div>
                 <strong>ضمان الأثر الاستثماري (Value-based ROI Guarantee):</strong>
                 <p>التزام تعاقدي بتحقيق عوائد ملموسة وقياس الأثر المالي خلال أول 90 يوماً من التشغيل الفعلي.</p>
               </div>
             </div>
             <div class="commitment-item">
-              <span class="commit-icon">🛡️</span>
+              <span class="commit-icon"><i class="fa-solid fa-shield-halved"></i></span>
               <div>
                 <strong>اتفاقية مستوى الخدمة البلاتينية (SLA 99.99%):</strong>
                 <p>جاهزية تشغيلية مستمرة على مدار الساعة مع زمن استجابة للحوادث الحرجة يقل عن 15 دقيقة.</p>
               </div>
             </div>
             <div class="commitment-item">
-              <span class="commit-icon">⚡</span>
+              <span class="commit-icon"><i class="fa-solid fa-bolt"></i></span>
               <div>
                 <strong>إثبات المفهوم والبيئة الرملية (Guided Pilot PoC):</strong>
                 <p>تنفيذ بيئة عمل تجريبية سريعة تؤكد التوافقية التقنية وسلاسة التكامل قبل بدء التشغيل المؤسسي الكامل.</p>
               </div>
             </div>
             <div class="commitment-item">
-              <span class="commit-icon">🤝</span>
+              <span class="commit-icon"><i class="fa-solid fa-handshake"></i></span>
               <div>
                 <strong>التحالف الاستراتيجي والبيع المشترك (Ecosystem Co-sell):</strong>
                 <p>تفعيل قنوات التعاون المشترك والتسويق المتبادل لتعظيم الحصة السوقية في القطاع.</p>
