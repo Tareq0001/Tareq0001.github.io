@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نَمَاء | NAMA — منظومة تطوير الأعمال والشراكات الاستراتيجية وذكاء الإيرادات (3D B2B Growth Hub)</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
+  
+  <!-- Google Fonts: Cairo & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Main CSS -->
+  <script type="module" crossorigin src="./assets/index-B5SHomun.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-C4QR4_2B.css">
+</head>
+<body class="dark-theme">
+  <!-- Top Executive Command Header -->
+  <header class="app-header">
+    <div class="header-brand">
+      <div class="brand-logo-glow">
+        <span class="brand-logo-icon">🌱</span>
+      </div>
+      <div class="brand-text">
+        <div class="brand-title-row">
+          <h1 class="brand-title" id="appTitle">نَمَاء <span class="brand-en">| NAMA 3D</span></h1>
+          <span class="badge-tech">B2B Growth Hub</span>
+        </div>
+        <p class="brand-subtitle" id="appSubtitle">منظومة تطوير الأعمال والشراكات الاستراتيجية وذكاء الإيرادات المؤسسية</p>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs" aria-label="System Views">
+      <button class="tab-btn active" id="tab-3d" data-tab="panel-3d">
+        <span class="tab-icon">🌐</span>
+        <span class="tab-label" id="tabLabel3d">الفضاء ثلاثي الأبعاد وقمع الصفقات</span>
+      </button>
+      <button class="tab-btn" id="tab-radar" data-tab="panel-radar">
+        <span class="tab-icon">🎯</span>
+        <span class="tab-label" id="tabLabelRadar">رادار MEDDIC ومصفوفة الفرص</span>
+      </button>
+      <button class="tab-btn" id="tab-calc" data-tab="panel-calc">
+        <span class="tab-icon">📈</span>
+        <span class="tab-label" id="tabLabelCalc">حاسبة نمو الإيرادات والعائد ARR</span>
+      </button>
+    </nav>
+
+    <!-- Header Actions & Author Badge -->
+    <div class="header-actions">
+      <div class="author-pill" title="Lead Architect & Strategic BD Specialist">
+        <span class="author-icon">🎖️</span>
+        <span class="author-name" id="authorBadge">إعداد وتطوير: أ. طارق ابوعشي</span>
+      </div>
+
+      <button class="action-btn report-btn" id="openReportBtn" title="توليد وعرض العرض التجاري المعتمد">
+        <span class="btn-icon">📄</span>
+        <span class="btn-text" id="reportBtnText">العرض التجاري المعتمد</span>
+      </button>
+
+      <button class="action-btn icon-only" id="audioToggleBtn" title="تفعيل / كتم المؤثرات الصوتية التفاعلية">
+        <span id="audioIcon">🔊</span>
+      </button>
+
+      <button class="action-btn icon-only" id="themeToggleBtn" title="التبديل بين الوضع الداكن والفاتح">
+        <span id="themeIcon">☀️</span>
+      </button>
+
+      <button class="action-btn lang-btn" id="langToggleBtn" title="Switch Language / تغيير اللغة">
+        <span id="langText">EN</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Multi-Panel Container -->
+  <main class="app-main">
+    
+    <!-- ========================================== -->
+    <!-- TAB 1: 3D ECOSYSTEM & DEAL FUNNEL PANEL   -->
+    <!-- ========================================== -->
+    <section class="tab-panel active" id="panel-3d">
+      <div class="split-3d-layout">
+        
+        <!-- Left: 3D Viewport Area -->
+        <div class="viewport-card">
+          <!-- Viewport Top Toolbar -->
+          <div class="viewport-header-hud">
+            <div class="camera-presets-group">
+              <span class="hud-group-label" id="camPresetsLabel">زوايا الكاميرا:</span>
+              <button class="cam-btn active" data-cam="orbit" id="camBtnOrbit">مدار حر (Orbit)</button>
+              <button class="cam-btn" data-cam="ecosystem" id="camBtnEco">المنظومة (Ecosystem)</button>
+              <button class="cam-btn" data-cam="funnel" id="camBtnFunnel">قمع الصفقات (Funnel)</button>
+              <button class="cam-btn" data-cam="radar" id="camBtnRadar">الرادار العلوي (Top-Down)</button>
+              <button class="cam-btn" data-cam="core" id="camBtnCore">قلب الإيرادات (Core)</button>
+            </div>
+            
+            <div class="live-status-pill" id="liveStatusPill">
+              <span class="status-pulse-dot"></span>
+              <span class="status-text" id="liveStatusText">محاكاة حية متزامنة</span>
+            </div>
+          </div>
+
+          <!-- WebGL Three.js Container -->
+          <div class="canvas-3d-wrapper" id="canvas-container">
+            <!-- Telemetry Overlay Badges inside 3D Viewport -->
+            <div class="viewport-telemetry-hud">
+              <div class="telemetry-card">
+                <span class="telemetry-sub" id="hudClientLabel">العميل المستهدف:</span>
+                <span class="telemetry-val" id="hudClientName">مصرف الإنماء والمدفوعات الفورية</span>
+              </div>
+              <div class="telemetry-card">
+                <span class="telemetry-sub" id="hudStageLabel">المرحلة الحالية:</span>
+                <span class="telemetry-val highlight-val" id="hudStageName">المرحلة 1: التنقيب والتواصل</span>
+              </div>
+              <div class="telemetry-card">
+                <span class="telemetry-sub" id="hudHealthLabel">مؤشر جودة الصفقة:</span>
+                <span class="telemetry-val health-val" id="hudDealHealth">تأهيل قوي 84%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Viewport Bottom HUD: 5-Stage Interactive Pipeline Bar -->
+          <div class="viewport-footer-hud">
+            <div class="pipeline-stages-bar" id="pipelineBar">
+              <button class="pipeline-step active" data-stage="0">
+                <span class="step-num">1</span>
+                <div class="step-meta">
+                  <span class="step-name">الاستقطاب والتواصل</span>
+                  <span class="step-pct">تحويل ~38%</span>
+                </div>
+              </button>
+              <button class="pipeline-step" data-stage="1">
+                <span class="step-num">2</span>
+                <div class="step-meta">
+                  <span class="step-name">تأهيل MEDDIC</span>
+                  <span class="step-pct">تحويل ~56%</span>
+                </div>
+              </button>
+              <button class="pipeline-step" data-stage="2">
+                <span class="step-num">3</span>
+                <div class="step-meta">
+                  <span class="step-name">العرض الفني والـ PoC</span>
+                  <span class="step-pct">تحويل ~71%</span>
+                </div>
+              </button>
+              <button class="pipeline-step" data-stage="3">
+                <span class="step-num">4</span>
+                <div class="step-meta">
+                  <span class="step-name">التفاوض وشروط SLA</span>
+                  <span class="step-pct">تحويل ~85%</span>
+                </div>
+              </button>
+              <button class="pipeline-step" data-stage="4">
+                <span class="step-num">5</span>
+                <div class="step-meta">
+                  <span class="step-name">إتمام التعاقد (Closed-Won)</span>
+                  <span class="step-pct">إغلاق 100%</span>
+                </div>
+              </button>
+            </div>
+
+            <!-- Stage Insight & Specialist Action Banner -->
+            <div class="stage-insight-box" id="stageInsightBox">
+              <div class="insight-icon-box">💡</div>
+              <div class="insight-content">
+                <h4 class="insight-title" id="stageInsightTitle">المرحلة 1: التنقيب والتواصل المؤسسي الفعال (ABM Outreach)</h4>
+                <p class="insight-desc" id="stageInsightDesc">تحديد الحسابات الاستراتيجية ذات الملاءمة العالية (ICP)، والتواصل المباشر مع الرؤساء التنفيذيين ومديري التقنية لفتح قنوات التفاوض وبناء الثقة الأولية.</p>
+                <div class="insight-action-tag" id="stageInsightAction">الإجراء التنفيذي الموصى به: تأهيل المؤشرات الأولية وملاءمة الحل (BANT Initial Sweep)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Deal Structuring & Negotiation Controls Sidebar -->
+        <aside class="controls-sidebar">
+          <div class="sidebar-header">
+            <h2 class="sidebar-title" id="sidebarTitle">محاكي هيكلة الصفقات والتفاوض</h2>
+            <p class="sidebar-subtitle" id="sidebarSubtitle">ضبط المتغيرات التجارية واستراتيجيات التفاوض المتقدمة</p>
+          </div>
+
+          <!-- Sector Selection Pills -->
+          <div class="control-section">
+            <label class="section-label" id="sectorSelectLabel">القطاع الاستراتيجي المستهدف:</label>
+            <div class="sector-pills-grid">
+              <button class="sector-pill active" data-sector="fintech" id="secFintech">
+                <span class="sec-dot fintech-dot"></span>
+                <span>تقنية مالية</span>
+              </button>
+              <button class="sector-pill" data-sector="govtech" id="secGovtech">
+                <span class="sec-dot govtech-dot"></span>
+                <span>حكومة ذكية</span>
+              </button>
+              <button class="sector-pill" data-sector="cloud_ai" id="secCloudAi">
+                <span class="sec-dot cloud-dot"></span>
+                <span>سحابي وذكاء اصطناعي</span>
+              </button>
+              <button class="sector-pill" data-sector="telecom" id="secTelecom">
+                <span class="sec-dot telecom-dot"></span>
+                <span>اتصالات و 5G</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Sliders Group -->
+          <div class="control-section sliders-section">
+            <!-- ACV Slider -->
+            <div class="slider-field">
+              <div class="slider-header">
+                <label for="acvSlider" id="acvLabel">قيمة التعاقد السنوي (ACV):</label>
+                <span class="slider-val-badge" id="acvVal">1,250,000 ر.س</span>
+              </div>
+              <input type="range" id="acvSlider" min="150000" max="5000000" step="50000" value="1250000">
+              <div class="slider-bounds">
+                <span>150 ألف ر.س</span>
+                <span>5 ملايين ر.س</span>
+              </div>
+            </div>
+
+            <!-- Years Slider -->
+            <div class="slider-field">
+              <div class="slider-header">
+                <label for="yearsSlider" id="yearsLabel">مدة التعاقد الاستراتيجي:</label>
+                <span class="slider-val-badge" id="yearsVal">3 سنوات</span>
+              </div>
+              <input type="range" id="yearsSlider" min="1" max="5" step="1" value="3">
+              <div class="slider-bounds">
+                <span>سنة واحدة</span>
+                <span>5 سنوات</span>
+              </div>
+            </div>
+
+            <!-- Discount Slider -->
+            <div class="slider-field">
+              <div class="slider-header">
+                <label for="discountSlider" id="discountLabel">نسبة الخصم التفاوضي التجاري:</label>
+                <span class="slider-val-badge warning-badge" id="discountVal">10%</span>
+              </div>
+              <input type="range" id="discountSlider" min="0" max="35" step="1" value="10">
+              <div class="slider-bounds">
+                <span>0% (دون خصم)</span>
+                <span>35% (حد الخصم الأقصى)</span>
+              </div>
+            </div>
+
+            <!-- MEDDIC Score Slider -->
+            <div class="slider-field">
+              <div class="slider-header">
+                <label for="meddicSlider" id="meddicLabel">معيار الجاهزية والتأهيل (MEDDIC):</label>
+                <span class="slider-val-badge success-badge" id="meddicVal">84%</span>
+              </div>
+              <input type="range" id="meddicSlider" min="30" max="100" step="1" value="84">
+              <div class="slider-bounds">
+                <span>30% (مخاطر عالية)</span>
+                <span>100% (تأهيل كامل)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Strategic Levers Toggles -->
+          <div class="control-section">
+            <label class="section-label" id="leversLabel">روافع التفاوض وإغلاق الصفقات (Strategic Levers):</label>
+            <div class="levers-grid">
+              <label class="toggle-card">
+                <input type="checkbox" id="leverRoi" checked>
+                <div class="toggle-indicator"></div>
+                <div class="toggle-text">
+                  <span class="lever-name" id="leverRoiName">ضمان العائد الاستثماري (ROI Guarantee)</span>
+                  <span class="lever-sub" id="leverRoiSub">بند توثيق واسترداد القيمة الملموسة (+5% احتمالية)</span>
+                </div>
+              </label>
+
+              <label class="toggle-card">
+                <input type="checkbox" id="leverSla" checked>
+                <div class="toggle-indicator"></div>
+                <div class="toggle-text">
+                  <span class="lever-name" id="leverSlaName">اتفاقية مستوى خدمة ذهبية (SLA 99.99%)</span>
+                  <span class="lever-sub" id="leverSlaSub">استجابة فورية وحوكمة حرجة (+4% احتمالية)</span>
+                </div>
+              </label>
+
+              <label class="toggle-card">
+                <input type="checkbox" id="leverPoc" checked>
+                <div class="toggle-indicator"></div>
+                <div class="toggle-text">
+                  <span class="lever-name" id="leverPocName">إثبات مفهوم تجريبي سريع (14-Day PoC)</span>
+                  <span class="lever-sub" id="leverPocSub">بيئة رملية آمنة تزيل المخاطر الفنية (-14 يوم دورة)</span>
+                </div>
+              </label>
+
+              <label class="toggle-card">
+                <input type="checkbox" id="leverAlliance">
+                <div class="toggle-indicator"></div>
+                <div class="toggle-text">
+                  <span class="lever-name" id="leverAllianceName">تحالف استراتيجي وتكامل بيئي (Partner Co-Sell)</span>
+                  <span class="lever-sub" id="leverAllianceSub">بيع مشترك وتكامل منظومة الشركاء (+5% احتمالية)</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Live KPI Financial Summary Grid -->
+          <div class="kpi-financial-grid">
+            <div class="kpi-card gold-glow">
+              <span class="kpi-label" id="kpiTcvLabel">إجمالي قيمة التعاقد (TCV)</span>
+              <span class="kpi-value highlight-gold" id="kpiTcv">3,375,000 ر.س</span>
+              <span class="kpi-hint" id="kpiNetAcvHint">صافي سنوي: 1,125,000 ر.س</span>
+            </div>
+
+            <div class="kpi-card emerald-glow">
+              <span class="kpi-label" id="kpiWinProbLabel">احتمالية إغلاق الصفقة (Win Prob)</span>
+              <span class="kpi-value highlight-emerald" id="kpiWinProb">88%</span>
+              <span class="kpi-hint" id="kpiArrImpactHint">الأثر المرجح: 990,000 ر.س</span>
+            </div>
+
+            <div class="kpi-card cyan-glow">
+              <span class="kpi-label" id="kpiMarginLabel">صافي هامش الربح (Net Margin)</span>
+              <span class="kpi-value highlight-cyan" id="kpiMargin">71.6%</span>
+              <span class="kpi-hint" id="kpiMarginHint">هيكل تسعير مؤسسي عالي الربحية</span>
+            </div>
+
+            <div class="kpi-card violet-glow">
+              <span class="kpi-label" id="kpiCycleLabel">دورة المبيعات المتوقعة (Cycle Velocity)</span>
+              <span class="kpi-value highlight-violet" id="kpiCycle">68 يوماً</span>
+              <span class="kpi-hint" id="kpiCycleHint">تسارع بنسبة 35% عبر الروافع</span>
+            </div>
+          </div>
+
+          <!-- Primary CTA Button -->
+          <button class="execute-deal-btn" id="executeDealBtn">
+            <span class="cta-sparkle">✨</span>
+            <span class="cta-text" id="executeBtnText">إتمام التعاقد وتوقيع الشراكة (Execute Closed-Won)</span>
+          </button>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 2: MEDDIC RADAR & OPPORTUNITY MATRIX  -->
+    <!-- ========================================== -->
+    <section class="tab-panel" id="panel-radar">
+      <div class="two-column-executive-grid">
+        
+        <!-- Left: MEDDIC Qualification Radar Card -->
+        <div class="executive-card">
+          <div class="card-header-row">
+            <div>
+              <h3 class="card-title" id="meddicCardTitle">رادار تأهيل الفرص الكبرى (MEDDIC Qualification Radar)</h3>
+              <p class="card-subtitle" id="meddicCardSub">التحليل السداسي العميق لجاهزية الصفقة وإزالة مخاطر الإلغاء</p>
+            </div>
+            <div class="score-pill-header" id="meddicHeaderScore">
+              <span>84% مؤهل</span>
+            </div>
+          </div>
+
+          <!-- 2D Canvas for High-DPI Radar -->
+          <div class="canvas-box radar-canvas-box">
+            <canvas id="meddicCanvas" width="500" height="380"></canvas>
+          </div>
+
+          <!-- MEDDIC Components Breakdown List -->
+          <div class="meddic-breakdown-list" id="meddicBreakdownList">
+            <!-- Dynamically populated from dealMetrics.meddicAxes -->
+          </div>
+        </div>
+
+        <!-- Right: Enterprise Opportunity Matrix Card -->
+        <div class="executive-card">
+          <div class="card-header-row">
+            <div>
+              <h3 class="card-title" id="matrixCardTitle">مصفوفة الفرص التجارية وحسابات الشركات (Opportunity Matrix)</h3>
+              <p class="card-subtitle" id="matrixCardSub">تحليل السرعة مقابل الاحتمالية وحجم التعاقد (اضغط على أي صف لتفعيله)</p>
+            </div>
+            <span class="badge-hint" id="matrixHint">8 حسابات قيادية نشطة</span>
+          </div>
+
+          <!-- 2D Canvas for High-DPI Bubble Matrix -->
+          <div class="canvas-box matrix-canvas-box">
+            <canvas id="matrixCanvas" width="600" height="380"></canvas>
+          </div>
+
+          <!-- Interactive Accounts Table -->
+          <div class="table-container">
+            <table class="opp-table">
+              <thead>
+                <tr>
+                  <th id="thAccount">الحساب المستهدف / المنظمة</th>
+                  <th id="thSector">القطاع</th>
+                  <th id="thAcv">قيمة التعاقد (ACV)</th>
+                  <th id="thCycle">دورة المبيعات</th>
+                  <th id="thWinProb">احتمالية الإغلاق</th>
+                  <th id="thStage">المرحلة</th>
+                </tr>
+              </thead>
+              <tbody id="opportunityTableBody">
+                <!-- Dynamically populated from ENTERPRISE_OPPORTUNITIES -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 3: REVENUE GROWTH & LTV:CAC ENGINE    -->
+    <!-- ========================================== -->
+    <section class="tab-panel" id="panel-calc">
+      <div class="two-column-executive-grid">
+        
+        <!-- Left: Unit Economics & Growth Inputs -->
+        <div class="executive-card">
+          <div class="card-header-row">
+            <div>
+              <h3 class="card-title" id="calcCardTitle">محرك نمو الإيرادات واقتصاديات الوحدة (B2B Unit Economics)</h3>
+              <p class="card-subtitle" id="calcCardSub">نمذجة استقطاب العملاء المؤسسيين، تكلفة الاستحواذ والقيمة الدائمة</p>
+            </div>
+            <span class="badge-formula">LTV = (ACV × Margin) / Churn</span>
+          </div>
+
+          <!-- 6 Growth Input Fields / Sliders -->
+          <div class="calc-inputs-grid">
+            
+            <div class="calc-input-row">
+              <div class="calc-label-row">
+                <label for="leadsInput" id="leadsLabel">الفرص المؤهلة شهرياً (Monthly Leads):</label>
+                <span class="calc-num-badge" id="leadsVal">24 فرصة</span>
+              </div>
+              <input type="range" id="leadsInput" min="5" max="80" step="1" value="24">
+            </div>
+
+            <div class="calc-input-row">
+              <div class="calc-label-row">
+                <label for="convInput" id="convLabel">معدل تحويل الفرص الكلي (Conversion %):</label>
+                <span class="calc-num-badge" id="convVal">18%</span>
+              </div>
+              <input type="range" id="convInput" min="5" max="45" step="1" value="18">
+            </div>
+
+            <div class="calc-input-row">
+              <div class="calc-label-row">
+                <label for="avgAcvInput" id="avgAcvLabel">متوسط قيمة الصفقة (Average ACV):</label>
+                <span class="calc-num-badge" id="avgAcvVal">1,250,000 ر.س</span>
+              </div>
+              <input type="range" id="avgAcvInput" min="200000" max="4000000" step="50000" value="1250000">
+            </div>
+
+            <div class="calc-input-row">
+              <div class="calc-label-row">
+                <label for="cacInput" id="cacLabel">تكلفة الاستحواذ المؤسسية (CAC):</label>
+                <span class="calc-num-badge warning-badge" id="cacVal">180,000 ر.س</span>
+              </div>
+              <input type="range" id="cacInput" min="30000" max="600000" step="10000" value="180000">
+            </div>
+
+            <div class="calc-input-row">
+              <div class="calc-label-row">
+                <label for="grossMarginInput" id="grossMarginLabel">الهامش الإجمالي المباشر (Gross Margin %):</label>
+                <span class="calc-num-badge" id="grossMarginVal">75%</span>
+              </div>
+              <input type="range" id="grossMarginInput" min="40" max="92" step="1" value="75">
+            </div>
+
+            <div class="calc-input-row">
+              <div class="calc-label-row">
+                <label for="nrrInput" id="nrrLabel">معدل الاحتفاظ الصافي والتوسع (NRR %):</label>
+                <span class="calc-num-badge success-badge" id="nrrVal">118%</span>
+              </div>
+              <input type="range" id="nrrInput" min="90" max="145" step="1" value="118">
+            </div>
+
+          </div>
+
+          <!-- 4 Result KPI Cards -->
+          <div class="calc-results-grid">
+            <div class="calc-result-card emerald-glow">
+              <span class="res-label" id="resArrLabel">الإيراد السنوي المتكرر (ARR المتوقع)</span>
+              <span class="res-val highlight-emerald" id="outProjectedArr">65,000,000 ر.س</span>
+              <span class="res-sub" id="resNewClients">52 عميلاً جديداً سنوياً</span>
+            </div>
+
+            <div class="calc-result-card gold-glow">
+              <span class="res-label" id="resLtvCacLabel">مؤشر كفاءة رأس المال (LTV : CAC)</span>
+              <span class="res-val highlight-gold" id="outLtvCac">29.4x</span>
+              <span class="res-sub" id="resLtvVal">القيمة الدائمة: 5.3M ر.س</span>
+            </div>
+
+            <div class="calc-result-card cyan-glow">
+              <span class="res-label" id="resPaybackLabel">فترة استرداد تكلفة الاستحواذ</span>
+              <span class="res-val highlight-cyan" id="outPayback">2.3 شهراً</span>
+              <span class="res-sub" id="resPaybackSub">كفاءة استرداد نقدية استثنائية</span>
+            </div>
+
+            <div class="calc-result-card violet-glow">
+              <span class="res-label" id="resStrategicLiftLabel">الأثر الاستراتيجي عبر نَمَاء</span>
+              <span class="res-val highlight-violet" id="outStrategicLift">+24,050,000 ر.س</span>
+              <span class="res-sub" id="resStrategicSub">عبر الشراكات والـ NRR التراكمي</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: 12-Month ARR Growth Trajectory Chart -->
+        <div class="executive-card">
+          <div class="card-header-row">
+            <div>
+              <h3 class="card-title" id="arrChartTitle">منحنى نمو الإيرادات السنوية المتكررة (12-Month ARR Trajectory)</h3>
+              <p class="card-subtitle" id="arrChartSub">مقارنة المسار العضوي الأساسي مقابل تسارع نَمَاء الاستراتيجي عبر التحالفات</p>
+            </div>
+            <div class="arr-badge-total" id="arrBadgeTotal">
+              <span>+37% نمو متسارع</span>
+            </div>
+          </div>
+
+          <!-- 2D Canvas for High-DPI ARR Curve -->
+          <div class="canvas-box arr-canvas-box">
+            <canvas id="arrChartCanvas" width="600" height="380"></canvas>
+          </div>
+
+          <!-- Executive Growth Insights List -->
+          <div class="insights-summary-box">
+            <h4 class="insights-header" id="insightsHeaderTitle">الرؤى التنفيذية لتسريع نمو الإيرادات:</h4>
+            <ul class="insights-list" id="calcInsightsList">
+              <li><strong>مضاعفة كفاءة خط المبيعات:</strong> اعتماد حوكمة MEDDIC يقلص فاقد الفرص بنسبة 28% ويسرع التحويل التجاري.</li>
+              <li><strong>محور التوسع الداخلي (Land-and-Expand):</strong> وصول الـ NRR إلى 118% يحقق نمواً ذاتياً بنسبة 18% سنوياً من نفس الحسابات دون تكلفة استحواذ جديدة.</li>
+              <li><strong>عائد الشراكات التكاملي:</strong> صفقات البيع المشترك عبر التحالفات الاستراتيجية تقلل دورة المبيعات بمقدار 23 يوماً وترفع احتمالية الإغلاق بأكثر من 15%.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer with Exclusive Author Credits -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <div class="footer-left">
+        <span class="footer-brand">نَمَاء | NAMA 3D Business Development Suite</span>
+        <span class="footer-divider">•</span>
+        <span class="footer-rights">جميع الحقوق محفوظة © 2026</span>
+      </div>
+      <div class="footer-right">
+        <span class="footer-credit" id="footerAuthor">تصميم وتطوير: <strong>أ. طارق ابوعشي — أخصائي تطوير الأعمال والشراكات الاستراتيجية</strong></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================== -->
+  <!-- OFFICIAL CERTIFIED B2B PROPOSAL MODAL     -->
+  <!-- ========================================== -->
+  <div class="modal-backdrop" id="reportModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-dialog">
+      
+      <!-- Modal Action Bar -->
+      <div class="modal-action-bar no-print">
+        <div class="action-bar-left">
+          <span class="modal-badge-status">وثيقة تجارية رسمية معتمدة</span>
+        </div>
+        <div class="action-bar-right">
+          <button class="modal-btn print-btn" id="printReportBtn">
+            <span>🖨️</span>
+            <span>طباعة / حفظ كملف PDF</span>
+          </button>
+          <button class="modal-btn close-btn" id="closeReportBtn" aria-label="إغلاق">
+            <span>✕</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Printable Document Container -->
+      <article class="proposal-document" id="printableProposal">
+        
+        <!-- Official Document Header -->
+        <header class="doc-header">
+          <div class="doc-header-main">
+            <div class="doc-brand">
+              <div class="doc-logo-mark">🌱</div>
+              <div>
+                <h2 class="doc-brand-title">نَمَاء | NAMA ENTERPRISE</h2>
+                <p class="doc-brand-sub">منظومة تطوير الأعمال والشراكات الاستراتيجية وذكاء الإيرادات</p>
+              </div>
+            </div>
+            <div class="doc-ref-box">
+              <div class="ref-row">
+                <span class="ref-label">رقم العرض المرجعي:</span>
+                <span class="ref-val" id="docRefNum">NAMA-BD-2026-8291</span>
+              </div>
+              <div class="ref-row">
+                <span class="ref-label">تاريخ الإصدار:</span>
+                <span class="ref-val" id="docDate">2026-11-06</span>
+              </div>
+              <div class="ref-row">
+                <span class="ref-label">صلاحية العرض:</span>
+                <span class="ref-val" id="docValidity">30 يوماً من تاريخه</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="doc-meta-strip">
+            <div class="meta-item">
+              <span class="meta-label">الجهة المستهدفة:</span>
+              <strong class="meta-val" id="docTargetClient">مصرف الإنماء والمدفوعات الفورية</strong>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">القطاع الاستراتيجي:</span>
+              <strong class="meta-val" id="docSectorName">التقنية المالية والمصارف الرقمية</strong>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">المسؤول والمصمم:</span>
+              <strong class="meta-val" id="docAuthorName">أ. طارق ابوعشي — أخصائي تطوير الأعمال والشراكات الاستراتيجية</strong>
+            </div>
+          </div>
+        </header>
+
+        <!-- Document Section 1: Executive Summary -->
+        <section class="doc-section">
+          <h3 class="doc-sec-title">1. الملخص التنفيذي والأثر الاستراتيجي المشترك (Executive Summary)</h3>
+          <p class="doc-sec-text" id="docExecutiveSummary">
+            يسرنا تقديم هذا العرض التجاري والهندسي المتكامل لتأسيس شراكة استراتيجية مؤسسية طويلة المدى، ترتكز على تقديم حلول نوعية متقدمة تحقق أثراً مباشراً وملموساً على مؤشرات الأداء الرئيسية (KPIs)، مع تسريع العائد الاستثماري وحوكمة كاملة لمستويات الخدمة وفق أعلى المعايير القياسية العالمية.
+          </p>
+        </section>
+
+        <!-- Document Section 2: Financial Terms Table -->
+        <section class="doc-section">
+          <h3 class="doc-sec-title">2. الهيكلة المالية وجدول الشروط التجارية (Commercial Terms & Financial Blueprint)</h3>
+          <table class="doc-table">
+            <thead>
+              <tr>
+                <th>البند التجاري والمالي</th>
+                <th>القيمة المعتمدة</th>
+                <th>الملاحظات وحوكمة التعاقد</th>
+              </tr>
+            </thead>
+            <tbody id="docFinanceTableBody">
+              <tr>
+                <td>قيمة التعاقد السنوي (Annual Contract Value - ACV)</td>
+                <td class="table-num" id="docAcvVal">1,250,000 ر.س</td>
+                <td>رسوم الاشتراك السنوي الشاملة للتراخيص والتحديثات المستمرة</td>
+              </tr>
+              <tr>
+                <td>مدة التعاقد الاستراتيجي (Duration)</td>
+                <td class="table-num" id="docDurationVal">3 سنوات</td>
+                <td>تعاقد مؤسسي متعدد السنوات مع ضمان ثبات الأسعار والخصائص</td>
+              </tr>
+              <tr>
+                <td>الخصم التجاري التفاوضي المعتمد (Discount)</td>
+                <td class="table-num highlight-cell" id="docDiscountVal">10% (125,000 ر.س سنوي)</td>
+                <td>خصم الشراكة الاستراتيجية والتوسع طويل الأجل</td>
+              </tr>
+              <tr>
+                <td>صافي التعاقد السنوي الفعلي (Net Annual ARR)</td>
+                <td class="table-num font-bold" id="docNetAcvVal">1,125,000 ر.س</td>
+                <td>صافي القيمة السنوية المستحقة بعد الخصم المعتمد</td>
+              </tr>
+              <tr>
+                <td>إجمالي القيمة التعاقدية الشاملة (TCV)</td>
+                <td class="table-num font-bold highlight-gold-cell" id="docTcvVal">3,375,000 ر.س</td>
+                <td>إجمالي قيمة المشروع لـ 3 سنوات شاملة لكافة الخدمات</td>
+              </tr>
+              <tr>
+                <td>صافي هامش الربحية المؤسسي (Net Delivery Margin)</td>
+                <td class="table-num" id="docMarginVal">71.6%</td>
+                <td>هامش تشغيلي عالي الكفاءة يضمن ديمومة الدعم وتطوير المنظومة</td>
+              </tr>
+              <tr>
+                <td>مستوى الجاهزية والتأهيل (MEDDIC Qualification)</td>
+                <td class="table-num" id="docMeddicVal">84%</td>
+                <td>جاهزية مرتفعة ومعايير مطابقة بنسبة 100% لمتطلبات المشتري</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- Document Section 3: Strategic Levers & Commitments -->
+        <section class="doc-section">
+          <h3 class="doc-sec-title">3. الروافع التفاوضية والالتزامات التشغيلية المعتمدة (Strategic Commitments)</h3>
+          <div class="doc-commitments-grid" id="docCommitmentsGrid">
+            <div class="commitment-item">
+              <span class="commit-icon">💎</span>
+              <div>
+                <strong>ضمان الأثر الاستثماري (Value-based ROI Guarantee):</strong>
+                <p>التزام تعاقدي بتحقيق عوائد ملموسة وقياس الأثر المالي خلال أول 90 يوماً من التشغيل الفعلي.</p>
+              </div>
+            </div>
+            <div class="commitment-item">
+              <span class="commit-icon">🛡️</span>
+              <div>
+                <strong>اتفاقية مستوى الخدمة البلاتينية (SLA 99.99%):</strong>
+                <p>جاهزية تشغيلية مستمرة على مدار الساعة مع زمن استجابة للحوادث الحرجة يقل عن 15 دقيقة.</p>
+              </div>
+            </div>
+            <div class="commitment-item">
+              <span class="commit-icon">⚡</span>
+              <div>
+                <strong>إثبات المفهوم والبيئة الرملية (Guided Pilot PoC):</strong>
+                <p>تنفيذ بيئة عمل تجريبية سريعة تؤكد التوافقية التقنية وسلاسة التكامل قبل بدء التشغيل المؤسسي الكامل.</p>
+              </div>
+            </div>
+            <div class="commitment-item">
+              <span class="commit-icon">🤝</span>
+              <div>
+                <strong>التحالف الاستراتيجي والبيع المشترك (Ecosystem Co-sell):</strong>
+                <p>تفعيل قنوات التعاون المشترك والتسويق المتبادل لتعظيم الحصة السوقية في القطاع.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Document Section 4: Execution Roadmap -->
+        <section class="doc-section">
+          <h3 class="doc-sec-title">4. خارطة طريق التنفيذ والتحول الممنهج (5-Stage B2B Roadmap)</h3>
+          <ol class="doc-roadmap-list" id="docRoadmapList">
+            <li><strong>المرحلة الأولى (أسبوع 1-2):</strong> التوقيع النهائي، وتفعيل بيئات العمل السحابية الآمنة، وتشكيل فريق العمل المشترك.</li>
+            <li><strong>المرحلة الثانية (أسبوع 3-4):</strong> اختبارات التكامل الميدانية وربط واجهات برمجة التطبيقات (APIs) وفحص الأمان السيبراني.</li>
+            <li><strong>المرحلة الثالثة (أسبوع 5-6):</strong> الإطلاق التجريبي التجريبي وتدريب الكوادر التنفيذية واعتماد سيناريوهات العمل.</li>
+            <li><strong>المرحلة الرابعة (أسبوع 7-8):</strong> التدشين الكامل والتشغيل الفعلي تحت رقابة اتفاقية SLA 99.99%.</li>
+            <li><strong>المرحلة الخامسة (مستمرة):</strong> المراجعات الفصلية للأداء (QBR)، وقياس العائد الاستثماري، ومسار التوسع التدريجي (NRR Expansion).</li>
+          </ol>
+        </section>
+
+        <!-- Document Official Signature Block -->
+        <footer class="doc-sign-block">
+          <div class="sign-column">
+            <span class="sign-role">الطرف الأول (مطور الحل ومسؤول الشراكة):</span>
+            <div class="signature-box">
+              <span class="stamp-verified">معتمد وموثق</span>
+              <p class="sign-name">أ. طارق ابوعشي</p>
+              <p class="sign-title">أخصائي تطوير الأعمال والشراكات الاستراتيجية</p>
+              <p class="sign-date">التوقيع والاعتماد: _______________</p>
+            </div>
+          </div>
+
+          <div class="sign-column">
+            <span class="sign-role">الطرف الثاني (الجهة الشريكة المستفيدة):</span>
+            <div class="signature-box">
+              <p class="sign-name" id="docSignClientName">المفوض بالتوقيع — مصرف الإنماء</p>
+              <p class="sign-title">صاحب الصلاحية المالية والتنفيذية</p>
+              <p class="sign-date">التاريخ والختم: _______________</p>
+            </div>
+          </div>
+        </footer>
+
+      </article>
+    </div>
+  </div>
+
+  <!-- Vite Entrypoint Script -->
+</body>
+</html>
