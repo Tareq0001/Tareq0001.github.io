@@ -17,8 +17,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
   <!-- Main CSS -->
-  <script type="module" crossorigin src="./assets/index-BiGlv9xD.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-vYI7GPXy.css">
+  <script type="module" crossorigin src="./assets/index-DSJpj95Z.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CHwVls6A.css">
 </head>
 <body class="dark-theme">
   <!-- Top Executive Command Header -->
@@ -85,6 +85,69 @@
     <!-- TAB 1: 3D ECOSYSTEM & DEAL FUNNEL PANEL   -->
     <!-- ========================================== -->
     <section class="tab-panel active" id="panel-3d">
+      
+      <!-- Executive KPI Hero Bar -->
+      <div class="executive-kpi-hero-bar">
+        <!-- KPI 1: TCV -->
+        <div class="hero-kpi-card gold-glow">
+          <div class="hero-kpi-top">
+            <span class="kpi-label" id="kpiTcvLabel"><span id="kpiLabel1">إجمالي قيمة التعاقد (TCV)</span></span>
+            <span class="kpi-icon-pill gold"><i class="fa-solid fa-file-invoice-dollar"></i></span>
+          </div>
+          <div class="kpi-value highlight-gold" id="kpiTcv">3,375,000 ر.س</div>
+          <div class="kpi-hint" id="kpiNetAcvHint"><span id="kpiSub1">صافي سنوي: 1,125,000 ر.س</span></div>
+        </div>
+
+        <!-- KPI 2: Win Probability -->
+        <div class="hero-kpi-card emerald-glow">
+          <div class="hero-kpi-top">
+            <span class="kpi-label" id="kpiWinProbLabel"><span id="kpiLabel2">احتمالية إغلاق الصفقة (Win Prob)</span></span>
+            <span class="kpi-icon-pill emerald"><i class="fa-solid fa-bullseye"></i></span>
+          </div>
+          <div class="kpi-value highlight-emerald" id="kpiWinProb">88%</div>
+          <div class="kpi-hint" id="kpiArrImpactHint"><span id="kpiSub2">الأثر المرجح: 990,000 ر.س</span></div>
+        </div>
+
+        <!-- KPI 3: Net Margin / LTV:CAC -->
+        <div class="hero-kpi-card cyan-glow">
+          <div class="hero-kpi-top">
+            <span class="kpi-label" id="kpiMarginLabel"><span id="kpiLabel3">صافي هامش الربح (Net Margin)</span></span>
+            <span class="kpi-icon-pill cyan"><i class="fa-solid fa-chart-line"></i></span>
+          </div>
+          <div class="kpi-value highlight-cyan" id="kpiMargin"><span id="kpiLtvCac">71.6%</span></div>
+          <div class="kpi-hint" id="kpiMarginHint"><span id="kpiSub3">هيكل تسعير مؤسسي عالي الربحية</span></div>
+        </div>
+
+        <!-- KPI 4: Cycle Velocity -->
+        <div class="hero-kpi-card violet-glow">
+          <div class="hero-kpi-top">
+            <span class="kpi-label" id="kpiCycleLabel"><span id="kpiLabel4">دورة المبيعات المتوقعة (Cycle Velocity)</span></span>
+            <span class="kpi-icon-pill violet"><i class="fa-solid fa-stopwatch"></i></span>
+          </div>
+          <div class="kpi-value highlight-violet" id="kpiCycle">68 يوماً</div>
+          <div class="kpi-hint" id="kpiCycleHint"><span id="kpiSub4">تسارع بنسبة 35% عبر الروافع</span></div>
+        </div>
+
+        <!-- Col 5: Pipeline Progress & Close Deal CTA -->
+        <div class="hero-kpi-card progress-cta-hero-card">
+          <div class="progress-hero-top">
+            <span class="progress-hero-title" id="progressHeaderTitle">اكتمال مسار الصفقة</span>
+            <span class="progress-hero-pct" id="pipelineTotalPct">84%</span>
+          </div>
+          <div class="pipeline-progress-bar-wrap">
+            <div class="pipeline-progress-bar">
+              <div class="pipeline-progress-fill" id="pipelineProgressFill" style="width: 84%;"></div>
+            </div>
+          </div>
+          <button class="execute-deal-btn close-deal-cta-btn hero-close-deal-btn" id="closeDealBtn">
+            <span id="executeDealBtn" style="display:inline-flex; align-items:center; gap:8px; width:100%; justify-content:center;">
+              <span class="cta-sparkle"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+              <span class="cta-text" id="closeDealBtnText"><span id="executeBtnText">إتمام التعاقد وتوقيع الشراكة</span></span>
+            </span>
+          </button>
+        </div>
+      </div>
+
       <div class="split-3d-layout">
         
         <!-- Left: 3D Viewport Area -->
@@ -159,7 +222,7 @@
               <button class="pipeline-step" data-stage="4">
                 <span class="step-num">5</span>
                 <div class="step-meta">
-                  <span class="step-name">إتمام التعاقد (Closed-Won)</span>
+                  <span class="step-name" id="stepName4">إتمام التعاقد</span>
                   <span class="step-pct">إغلاق 100%</span>
                 </div>
               </button>
@@ -178,7 +241,7 @@
         </div>
 
         <!-- Right: Deal Structuring & Negotiation Controls Sidebar -->
-        <aside class="controls-sidebar">
+        <aside class="controls-sidebar controls-card">
           <div class="sidebar-header">
             <h2 class="sidebar-title" id="sidebarTitle">محاكي هيكلة الصفقات والتفاوض</h2>
             <p class="sidebar-subtitle" id="sidebarSubtitle">ضبط المتغيرات التجارية واستراتيجيات التفاوض المتقدمة</p>
@@ -203,6 +266,14 @@
               <button class="sector-pill" data-sector="telecom" id="secTelecom">
                 <span class="sec-dot telecom-dot"></span>
                 <span>اتصالات و 5G</span>
+              </button>
+              <button class="sector-pill" data-sector="healthtech" id="secHealthtech">
+                <span class="sec-dot health-dot"></span>
+                <span>رعاية صحية</span>
+              </button>
+              <button class="sector-pill" data-sector="retail" id="secRetail">
+                <span class="sec-dot retail-dot"></span>
+                <span>تجارة وتجزئة</span>
               </button>
             </div>
           </div>
@@ -244,7 +315,7 @@
               <input type="range" id="discountSlider" min="0" max="35" step="1" value="10">
               <div class="slider-bounds">
                 <span>0% (دون خصم)</span>
-                <span>35% (حد الخصم الأقصى)</span>
+                <span>35% (حد أقصى)</span>
               </div>
             </div>
 
@@ -256,8 +327,8 @@
               </div>
               <input type="range" id="meddicSlider" min="30" max="100" step="1" value="84">
               <div class="slider-bounds">
-                <span>30% (مخاطر عالية)</span>
-                <span>100% (تأهيل كامل)</span>
+                <span>30% (مخاطر)</span>
+                <span>100% (تأهيل)</span>
               </div>
             </div>
           </div>
@@ -265,13 +336,13 @@
           <!-- Strategic Levers Toggles -->
           <div class="control-section">
             <label class="section-label" id="leversLabel">روافع التفاوض وإغلاق الصفقات (Strategic Levers):</label>
-            <div class="levers-grid">
+            <div class="levers-grid levers-list">
               <label class="toggle-card">
                 <input type="checkbox" id="leverRoi" checked>
                 <div class="toggle-indicator"></div>
                 <div class="toggle-text">
                   <span class="lever-name" id="leverRoiName">ضمان العائد الاستثماري (ROI Guarantee)</span>
-                  <span class="lever-sub" id="leverRoiSub">بند توثيق واسترداد القيمة الملموسة (+5% احتمالية)</span>
+                  <span class="lever-sub lever-desc" id="leverRoiSub">بند توثيق واسترداد القيمة الملموسة (+5% احتمالية)</span>
                 </div>
               </label>
 
@@ -280,7 +351,7 @@
                 <div class="toggle-indicator"></div>
                 <div class="toggle-text">
                   <span class="lever-name" id="leverSlaName">اتفاقية مستوى خدمة ذهبية (SLA 99.99%)</span>
-                  <span class="lever-sub" id="leverSlaSub">استجابة فورية وحوكمة حرجة (+4% احتمالية)</span>
+                  <span class="lever-sub lever-desc" id="leverSlaSub">استجابة فورية وحوكمة حرجة (+4% احتمالية)</span>
                 </div>
               </label>
 
@@ -288,8 +359,8 @@
                 <input type="checkbox" id="leverPoc" checked>
                 <div class="toggle-indicator"></div>
                 <div class="toggle-text">
-                  <span class="lever-name" id="leverPocName">إثبات مفهوم تجريبي سريع (14-Day PoC)</span>
-                  <span class="lever-sub" id="leverPocSub">بيئة رملية آمنة تزيل المخاطر الفنية (-14 يوم دورة)</span>
+                  <span class="lever-name" id="leverPocName">إثبات مفهوم سريع (14-Day PoC)</span>
+                  <span class="lever-sub lever-desc" id="leverPocSub">بيئة رملية آمنة تزيل المخاطر (-14 يوم دورة)</span>
                 </div>
               </label>
 
@@ -297,45 +368,12 @@
                 <input type="checkbox" id="leverAlliance">
                 <div class="toggle-indicator"></div>
                 <div class="toggle-text">
-                  <span class="lever-name" id="leverAllianceName">تحالف استراتيجي وتكامل بيئي (Partner Co-Sell)</span>
-                  <span class="lever-sub" id="leverAllianceSub">بيع مشترك وتكامل منظومة الشركاء (+5% احتمالية)</span>
+                  <span class="lever-name" id="leverAllianceName">تحالف استراتيجي وبيئي (Co-Sell)</span>
+                  <span class="lever-sub lever-desc" id="leverAllianceSub">بيع مشترك وتكامل منظومة (+5% احتمالية)</span>
                 </div>
               </label>
             </div>
           </div>
-
-          <!-- Live KPI Financial Summary Grid -->
-          <div class="kpi-financial-grid">
-            <div class="kpi-card gold-glow">
-              <span class="kpi-label" id="kpiTcvLabel">إجمالي قيمة التعاقد (TCV)</span>
-              <span class="kpi-value highlight-gold" id="kpiTcv">3,375,000 ر.س</span>
-              <span class="kpi-hint" id="kpiNetAcvHint">صافي سنوي: 1,125,000 ر.س</span>
-            </div>
-
-            <div class="kpi-card emerald-glow">
-              <span class="kpi-label" id="kpiWinProbLabel">احتمالية إغلاق الصفقة (Win Prob)</span>
-              <span class="kpi-value highlight-emerald" id="kpiWinProb">88%</span>
-              <span class="kpi-hint" id="kpiArrImpactHint">الأثر المرجح: 990,000 ر.س</span>
-            </div>
-
-            <div class="kpi-card cyan-glow">
-              <span class="kpi-label" id="kpiMarginLabel">صافي هامش الربح (Net Margin)</span>
-              <span class="kpi-value highlight-cyan" id="kpiMargin">71.6%</span>
-              <span class="kpi-hint" id="kpiMarginHint">هيكل تسعير مؤسسي عالي الربحية</span>
-            </div>
-
-            <div class="kpi-card violet-glow">
-              <span class="kpi-label" id="kpiCycleLabel">دورة المبيعات المتوقعة (Cycle Velocity)</span>
-              <span class="kpi-value highlight-violet" id="kpiCycle">68 يوماً</span>
-              <span class="kpi-hint" id="kpiCycleHint">تسارع بنسبة 35% عبر الروافع</span>
-            </div>
-          </div>
-
-          <!-- Primary CTA Button -->
-          <button class="execute-deal-btn close-deal-cta-btn" id="executeDealBtn">
-            <span class="cta-sparkle"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
-            <span class="cta-text" id="executeBtnText">إتمام التعاقد وتوقيع الشراكة (Execute Closed-Won)</span>
-          </button>
         </aside>
       </div>
     </section>
