@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مِـعْـمار | MIMAR - أتيليه العمارة البارامترية والمقرنصات التفاعلية</title>
+  <meta name="description" content="أتيليه هندسي عالمي لتوليد العمارة البارامترية، محاكاة المقرنصات الإسلامية، وتحليل الأداء الشمسي والصوتي ثلاثي الأبعاد. تصميم وتطوير: أ. طارق ابوعشي">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+  <script type="module" crossorigin src="./assets/index-Cz3T-9lF.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-Be9buqIF.css">
+</head>
+<body data-theme="dark" dir="rtl">
+  <!-- 3D WebGL Canvas -->
+  <div id="canvas-container"></div>
+
+  <!-- Top Architectural Navigation Header -->
+  <header class="top-nav">
+    <div class="brand-section">
+      <div class="brand-logo-icon">🏛️</div>
+      <div class="brand-titles">
+        <h1 id="app-title-txt">مِـعْـمار <span class="brand-sub-badge">| MIMAR ATELIER</span></h1>
+        <span class="creator-tag" id="creator-tag-txt">المصمم والمعماري والمطور الرئيسي: أ. طارق ابوعشي</span>
+      </div>
+    </div>
+
+    <div class="nav-center-controls">
+      <!-- Royal Architectural Preset Select -->
+      <div class="preset-dropdown-wrap">
+        <select id="select-preset" aria-label="Royal Architectural Preset">
+          <option value="muqarnas_royal" selected>قصر المقرنصات الملكي | رخام كرارا</option>
+          <option value="muqarnas_dome">قبة النور والعين السماوية | أونيكس</option>
+          <option value="alula">واحة العُلا | حجر العلا الذهبي</option>
+          <option value="riyadh">جناح الابتكار | تيتانيوم الذهب الوردي</option>
+          <option value="jeddah">صدفة المرجان | زجاج نقي ساحلي</option>
+          <option value="abha">برج الضباب وسحاب عسير | برونز</option>
+        </select>
+      </div>
+
+      <!-- City Microclimate -->
+      <div class="city-select-wrap">
+        <select id="select-city" aria-label="City & Regional Microclimate">
+          <option value="riyadh">الرياض (هضبة نجد)</option>
+          <option value="jeddah">جدة (ساحل البحر الأحمر)</option>
+          <option value="alula" selected>العُلا (أودية الكثبان والجبال)</option>
+          <option value="abha">أبها (مرتفعات عسير الشاهقة)</option>
+        </select>
+      </div>
+
+      <!-- Sun & Time of Day Slider -->
+      <div class="time-slider-wrap">
+        <span id="sun-time-icon">☀️</span>
+        <span id="label-time-txt">ساعة اليوم:</span>
+        <input type="range" id="slider-time-of-day" min="6.0" max="18.0" step="0.2" value="13.5">
+        <span class="time-badge" id="val-time-of-day">13:30</span>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <!-- Audio Spatial Trigger -->
+      <button class="btn btn-ghost btn-icon" id="btn-toggle-audio" title="الصوت المعماري المكاني">
+        <span id="audio-icon">🔇</span>
+      </button>
+
+      <!-- Theme Switcher -->
+      <button class="btn btn-ghost btn-icon" id="btn-toggle-theme" title="تبديل المظهر">
+        <span>🌓</span>
+      </button>
+
+      <!-- Language Switcher -->
+      <button class="btn btn-ghost" id="btn-toggle-lang" style="font-family: var(--font-en);">
+        English
+      </button>
+
+      <!-- Export 3D OBJ Button -->
+      <button class="btn btn-ghost" id="btn-export-obj-nav" title="تحميل ملف 3D OBJ كامل">
+        📥 <span id="btn-export-obj-txt">3D OBJ</span>
+      </button>
+
+      <!-- Export BOQ Dossier Button -->
+      <button class="btn btn-primary" id="btn-open-dossier">
+        📋 <span id="btn-export-txt">المواصفات (BOQ)</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Floating Left Architectural Studio Panel -->
+  <aside class="studio-panel" id="studio-panel">
+    <!-- 4 Specialized Tabs -->
+    <div class="panel-tabs-header">
+      <button class="panel-tab-btn active" data-tab="tab-geometry" id="tab-btn-geom">🏛️ استوديو التوليد</button>
+      <button class="panel-tab-btn" data-tab="tab-muqarnas" id="tab-btn-muqarnas">📐 أتيليه المقرنصات</button>
+      <button class="panel-tab-btn" data-tab="tab-simulation" id="tab-btn-sim">☀️ الشمس والإجهادات</button>
+      <button class="panel-tab-btn" data-tab="tab-academy" id="tab-btn-academy">📚 الأكاديمية والتصدير</button>
+    </div>
+
+    <!-- TAB 1: 🏛️ GENERATIVE PARAMETRIC STUDIO -->
+    <div class="panel-tab-body" id="tab-geometry">
+      <div class="control-group">
+        <label class="control-label-row">
+          <span id="label-form-type">النمط المعماري التوليدي</span>
+        </label>
+        <select class="control-select" id="select-form-type">
+          <option value="muqarnas_vault" selected>قبو المقرنصات البارامتري الماسي (Muqarnas Vault)</option>
+          <option value="muqarnas_dome">قبة المقرنصات الملكية ذات العين المركزية (Muqarnas Dome)</option>
+          <option value="sinusoidal_canopy">مظلة جيبية متموجة (Sinusoidal Waves)</option>
+          <option value="twisted_torus">شريط تورس التوائي (Twisted Hyperbolic Ribbon)</option>
+          <option value="catenary_vault">أقبية سلسلية مقلوبة (Inverted Catenary Vault)</option>
+          <option value="geodesic_shell">صدفة جيوديسية حيوية (Biomimetic Geodesic Shell)</option>
+        </select>
+      </div>
+
+      <!-- Muqarnas Tiers Slider -->
+      <div class="control-group" id="grp-muqarnas-tiers">
+        <div class="control-label-row">
+          <span id="label-muqarnas-tiers">طبقات المقرنصات المتدلية (Stalactite Tiers)</span>
+          <span class="control-val-badge highlight-gold" id="val-muqarnas-tiers">5 طبقات</span>
+        </div>
+        <input type="range" id="slider-muqarnas-tiers" min="3" max="8" step="1" value="5">
+      </div>
+
+      <!-- Rib / Facet Density Slider -->
+      <div class="control-group">
+        <div class="control-label-row">
+          <span id="label-rib-count">كثافة الأضلاع والمقرنصات</span>
+          <span class="control-val-badge" id="val-rib-count">36</span>
+        </div>
+        <input type="range" id="slider-rib-count" min="16" max="64" step="2" value="36">
+      </div>
+
+      <!-- Span Radius Slider -->
+      <div class="control-group">
+        <div class="control-label-row">
+          <span id="label-span-radius">نصف قطر الامتداد المعماري (متر)</span>
+          <span class="control-val-badge" id="val-span-radius">28 m</span>
+        </div>
+        <input type="range" id="slider-span-radius" min="12" max="45" step="1" value="28">
+      </div>
+
+      <!-- Height Amplitude Slider -->
+      <div class="control-group">
+        <div class="control-label-row">
+          <span id="label-height-amp">ارتفاع الذروة المعمارية (متر)</span>
+          <span class="control-val-badge" id="val-height-amp">14 m</span>
+        </div>
+        <input type="range" id="slider-height-amp" min="6" max="24" step="0.5" value="14">
+      </div>
+
+      <!-- Twist / Curvature Slider -->
+      <div class="control-group">
+        <div class="control-label-row">
+          <span id="label-twist-angle">زاوية الالتواء والانحناء التورسي</span>
+          <span class="control-val-badge" id="val-twist-angle">35°</span>
+        </div>
+        <input type="range" id="slider-twist-angle" min="-90" max="90" step="5" value="35">
+      </div>
+
+      <!-- Dynamic Ripple Frequency Slider -->
+      <div class="control-group">
+        <div class="control-label-row">
+          <span id="label-ripple-freq">تردد التموج الحركي</span>
+          <span class="control-val-badge" id="val-ripple-freq">3 waves</span>
+        </div>
+        <input type="range" id="slider-ripple-freq" min="1" max="8" step="1" value="3">
+      </div>
+
+      <!-- PBR Materials Grid Section -->
+      <div class="control-group" style="margin-top: 8px;">
+        <span class="metric-title-badge" style="margin-bottom: 8px;">✨ <span id="label-mat-header">خامة الإكساء المعماري الفاخر (PBR)</span></span>
+        <div class="materials-grid">
+          <div class="material-card active" data-mat="carrara_marble">
+            <div class="material-chip" style="background: #f8fafc; border: 1px solid #cbd5e1;"></div>
+            <span class="material-title" id="mat-name-carrara">رخام كرارا الإيطالي</span>
+            <span class="material-sub">White Veined Marble</span>
+          </div>
+
+          <div class="material-card" data-mat="desert_onyx">
+            <div class="material-chip" style="background: #fde68a; box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);"></div>
+            <span class="material-title" id="mat-name-onyx">أونيكس الصحراء المصقول</span>
+            <span class="material-sub">Translucent Onyx</span>
+          </div>
+
+          <div class="material-card" data-mat="alula_sandstone">
+            <div class="material-chip" style="background: #d97706;"></div>
+            <span class="material-title" id="mat-name-sandstone">حجر العلا الرملي</span>
+            <span class="material-sub">AlUla Sandstone</span>
+          </div>
+
+          <div class="material-card" data-mat="rose_gold_titanium">
+            <div class="material-chip" style="background: #e0a990;"></div>
+            <span class="material-title" id="mat-name-rosegold">تيتانيوم الذهب الوردي</span>
+            <span class="material-sub">Rose-Gold Titanium</span>
+          </div>
+
+          <div class="material-card" data-mat="brushed_bronze">
+            <div class="material-chip" style="background: #c27803;"></div>
+            <span class="material-title" id="mat-name-bronze">برونز إسلامي مفرش</span>
+            <span class="material-sub">Brushed Bronze</span>
+          </div>
+
+          <div class="material-card" data-mat="concrete_brutalist">
+            <div class="material-chip" style="background: #9ca3af;"></div>
+            <span class="material-title" id="mat-name-concrete">خرسانة بروتاليزم</span>
+            <span class="material-sub">Raw Concrete</span>
+          </div>
+
+          <div class="material-card" data-mat="cyber_titanium">
+            <div class="material-chip" style="background: #38bdf8;"></div>
+            <span class="material-title" id="mat-name-titanium">تيتانيوم مؤكسد</span>
+            <span class="material-sub">Anodized Titanium</span>
+          </div>
+
+          <div class="material-card" data-mat="low_iron_glass">
+            <div class="material-chip" style="background: rgba(224, 242, 254, 0.7);"></div>
+            <span class="material-title" id="mat-name-glass">زجاج نقي منخفض الحديد</span>
+            <span class="material-sub">Ultra-Clear Glass</span>
+          </div>
+
+          <div class="material-card" data-mat="biopolymer_membrane">
+            <div class="material-chip" style="background: #f1f5f9;"></div>
+            <span class="material-title" id="mat-name-membrane">غشاء بوليمري نانوي</span>
+            <span class="material-sub">Bio-Membrane</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual Display Toggles -->
+      <div class="toggle-row" style="margin-top: 6px;">
+        <span id="label-wireframe">الشبكة السلكية (Wireframe)</span>
+        <input type="checkbox" id="check-wireframe">
+      </div>
+
+      <div class="toggle-row">
+        <span id="label-skeleton">الهيكل الإنشائي والضلوع الهندسية (Skeleton)</span>
+        <input type="checkbox" id="check-skeleton" checked>
+      </div>
+
+      <div class="toggle-row">
+        <span id="label-fea-stress">خريطة إجهادات FEA الحرارية (Stress Heatmap)</span>
+        <input type="checkbox" id="check-fea-stress">
+      </div>
+    </div>
+
+    <!-- TAB 2: 📐 MUQARNAS ATELIER & STEREOTOMY -->
+    <div class="panel-tab-body hidden" id="tab-muqarnas" style="display: none;">
+      <div class="atelier-intro-card">
+        <span class="metric-title-badge">📐 <span id="label-atelier-title">الهندسة الفراغية وتفكيك عناصر المقرنصات</span></span>
+        <p class="metric-desc" style="margin-top: 6px;">
+          المقرنصات هي أعظم منظومة ثلاثية الأبعاد ابتكرتها العمارة الإسلامية للجمع بين التدرج الإنشائي وتوزيع الأحمال وتكسير الضوء الشمسي بأسطح موشورية متناغمة.
+        </p>
+      </div>
+
+      <!-- 4 Core Muqarnas Structural Components -->
+      <div class="stereotomy-cards-container">
+        <!-- 1. The Squinch / Bayt -->
+        <div class="stereotomy-card">
+          <div class="stereo-header">
+            <span class="stereo-icon">🏛️</span>
+            <strong>1. الحنية (The Squinch / Bayt)</strong>
+          </div>
+          <p class="stereo-desc">
+            العنصر الهندسي التحويلي الذي يتيح الانتقال من القاعدة المربعة أو المثمنة إلى القباب والأسطح المنحنية، وتشكل الحجيرة الحاضنة للتدلي الإنشائي.
+          </p>
+        </div>
+
+        <!-- 2. The Crown Basin / Tas -->
+        <div class="stereotomy-card">
+          <div class="stereo-header">
+            <span class="stereo-icon">✨</span>
+            <strong>2. الطاسة (The Basin / Tas)</strong>
+          </div>
+          <p class="stereo-desc">
+            السطح المقعر المقلوب الشبيه بالقوقعة أو القطع المكافئ الذي يتوج خلية المقرنص، وتعمل كمرآة عاكسة للضوء تخفف من حدة وهج الشمس المباشر.
+          </p>
+        </div>
+
+        <!-- 3. Rhombic Prisms -->
+        <div class="stereotomy-card">
+          <div class="stereo-header">
+            <span class="stereo-icon">💎</span>
+            <strong>3. الموشورات الماسية (Rhombic Prisms)</strong>
+          </div>
+          <p class="stereo-desc">
+            أسطح إسفينية بزوايا 45° و60° تتيح التدلي المتدرج (Cantilevered Corbeling) مع الحفاظ على التوازن الإنشائي الذاتي تحت قوى الجاذبية.
+          </p>
+        </div>
+
+        <!-- 4. Golden Ratio -->
+        <div class="stereotomy-card" style="border-color: rgba(245, 158, 11, 0.4);">
+          <div class="stereo-header">
+            <span class="stereo-icon">🌟</span>
+            <strong style="color: var(--accent-gold-glow);">4. النسبة الذهبية والتناظر الثماني (Φ = 1.618)</strong>
+          </div>
+          <p class="stereo-desc">
+            تطبيق النسبة التوافقية الذهبية في نسب تراجع الطبقات وعلاقة نصف قطر العين المركزية (Oculus) بالامتداد الكلي للجناح المعماري.
+          </p>
+        </div>
+      </div>
+
+      <!-- Smart Kinetic Mashrabiya Facade -->
+      <div class="control-group" style="margin-top: 8px;">
+        <label class="control-label-row">
+          <span id="label-kinetic-mode">نمط المشربية الحركية الذكية</span>
+        </label>
+        <select class="control-select" id="select-kinetic-mode">
+          <option value="solar_tracking">تتبع مسار الشمس التلقائي (Solar Tracking)</option>
+          <option value="harmonic_wave">موجة حركة هرمونية مستمرة (Harmonic Wave)</option>
+          <option value="cursor_interactive">تفاعل حركي مع مؤشر الفأرة (Cursor Proximity)</option>
+          <option value="storm_seal">إغلاق وقائي من العواصف (Storm Shutter)</option>
+          <option value="max_aperture">أقصى انفتاح للتهوية والضوء (Max Daylight)</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <div class="control-label-row">
+          <span id="label-wave-speed">سرعة استجابة الشفرات الحركية</span>
+          <span class="control-val-badge" id="val-wave-speed">1.2x</span>
+        </div>
+        <input type="range" id="slider-wave-speed" min="0.4" max="3.0" step="0.1" value="1.2">
+      </div>
+    </div>
+
+    <!-- TAB 3: ☀️ SOLAR, ACOUSTICS & STRUCTURAL FEA -->
+    <div class="panel-tab-body hidden" id="tab-simulation" style="display: none;">
+      <!-- Solar & Daylight Card -->
+      <div class="metric-highlight-card">
+        <span class="metric-title-badge">☀️ <span id="label-shading-eff">كفاءة الحجب الشمسي للأقواس والمقرنصات</span></span>
+        <div class="metric-big-num" id="val-shading-eff">84.5 <span>%</span></div>
+        <p class="metric-desc" id="desc-shading">
+          تتفاعل الأقواس الموشورية وظلال المقرنصات لحجب الإشعاع الشمسي الحارق مع تمرير الإضاءة الطبيعية المشتتة عبر العين المركزية (Oculus).
+        </p>
+      </div>
+
+      <!-- Sabine RT60 Acoustics Card -->
+      <div class="metric-highlight-card" style="margin-top: 6px;">
+        <span class="metric-title-badge">🔊 <span id="label-rt60-title">زمن الترديد الصوتي (Sabine RT60)</span></span>
+        <div class="metric-big-num" id="val-rt60-num">1.48 <span>ثانية</span></div>
+        <p class="metric-desc" id="val-rt60-badge">قاعة موسيقى أوركسترالية وسيمفونية (Symphonic Resonance)</p>
+
+        <!-- Octave Bars -->
+        <div class="octave-bars">
+          <div class="octave-col">
+            <div class="octave-bar-fill" id="bar-125" style="height: 45%;"></div>
+            <span class="octave-freq-label">125</span>
+          </div>
+          <div class="octave-col">
+            <div class="octave-bar-fill" id="bar-250" style="height: 52%;"></div>
+            <span class="octave-freq-label">250</span>
+          </div>
+          <div class="octave-col">
+            <div class="octave-bar-fill" id="bar-500" style="height: 68%;"></div>
+            <span class="octave-freq-label">500</span>
+          </div>
+          <div class="octave-col">
+            <div class="octave-bar-fill" id="bar-1k" style="height: 75%;"></div>
+            <span class="octave-freq-label">1k</span>
+          </div>
+          <div class="octave-col">
+            <div class="octave-bar-fill" id="bar-2k" style="height: 60%;"></div>
+            <span class="octave-freq-label">2k</span>
+          </div>
+          <div class="octave-col">
+            <div class="octave-bar-fill" id="bar-4k" style="height: 40%;"></div>
+            <span class="octave-freq-label">4k</span>
+          </div>
+        </div>
+
+        <button class="btn btn-ghost" id="btn-impulse-ping" style="margin-top: 10px; width: 100%;">
+          🔔 <span id="btn-ping-txt">اختبار الصدى المكاني (Impulse Ping)</span>
+        </button>
+      </div>
+
+      <!-- Wind Load & Structural FEA Card -->
+      <div class="metric-highlight-card" style="margin-top: 6px; border-color: rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.08);">
+        <span class="metric-title-badge" style="color: var(--accent-emerald);">🌪️ <span id="label-wind-fea">تحليل إجهادات الرياح (Wind FEA)</span></span>
+        <div class="control-group" style="margin-top: 6px;">
+          <div class="control-label-row">
+            <span>سرعة الرياح السطحية</span>
+            <span class="control-val-badge" id="val-wind-speed" style="color: var(--accent-emerald);">45 km/h</span>
+          </div>
+          <input type="range" id="slider-wind-speed" min="5" max="140" step="5" value="45">
+        </div>
+        <div style="font-size: 12px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 4px; margin-top: 8px;">
+          <div><strong>الضغط الديناميكي:</strong> <span id="val-wind-pressure">94 N/m²</span></div>
+          <div><strong>أقصى إجهاد فون ميزس:</strong> <span id="val-max-stress">12.4 MPa</span></div>
+          <div><strong>معامل الأمان الإنشائي:</strong> <span id="val-safety-factor" style="color: var(--accent-emerald); font-weight: 700;">2.8 (آمن إنشائياً)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: 📚 ACADEMY & PROJECT EXPORT -->
+    <div class="panel-tab-body hidden" id="tab-academy" style="display: none;">
+      <!-- Academy Encyclopedic Card -->
+      <div class="metric-highlight-card">
+        <span class="metric-title-badge">📚 <span id="label-academy-title">موسوعة المقرنصات والعمارة الخوارزمية الرقمية</span></span>
+        <p class="metric-desc" id="academy-p1" style="margin-top: 6px; line-height: 1.6;">
+          نشأت المقرنصات في العمارة الإسلامية في القرن الرابع الهجري كحل رياضي وهندسي عبقري لنقل الأحمال من المربع إلى الدائرة والقبة، وتحولت إلى أعظم فن نحتي ثلاثي الأبعاد يجمع بين الرياضيات، الصوتيات، وتكسير الضوء.
+        </p>
+        <p class="metric-desc" id="academy-p2" style="margin-top: 6px; line-height: 1.6;">
+          في العمارة البارامترية الرقمية المعاصرة، يتم نمذجة المقرنصات باستخدام خوارزميات التكرار الإجرائي (Procedural Generation) وحسابات التقطيع الحجمي (Stereotomy) كما في مشاريع استوديوهات العمارة العالمية المعاصرة.
+        </p>
+      </div>
+
+      <!-- Quick BOQ Quantity Surveyor Card -->
+      <div class="metric-highlight-card" style="margin-top: 6px; border-color: rgba(245, 158, 11, 0.3); background: rgba(245, 158, 11, 0.08);">
+        <span class="metric-title-badge" style="color: var(--accent-gold-glow);">📊 <span id="label-boq-quick">حاسبة حصر الكميات والمواد التقديرية (Instant BOQ)</span></span>
+        <div style="font-size: 12px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 6px; margin-top: 8px;">
+          <div><strong>حجم الرخام/المادة الإنشائي:</strong> <span id="val-boq-vol" style="color: var(--text-primary); font-weight: 600;">185 m³</span></div>
+          <div><strong>الوزن الإجمالي التقديري:</strong> <span id="val-boq-mass" style="color: var(--text-primary); font-weight: 600;">499.5 طن</span></div>
+          <div><strong>البصمة الكربونية المحسوبة:</strong> <span id="val-boq-carbon" style="color: var(--text-primary); font-weight: 600;">69.9 طن CO₂</span></div>
+          <div><strong>وفر الكربون البيئي التقديري:</strong> <span id="val-boq-saved" style="color: var(--accent-emerald); font-weight: 700;">26.5 طن CO₂</span></div>
+        </div>
+      </div>
+
+      <!-- Export Actions Card -->
+      <div class="metric-highlight-card" style="margin-top: 6px;">
+        <span class="metric-title-badge">📥 <span id="label-export-title">تصدير المشروع والملفات الهندسية</span></span>
+        <p class="metric-desc" style="margin-top: 4px;">
+          يمكنك تصدير المجسم الكامل كملف ثلاثي الأبعاد بصيغة OBJ متوافق فورياً مع Rhino وGrasshopper وBlender وRevit، أو طباعة التقرير الفني المعتمد.
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+          <button class="btn btn-primary" id="btn-download-obj" style="width: 100%;">
+            📥 <span id="btn-obj-txt">تحميل ملف 3D OBJ للنموذج</span>
+          </button>
+
+          <button class="btn btn-ghost" id="btn-open-dossier-tab" style="width: 100%;">
+            📋 <span id="btn-pdf-txt">فتح التقرير الفني والمواصفات (BOQ PDF)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Bottom Floating HUD Bar -->
+  <footer class="bottom-hud">
+    <div class="hud-stat-group">
+      <div class="hud-stat-item">
+        <span class="hud-stat-label" id="hud-lbl-area">المساحة المغطاة</span>
+        <span class="hud-stat-value" id="hud-val-area">840 m²</span>
+      </div>
+
+      <div class="hud-stat-item">
+        <span class="hud-stat-label" id="hud-lbl-panels">خلايا المقرنصات</span>
+        <span class="hud-stat-value" id="hud-val-panels">216 وحدة</span>
+      </div>
+
+      <div class="hud-stat-item">
+        <span class="hud-stat-label" id="hud-lbl-rt60">زمن الترديد RT60</span>
+        <span class="hud-stat-value" id="hud-val-rt60">1.48 s</span>
+      </div>
+
+      <div class="hud-stat-item">
+        <span class="hud-stat-label" id="hud-lbl-sun">زاوية الشمس</span>
+        <span class="hud-stat-value" id="hud-val-sun">52.4°</span>
+      </div>
+
+      <div class="hud-stat-item">
+        <span class="hud-stat-label" id="hud-lbl-stress">الإجهاد الأقصى</span>
+        <span class="hud-stat-value" id="hud-val-stress" style="color: var(--accent-emerald);">12.4 MPa</span>
+      </div>
+    </div>
+
+    <!-- Camera Presets -->
+    <div class="camera-controls-bar">
+      <button class="cam-btn active" data-cam="perspective" id="cam-perspective">منظور</button>
+      <button class="cam-btn" data-cam="isometric" id="cam-isometric">آيزومتريك</button>
+      <button class="cam-btn" data-cam="elevation_front" id="cam-front">أمامية</button>
+      <button class="cam-btn" data-cam="elevation_side" id="cam-side">جانبية</button>
+      <button class="cam-btn" data-cam="plan_top" id="cam-top">علوي / العين</button>
+      <button class="cam-btn" id="btn-auto-rotate" title="دوران تلقائي سينمائي">🔄</button>
+    </div>
+  </footer>
+
+</body>
+</html>
