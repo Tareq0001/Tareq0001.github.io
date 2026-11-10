@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KILN-SYNC: Cement Plant Industrial SCADA & Electrical Telemetry Suite | Tareq Aboushi</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,5 95,27 95,73 50,95 5,73 5,27' fill='%230284c7' stroke='%2338bdf8' stroke-width='6'/><path d='M35 50 L50 30 L65 50 L50 70 Z' fill='%23f8fafc'/></svg>">
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome 6 Pro/Free CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <script type="module" crossorigin src="./assets/index-DXgLtjug.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DeQbqFlc.css">
+</head>
+<body>
+
+  <!-- Top SCADA Application Header -->
+  <header class="scada-header">
+    <div class="brand-section">
+      <div class="brand-logo-hex">
+        <i class="fa-solid fa-industry"></i>
+      </div>
+      <div>
+        <div class="brand-title">
+          KILN-SYNC
+          <span class="brand-badge">SCADA v4.8</span>
+        </div>
+        <div class="brand-subtitle">
+          Cement Pyroprocessing Twin &bull; 6.6 kV MV Telemetry &bull; ANSI Relays &bull; ISO 10816 Analytics
+        </div>
+      </div>
+    </div>
+
+    <!-- Lead Engineer Credentials -->
+    <div class="engineer-pill">
+      <div class="engineer-avatar">
+        <i class="fa-solid fa-bolt"></i>
+      </div>
+      <div class="engineer-info">
+        <span class="engineer-name">أ. طارق ابوعشي</span>
+        <span class="engineer-role">Lead Electrical & Automation Systems Engineer</span>
+      </div>
+    </div>
+
+    <!-- Telemetry Status Bar -->
+    <div class="header-telemetry-box">
+      <div class="header-stat">
+        <span class="header-stat-label">GRID FREQUENCY</span>
+        <span class="header-stat-val text-cyan font-mono" id="header-grid-freq">50.01 Hz</span>
+      </div>
+      <div class="header-stat">
+        <span class="header-stat-label">MV BUS VOLTAGE</span>
+        <span class="header-stat-val font-mono" id="header-bus-volts">6,604 V</span>
+      </div>
+      <div class="header-stat">
+        <span class="header-stat-label">SYSTEM TIME</span>
+        <span class="header-stat-val font-mono text-muted" id="header-clock">--:--:--</span>
+      </div>
+
+      <!-- Action Controls -->
+      <div class="header-actions">
+        <button class="btn btn-secondary" id="btn-audio-toggle" title="Toggle SCADA Alarm Sound">
+          <i class="fa-solid fa-volume-high" id="audio-icon"></i>
+          <span id="audio-text">Audio: Active</span>
+        </button>
+        <button class="btn btn-primary" id="btn-open-dossier" title="Open Engineering Dossier & Calculations">
+          <i class="fa-solid fa-file-shield"></i>
+          <span>Engineering Dossier</span>
+        </button>
+        <button class="btn btn-success" id="btn-quick-reset" title="Acknowledge Alarms and Reset System">
+          <i class="fa-solid fa-rotate-right"></i>
+          <span>System Reset</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Master Alarm & SOE Annunciator Banner -->
+  <div class="alarm-banner" id="master-alarm-banner">
+    <div class="alarm-info-side">
+      <span class="alarm-badge healthy" id="alarm-badge-status">NORMAL</span>
+      <span class="alarm-msg" id="alarm-banner-message">SYSTEM HEALTHY - ALL PROCESS LOOPS BALANCED & INTERLOCKS CLEAR</span>
+    </div>
+    <div class="alarm-meta-side font-mono">
+      <span class="text-muted">SOE RECORDER: </span>
+      <span id="soe-timestamp" class="text-cyan">00:00:00.000</span>
+    </div>
+  </div>
+
+  <!-- Main Dashboard Content -->
+  <main class="dashboard-container">
+
+    <!-- ROW 1: Unit 1 (Kiln & Ball Mill Process Mimic + Motor Telemetry Readouts) -->
+    <section class="scada-row row-primary-mimic">
+      <!-- Left: SVG Animated Mimic -->
+      <div class="scada-panel" id="kiln-graphic-container">
+        <!-- Rendered by KilnGraphic.ts -->
+      </div>
+
+      <!-- Right: MV Motor 2500 kW Real-Time Telemetry Dashboard -->
+      <div class="scada-panel">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <span class="badge-tag tag-cyan">TELEMETRY</span>
+            <h4 class="panel-title">M1 Kiln Drive: 6.6 kV 2500 kW Motor</h4>
+          </div>
+          <span class="status-pill status-running" id="motor-dash-status">RUNNING</span>
+        </div>
+
+        <div class="telemetry-dashboard-grid">
+          <!-- Current Readout -->
+          <div class="digital-readout-card">
+            <div class="readout-top">
+              <span class="readout-label">Stator Current (RMS)</span>
+              <span class="font-mono text-muted">Rated: 280 A</span>
+            </div>
+            <div class="readout-val-large font-mono text-cyan" id="motor-current-val">
+              242.4 <span class="readout-unit">A</span>
+            </div>
+            <div class="readout-bar">
+              <div class="readout-bar-fill" id="motor-current-bar" style="width: 86%;"></div>
+            </div>
+          </div>
+
+          <!-- Active & Reactive Power -->
+          <div class="digital-readout-card">
+            <div class="readout-top">
+              <span class="readout-label">Active Power & Power Factor</span>
+              <span class="font-mono text-muted" id="motor-pf-val">Cos φ: 0.91</span>
+            </div>
+            <div class="readout-val-large font-mono" id="motor-power-val">
+              2.51 <span class="readout-unit">MW</span>
+              <span class="font-mono text-muted" style="font-size: 13px; margin-left: 10px;" id="motor-q-val">1.15 MVAR</span>
+            </div>
+          </div>
+
+          <!-- Stator Windings Temperature Matrix (PT100 RTDs) -->
+          <div class="digital-readout-card">
+            <div class="readout-top">
+              <span class="readout-label">Stator Windings RTDs (PT100)</span>
+              <span class="font-mono text-muted">Warn >120°C | Trip >135°C</span>
+            </div>
+            <div class="rtd-matrix">
+              <div class="rtd-tile" id="tile-u1">
+                <span class="rtd-channel">U1 PHASE</span>
+                <span class="rtd-temp font-mono" id="temp-u1">94.2 °C</span>
+              </div>
+              <div class="rtd-tile" id="tile-v1">
+                <span class="rtd-channel">V1 PHASE</span>
+                <span class="rtd-temp font-mono" id="temp-v1">95.8 °C</span>
+              </div>
+              <div class="rtd-tile" id="tile-w1">
+                <span class="rtd-channel">W1 PHASE</span>
+                <span class="rtd-temp font-mono" id="temp-w1">93.6 °C</span>
+              </div>
+              <div class="rtd-tile" id="tile-u2">
+                <span class="rtd-channel">U2 PHASE</span>
+                <span class="rtd-temp font-mono" id="temp-u2">95.1 °C</span>
+              </div>
+              <div class="rtd-tile" id="tile-v2">
+                <span class="rtd-channel">V2 PHASE</span>
+                <span class="rtd-temp font-mono" id="temp-v2">96.4 °C</span>
+              </div>
+              <div class="rtd-tile" id="tile-w2">
+                <span class="rtd-channel">W2 PHASE</span>
+                <span class="rtd-temp font-mono" id="temp-w2">94.7 °C</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bearings Temperature DE & NDE -->
+          <div class="digital-readout-card">
+            <div class="readout-top">
+              <span class="readout-label">Journal Bearings RTDs</span>
+              <span class="font-mono text-muted">Warn >75°C | Trip >90°C</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <div class="rtd-tile">
+                <span class="rtd-channel">DRIVE END (DE)</span>
+                <span class="rtd-temp font-mono text-green" id="temp-de-bearing">68.2 °C</span>
+              </div>
+              <div class="rtd-tile">
+                <span class="rtd-channel">NON-DRIVE (NDE)</span>
+                <span class="rtd-temp font-mono text-green" id="temp-nde-bearing">62.5 °C</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROW 2: Unit 2 (Conveyors & Interlock Logic) & Unit 3 (Substation SLD Diagram) -->
+    <section class="scada-row row-middle">
+      <!-- Unit 2: Material Conveyor Cascade & Interlock -->
+      <div class="scada-panel" id="conveyors-container">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <span class="badge-tag">INTERLOCK LOGIC</span>
+            <h4 class="panel-title">Raw Material Feed: Cascaded Conveyor System (CV-101 &rarr; CV-102 &rarr; CV-103)</h4>
+          </div>
+          <span class="status-pill status-running" id="cascade-status-pill">CASCADE HEALTHY</span>
+        </div>
+
+        <!-- 3 Conveyor Cards -->
+        <div class="conveyor-stage-grid">
+          <!-- CV-101 -->
+          <div class="conveyor-box box-running" id="box-cv101">
+            <div class="conveyor-box-header">
+              <span class="conveyor-id font-mono">CV-101</span>
+              <span class="status-pill status-running" id="pill-cv101">RUNNING</span>
+            </div>
+            <div class="conveyor-role-desc">Primary Crusher Discharge Feeder (45 kW)</div>
+            <div class="sensor-rack">
+              <div class="sensor-row font-mono">
+                <span class="sensor-label">Current:</span>
+                <span id="cv101-current" class="text-cyan">38.6 A</span>
+              </div>
+              <div class="sensor-row font-mono">
+                <span class="sensor-label">Belt Speed:</span>
+                <span id="cv101-speed">2.2 m/s</span>
+              </div>
+              <div class="sensor-row">
+                <span class="sensor-label">Belt Sway:</span>
+                <span class="led-dot led-green" id="led-sway-cv101" title="Belt Sway Normal"></span>
+              </div>
+              <div class="sensor-row">
+                <span class="sensor-label">Zero Speed:</span>
+                <span class="led-dot led-green" id="led-zerospeed-cv101" title="Speed OK"></span>
+              </div>
+              <div class="sensor-row">
+                <span class="sensor-label">Pull-Cord:</span>
+                <span class="led-dot led-green" id="led-pullcord-cv101" title="Pull Cord Healthy"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CV-102 -->
+          <div class="conveyor-box box-running" id="box-cv102">
+            <div class="conveyor-box-header">
+              <span class="conveyor-id font-mono">CV-102</span>
+              <span class="status-pill status-running" id="pill-cv102">RUNNING</span>
+            </div>
+            <div class="conveyor-role-desc">Overland Transfer Gallery Conveyor (75 kW)</div>
+            <div class="sensor-rack">
+              <div class="sensor-row font-mono">
+                <span class="sensor-label">Current:</span>
+                <span id="cv102-current" class="text-cyan">64.2 A</span>
+              </div>
+              <div class="sensor-row font-mono">
+                <span class="sensor-label">Belt Speed:</span>
+                <span id="cv102-speed">2.4 m/s</span>
+              </div>
+              <div class="sensor-row">
+                <span class="sensor-label">Belt Sway:</span>
+                <span class="led-dot led-green" id="led-sway-cv102" title="Belt Sway Normal"></span>
+              </div>
+              <div class="sensor-row">
+                <span class="sensor-label">Zero Speed:</span>
+                <span class="led-dot led-green" id="led-zerospeed-cv102" title="Speed OK"></span>
+              </div>
+              <div class="sensor-row">
+                <span class="sensor-label">Pull-Cord:</span>
+                <span class="led-dot led-green" id="led-pullcord-cv102" title="Pull Cord Healthy"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CV-103 -->
+          <div class="conveyor-box box-running" id="box-cv103">
+            <div class="conveyor-box-header">
+              <span class="conveyor-id font-mono">CV-103</span>
+              <span class="status-pill status-running" id="pill-cv103">RUNNING</span>
+            </div>
+            <div class="conveyor-role-desc">Raw Mill Surge & Clinker Feed (90 kW)</div>
+            <div class="sensor-rack">
+              <div class="sensor-row font-mono">
+                <span class="sensor-label">Current:</span>
+                <span id="cv103-current" class="text-cyan">78.5 A</span>
+              </div>
+              <div class="sensor-row font-mono">
+                <span class="sensor-label">Belt Speed:</span>
+                <span id="cv103-speed">2.5 m/s</span>
+              </div>
+              <div class="sensor-row">
+                <span class="sensor-label">Belt Sway:</span>
+                <span class="led-dot led-green" id="led-sway-cv103" title="Belt Sway Normal"></span>
+              </div>
+              <div class="sensor-row">
+                <span class="sensor-label">Zero Speed:</span>
+                <span class="led-dot led-green" id="led-zerospeed-cv103" title="Speed OK"></span>
+              </div>
+              <div class="sensor-row">
+                <span class="sensor-label">Pull-Cord:</span>
+                <span class="led-dot led-green" id="led-pullcord-cv103" title="Pull Cord Healthy"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sequential Interlock Philosophy Banner -->
+        <div class="interlock-rule-strip">
+          <div>
+            <span class="text-muted font-mono">SEQUENTIAL START PERMISSIVE:</span>
+            <span class="font-mono text-cyan" style="margin-left: 6px;">CV-103 &rarr; CV-102 &rarr; CV-101 (Reverse Order Enforced)</span>
+          </div>
+          <div class="cascade-chain-diagram">
+            <span class="chain-node active" id="chain-node-103">CV-103</span>
+            <span>&larr;</span>
+            <span class="chain-node active" id="chain-node-102">CV-102</span>
+            <span>&larr;</span>
+            <span class="chain-node active" id="chain-node-101">CV-101</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Unit 3: 6.6 kV Substation & Switchgear Single Line Diagram (SLD) -->
+      <div class="scada-panel" id="sld-container">
+        <!-- Rendered by SldDiagram.ts -->
+      </div>
+    </section>
+
+    <!-- ROW 3: Unit 4 (AI Predictive Maintenance) & Unit 5 (Fault Injection Panel) -->
+    <section class="scada-row row-middle">
+      <!-- Unit 4: AI Predictive Maintenance & Vibration -->
+      <div class="scada-panel" id="vibe-chart-container">
+        <!-- Rendered by VibrationChart.ts -->
+      </div>
+
+      <!-- Unit 5: Fault Injection & Interview Demonstration Panel -->
+      <div class="scada-panel">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <span class="badge-tag tag-cyan">DEMO LAB</span>
+            <h4 class="panel-title">Fault Injection & Interview Defense Panel</h4>
+          </div>
+          <span class="font-mono text-muted" style="font-size: 11px;">Interactive SCADA Testbed</span>
+        </div>
+
+        <div class="fault-panel-card">
+          <div class="fault-panel-header">
+            <div class="fault-title-group">
+              <i class="fa-solid fa-sliders text-cyan"></i>
+              <span class="fault-title">Live Scenarios for Engineering Panels</span>
+            </div>
+            <span class="fault-desc">Trigger real protective trips and observe automated cascade responses</span>
+          </div>
+
+          <div class="fault-button-grid">
+            <!-- Scenario 1: Overload 51/49 -->
+            <button class="fault-btn-card" id="btn-fault-overload">
+              <span class="btn-card-title text-amber">
+                <i class="fa-solid fa-bolt"></i> 1. Motor Overload
+              </span>
+              <span class="btn-card-sub">Current &rarr; 386A. Triggers ANSI 51 (IDMT) & 49 (Thermal).</span>
+            </button>
+
+            <!-- Scenario 2: Belt Sway CV-103 -->
+            <button class="fault-btn-card" id="btn-fault-sway">
+              <span class="btn-card-title text-red">
+                <i class="fa-solid fa-triangle-exclamation"></i> 2. Belt Sway (CV-103)
+              </span>
+              <span class="btn-card-sub">Triggers sway switch. Halts CV-102 & CV-101 in cascade.</span>
+            </button>
+
+            <!-- Scenario 3: Earth Fault 50N -->
+            <button class="fault-btn-card" id="btn-fault-earth">
+              <span class="btn-card-title text-red">
+                <i class="fa-solid fa-burst"></i> 3. Earth Fault (50N)
+              </span>
+              <span class="btn-card-sub">Residual I₀ = 42A. Instantaneous VCB trip in 40ms.</span>
+            </button>
+
+            <!-- Scenario 4: Pull-Cord CV-102 -->
+            <button class="fault-btn-card" id="btn-fault-pullcord">
+              <span class="btn-card-title text-amber">
+                <i class="fa-solid fa-hand"></i> 4. Emergency Pull-Cord
+              </span>
+              <span class="btn-card-sub">Pulls CV-102 safety rope. Immediate halt of upstream CV-101.</span>
+            </button>
+
+            <!-- Scenario 5: Reset & Re-Sequence -->
+            <button class="fault-btn-card btn-card-reset" id="btn-fault-reset">
+              <span class="btn-card-title text-green">
+                <i class="fa-solid fa-rotate"></i> 5. System Reset
+              </span>
+              <span class="btn-card-sub">Clears alarms, recloses VCB, and re-sequences startup.</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- SOE Sequence of Events Log Window -->
+        <div style="background: #070c17; border: 1px solid var(--border-subtle); border-radius: 6px; padding: 10px; display: flex; flex-direction: column; gap: 4px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; font-size: 10px; color: var(--text-muted); font-weight: 700;">
+            <span>EVENT CHRONOLOGY (SOE 1ms RESOLUTION)</span>
+            <span class="text-cyan font-mono" id="soe-event-count">3 EVENTS LOGGED</span>
+          </div>
+          <div id="soe-log-box" style="font-family: var(--font-mono); font-size: 10px; color: #94a3b8; display: flex; flex-direction: column; gap: 4px; max-height: 100px; overflow-y: auto;">
+            <div>[00:00:01] 6.6 kV Busbar energized. Phase voltage L1-L2: 6608V balanced.</div>
+            <div>[00:00:02] Conveyor permissive verified: CV-103 &rarr; CV-102 &rarr; CV-101 running.</div>
+            <div class="text-green">[00:00:03] VCB-04 closed. M1 Kiln Drive motor current stabilized at 242.4A.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>

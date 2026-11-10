@@ -4732,6 +4732,48 @@
                     </div>
                 </div>
 
+                <!-- 83. KilnSync-Cement-Plant-SCADA (Span 12) -->
+                <div class="bento-3d-card span-12 bento-item industrial ai" style="border-color: rgba(6, 182, 212, 0.6); background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(16, 185, 129, 0.1) 50%, rgba(2, 6, 23, 0.75) 100%);">
+                    <div class="card-pill pill-ai" data-i18n="c_kilnsync_pill" style="color: #22d3ee; border-color: rgba(6, 182, 212, 0.5); background: rgba(6, 182, 212, 0.16);">
+                        <i class="fa-solid fa-industry"></i> Industrial SCADA & Electrical Telemetry Suite
+                    </div>
+                    <h3 data-i18n="c_kilnsync_title">KILN-SYNC: Cement Plant Industrial SCADA, Electrical Telemetry & AI Predictive Suite</h3>
+                    <p data-i18n="c_kilnsync_desc">
+                        A mission-critical industrial SCADA digital twin and electrical telemetry suite for heavy cement manufacturing plants. Monitors a 6.6 kV Medium Voltage 2,500 kW motor driving a rotary pyroprocessing kiln (1,450°C) and ball mill, alongside 3 cascaded overland conveyors with CEMAT sequential interlock logic (CV-101 → CV-102 → CV-103). Features interactive substation Single Line Diagram (SLD) with ANSI protective relays (51 IDMT, 49 Thermal Stator I²t, 50N Instantaneous Earth Fault), dual-channel bearing vibration analytics under ISO 10816-3 with BPFO spectral fault detection, dynamic Remaining Useful Life (RUL) estimation, Web Audio API alarm sirens, and an interactive fault injection testbed for engineering defense panels.
+                    </p>
+                    <div class="card-benchmark-hud">
+                        <div class="hud-stat-box">
+                            <div class="num">6.6 kV / 2.5 MW</div>
+                            <div class="desc" data-i18n="c_kilnsync_stat1">MV Drive Motor</div>
+                        </div>
+                        <div class="hud-stat-box">
+                            <div class="num">ANSI 51/49/50N</div>
+                            <div class="desc" data-i18n="c_kilnsync_stat2">Protection Relays</div>
+                        </div>
+                        <div class="hud-stat-box">
+                            <div class="num">ISO 10816-3</div>
+                            <div class="desc" data-i18n="c_kilnsync_stat3">AI Vibration Engine</div>
+                        </div>
+                    </div>
+                    <div class="badge-tags">
+                        <span class="badge-tag">Industrial SCADA</span>
+                        <span class="badge-tag">6.6 kV Substation SLD</span>
+                        <span class="badge-tag">ANSI Protection Relays</span>
+                        <span class="badge-tag">CEMAT Conveyor Interlock</span>
+                        <span class="badge-tag">ISO 10816 Vibration RMS</span>
+                        <span class="badge-tag">Web Audio API Siren</span>
+                    </div>
+                    <div class="card-actions-row">
+                        <a href="https://github.com/Tareq0001/KilnSync-Cement-Plant-SCADA" target="_blank" class="card-action-link">
+                            <span data-i18n="c_kilnsync_link">Inspect KILN-SYNC Code</span> <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <a href="https://tareq0001.github.io/KilnSync-Cement-Plant-SCADA/" target="_blank" class="card-badge-link" style="background: rgba(6, 182, 212, 0.2); border-color: rgba(6, 182, 212, 0.55); color: #22d3ee;">
+                            <i class="fa-solid fa-industry"></i> <span data-i18n="c_kilnsync_demo">Launch SCADA Digital Twin</span>
+                        </a>
+                    </div>
+                </div>
+
+
 
 
 
@@ -5798,6 +5840,15 @@ char _license[] SEC("license") = "GPL";</code></pre>
                 c_nama_link: "Inspect NAMA Code",
                 c_nama_demo: "Launch NAMA Command Center",
 
+                c_kilnsync_pill: '<i class="fa-solid fa-industry"></i> Industrial SCADA & Electrical Telemetry Suite',
+                c_kilnsync_title: "KILN-SYNC: Cement Plant Industrial SCADA, Electrical Telemetry & AI Predictive Suite",
+                c_kilnsync_desc: "A mission-critical industrial SCADA digital twin and electrical telemetry suite for heavy cement manufacturing plants. Monitors a 6.6 kV Medium Voltage 2,500 kW motor driving a rotary pyroprocessing kiln (1,450°C) and ball mill, alongside 3 cascaded overland conveyors with CEMAT sequential interlock logic (CV-101 → CV-102 → CV-103). Features interactive substation Single Line Diagram (SLD) with ANSI protective relays (51 IDMT, 49 Thermal Stator I²t, 50N Instantaneous Earth Fault), dual-channel bearing vibration analytics under ISO 10816-3 with BPFO spectral fault detection, dynamic Remaining Useful Life (RUL) estimation, Web Audio API alarm sirens, and an interactive fault injection testbed for engineering defense panels.",
+                c_kilnsync_stat1: "6.6 kV MV Motor (2.5 MW)",
+                c_kilnsync_stat2: "ANSI Relays (51 / 49 / 50N)",
+                c_kilnsync_stat3: "ISO 10816-3 AI Vibration",
+                c_kilnsync_link: "Inspect KILN-SYNC Code",
+                c_kilnsync_demo: "Launch SCADA Digital Twin",
+
 
                 inspector_tag: "// ARCHITECTURE IMPLEMENTATION INSPECTOR",
                 inspector_title: "Production Source Highlights",
@@ -6472,6 +6523,15 @@ char _license[] SEC("license") = "GPL";</code></pre>
         c_nama_stat3: "محرك نمو الإيرادات والعروض",
         c_nama_link: "فحص كود نَـمَـاء",
         c_nama_demo: "تشغيل منصة نَـمَـاء",
+
+        c_kilnsync_pill: '<i class="fa-solid fa-industry"></i> الأتمتة الصناعية ومنظومات سكادا الكهربائية 6.6 kV',
+        c_kilnsync_title: "كيلن-سينك (KILN-SYNC): نظام سكادا الصناعي والتوأم الرقمي والقياسات الكهربائية لمصانع الأسمنت",
+        c_kilnsync_desc: "منظومة سكادا صناعية وتوأم رقمي حي فائق الدقة لمصانع الأسمنت ومحطات التحويل الكهربائية للجهد المتوسط (6.6 kV). يدير محركاً ضخماً بقدرة 2500 kW يدير الفرن الدوار ومطحنة المواد الخام، مع شبكة سيور نقل تتابعية ثلاثية تخضع لمنطق الإنترلوك الصناعي (CEMAT) لمنع تكدس أطنان الحصى. يشتمل على مخطط خطي أحادي تفاعلي (SLD) لمحطة التحويل وقواطع VCB مع محاكاة ريلايات الحماية الرقمية القياسية (ANSI 51 للتيار الزائد، ANSI 49 للحمل الحراري I²t، و ANSI 50N للتسريب الأرضي اللحظي خلال 40ms)، وتحليل حي للاهتزازات الميكانيكية بمعيار ISO 10816-3 مع كاشف شذوذ محامل الدوران (BPFO) وتقدير العمر التشغيلي المتبقي RUL، وصافرات إنذار واقعية عبر Web Audio API، ولوحة حقن أعطال وسيناريوهات للدفاع الهندسي في المقابلات.",
+        c_kilnsync_stat1: "محرك 6.6 kV بقدرة 2500 kW",
+        c_kilnsync_stat2: "ريلايات الحماية ANSI 51/49/50N",
+        c_kilnsync_stat3: "صيانة تنبؤية ISO 10816",
+        c_kilnsync_link: "فحص كود KILN-SYNC",
+        c_kilnsync_demo: "تشغيل توأم سكادا الرقمي",
                 inspector_tag: "// فاحص الكود المصدري المعماري",
                 inspector_title: "نماذج من الكود المصدري الفعلي",
                 contact_title: "لنصنع أنظمة تتجاوز الحدود.",
