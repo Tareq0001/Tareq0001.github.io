@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CHRONO-PHYSICS: RK4 Chaos, Double-Pendulum Swarm & N-Body Physics Engine</title>
+    <meta name="description" content="High-precision 4th-Order Runge-Kutta (RK4) computational physics simulator with chaotic double-pendulum swarm, 3-body gravitational choreography, 3D Lorenz attractor, and coupled harmonic wave lattice. Architected by أ. طارق ابوعشي." />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23060913' stroke='%2306b6d4' stroke-width='6'/><circle cx='50' cy='50' r='12' fill='%238b5cf6'/><ellipse cx='50' cy='50' rx='38' ry='16' fill='none' stroke='%23f59e0b' stroke-width='4' transform='rotate(30 50 50)'/><ellipse cx='50' cy='50' rx='38' ry='16' fill='none' stroke='%2306b6d4' stroke-width='4' transform='rotate(-30 50 50)'/></svg>" />
+    <script type="module" crossorigin src="./assets/index-DnIbDLFz.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-dxaq1URX.css">
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="brand-section">
+        <div class="brand-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+            <path d="M2 12h20"></path>
+          </svg>
+        </div>
+        <div class="title-wrap">
+          <h1>CHRONO-PHYSICS</h1>
+          <div class="subtitle">
+            <span>RK4 Chaos & Kinematics Engine</span>
+            <span>&bull;</span>
+            <span>Lead Architect:</span>
+            <span class="architect">أ. طارق ابوعشي</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="audio-toggle-btn" class="btn-icon" title="Toggle FM Harmonic Soundscape">
+          <svg id="audio-icon-on" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          </svg>
+          <span id="audio-status-text">Audio: ON</span>
+        </button>
+
+        <button id="open-math-btn" class="btn-icon" title="Open Mathematical & Theoretical Dossier">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+          <span>Math Dossier</span>
+        </button>
+
+        <a href="https://github.com/Tareq0001/ChronoPhysics-Chaos-Kinematics-Engine" target="_blank" rel="noopener noreferrer" class="btn-icon" title="View Source Repository on GitHub">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- SYSTEM SELECTOR NAVIGATION -->
+    <nav class="system-nav" aria-label="Physics Systems">
+      <button class="system-tab active" data-system="double_pendulum">
+        <span class="tab-badge">SYS 01</span>
+        <span>Double-Pendulum Swarm</span>
+      </button>
+      <button class="system-tab" data-system="n_body">
+        <span class="tab-badge">SYS 02</span>
+        <span>3-Body Gravitation</span>
+      </button>
+      <button class="system-tab" data-system="lorenz">
+        <span class="tab-badge">SYS 03</span>
+        <span>Lorenz 3D Attractor</span>
+      </button>
+      <button class="system-tab" data-system="wave_lattice">
+        <span class="tab-badge">SYS 04</span>
+        <span>Harmonic Wave Lattice</span>
+      </button>
+    </nav>
+
+    <!-- MAIN WORKSPACE -->
+    <main class="main-workspace">
+      <!-- PHYSICS ARENA -->
+      <section class="arena-container">
+        <canvas id="physics-canvas"></canvas>
+
+        <!-- TOP HUD STATUS -->
+        <div class="arena-hud-overlay">
+          <div class="hud-pill">
+            <span class="pulse-dot"></span>
+            <span id="hud-system-title">Euler-Lagrange Swarm</span>
+            <span>&bull;</span>
+            <span id="hud-fps">60 FPS</span>
+            <span>&bull;</span>
+            <span>Sub-steps: 8× RK4</span>
+          </div>
+          <div class="hud-pill" id="hud-interaction-hint">
+            <span>🖱 Drag bob or background to interact</span>
+          </div>
+        </div>
+
+        <!-- BOTTOM SIMULATION CONTROLS -->
+        <div class="arena-bottom-controls">
+          <button id="btn-play-pause" class="ctrl-btn" title="Toggle Play / Pause (Spacebar)">
+            <svg id="icon-play" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="6" y="4" width="4" height="16"></rect>
+              <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+            <span id="txt-play-pause">Pause</span>
+          </button>
+          <button id="btn-step" class="ctrl-btn" title="Single RK4 Step Forward">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="5 4 15 12 5 20 5 4"></polygon>
+              <line x1="19" y1="5" x2="19" y2="19"></line>
+            </svg>
+            <span>Step</span>
+          </button>
+          <button id="btn-reset" class="ctrl-btn" title="Reset Current System State">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+              <path d="M3 3v5h5"></path>
+            </svg>
+            <span>Reset</span>
+          </button>
+          <button id="btn-vectors" class="ctrl-btn active" title="Toggle Velocity Vectors">
+            <span>Vectors</span>
+          </button>
+          <button id="btn-barycenter" class="ctrl-btn active" title="Toggle Center of Mass">
+            <span>Barycenter</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- SIDEBAR TELEMETRY & CONTROLS -->
+      <aside class="sidebar custom-scroll">
+        <!-- PANEL: PHASE SPACE PORTRAIT -->
+        <div class="sidebar-panel">
+          <div class="panel-header">
+            <span>Phase Space Portrait</span>
+            <span class="badge">Poincaré (q, p)</span>
+          </div>
+          <canvas id="phase-canvas"></canvas>
+        </div>
+
+        <!-- PANEL: HAMILTONIAN ENERGY CONSERVATION -->
+        <div class="sidebar-panel">
+          <div class="panel-header">
+            <span>Symplectic Energy Conservation</span>
+            <span class="badge" id="hamiltonian-drift-badge">ΔH/H₀: 0.00e-5</span>
+          </div>
+
+          <div class="energy-meter-container">
+            <div class="energy-bar-wrap">
+              <div id="bar-ke" class="energy-bar-ke" style="width: 50%;"></div>
+              <div id="bar-pe" class="energy-bar-pe" style="width: 50%;"></div>
+            </div>
+            <div class="energy-labels">
+              <span class="energy-ke-txt">Kinetic T: <strong id="val-ke">50.0%</strong></span>
+              <span class="energy-pe-txt">Potential V: <strong id="val-pe">50.0%</strong></span>
+            </div>
+          </div>
+
+          <div class="telemetry-grid">
+            <div class="telem-box">
+              <span class="label">Total Energy (H)</span>
+              <span class="value" id="val-total-h">-18.42<span class="unit">J</span></span>
+            </div>
+            <div class="telem-box">
+              <span class="label">Lyapunov (λ)</span>
+              <span class="value" id="val-lyapunov">0.914<span class="unit">s⁻¹</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANEL: SYSTEM SPECIFIC PARAMETERS -->
+        <div class="sidebar-panel" id="panel-dynamic-controls">
+          <!-- Populated dynamically based on chosen system -->
+        </div>
+
+        <!-- PANEL: GLOBAL SIMULATION PARAMETERS -->
+        <div class="sidebar-panel">
+          <div class="panel-header">
+            <span>Global Integrator</span>
+            <span class="badge">RK4 Sub-steps</span>
+          </div>
+
+          <!-- Time Dilation -->
+          <div class="control-group">
+            <div class="control-label-row">
+              <span>Time Dilation (Speed)</span>
+              <span class="control-val" id="disp-time-dilation">1.00×</span>
+            </div>
+            <input type="range" id="slider-time-dilation" min="0.1" max="2.5" step="0.05" value="1.0" />
+          </div>
+
+          <!-- Gravity Presets -->
+          <div class="control-group" id="group-gravity">
+            <div class="control-label-row">
+              <span>Gravitational Acceleration (g)</span>
+              <span class="control-val" id="disp-gravity">9.81 m/s²</span>
+            </div>
+            <div class="preset-btn-group">
+              <button class="sub-btn" data-g="0">Zero-G (0)</button>
+              <button class="sub-btn" data-g="1.62">Moon (1.62)</button>
+              <button class="sub-btn active" data-g="9.81">Earth (9.81)</button>
+              <button class="sub-btn" data-g="24.79">Jupiter (24.79)</button>
+            </div>
+          </div>
+
+          <!-- Trail Length -->
+          <div class="control-group">
+            <div class="control-label-row">
+              <span>Photon Trail Memory</span>
+              <span class="control-val" id="disp-trail">Medium (180)</span>
+            </div>
+            <div class="preset-btn-group">
+              <button class="sub-btn" data-trail="60">Short</button>
+              <button class="sub-btn active" data-trail="180">Medium</button>
+              <button class="sub-btn" data-trail="350">Long</button>
+              <button class="sub-btn" data-trail="800">Phosphor</button>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- APP SCRIPT ENTRY -->
+  </body>
+</html>
