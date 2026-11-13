@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AERO-PULSE // AP-9000 Twin-Spool Turbofan & Brayton Cycle Lab</title>
+  <meta name="description" content="Aerospace flight simulator & Brayton thermodynamic cycle laboratory for twin-spool high-bypass turbofan engines. Designed by أ. طارق ابوعشي.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="./assets/index-DUbpVw1v.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DVAOXphr.css">
+</head>
+<body>
+  <!-- Avionics HUD Header -->
+  <header class="avionics-header">
+    <div class="brand-group">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10" stroke="#38bdf8" stroke-width="1.8" fill="none"/>
+          <circle cx="12" cy="12" r="3" fill="#38bdf8"/>
+          <path d="M12 2 C12 6, 15 9, 15 12 C15 15, 12 18, 12 22" stroke="#38bdf8" stroke-width="1.6" fill="none"/>
+          <path d="M2 12 C6 12, 9 15, 12 15 C15 15, 18 12, 22 12" stroke="#38bdf8" stroke-width="1.6" fill="none"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1 id="brand-main-title">AERO-PULSE <span class="brand-badge">AP-9000 TURBOFAN</span></h1>
+        <div class="architect-badge">
+          <span id="txt-architect-label">Lead Architect:</span>
+          <strong>أ. طارق ابوعشي | Lead Aerospace Propulsion & Systems Architect</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-toolbar">
+      <button id="btn-audio-toggle" class="avionics-btn" title="Toggle Sound Engine">
+        <span id="audio-icon">🔊</span> <span id="txt-audio">AUDIO: ON</span>
+      </button>
+      <button id="btn-lang-toggle" class="avionics-btn" title="Toggle Language">
+        🌐 <span id="txt-lang">عربي</span>
+      </button>
+      <button id="btn-dossier" class="avionics-btn-primary" title="Open Engineering Dossier">
+        📑 <span id="txt-dossier">ENGINEERING DOSSIER</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Master Alert & Atmosphere Bar -->
+  <div class="master-alert-bar">
+    <div class="alert-message-box">
+      <div id="master-alert-led" class="alert-led"></div>
+      <span id="master-alert-text">FADEC DUAL-CHANNEL NOMINAL // READY FOR TAXI & TAKEOFF</span>
+    </div>
+    <div class="atmo-telemetry-bar">
+      <span>ALT: <strong id="bar-alt">0 FT</strong></span>
+      <span>MACH: <strong id="bar-mach">M 0.00</strong></span>
+      <span>T_AMB: <strong id="bar-temp">15.0 °C</strong></span>
+      <span>P_AMB: <strong id="bar-press">101.3 kPa</strong></span>
+      <span>Q_DYN: <strong id="bar-q">0.0 kPa</strong></span>
+    </div>
+  </div>
+
+  <!-- Main Flight Deck Grid -->
+  <main class="flight-deck-grid">
+    <!-- Left Column: Primary EICAS Engine Instrument Cluster -->
+    <aside class="avionics-panel deck-left-col">
+      <div class="panel-header">
+        <span class="panel-title">
+          <span>📊</span> <span id="txt-eicas-title">EICAS PRIMARY GAUGES</span>
+        </span>
+        <span class="panel-subtitle">AP-9000 PROPULSION</span>
+      </div>
+
+      <!-- 4 Circular Dials -->
+      <div class="gauge-cluster">
+        <!-- N1 LP Spool -->
+        <div class="eicas-gauge-card">
+          <div class="gauge-svg-wrap">
+            <svg class="gauge-svg" viewBox="0 0 100 100">
+              <circle class="gauge-bg-arc" cx="50" cy="50" r="38" stroke-dasharray="238.7" stroke-dashoffset="59.7"/>
+              <circle id="arc-n1" class="gauge-val-arc" cx="50" cy="50" r="38" stroke-dasharray="238.7" stroke-dashoffset="195"/>
+            </svg>
+            <div class="gauge-center-text">
+              <div id="val-n1-num" class="gauge-number">24.0</div>
+              <div class="gauge-unit">% RPM</div>
+            </div>
+          </div>
+          <div class="gauge-label"><span id="txt-n1-label">N1 FAN (LP)</span></div>
+        </div>
+
+        <!-- N2 HP Spool -->
+        <div class="eicas-gauge-card">
+          <div class="gauge-svg-wrap">
+            <svg class="gauge-svg" viewBox="0 0 100 100">
+              <circle class="gauge-bg-arc" cx="50" cy="50" r="38" stroke-dasharray="238.7" stroke-dashoffset="59.7"/>
+              <circle id="arc-n2" class="gauge-val-arc" cx="50" cy="50" r="38" stroke-dasharray="238.7" stroke-dashoffset="130"/>
+            </svg>
+            <div class="gauge-center-text">
+              <div id="val-n2-num" class="gauge-number">62.0</div>
+              <div class="gauge-unit">% RPM</div>
+            </div>
+          </div>
+          <div class="gauge-label"><span id="txt-n2-label">N2 CORE (HP)</span></div>
+        </div>
+
+        <!-- EGT Exhaust Gas Temp -->
+        <div class="eicas-gauge-card">
+          <div class="gauge-svg-wrap">
+            <svg class="gauge-svg" viewBox="0 0 100 100">
+              <circle class="gauge-bg-arc" cx="50" cy="50" r="38" stroke-dasharray="238.7" stroke-dashoffset="59.7"/>
+              <circle id="arc-egt" class="gauge-val-arc" cx="50" cy="50" r="38" stroke-dasharray="238.7" stroke-dashoffset="150"/>
+            </svg>
+            <div class="gauge-center-text">
+              <div id="val-egt-num" class="gauge-number">460</div>
+              <div class="gauge-unit">°C EGT</div>
+            </div>
+          </div>
+          <div class="gauge-label"><span id="txt-egt-label">EXHAUST TEMP</span></div>
+        </div>
+
+        <!-- Net Thrust -->
+        <div class="eicas-gauge-card">
+          <div class="gauge-svg-wrap">
+            <svg class="gauge-svg" viewBox="0 0 100 100">
+              <circle class="gauge-bg-arc" cx="50" cy="50" r="38" stroke-dasharray="238.7" stroke-dashoffset="59.7"/>
+              <circle id="arc-thrust" class="gauge-val-arc" cx="50" cy="50" r="38" stroke-dasharray="238.7" stroke-dashoffset="210"/>
+            </svg>
+            <div class="gauge-center-text">
+              <div id="val-thrust-num" class="gauge-number">12.7</div>
+              <div class="gauge-unit">kN</div>
+            </div>
+          </div>
+          <div class="gauge-label"><span id="txt-thrust-label">NET THRUST</span></div>
+        </div>
+      </div>
+
+      <!-- Secondary Telemetry Grid -->
+      <div class="telemetry-data-grid">
+        <div class="telem-box">
+          <div class="label" id="txt-fuel-label">FUEL FLOW</div>
+          <div id="val-fuel" class="value">520 kg/h</div>
+        </div>
+        <div class="telem-box">
+          <div class="label" id="txt-tsfc-label">TSFC EFFICIENCY</div>
+          <div id="val-tsfc" class="value">11.3 g/kN·s</div>
+        </div>
+        <div class="telem-box">
+          <div class="label" id="txt-opr-label">OPR PRESSURE RATIO</div>
+          <div id="val-opr" class="value">8.2 : 1</div>
+        </div>
+        <div class="telem-box">
+          <div class="label" id="txt-bpr-label">BYPASS RATIO (BPR)</div>
+          <div id="val-bpr" class="value">8.5 : 1</div>
+        </div>
+        <div class="telem-box">
+          <div class="label" id="txt-tit-label">TURBINE INLET (TIT)</div>
+          <div id="val-tit" class="value">577 °C</div>
+        </div>
+        <div class="telem-box">
+          <div class="label" id="txt-tipmach-label">FAN TIP RELATIVE MACH</div>
+          <div id="val-tipmach" class="value">M 0.35</div>
+        </div>
+        <div class="telem-box">
+          <div class="label" id="txt-vib-label">BEARING VIBRATION</div>
+          <div id="val-vib" class="value">0.25 G</div>
+        </div>
+        <div class="telem-box">
+          <div class="label" id="txt-oil-label">OIL PRESSURE / TEMP</div>
+          <div id="val-oil" class="value">58 PSI / 78°C</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Center Column: 60FPS Cutaway & Particle Aerodynamics Canvas -->
+    <section class="avionics-panel canvas-panel deck-center-col">
+      <div class="canvas-toolbar">
+        <span class="panel-title">
+          <span>✈️</span> <span id="txt-cutaway-title">TWIN-SPOOL TURBOFAN CUTAWAY SIMULATION</span>
+        </span>
+        <div class="canvas-toggles">
+          <button id="toggle-particles" class="toggle-chip active" title="Toggle Airflow Particles">PARTICLES</button>
+          <button id="toggle-heatmap" class="toggle-chip" title="Toggle Thermal Gradient">HEATMAP</button>
+          <button id="toggle-probes" class="toggle-chip active" title="Toggle Station HUD Probes">PROBES</button>
+        </div>
+      </div>
+
+      <div class="canvas-wrapper">
+        <canvas id="jet-cutaway-canvas"></canvas>
+      </div>
+
+      <!-- Active Station Inspection Card -->
+      <div id="station-inspect-card" class="station-inspect-card">
+        <div>
+          <div id="inspect-title" class="inspect-name">Station 2: Fan Face Inlet (LP Spool)</div>
+          <div id="inspect-desc" class="inspect-desc">Low-pressure fan inlet plane after nacelle lip diffusion</div>
+        </div>
+        <div class="inspect-stats">
+          <span>Tt: <strong id="inspect-tt">15 °C</strong></span>
+          <span>Pt: <strong id="inspect-pt">101.3 kPa</strong></span>
+          <span>Mach: <strong id="inspect-mach">0.52</strong></span>
+          <span>Velocity: <strong id="inspect-vel">175 m/s</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Column: Brayton Cycle Chart, Flight Controls, Fault Injection Switchboard -->
+    <aside class="avionics-panel deck-right-col">
+      <!-- Brayton Cycle Live T-s Canvas -->
+      <div class="panel-header">
+        <span class="panel-title">
+          <span>⚡</span> <span id="txt-brayton-title">BRAYTON CYCLE (T-s DIAGRAM)</span>
+        </span>
+        <span class="panel-subtitle">THERMODYNAMICS</span>
+      </div>
+      <div class="canvas-wrapper" style="height: 190px;">
+        <canvas id="brayton-ts-canvas"></canvas>
+      </div>
+
+      <!-- Flight & Throttle Controls -->
+      <div class="control-slider-group">
+        <!-- Throttle PLA -->
+        <div class="control-item">
+          <div class="control-label-row">
+            <span class="control-name" id="txt-pla-label">THROTTLE (PLA)</span>
+            <span id="val-pla" class="control-val">25% [IDLE]</span>
+          </div>
+          <input type="range" id="slider-pla" class="control-slider" min="0" max="105" step="1" value="25">
+          <div class="throttle-detents-bar">
+            <span>OFF</span>
+            <span class="active">IDLE</span>
+            <span>CRZ</span>
+            <span>CLB</span>
+            <span>TOGA</span>
+            <span>A/B</span>
+          </div>
+        </div>
+
+        <!-- Altitude -->
+        <div class="control-item">
+          <div class="control-label-row">
+            <span class="control-name" id="txt-alt-label">ALTITUDE</span>
+            <span id="val-alt" class="control-val">0 FT (SEA LEVEL)</span>
+          </div>
+          <input type="range" id="slider-alt" class="control-slider" min="0" max="45000" step="500" value="0">
+        </div>
+
+        <!-- Mach -->
+        <div class="control-item">
+          <div class="control-label-row">
+            <span class="control-name" id="txt-mach-label">FLIGHT MACH</span>
+            <span id="val-mach" class="control-val">M 0.00</span>
+          </div>
+          <input type="range" id="slider-mach" class="control-slider" min="0" max="0.92" step="0.01" value="0.00">
+        </div>
+
+        <!-- Bypass Ratio -->
+        <div class="control-item">
+          <div class="control-label-row">
+            <span class="control-name" id="txt-bpr-slider-label">BYPASS RATIO (BPR)</span>
+            <span id="val-bpr-slider" class="control-val">8.5 : 1</span>
+          </div>
+          <input type="range" id="slider-bpr" class="control-slider" min="4.0" max="11.0" step="0.1" value="8.5">
+        </div>
+      </div>
+
+      <!-- Emergency Fault Switchboard -->
+      <div class="panel-header" style="margin-top: 4px;">
+        <span class="panel-title" style="color: #f87171;">
+          <span>🚨</span> <span id="txt-fault-title">FAULT INJECTION SWITCHBOARD</span>
+        </span>
+        <span class="panel-subtitle">SAFETY TEST</span>
+      </div>
+      <div class="emergency-switchboard">
+        <button id="btn-stall" class="fault-btn" title="Simulate Violent Compressor Stall & Surge">
+          <span>🔥</span> <span id="txt-stall">STALL / SURGE</span>
+        </button>
+        <button id="btn-bird" class="fault-btn" title="Simulate Bird Strike FOD Fan Imbalance">
+          <span>🦅</span> <span id="txt-bird">BIRD STRIKE</span>
+        </button>
+        <button id="btn-ab" class="fault-btn" style="border-color: rgba(249, 115, 22, 0.4); color: #fdba74;" title="Toggle Afterburner Reheat Boost">
+          <span>⚡</span> <span id="txt-ab">AFTERBURNER</span>
+        </button>
+        <button id="btn-reset" class="fault-btn relight-btn" title="Trigger FADEC Auto-Relight & Full Reset">
+          <span>🔄</span> <span id="txt-reset">FADEC RELIGHT</span>
+        </button>
+      </div>
+
+      <!-- Real-Time Event & Telemetry Console -->
+      <div class="panel-header" style="margin-top: 4px;">
+        <span class="panel-title">
+          <span>📟</span> <span id="txt-console-title">AVIONICS TELEMETRY LOG</span>
+        </span>
+        <span class="panel-subtitle">FADEC CHANNEL A/B</span>
+      </div>
+      <div id="avionics-log-console" class="avionics-log-card">
+        <!-- Live log entries appended dynamically -->
+      </div>
+    </aside>
+  </main>
+
+  <!-- Vite Typescript entry point -->
+</body>
+</html>
