@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PYRO-CLINKER: 5-Stage Preheater Tower, Calciner DCS & Clinker Cooler Automation Suite | Tareq Abuashi</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,5 95,27 95,73 50,95 5,73 5,27' fill='%23ea580c' stroke='%23f97316' stroke-width='6'/><path d='M35 50 L50 25 L65 50 L50 75 Z' fill='%23fef08a'/></svg>">
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome 6 CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <script type="module" crossorigin src="./assets/index-BIG_qELL.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BG1SYaHD.css">
+</head>
+<body>
+
+  <!-- Top SCADA Application Header -->
+  <header class="scada-header">
+    <div class="brand-section">
+      <div class="brand-logo-hex">
+        <i class="fa-solid fa-fire-burner"></i>
+      </div>
+      <div>
+        <div class="brand-title">
+          PYRO-CLINKER
+          <span class="brand-badge">DCS v5.2</span>
+        </div>
+        <div class="brand-subtitle">
+          5-Stage Cyclone Tower &bull; Calciner DCS &bull; Grate Cooler &bull; BMS Safety &bull; AI Thermal Twin
+        </div>
+      </div>
+    </div>
+
+    <!-- Lead Engineer Credentials -->
+    <div class="engineer-pill">
+      <div class="engineer-avatar">
+        <i class="fa-solid fa-bolt"></i>
+      </div>
+      <div class="engineer-info">
+        <span class="engineer-name">أ. طارق ابوعشي | Tareq Abuashi</span>
+        <span class="engineer-role">Lead Electrical & Automation Systems Engineer</span>
+      </div>
+    </div>
+
+    <!-- Telemetry Status Bar -->
+    <div class="header-telemetry-box">
+      <div class="header-stat">
+        <span class="header-stat-label">GRID FREQ</span>
+        <span class="header-stat-val text-cyan font-mono" id="header-grid-freq">50.01 Hz</span>
+      </div>
+      <div class="header-stat">
+        <span class="header-stat-label">6.6kV MV BUS</span>
+        <span class="header-stat-val font-mono" id="header-bus-volts">6,604 V</span>
+      </div>
+      <div class="header-stat">
+        <span class="header-stat-label">CLINKER OUTPUT</span>
+        <span class="header-stat-val text-amber font-mono" id="header-clinker-tpd">3,850 TPD</span>
+      </div>
+      <div class="header-stat">
+        <span class="header-stat-label">DCS CLOCK</span>
+        <span class="header-stat-val font-mono text-muted" id="header-clock">--:--:--</span>
+      </div>
+
+      <!-- Action Controls -->
+      <div class="header-actions">
+        <button class="btn btn-secondary" id="btn-audio-toggle" title="Toggle SCADA Audio Alarms">
+          <i class="fa-solid fa-volume-high" id="audio-icon"></i>
+          <span id="audio-text">Audio: Active</span>
+        </button>
+        <button class="btn btn-secondary" id="btn-screen-share" title="Share Screen or Toggle Fullscreen">
+          <i class="fa-solid fa-display"></i>
+          <span>Screen Cast</span>
+        </button>
+        <button class="btn btn-primary" id="btn-open-dossier" title="Open Engineering Technical Dossier">
+          <i class="fa-solid fa-file-shield"></i>
+          <span>Engineering Dossier</span>
+        </button>
+        <button class="btn btn-success" id="btn-quick-reset" title="Execute Safe Emergency Reset & Purge">
+          <i class="fa-solid fa-rotate-right"></i>
+          <span>System Reset</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Master Alarm & SOE Annunciator Banner -->
+  <div class="alarm-banner" id="master-alarm-banner">
+    <div class="alarm-info-side">
+      <span class="alarm-badge healthy" id="alarm-badge-status">NORMAL</span>
+      <span class="alarm-msg" id="alarm-banner-message">SYSTEM HEALTHY — 5-STAGE CYCLONE TOWER & COOLER DCS SYNCHRONIZED</span>
+    </div>
+    <div class="alarm-meta-side font-mono">
+      <span class="text-muted">SOE RECORDER: </span>
+      <span id="soe-timestamp" class="text-cyan">00:00:00.000</span>
+    </div>
+  </div>
+
+  <!-- Main Dashboard Content -->
+  <main class="dashboard-container">
+
+    <!-- MODULE 1: 5-Stage Cyclone Preheater & Calciner Telemetry -->
+    <section id="preheater-container"></section>
+
+    <!-- MODULE 2: Reciprocating Grate Cooler & PID Kiln Hood Draft Control -->
+    <section id="cooler-container"></section>
+
+    <!-- MODULE 3 & 4 (Dual Columns) -->
+    <div class="scada-two-columns">
+      <!-- MODULE 3: Burner Management System (BMS) & CEMS Gas Analyzer -->
+      <section id="bms-cems-container"></section>
+
+      <!-- MODULE 4: AI Predictive Maintenance & Refractory Scanner -->
+      <section id="scanner-container"></section>
+    </div>
+
+    <!-- MODULE 5: Fault Injection & Sequence of Events (SOE) Chronology Panel -->
+    <section class="fault-panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <i class="fa-solid fa-bolt-lightning text-amber"></i>
+          <span>FAULT INJECTION SIMULATOR & SEQUENCE OF EVENTS (SOE) RECORDER</span>
+        </div>
+        <div class="panel-badges">
+          <button class="btn btn-secondary btn-sm" id="btn-clear-soe" title="Clear SOE Chronometer Log">
+            <i class="fa-solid fa-trash-can"></i>
+            <span>Clear Log</span>
+          </button>
+          <button class="btn btn-secondary btn-sm" id="btn-export-soe" title="Export SOE Log as CSV">
+            <i class="fa-solid fa-download"></i>
+            <span>Export CSV</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Fault Injection Buttons -->
+      <div class="fault-actions-row">
+        <button class="fault-btn warning" id="btn-fault-c4" title="Inject material bridging in cyclone C4 cone">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>[Simulate Cyclone C4 Plugging]</span>
+        </button>
+
+        <button class="fault-btn danger" id="btn-fault-co" title="Inject combustible CO spike exceeding 2000 ppm">
+          <i class="fa-solid fa-fire-flame-curved"></i>
+          <span>[Simulate High CO Spike (>2000 ppm)]</span>
+        </button>
+
+        <button class="fault-btn danger" id="btn-fault-cooler" title="Simulate hydraulic relief stall on cooler grates">
+          <i class="fa-solid fa-gears"></i>
+          <span>[Simulate Cooler Grate Hydraulic Stall]</span>
+        </button>
+
+        <button class="fault-btn success" id="btn-fault-reset" title="Execute automated purge cycle and restore DCS baseline">
+          <i class="fa-solid fa-shield-virus"></i>
+          <span>[Emergency Reset & Purge Cycle]</span>
+        </button>
+      </div>
+
+      <!-- High Speed SOE Chronometer Table -->
+      <div class="soe-table-wrap">
+        <table class="soe-table">
+          <thead>
+            <tr>
+              <th style="width: 130px;">TIME (UTC+3)</th>
+              <th style="width: 140px;">SOURCE</th>
+              <th style="width: 130px;">EVENT CODE</th>
+              <th>SOE EVENT DESCRIPTION</th>
+              <th style="width: 110px;">SEVERITY</th>
+            </tr>
+          </thead>
+          <tbody id="soe-table-body">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal Container for Engineering Dossier -->
+  <div id="dossier-modal-container"></div>
+
+  <!-- Main TypeScript Entrypoint -->
+</body>
+</html>

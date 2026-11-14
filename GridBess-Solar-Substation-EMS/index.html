@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GRID-BESS: Utility-Scale Solar PV, BESS & 132kV Substation EMS | أ. طارق ابوعشي</title>
+  
+  <!-- Favicon: High Voltage & Solar BESS Hexagon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,5 95,27 95,73 50,95 5,73 5,27' fill='%230f172a' stroke='%23f59e0b' stroke-width='6'/><path d='M50 18 L32 50 L48 50 L42 82 L68 45 L52 45 Z' fill='%2310b981'/></svg>">
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome 6 CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <script type="module" crossorigin src="./assets/index-S4zp_Pz5.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-tZr4xUHK.css">
+</head>
+<body>
+
+  <!-- Top SCADA Application Header -->
+  <header class="scada-header">
+    <div class="brand-section">
+      <div class="brand-logo-hex" style="background: linear-gradient(135deg, #f59e0b, #10b981); color: #070b14;">
+        <i class="fa-solid fa-solar-panel"></i>
+      </div>
+      <div>
+        <div class="brand-title">
+          GRID-BESS
+          <span class="brand-badge" style="background: rgba(245, 158, 11, 0.15); border-color: #f59e0b; color: #f59e0b;">EMS SCADA v5.0</span>
+        </div>
+        <div class="brand-subtitle">
+          150 MWp Solar PV &bull; 200 MWh LFP BESS &bull; 132/33 kV Substation &bull; Primary Frequency Droop (60.00 Hz)
+        </div>
+      </div>
+    </div>
+
+    <!-- Lead Engineer Credentials -->
+    <div class="engineer-pill">
+      <div class="engineer-avatar" style="background: #10b981; color: #070b14;">
+        <i class="fa-solid fa-bolt-lightning"></i>
+      </div>
+      <div class="engineer-info">
+        <span class="engineer-name">أ. طارق ابوعشي</span>
+        <span class="engineer-role">Lead Electrical & Automation Systems Engineer</span>
+      </div>
+    </div>
+
+    <!-- Telemetry Status Bar -->
+    <div class="header-telemetry-box">
+      <div class="header-stat">
+        <span class="header-stat-label">GRID FREQUENCY</span>
+        <span class="header-stat-val text-cyan font-mono" id="header-grid-freq">60.00 Hz</span>
+      </div>
+      <div class="header-stat">
+        <span class="header-stat-label">132 kV BUS VOLT</span>
+        <span class="header-stat-val font-mono" id="header-bus-volts">132.4 kV</span>
+      </div>
+      <div class="header-stat">
+        <span class="header-stat-label">NET EXPORT</span>
+        <span class="header-stat-val text-green font-mono" id="header-net-export">138.2 MW</span>
+      </div>
+      <div class="header-stat">
+        <span class="header-stat-label">EMS TIME</span>
+        <span class="header-stat-val font-mono text-muted" id="header-clock">--:--:--</span>
+      </div>
+
+      <!-- Action Controls -->
+      <div class="header-actions">
+        <button class="btn btn-secondary" id="btn-audio-toggle" title="Toggle SCADA Industrial Audio">
+          <i class="fa-solid fa-volume-high" id="audio-icon"></i>
+          <span id="audio-text">Audio: Active</span>
+        </button>
+        <button class="btn btn-secondary" id="btn-fullscreen" title="Toggle Fullscreen View">
+          <i class="fa-solid fa-expand"></i>
+          <span>Fullscreen</span>
+        </button>
+        <button class="btn btn-primary" id="btn-open-dossier" title="Open Engineering Dossier & Calculations">
+          <i class="fa-solid fa-file-shield"></i>
+          <span>Engineering Dossier</span>
+        </button>
+        <button class="btn btn-success" id="btn-quick-reset" title="Acknowledge Alarms and Reset System">
+          <i class="fa-solid fa-rotate-right"></i>
+          <span>System Reset</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Master Alarm & SOE Annunciator Banner -->
+  <div class="alarm-banner" id="master-alarm-banner">
+    <div class="alarm-info-side">
+      <span class="alarm-badge healthy" id="alarm-badge-status">NORMAL</span>
+      <span class="alarm-msg" id="alarm-banner-message">GRID SYNCHRONIZED (60.00 Hz) &bull; 150 MWp PV EXPORTING &bull; BESS FLOATING &bull; 132/33 kV SUBSTATION CLEAR</span>
+    </div>
+    <div class="alarm-meta-side font-mono">
+      <span class="text-muted">SOE RECORDER: </span>
+      <span id="soe-timestamp" class="text-cyan">00:00:00.000</span>
+    </div>
+  </div>
+
+  <!-- Main Dashboard Content -->
+  <main class="dashboard-container">
+
+    <!-- ROW 1: Module 1 (Solar PV Array 150 MWp) + Module 2 (200 MWh LFP BESS) -->
+    <section class="scada-row row-middle">
+      
+      <!-- Module 1: Solar PV Array (150 MWp) & Central Inverters -->
+      <div class="scada-panel">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <span class="badge-tag tag-cyan" style="background: rgba(245, 158, 11, 0.15); border-color: #f59e0b; color: #f59e0b;">UNIT 01</span>
+            <h4 class="panel-title">Solar PV Array (150 MWp) & Central Inverters</h4>
+          </div>
+          <span class="status-pill status-running" id="pv-status-pill">
+            <i class="fa-solid fa-circle text-solar" style="font-size: 8px;"></i> MPPT ACTIVE
+          </span>
+        </div>
+
+        <!-- Solar Tracking SVG Graphic -->
+        <div class="sld-container" style="min-height: 200px; display: flex; flex-direction: column; justify-content: center;">
+          <svg id="solar-svg-mimic" viewBox="0 0 600 200" width="100%" height="200" style="overflow: visible;">
+            <defs>
+              <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#0b172a" />
+                <stop offset="100%" stop-color="#070b14" />
+              </linearGradient>
+              <linearGradient id="pvGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#1e3a8a" />
+                <stop offset="100%" stop-color="#0f172a" />
+              </linearGradient>
+              <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#fef08a" stop-opacity="1" />
+                <stop offset="50%" stop-color="#f59e0b" stop-opacity="0.8" />
+                <stop offset="100%" stop-color="#f59e0b" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+
+            <!-- Background Sky & Ground Grid -->
+            <rect x="0" y="0" width="600" height="200" fill="url(#skyGrad)" rx="6" />
+            <line x1="0" y1="165" x2="600" y2="165" stroke="#1e293b" stroke-width="2" />
+            
+            <!-- Sun Celestial Path Arc -->
+            <path d="M 60 160 A 250 140 0 0 1 540 160" fill="none" stroke="#334155" stroke-dasharray="4,4" stroke-width="1.5" />
+            
+            <!-- Sun Orb (animated x, y via JS) -->
+            <g id="sun-orb-group" transform="translate(360, 48)">
+              <circle cx="0" cy="0" r="28" fill="url(#sunGlow)" />
+              <circle cx="0" cy="0" r="14" fill="#fbbf24" />
+              <text x="0" y="4" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#0f172a" font-weight="800">SUN</text>
+            </g>
+
+            <!-- PV Tracker Tables (Single-Axis -60° to +60°) -->
+            <!-- Tracker 1 -->
+            <g id="tracker-table-1" transform="translate(100, 140)">
+              <line x1="0" y1="0" x2="0" y2="25" stroke="#64748b" stroke-width="4" stroke-linecap="round" />
+              <rect x="-42" y="-12" width="84" height="20" rx="3" fill="url(#pvGrad)" stroke="#38bdf8" stroke-width="1.5" id="panel-tilt-1" transform="rotate(22)" />
+              <circle cx="0" cy="0" r="4" fill="#38bdf8" />
+              <text x="0" y="38" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#94a3b8">ARRAY A1</text>
+            </g>
+
+            <!-- Tracker 2 -->
+            <g id="tracker-table-2" transform="translate(220, 140)">
+              <line x1="0" y1="0" x2="0" y2="25" stroke="#64748b" stroke-width="4" stroke-linecap="round" />
+              <rect x="-42" y="-12" width="84" height="20" rx="3" fill="url(#pvGrad)" stroke="#38bdf8" stroke-width="1.5" id="panel-tilt-2" transform="rotate(22)" />
+              <circle cx="0" cy="0" r="4" fill="#38bdf8" />
+              <text x="0" y="38" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#94a3b8">ARRAY A2</text>
+            </g>
+
+            <!-- Central Inverter Station (1500 VDC to 33 kV) -->
+            <g transform="translate(340, 115)">
+              <rect x="-35" y="0" width="70" height="50" rx="4" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5" />
+              <text x="0" y="18" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="700" fill="#f59e0b">INV-1500V</text>
+              <text x="0" y="32" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="#94a3b8">DC / AC</text>
+              <circle cx="0" cy="42" r="3" fill="#10b981" />
+            </g>
+
+            <!-- Tracker 3 -->
+            <g id="tracker-table-3" transform="translate(460, 140)">
+              <line x1="0" y1="0" x2="0" y2="25" stroke="#64748b" stroke-width="4" stroke-linecap="round" />
+              <rect x="-42" y="-12" width="84" height="20" rx="3" fill="url(#pvGrad)" stroke="#38bdf8" stroke-width="1.5" id="panel-tilt-3" transform="rotate(22)" />
+              <circle cx="0" cy="0" r="4" fill="#38bdf8" />
+              <text x="0" y="38" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#94a3b8">ARRAY A3</text>
+            </g>
+
+            <!-- Power Output Bus from Inverter -->
+            <path d="M 375 140 L 580 140" fill="none" stroke="#f59e0b" stroke-width="3" class="flow-export" id="pv-flow-line" />
+            <text x="500" y="132" font-family="'JetBrains Mono', monospace" font-size="9" fill="#f59e0b" font-weight="700">33 kV MV BUS</text>
+          </svg>
+        </div>
+
+        <!-- Telemetry Cards Grid -->
+        <div class="telemetry-dashboard-grid" style="grid-template-columns: repeat(2, 1fr); gap: 10px;">
+          <!-- POA Irradiance Card with Interactive Sunlight Slider -->
+          <div class="digital-readout-card">
+            <div class="readout-top">
+              <span class="readout-label">POA Solar Irradiance</span>
+              <span class="font-mono text-muted" id="pv-sun-angle">Tilt: +22.4°</span>
+            </div>
+            <div class="readout-val-large font-mono text-solar" id="pv-irradiance-val">
+              945 <span class="readout-unit">W/m²</span>
+            </div>
+            <div style="margin-top: 6px;">
+              <input type="range" id="slider-irradiance" min="0" max="1100" value="945" style="width: 100%; accent-color: #f59e0b; cursor: pointer;">
+              <div style="display: flex; justify-content: space-between; font-size: 9px; color: #64748b; font-family: monospace;">
+                <span>0 (Night)</span>
+                <span>550 (Overcast)</span>
+                <span>1100 W/m² (Peak)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Active Power Output Card -->
+          <div class="digital-readout-card">
+            <div class="readout-top">
+              <span class="readout-label">PV Active Power Output</span>
+              <span class="font-mono text-muted">Cap: 150 MWp</span>
+            </div>
+            <div class="readout-val-large font-mono text-cyan" id="pv-power-val">
+              138.2 <span class="readout-unit">MW</span>
+            </div>
+            <div class="readout-bar">
+              <div class="readout-bar-fill" id="pv-power-bar" style="width: 92.1%; background: #f59e0b;"></div>
+            </div>
+          </div>
+
+          <!-- DC String Voltage & Efficiency -->
+          <div class="digital-readout-card">
+            <div class="readout-top">
+              <span class="readout-label">DC String Bus Voltage</span>
+              <span class="font-mono text-muted">Architecture: 1500 V</span>
+            </div>
+            <div class="readout-val-large font-mono" id="pv-dc-volts">
+              1,320 <span class="readout-unit">VDC</span>
+            </div>
+            <div style="font-size: 11px; color: #94a3b8; font-family: monospace; margin-top: 4px;">
+              Central Inverter Eff: <span class="text-green font-bold">98.9%</span>
+            </div>
+          </div>
+
+          <!-- Reactive Power Q-Control (Volt-VAr Mode) -->
+          <div class="digital-readout-card">
+            <div class="readout-top">
+              <span class="readout-label">Reactive Power Q-Control</span>
+              <span class="font-mono text-muted">Range: &plusmn;45 MVAR</span>
+            </div>
+            <div class="readout-val-large font-mono text-green" id="pv-q-val">
+              +12.4 <span class="readout-unit">MVAR</span>
+            </div>
+            <div style="margin-top: 6px;">
+              <input type="range" id="slider-q-control" min="-45" max="45" value="12" style="width: 100%; accent-color: #10b981; cursor: pointer;">
+              <div style="display: flex; justify-content: space-between; font-size: 9px; color: #64748b; font-family: monospace;">
+                <span>-45 (Cap)</span>
+                <span>0.0 (Unity PF)</span>
+                <span>+45 (Ind)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 2: 200 MWh LFP BESS & Primary Frequency Droop Control -->
+      <div class="scada-panel">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <span class="badge-tag tag-cyan" style="background: rgba(16, 185, 129, 0.15); border-color: #10b981; color: #10b981;">UNIT 02</span>
+            <h4 class="panel-title">Lithium-Iron-Phosphate BESS (200 MWh) & Droop</h4>
+          </div>
+          <span class="status-pill status-running" id="bess-status-pill">
+            <i class="fa-solid fa-circle text-bess" style="font-size: 8px;"></i> DROOP STANDBY
+          </span>
+        </div>
+
+        <!-- BESS Storage Enclosures SVG Mimic -->
+        <div class="sld-container" style="min-height: 200px; display: flex; flex-direction: column; justify-content: center;">
+          <svg id="bess-svg-mimic" viewBox="0 0 600 200" width="100%" height="200" style="overflow: visible;">
+            <!-- Background Container Bays -->
+            <rect x="0" y="0" width="600" height="200" fill="#080e1a" rx="6" />
+
+            <!-- Chiller Fluid Loop (Cyan line) -->
+            <path d="M 40 40 L 560 40 L 560 60 L 40 60 Z" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-dasharray="4,4" />
+            <text x="300" y="32" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#0ea5e9">LIQUID COOLING CHILLER LOOP: 24.8°C &bull; PUMP RUNNING</text>
+
+            <!-- 4 Enclosure Containers -->
+            <!-- Container 1 -->
+            <g transform="translate(50, 70)">
+              <rect x="0" y="0" width="100" height="90" rx="4" fill="#0f172a" stroke="#10b981" stroke-width="1.5" id="bess-enc-1" />
+              <text x="50" y="20" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#10b981" font-weight="700">BESS BAY 01</text>
+              <rect x="15" y="30" width="70" height="10" rx="2" fill="#1e293b" />
+              <rect x="15" y="30" width="55" height="10" rx="2" fill="#10b981" id="bess-soc-bar-bay1" />
+              <text x="50" y="58" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="#94a3b8">Rack 01 - 04</text>
+              <text x="50" y="74" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="#38bdf8">26.2°C &bull; 1250V</text>
+            </g>
+
+            <!-- Container 2 -->
+            <g transform="translate(180, 70)">
+              <rect x="0" y="0" width="100" height="90" rx="4" fill="#0f172a" stroke="#10b981" stroke-width="1.5" id="bess-enc-2" />
+              <text x="50" y="20" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#10b981" font-weight="700">BESS BAY 02</text>
+              <rect x="15" y="30" width="70" height="10" rx="2" fill="#1e293b" />
+              <rect x="15" y="30" width="55" height="10" rx="2" fill="#10b981" id="bess-soc-bar-bay2" />
+              <text x="50" y="58" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="#94a3b8">Rack 05 - 08</text>
+              <text x="50" y="74" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" id="rack-07-temp-text" fill="#38bdf8">25.8°C &bull; 1250V</text>
+            </g>
+
+            <!-- Container 3 -->
+            <g transform="translate(310, 70)">
+              <rect x="0" y="0" width="100" height="90" rx="4" fill="#0f172a" stroke="#10b981" stroke-width="1.5" id="bess-enc-3" />
+              <text x="50" y="20" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#10b981" font-weight="700">BESS BAY 03</text>
+              <rect x="15" y="30" width="70" height="10" rx="2" fill="#1e293b" />
+              <rect x="15" y="30" width="55" height="10" rx="2" fill="#10b981" id="bess-soc-bar-bay3" />
+              <text x="50" y="58" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="#94a3b8">Rack 09 - 12</text>
+              <text x="50" y="74" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="#38bdf8">26.0°C &bull; 1250V</text>
+            </g>
+
+            <!-- Bidirectional Power Conversion System (PCS 100 MW) -->
+            <g transform="translate(440, 70)">
+              <rect x="0" y="0" width="110" height="90" rx="4" fill="#0f172a" stroke="#06b6d4" stroke-width="1.5" />
+              <text x="55" y="22" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#06b6d4" font-weight="700">PCS 100 MW</text>
+              <text x="55" y="38" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="#94a3b8">4-QUADRANT</text>
+              <path d="M 30 55 L 80 55" stroke="#06b6d4" stroke-width="2" id="pcs-flow-arrow" class="flow-stopped" />
+              <text x="55" y="76" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" id="pcs-flow-label" fill="#10b981" font-weight="700">FLOATING (0 MW)</text>
+            </g>
+
+            <!-- Fire Suppression Indicator -->
+            <g transform="translate(20, 180)">
+              <circle cx="5" cy="-4" r="4" fill="#10b981" id="fire-suppression-led" />
+              <text x="15" y="0" font-family="'JetBrains Mono', monospace" font-size="8" fill="#94a3b8">Aerosol Fire Suppression: <tspan fill="#10b981" id="fire-suppression-status">ARMED & INTERLOCKED</tspan></text>
+            </g>
+          </svg>
+        </div>
+
+        <!-- BESS Readouts Grid -->
+        <div class="telemetry-dashboard-grid" style="grid-template-columns: repeat(2, 1fr); gap: 10px;">
+          <!-- State of Charge (SoC) -->
+          <div class="digital-readout-card">
+            <div class="readout-top">
+              <span class="readout-label">State of Charge (SoC)</span>
+              <span class="font-mono text-muted" id="bess-soh-val">SoH: 98.4%</span>
+            </div>
+            <div class="readout-val-large font-mono text-bess" id="bess-soc-val">
+              78.5 <span class="readout-unit">%</span>
+            </div>
+            <div class="readout-bar">
+              <div class="readout-bar-fill" id="bess-soc-bar" style="width: 78.5%; background: #10b981;"></div>
+            </div>
+          </div>
+
+          <!-- BESS Power Dispatch & C-Rate -->
+          <div class="digital-readout-card">
+            <div class="readout-top">
+              <span class="readout-label">BESS Power Dispatch</span>
+              <span class="font-mono text-muted" id="bess-crate-val">Rate: 0.00C</span>
+            </div>
+            <div class="readout-val-large font-mono" id="bess-power-val">
+              0.0 <span class="readout-unit">MW</span>
+            </div>
+            <div style="font-size: 11px; color: #94a3b8; font-family: monospace; margin-top: 4px;">
+              Primary Droop: <span class="text-cyan font-bold" id="bess-droop-text">4.0% (Standby)</span>
+            </div>
+          </div>
+
+          <!-- Racks Grid Mini Monitor (Racks 01 to 08) -->
+          <div class="digital-readout-card" style="grid-column: span 2;">
+            <div class="readout-top">
+              <span class="readout-label">BESS Rack DC Contactor & Temperature Telemetry</span>
+              <span class="font-mono text-muted">Nominal: 25.0°C | Imbalance &lt; 25mV</span>
+            </div>
+            <div class="bess-racks-grid">
+              <div class="bess-rack-card" id="card-rack-1">
+                <div class="bess-rack-top"><span>Rack #01</span><span class="text-green">ONLINE</span></div>
+                <div class="bess-rack-val font-mono" id="rack-1-temp">25.1°C &bull; 3.28V</div>
+              </div>
+              <div class="bess-rack-card" id="card-rack-2">
+                <div class="bess-rack-top"><span>Rack #02</span><span class="text-green">ONLINE</span></div>
+                <div class="bess-rack-val font-mono" id="rack-2-temp">25.3°C &bull; 3.29V</div>
+              </div>
+              <div class="bess-rack-card" id="card-rack-3">
+                <div class="bess-rack-top"><span>Rack #03</span><span class="text-green">ONLINE</span></div>
+                <div class="bess-rack-val font-mono" id="rack-3-temp">25.0°C &bull; 3.28V</div>
+              </div>
+              <div class="bess-rack-card" id="card-rack-4">
+                <div class="bess-rack-top"><span>Rack #04</span><span class="text-green">ONLINE</span></div>
+                <div class="bess-rack-val font-mono" id="rack-4-temp">25.4°C &bull; 3.27V</div>
+              </div>
+              <div class="bess-rack-card" id="card-rack-5">
+                <div class="bess-rack-top"><span>Rack #05</span><span class="text-green">ONLINE</span></div>
+                <div class="bess-rack-val font-mono" id="rack-5-temp">25.2°C &bull; 3.28V</div>
+              </div>
+              <div class="bess-rack-card" id="card-rack-6">
+                <div class="bess-rack-top"><span>Rack #06</span><span class="text-green">ONLINE</span></div>
+                <div class="bess-rack-val font-mono" id="rack-6-temp">25.5°C &bull; 3.28V</div>
+              </div>
+              <div class="bess-rack-card" id="card-rack-7">
+                <div class="bess-rack-top"><span>Rack #07</span><span class="text-green" id="rack-7-status-badge">ONLINE</span></div>
+                <div class="bess-rack-val font-mono" id="rack-7-temp">25.2°C &bull; 3.28V</div>
+              </div>
+              <div class="bess-rack-card" id="card-rack-8">
+                <div class="bess-rack-top"><span>Rack #08</span><span class="text-green">ONLINE</span></div>
+                <div class="bess-rack-val font-mono" id="rack-8-temp">25.3°C &bull; 3.29V</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ROW 2: Module 3 (132/33 kV Substation SLD & Transformer Protection) -->
+    <section class="scada-row row-bottom">
+      <div class="scada-panel">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <span class="badge-tag tag-cyan">UNIT 03</span>
+            <h4 class="panel-title">132/33 kV Substation Single Line Diagram (SLD) & ANSI Protection Suite</h4>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span class="status-pill status-running" id="substation-status-pill">
+              <i class="fa-solid fa-bolt text-green"></i> SUBSTATION ENERGIZED
+            </span>
+            <!-- OLTC Manual Controls -->
+            <div style="display: flex; align-items: center; gap: 6px; font-family: monospace; font-size: 11px;">
+              <span class="text-muted">OLTC Tap:</span>
+              <button class="btn btn-secondary" id="btn-tap-down" style="padding: 2px 8px; font-size: 10px;" title="Tap Down (Decrease Voltage)">-</button>
+              <span class="font-bold text-cyan" id="oltc-tap-display">09 (132 kV)</span>
+              <button class="btn btn-secondary" id="btn-tap-up" style="padding: 2px 8px; font-size: 10px;" title="Tap Up (Increase Voltage)">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Full Interactive Substation SLD SVG -->
+        <div class="sld-container" style="min-height: 280px;">
+          <svg id="substation-sld-svg" viewBox="0 0 1200 300" width="100%" height="280" style="overflow: visible;">
+            <defs>
+              <!-- Marker Arrow -->
+              <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                <polygon points="0 0, 8 3, 0 6" fill="#10b981" />
+              </marker>
+            </defs>
+
+            <!-- 132 kV Transmission Grid Feeders (Top) -->
+            <!-- Grid Busbar 132 kV -->
+            <line x1="200" y1="35" x2="1000" y2="35" stroke="#8b5cf6" stroke-width="4" />
+            <text x="210" y="25" font-family="'JetBrains Mono', monospace" font-size="11" fill="#8b5cf6" font-weight="700">132 kV HIGH VOLTAGE BUSBAR</text>
+
+            <!-- Grid Incoming Line 1 -->
+            <line x1="350" y1="5" x2="350" y2="35" stroke="#8b5cf6" stroke-width="2.5" />
+            <text x="355" y="18" font-family="'JetBrains Mono', monospace" font-size="9" fill="#94a3b8">GRID TIE 01</text>
+
+            <!-- Grid Incoming Line 2 -->
+            <line x1="850" y1="5" x2="850" y2="35" stroke="#8b5cf6" stroke-width="2.5" />
+            <text x="855" y="18" font-family="'JetBrains Mono', monospace" font-size="9" fill="#94a3b8">GRID TIE 02</text>
+
+            <!-- 132 kV Main Breaker CB-101 -->
+            <g id="sld-cb-101" transform="translate(600, 75)" style="cursor: pointer;">
+              <!-- Line from 132kV Bus to Breaker -->
+              <line x1="0" y1="-40" x2="0" y2="-12" stroke="#8b5cf6" stroke-width="3" id="line-bus132-cb101" class="flow-export" />
+              <!-- Breaker Box -->
+              <rect x="-14" y="-12" width="28" height="24" rx="2" fill="#0f172a" stroke="#10b981" stroke-width="2" id="box-cb-101" />
+              <line x1="-8" y1="0" x2="8" y2="0" stroke="#10b981" stroke-width="3" id="contact-cb-101" />
+              <text x="22" y="4" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="#f8fafc">CB-101 (132 kV)</text>
+              <text x="22" y="16" font-family="'JetBrains Mono', monospace" font-size="8" fill="#10b981" id="status-cb-101">CLOSED</text>
+              <!-- Line from Breaker to Transformer -->
+              <line x1="0" y1="12" x2="0" y2="40" stroke="#8b5cf6" stroke-width="3" id="line-cb101-trafo" class="flow-export" />
+            </g>
+
+            <!-- 160 MVA Power Transformer (Dyn11 132/33 kV) -->
+            <g id="sld-transformer" transform="translate(600, 155)">
+              <!-- Primary Coil Circle -->
+              <circle cx="0" cy="-14" r="22" fill="none" stroke="#8b5cf6" stroke-width="3" />
+              <!-- Secondary Coil Circle (interleaved) -->
+              <circle cx="0" cy="14" r="22" fill="none" stroke="#f59e0b" stroke-width="3" />
+              <text x="35" y="-10" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="800" fill="#f8fafc">T1: 160 MVA</text>
+              <text x="35" y="4" font-family="'JetBrains Mono', monospace" font-size="9" fill="#94a3b8">132 / 33 kV &bull; Dyn11 &bull; ONAN/ONAF</text>
+              <text x="35" y="18" font-family="'JetBrains Mono', monospace" font-size="9" fill="#38bdf8" id="trafo-temps">OTI: 62.4°C | WTI: 74.1°C</text>
+              <text x="35" y="32" font-family="'JetBrains Mono', monospace" font-size="9" fill="#10b981" id="buchholz-status">Buchholz Relay: NORMAL</text>
+            </g>
+
+            <!-- 33 kV Incomer Breaker CB-301 -->
+            <g id="sld-cb-301" transform="translate(600, 215)" style="cursor: pointer;">
+              <!-- Line from Trafo to CB-301 -->
+              <line x1="0" y1="-20" x2="0" y2="-12" stroke="#f59e0b" stroke-width="3" id="line-trafo-cb301" class="flow-export" />
+              <!-- Breaker Box -->
+              <rect x="-14" y="-12" width="28" height="24" rx="2" fill="#0f172a" stroke="#10b981" stroke-width="2" id="box-cb-301" />
+              <line x1="-8" y1="0" x2="8" y2="0" stroke="#10b981" stroke-width="3" id="contact-cb-301" />
+              <text x="22" y="4" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="#f8fafc">CB-301 (33 kV)</text>
+              <text x="22" y="16" font-family="'JetBrains Mono', monospace" font-size="8" fill="#10b981" id="status-cb-301">CLOSED</text>
+              <!-- Line from CB-301 to 33 kV Bus -->
+              <line x1="0" y1="12" x2="0" y2="40" stroke="#f59e0b" stroke-width="3" id="line-cb301-bus33" class="flow-export" />
+            </g>
+
+            <!-- 33 kV Medium Voltage Busbars (Bottom) -->
+            <!-- Busbar A: Solar PV 150 MWp -->
+            <line x1="150" y1="255" x2="570" y2="255" stroke="#f59e0b" stroke-width="4" />
+            <text x="160" y="272" font-family="'JetBrains Mono', monospace" font-size="10" fill="#f59e0b" font-weight="700">33 kV BUS A (SOLAR PV ARRAY 150 MWp)</text>
+
+            <!-- Bus-Tie Breaker CB-300 -->
+            <g id="sld-cb-300" transform="translate(600, 255)">
+              <rect x="-12" y="-10" width="24" height="20" rx="2" fill="#0f172a" stroke="#10b981" stroke-width="2" id="box-cb-300" />
+              <line x1="-6" y1="0" x2="6" y2="0" stroke="#10b981" stroke-width="3" />
+              <text x="0" y="-14" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="#94a3b8">TIE CB-300</text>
+            </g>
+
+            <!-- Busbar B: BESS 200 MWh -->
+            <line x1="630" y1="255" x2="1050" y2="255" stroke="#10b981" stroke-width="4" />
+            <text x="800" y="272" font-family="'JetBrains Mono', monospace" font-size="10" fill="#10b981" font-weight="700">33 kV BUS B (BESS 200 MWh STORAGE)</text>
+
+            <!-- PV Feeders arriving at Bus A -->
+            <line x1="280" y1="295" x2="280" y2="255" stroke="#f59e0b" stroke-width="2.5" class="flow-export" />
+            <text x="290" y="292" font-family="'JetBrains Mono', monospace" font-size="9" fill="#f59e0b">PV INFEED: 138.2 MW</text>
+
+            <!-- BESS Feeders arriving at Bus B -->
+            <line x1="920" y1="295" x2="920" y2="255" stroke="#10b981" stroke-width="2.5" id="sld-bess-feed-line" class="flow-stopped" />
+            <text x="930" y="292" font-family="'JetBrains Mono', monospace" font-size="9" fill="#10b981" id="sld-bess-feed-text">BESS: FLOATING</text>
+          </svg>
+        </div>
+
+        <!-- ANSI Protection Relays Status Rack -->
+        <div class="relays-grid" style="margin-top: 10px;">
+          <!-- ANSI 87T -->
+          <div class="relay-card" id="relay-card-87t">
+            <div class="relay-header">
+              <span class="relay-ansi">ANSI 87T</span>
+              <div class="relay-led led-green" id="led-87t"></div>
+            </div>
+            <div style="font-size: 11px; font-weight: 700; color: #f1f5f9;">Trafo Differential</div>
+            <div style="font-size: 10px; font-family: monospace; color: #94a3b8;" id="val-87t">Idiff: 0.04 pu (Pk: 0.20)</div>
+          </div>
+
+          <!-- ANSI 81U / 81O -->
+          <div class="relay-card" id="relay-card-81">
+            <div class="relay-header">
+              <span class="relay-ansi">ANSI 81U/O</span>
+              <div class="relay-led led-green" id="led-81"></div>
+            </div>
+            <div style="font-size: 11px; font-weight: 700; color: #f1f5f9;">Under/Over Frequency</div>
+            <div style="font-size: 10px; font-family: monospace; color: #94a3b8;" id="val-81">f: 60.00 Hz (Trip: 59.40)</div>
+          </div>
+
+          <!-- ANSI 21/67 -->
+          <div class="relay-card" id="relay-card-21">
+            <div class="relay-header">
+              <span class="relay-ansi">ANSI 21/67</span>
+              <div class="relay-led led-green" id="led-21"></div>
+            </div>
+            <div style="font-size: 11px; font-weight: 700; color: #f1f5f9;">Distance & Overcurrent</div>
+            <div style="font-size: 10px; font-family: monospace; color: #94a3b8;" id="val-21">Z1 Reach: Normal | I &lt; In</div>
+          </div>
+
+          <!-- ANSI 25 Synchrocheck -->
+          <div class="relay-card" id="relay-card-25">
+            <div class="relay-header">
+              <span class="relay-ansi">ANSI 25</span>
+              <div class="relay-led led-green" id="led-25"></div>
+            </div>
+            <div style="font-size: 11px; font-weight: 700; color: #f1f5f9;">Synchrocheck (Auto)</div>
+            <div style="font-size: 10px; font-family: monospace; color: #94a3b8;" id="val-25">&Delta;V: 0.8% &bull; &Delta;&theta;: 1.2° &bull; OK</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROW 3: Module 4 (AI Predictive Maintenance Widget) + Module 5 (Fault Injection & SOE Chronology Panel) -->
+    <section class="scada-row row-middle">
+
+      <!-- Module 4: AI Predictive Maintenance Widget -->
+      <div class="scada-panel">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <span class="badge-tag tag-purple">AI MAINTENANCE</span>
+            <h4 class="panel-title">Online DGA & BESS Cell Imbalance Analytics</h4>
+          </div>
+          <span class="status-pill status-running" style="background: rgba(168, 85, 247, 0.15); border-color: #a855f7; color: #a855f7;">
+            <i class="fa-solid fa-microchip"></i> 60 FPS ENGINE
+          </span>
+        </div>
+
+        <!-- 60fps Real-Time Canvas -->
+        <div class="ai-canvas-container">
+          <canvas id="ai-telemetry-canvas" width="600" height="190"></canvas>
+        </div>
+
+        <!-- AI Diagnostics Real-Time Banner -->
+        <div style="background: #0d1527; border: 1px solid var(--border-subtle); border-radius: 6px; padding: 10px 14px;" id="ai-anomaly-box">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+            <span style="font-size: 11px; font-weight: 700; color: #a855f7; font-family: monospace;">
+              <i class="fa-solid fa-brain"></i> AI DIAGNOSTIC STATUS
+            </span>
+            <span style="font-size: 10px; font-family: monospace; color: #10b981;" id="ai-anomaly-tag">OPTIMAL</span>
+          </div>
+          <div style="font-size: 11px; color: #cbd5e1; font-family: monospace;" id="ai-anomaly-desc">
+            All DGA gas ratios within Duval Zone 1 (Thermal Fault &lt; 150°C). BESS rack cell voltage spread &Delta;V = 14 mV (Well below 50 mV trip limit).
+          </div>
+        </div>
+
+        <!-- Key Maintenance KPIs -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; font-family: monospace;">
+          <div style="background: #070b14; padding: 8px; border-radius: 4px; border: 1px solid #1e293b;">
+            <div style="font-size: 9px; color: #64748b;">DGA HYDROGEN (H2)</div>
+            <div style="font-size: 13px; font-weight: 700; color: #38bdf8;" id="kpi-h2">18.4 ppm</div>
+          </div>
+          <div style="background: #070b14; padding: 8px; border-radius: 4px; border: 1px solid #1e293b;">
+            <div style="font-size: 9px; color: #64748b;">ACETYLENE (C2H2)</div>
+            <div style="font-size: 13px; font-weight: 700; color: #10b981;" id="kpi-c2h2">0.2 ppm</div>
+          </div>
+          <div style="background: #070b14; padding: 8px; border-radius: 4px; border: 1px solid #1e293b;">
+            <div style="font-size: 9px; color: #64748b;">BESS MAX &Delta;V</div>
+            <div style="font-size: 13px; font-weight: 700; color: #f59e0b;" id="kpi-deltav">14 mV</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 5: Fault Injection & SOE Chronology Panel -->
+      <div class="scada-panel">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <span class="badge-tag tag-cyan" style="background: rgba(239, 68, 68, 0.15); border-color: #ef4444; color: #ef4444;">OPERATIONS</span>
+            <h4 class="panel-title">Fault Injection & SOE Chronology Recorder</h4>
+          </div>
+          <button class="btn btn-secondary" id="btn-clear-soe" style="padding: 2px 8px; font-size: 10px;">
+            <i class="fa-solid fa-trash-can"></i> Clear SOE
+          </button>
+        </div>
+
+        <!-- 4 Fault Simulation Buttons -->
+        <div class="fault-grid">
+          <!-- Button 1: Frequency Drop -->
+          <button class="btn-fault btn-fault-warning" id="btn-fault-freq">
+            <div><i class="fa-solid fa-wave-square"></i> Simulate Grid Freq Drop (59.4 Hz)</div>
+            <span class="btn-fault-desc">Trigger Droop Response &rarr; BESS Injects 50 MW in 120ms</span>
+          </button>
+
+          <!-- Button 2: BESS Thermal Runaway -->
+          <button class="btn-fault btn-fault-danger" id="btn-fault-thermal">
+            <div><i class="fa-solid fa-fire"></i> Simulate BESS Rack Thermal Runaway</div>
+            <span class="btn-fault-desc">Rack #07 Temp Spikes &rarr; Trip DC Contactor & Aerosol Arm</span>
+          </button>
+
+          <!-- Button 3: Transformer Differential Fault -->
+          <button class="btn-fault btn-fault-danger" id="btn-fault-87t">
+            <div><i class="fa-solid fa-triangle-exclamation"></i> Simulate Trafo Differential (87T)</div>
+            <span class="btn-fault-desc">Internal Fault &rarr; Trip CB-101 & CB-301 Instantaneous Siren</span>
+          </button>
+
+          <!-- Button 4: Synchrocheck & Reconnect -->
+          <button class="btn-fault btn-fault-success" id="btn-fault-synchro">
+            <div><i class="fa-solid fa-plug-circle-check"></i> Synchrocheck & Grid Reconnection</div>
+            <span class="btn-fault-desc">ANSI 25 Match &rarr; Close 132kV CB-101 & Re-energize Bus</span>
+          </button>
+        </div>
+
+        <!-- Sequence of Events (SOE) Table -->
+        <div class="soe-container">
+          <table class="soe-table">
+            <thead>
+              <tr>
+                <th style="width: 105px;">TIMESTAMP</th>
+                <th style="width: 110px;">TAG</th>
+                <th style="width: 80px;">SEVERITY</th>
+                <th>EVENT DESCRIPTION & PARAMETERS</th>
+              </tr>
+            </thead>
+            <tbody id="soe-table-body">
+              <tr>
+                <td>10:00:00.000</td>
+                <td>SYSTEM-INIT</td>
+                <td><span class="badge-tag tag-success">NORMAL</span></td>
+                <td>GRID-BESS EMS Initialized. 150 MWp Solar & 200 MWh BESS online and healthy.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Engineering Dossier Modal -->
+  <div class="modal-backdrop hidden" id="dossier-modal">
+    <div class="modal-dialog" style="max-width: 960px;">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <i class="fa-solid fa-book-bookmark text-cyan" style="font-size: 18px;"></i>
+          <h3 class="modal-title">GRID-BESS: Engineering Dossier & Mathematical Foundations</h3>
+        </div>
+        <button class="modal-close-btn" id="btn-close-dossier">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Lead Engineer Card -->
+        <div class="author-dossier-card" style="border-color: #f59e0b; background: rgba(245, 158, 11, 0.08);">
+          <div class="author-icon" style="color: #f59e0b;">
+            <i class="fa-solid fa-certificate"></i>
+          </div>
+          <div>
+            <div class="author-name">أ. طارق ابوعشي | Tareq Abuashi</div>
+            <div class="author-title" style="color: #f59e0b;">Lead Electrical & Automation Systems Engineer</div>
+            <div class="author-badge">Utility-Scale Renewable Integration, High-Voltage Substations & Industrial SCADA Systems</div>
+          </div>
+        </div>
+
+        <div class="dossier-sections">
+          
+          <!-- Section 1: Solar PV Mathematics -->
+          <div class="dossier-card">
+            <h4 class="section-title text-solar">1. 150 MWp Utility-Scale Solar PV & Irradiance Conversion</h4>
+            <div class="section-content">
+              The photovoltaic array consists of bifacial monocrystalline silicon modules configured on single-axis horizontal trackers with astronomical backtracking algorithm.
+            </div>
+            <div class="formula-box">
+              <span class="font-bold text-cyan">Active Power Generation Model:</span>
+              <code>P_pv = P_mp_stc &times; (G_poa / 1000) &times; [1 + &gamma; &times; (T_cell - 25)] &times; &eta;_inv &times; &eta;_mismatch</code>
+              <span class="text-muted">Where &gamma; = -0.34%/°C (temperature coefficient), &eta;_inv = 98.9% (transformerless central inverter efficiency).</span>
+            </div>
+            <div class="formula-box">
+              <span class="font-bold text-cyan">Grid Reactive Power Support (Grid Code Compliance):</span>
+              <code>Q_limit = &plusmn; &radic;(S_inv&sup2; - P_pv&sup2;) = &plusmn; 45 MVAR (Dynamic Voltage Support at 33 kV Point of Interconnection)</code>
+            </div>
+          </div>
+
+          <!-- Section 2: 200 MWh BESS & Droop Response -->
+          <div class="dossier-card">
+            <h4 class="section-title text-bess">2. 200 MWh LFP BESS & Primary Frequency Droop Control (60.00 Hz)</h4>
+            <div class="section-content">
+              The Battery Energy Storage System utilizes Lithium Iron Phosphate (LiFePO4) cells arranged in 16 racks per container across 4 primary enclosures, coupled to 100 MW bidirectional 4-quadrant Power Conversion Systems (PCS).
+            </div>
+            <div class="formula-box">
+              <span class="font-bold text-cyan">Primary Frequency Droop Characteristic:</span>
+              <code>&Delta;P = - (1 / R) &times; [(f_grid - f_nominal) / f_nominal] &times; P_rated</code>
+              <span class="text-muted">Where R = 4.0% droop, f_nominal = 60.00 Hz, deadband = &plusmn;0.02 Hz (59.98 to 60.02 Hz).</span>
+              <span class="text-green font-bold">Fast Frequency Response Time: t_response &le; 120 ms (Inverter PWM synthetic inertia).</span>
+            </div>
+          </div>
+
+          <!-- Section 3: Substation Protection & ANSI 87T -->
+          <div class="dossier-card">
+            <h4 class="section-title text-cyan">3. 132/33 kV Substation & Transformer Differential Protection (ANSI 87T)</h4>
+            <div class="section-content">
+              Step-up transformer rated at 160 MVA ONAN/ONAF, Dyn11 vector group. Primary protection is provided by numerical percentage-restrained differential relay with harmonic restraint.
+            </div>
+            <div class="formula-box">
+              <span class="font-bold text-cyan">Dual-Slope Restrained Differential Equation:</span>
+              <code>I_diff = |I_1 + I_2| &nbsp;|&nbsp; I_rest = (|I_1| + |I_2|) / 2</code>
+              <code>Trip Condition: I_diff &gt; Slope_1 &times; I_rest + I_pickup (for I_rest &lt; I_knee)</code>
+              <span class="text-muted">Slope 1 = 20%, Slope 2 = 60%, I_pickup = 0.20 pu. Operates within 18 ms to isolate 132kV and 33kV breakers simultaneously.</span>
+            </div>
+          </div>
+
+          <!-- Section 4: Duval Triangle & DGA -->
+          <div class="dossier-card">
+            <h4 class="section-title text-purple">4. Online Dissolved Gas Analysis (DGA) & Duval Triangle Diagnostics</h4>
+            <div class="section-content">
+              Continuous monitoring of transformer dielectric oil using photoacoustic spectroscopy to detect combustible gases: Hydrogen (H2), Methane (CH4), Ethylene (C2H4), and Acetylene (C2H2).
+            </div>
+            <table class="dossier-table font-mono">
+              <thead>
+                <tr>
+                  <th>GAS SPECIES</th>
+                  <th>NORMAL LIMIT</th>
+                  <th>ALERT LEVEL</th>
+                  <th>DIAGNOSTIC INDICATION</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Hydrogen (H2)</td>
+                  <td>&lt; 50 ppm</td>
+                  <td>&gt; 100 ppm</td>
+                  <td>Partial discharge & corona in oil</td>
+                </tr>
+                <tr>
+                  <td>Acetylene (C2H2)</td>
+                  <td>&lt; 1.0 ppm</td>
+                  <td>&gt; 2.0 ppm</td>
+                  <td>High energy thermal arcing between windings</td>
+                </tr>
+                <tr>
+                  <td>BESS Cell &Delta;V Spread</td>
+                  <td>&lt; 25 mV</td>
+                  <td>&gt; 150 mV</td>
+                  <td>Impending cell internal short / thermal runaway</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Section 5: Synchrocheck ANSI 25 -->
+          <div class="dossier-card">
+            <h4 class="section-title text-grid">5. Automatic Synchrocheck (ANSI 25) Reclosure Window</h4>
+            <div class="section-content">
+              Enforces permissives prior to closing 132 kV breaker CB-101 to prevent out-of-phase mechanical shock to the generator and transformer shafts:
+            </div>
+            <div class="formula-box">
+              <code>&Delta;V = |V_bus - V_line| / V_rated &le; 5.0%</code>
+              <code>&Delta;f = |f_bus - f_line| &le; 0.10 Hz</code>
+              <code>&Delta;&theta; = |&theta;_bus - &theta;_line| &le; 10.0 degrees (Holding for 500 ms)</code>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <div class="footer-note font-mono">
+          GRID-BESS SCADA System Architecture &copy; Designed & Developed by أ. طارق ابوعشي
+        </div>
+        <button class="btn btn-primary" id="btn-close-dossier-footer">
+          <i class="fa-solid fa-check"></i> Close Dossier
+        </button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

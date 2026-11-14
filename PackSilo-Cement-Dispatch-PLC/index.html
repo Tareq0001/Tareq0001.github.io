@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PACK-SILO: Automated Cement Silo Radar, 8-Spout Rotary Packer & Bulk Dispatch PLC Suite</title>
+  <meta name="description" content="Industrial SCADA & Electrical Telemetry Suite for 80GHz Radar Cement Silos, 8-Spout Rotary Packer, Dynamic Checkweigher & Bulk Dispatch. Lead Engineer: Tareq Abuashi" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Segoe+UI:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="./assets/index-7j9xicM0.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CHA2brAN.css">
+</head>
+<body>
+
+  <!-- ========================================================================
+       TOP INDUSTRIAL SCADA HEADER
+       ======================================================================== -->
+  <header class="scada-header">
+    <div class="brand-section">
+      <div class="brand-logo-hex">⚙️</div>
+      <div class="brand-title-wrap">
+        <div class="brand-title">
+          <span>PACK-SILO</span>
+          <span class="brand-badge">PLC-SCADA v3.8</span>
+        </div>
+        <div class="brand-subtitle">
+          Automated Cement Silo Radar, 8-Spout Rotary Packer & Bulk Dispatch PLC Suite
+        </div>
+      </div>
+    </div>
+
+    <!-- Lead Engineer Credential Pill -->
+    <div class="engineer-pill">
+      <div class="engineer-avatar">TA</div>
+      <div class="engineer-info">
+        <span class="engineer-name">أ. طارق ابوعشي | Tareq Abuashi</span>
+        <span class="engineer-role">Lead Electrical & Automation Systems Engineer</span>
+      </div>
+    </div>
+
+    <!-- Header Telemetry Status -->
+    <div class="header-telemetry-box font-mono">
+      <div class="header-stat">
+        <span class="header-stat-label">DISPATCH RATE</span>
+        <span class="header-stat-val text-cyan" id="hdr-dispatch-rate">2,410 bags/h</span>
+      </div>
+      <div class="header-stat">
+        <span class="header-stat-label">AIRSLIDE HEADER</span>
+        <span class="header-stat-val text-green" id="hdr-air-press">0.82 Bar</span>
+      </div>
+      <div class="header-stat">
+        <span class="header-stat-label">UTC CLOCK</span>
+        <span class="header-stat-val text-muted" id="hdr-clock">00:00:00</span>
+      </div>
+    </div>
+
+    <!-- Control Actions -->
+    <div class="header-actions">
+      <button class="btn btn-secondary" id="btn-audio-toggle" title="Toggle SCADA Industrial Audio Alarms">
+        <span id="audio-icon">🔊</span> <span id="audio-label">Sound ON</span>
+      </button>
+      <button class="btn btn-secondary" id="btn-fullscreen" title="Toggle Fullscreen Display">
+        ⛶ Fullscreen
+      </button>
+      <button class="btn btn-primary" id="btn-dossier-modal" title="Open Engineering Dossier & Control Philosophy">
+        📋 Engineering Dossier
+      </button>
+      <button class="btn btn-estop" id="btn-estop" title="Emergency Plant Stop">
+        ⛔ E-STOP
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       MASTER ALARM & INTERLOCK ANNUNCIATOR BANNER
+       ======================================================================== -->
+  <div class="alarm-banner" id="alarm-banner">
+    <div class="alarm-info-side">
+      <span class="alarm-badge healthy" id="alarm-badge">NORMAL DISPATCH</span>
+      <span class="alarm-msg" id="alarm-msg">PLC INTERLOCK HEALTHY: All 8 Spouts Active, Aeration Pressure Stable at 0.82 Bar, Weighbridge Zero-Calibrated.</span>
+    </div>
+    <div class="font-mono text-muted" id="alarm-sub-info">
+      RECIPE: OPC 42.5R (50.00 kg) | BATCH: #CP-8842
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MAIN SCADA DASHBOARD CONTAINER
+       ======================================================================== -->
+  <main class="dashboard-container">
+
+    <!-- ----------------------------------------------------------------------
+         MODULE 1: CEMENT SILOS 80GHz RADAR & AERATION SYSTEM
+         ---------------------------------------------------------------------- -->
+    <section class="scada-panel" id="panel-silos">
+      <div class="panel-header">
+        <div class="panel-title-group">
+          <span class="panel-title">MODULE 1: CEMENT SILOS 80GHz RADAR & AERATION SYSTEM</span>
+          <span class="badge-tag tag-cyan">80GHz FMCW RADAR</span>
+          <span class="badge-tag tag-green">ROOTS BLOWERS 90kW</span>
+        </div>
+        <div class="font-mono text-muted" style="font-size: 11px;">
+          STRATEGIC STORAGE: 60,000 T TOTAL | FLUIDIZATION AIRSLIDES ACTIVE
+        </div>
+      </div>
+
+      <div class="silos-wrapper">
+        <!-- Animated Silos SVG -->
+        <div class="silos-svg-container" id="silos-svg-box">
+          <svg viewBox="0 0 960 320" xmlns="http://www.w3.org/2000/svg" id="silos-svg">
+            <defs>
+              <linearGradient id="siloGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#1e293b"/>
+                <stop offset="30%" stop-color="#334155"/>
+                <stop offset="70%" stop-color="#475569"/>
+                <stop offset="100%" stop-color="#1e293b"/>
+              </linearGradient>
+              <linearGradient id="cementGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#94a3b8"/>
+                <stop offset="100%" stop-color="#64748b"/>
+              </linearGradient>
+              <linearGradient id="radarBeam" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.8"/>
+                <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.05"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Ground line & structural steel beams -->
+            <line x1="20" y1="285" x2="940" y2="285" stroke="#334155" stroke-width="4"/>
+            <line x1="20" y1="295" x2="940" y2="295" stroke="#1e293b" stroke-width="2"/>
+
+            <!-- SILO 1: OPC -->
+            <g id="svg-silo-1" transform="translate(40, 20)">
+              <!-- Support Legs -->
+              <rect x="25" y="220" width="8" height="65" fill="#475569"/>
+              <rect x="147" y="220" width="8" height="65" fill="#475569"/>
+              <line x1="29" y1="230" x2="151" y2="275" stroke="#334155" stroke-width="2"/>
+              <line x1="29" y1="275" x2="151" y2="230" stroke="#334155" stroke-width="2"/>
+              <!-- Silo Bottom Cone -->
+              <polygon points="20,180 160,180 100,245 80,245" fill="url(#siloGrad)" stroke="#64748b" stroke-width="1.5"/>
+              <!-- Silo Cylindrical Body -->
+              <rect x="20" y="45" width="140" height="135" fill="url(#siloGrad)" stroke="#64748b" stroke-width="1.5"/>
+              <!-- Silo Dome Roof -->
+              <path d="M 20,45 Q 90,15 160,45" fill="#334155" stroke="#64748b" stroke-width="1.5"/>
+              <!-- Cement Powder Fill (Level ~ 78%) -->
+              <clipPath id="silo1-clip">
+                <rect x="22" y="46" width="136" height="133"/>
+              </clipPath>
+              <rect id="silo1-powder" x="22" y="75" width="136" height="105" fill="url(#cementGrad)" clip-path="url(#silo1-clip)"/>
+              <!-- Radar Level Gauge Head (80GHz FMCW) -->
+              <circle cx="90" cy="28" r="7" fill="#06b6d4" stroke="#fff" stroke-width="1.5"/>
+              <polygon id="silo1-beam" points="86,35 94,35 125,75 55,75" fill="url(#radarBeam)"/>
+              <!-- Aeration Air Pads in cone -->
+              <circle cx="85" cy="225" r="3" fill="#38bdf8"/>
+              <circle cx="95" cy="225" r="3" fill="#38bdf8"/>
+              <!-- Bag Filter on Top -->
+              <rect x="125" y="15" width="24" height="25" fill="#1e293b" stroke="#0ea5e9" stroke-width="1"/>
+              <circle id="silo1-pulse" cx="137" cy="12" r="3" fill="#10b981"/>
+              <!-- PRV Relief Valve -->
+              <circle id="silo1-prv" cx="45" cy="28" r="5" fill="#475569" stroke="#94a3b8" stroke-width="1.5"/>
+              <!-- High-High Alarm Light -->
+              <circle id="silo1-hh" cx="90" cy="12" r="5" fill="#334155" stroke="#64748b" stroke-width="1"/>
+              <!-- Labels -->
+              <text x="90" y="110" fill="#ffffff" font-size="13" font-weight="800" text-anchor="middle" font-family="'JetBrains Mono', monospace">OPC SILO 1</text>
+              <text id="silo1-txt-pct" x="90" y="130" fill="#38bdf8" font-size="16" font-weight="800" text-anchor="middle" font-family="'JetBrains Mono', monospace">78.4%</text>
+              <text id="silo1-txt-tons" x="90" y="148" fill="#cbd5e1" font-size="10" text-anchor="middle" font-family="'JetBrains Mono', monospace">11,760 T</text>
+              <!-- Discharge Slide Gate -->
+              <rect x="80" y="245" width="20" height="10" fill="#0284c7"/>
+            </g>
+
+            <!-- SILO 2: SRC -->
+            <g id="svg-silo-2" transform="translate(260, 20)">
+              <!-- Support Legs -->
+              <rect x="25" y="220" width="8" height="65" fill="#475569"/>
+              <rect x="147" y="220" width="8" height="65" fill="#475569"/>
+              <line x1="29" y1="230" x2="151" y2="275" stroke="#334155" stroke-width="2"/>
+              <line x1="29" y1="275" x2="151" y2="230" stroke="#334155" stroke-width="2"/>
+              <polygon points="20,180 160,180 100,245 80,245" fill="url(#siloGrad)" stroke="#64748b" stroke-width="1.5"/>
+              <rect x="20" y="45" width="140" height="135" fill="url(#siloGrad)" stroke="#64748b" stroke-width="1.5"/>
+              <path d="M 20,45 Q 90,15 160,45" fill="#334155" stroke="#64748b" stroke-width="1.5"/>
+              <clipPath id="silo2-clip">
+                <rect x="22" y="46" width="136" height="133"/>
+              </clipPath>
+              <rect id="silo2-powder" x="22" y="98" width="136" height="82" fill="url(#cementGrad)" clip-path="url(#silo2-clip)"/>
+              <circle cx="90" cy="28" r="7" fill="#06b6d4" stroke="#fff" stroke-width="1.5"/>
+              <polygon id="silo2-beam" points="86,35 94,35 125,98 55,98" fill="url(#radarBeam)"/>
+              <circle cx="85" cy="225" r="3" fill="#38bdf8"/>
+              <circle cx="95" cy="225" r="3" fill="#38bdf8"/>
+              <rect x="125" y="15" width="24" height="25" fill="#1e293b" stroke="#0ea5e9" stroke-width="1"/>
+              <circle id="silo2-pulse" cx="137" cy="12" r="3" fill="#10b981"/>
+              <circle id="silo2-prv" cx="45" cy="28" r="5" fill="#475569" stroke="#94a3b8" stroke-width="1.5"/>
+              <circle id="silo2-hh" cx="90" cy="12" r="5" fill="#334155" stroke="#64748b" stroke-width="1"/>
+              <text x="90" y="110" fill="#ffffff" font-size="13" font-weight="800" text-anchor="middle" font-family="'JetBrains Mono', monospace">SRC SILO 2</text>
+              <text id="silo2-txt-pct" x="90" y="130" fill="#38bdf8" font-size="16" font-weight="800" text-anchor="middle" font-family="'JetBrains Mono', monospace">62.1%</text>
+              <text id="silo2-txt-tons" x="90" y="148" fill="#cbd5e1" font-size="10" text-anchor="middle" font-family="'JetBrains Mono', monospace">9,315 T</text>
+              <rect x="80" y="245" width="20" height="10" fill="#0284c7"/>
+            </g>
+
+            <!-- SILO 3: PPC -->
+            <g id="svg-silo-3" transform="translate(480, 20)">
+              <!-- Support Legs -->
+              <rect x="25" y="220" width="8" height="65" fill="#475569"/>
+              <rect x="147" y="220" width="8" height="65" fill="#475569"/>
+              <line x1="29" y1="230" x2="151" y2="275" stroke="#334155" stroke-width="2"/>
+              <line x1="29" y1="275" x2="151" y2="230" stroke="#334155" stroke-width="2"/>
+              <polygon points="20,180 160,180 100,245 80,245" fill="url(#siloGrad)" stroke="#64748b" stroke-width="1.5"/>
+              <rect x="20" y="45" width="140" height="135" fill="url(#siloGrad)" stroke="#64748b" stroke-width="1.5"/>
+              <path d="M 20,45 Q 90,15 160,45" fill="#334155" stroke="#64748b" stroke-width="1.5"/>
+              <clipPath id="silo3-clip">
+                <rect x="22" y="46" width="136" height="133"/>
+              </clipPath>
+              <rect id="silo3-powder" x="22" y="60" width="136" height="120" fill="url(#cementGrad)" clip-path="url(#silo3-clip)"/>
+              <circle cx="90" cy="28" r="7" fill="#06b6d4" stroke="#fff" stroke-width="1.5"/>
+              <polygon id="silo3-beam" points="86,35 94,35 125,60 55,60" fill="url(#radarBeam)"/>
+              <circle cx="85" cy="225" r="3" fill="#38bdf8"/>
+              <circle cx="95" cy="225" r="3" fill="#38bdf8"/>
+              <rect x="125" y="15" width="24" height="25" fill="#1e293b" stroke="#0ea5e9" stroke-width="1"/>
+              <circle id="silo3-pulse" cx="137" cy="12" r="3" fill="#10b981"/>
+              <circle id="silo3-prv" cx="45" cy="28" r="5" fill="#475569" stroke="#94a3b8" stroke-width="1.5"/>
+              <circle id="silo3-hh" cx="90" cy="12" r="5" fill="#334155" stroke="#64748b" stroke-width="1"/>
+              <text x="90" y="110" fill="#ffffff" font-size="13" font-weight="800" text-anchor="middle" font-family="'JetBrains Mono', monospace">PPC SILO 3</text>
+              <text id="silo3-txt-pct" x="90" y="130" fill="#38bdf8" font-size="16" font-weight="800" text-anchor="middle" font-family="'JetBrains Mono', monospace">88.5%</text>
+              <text id="silo3-txt-tons" x="90" y="148" fill="#cbd5e1" font-size="10" text-anchor="middle" font-family="'JetBrains Mono', monospace">13,275 T</text>
+              <rect x="80" y="245" width="20" height="10" fill="#0284c7"/>
+            </g>
+
+            <!-- SILO 4: FINISHING SILO -->
+            <g id="svg-silo-4" transform="translate(700, 20)">
+              <!-- Support Legs -->
+              <rect x="25" y="220" width="8" height="65" fill="#475569"/>
+              <rect x="147" y="220" width="8" height="65" fill="#475569"/>
+              <line x1="29" y1="230" x2="151" y2="275" stroke="#334155" stroke-width="2"/>
+              <line x1="29" y1="275" x2="151" y2="230" stroke="#334155" stroke-width="2"/>
+              <polygon points="20,180 160,180 100,245 80,245" fill="url(#siloGrad)" stroke="#64748b" stroke-width="1.5"/>
+              <rect x="20" y="45" width="140" height="135" fill="url(#siloGrad)" stroke="#64748b" stroke-width="1.5"/>
+              <path d="M 20,45 Q 90,15 160,45" fill="#334155" stroke="#64748b" stroke-width="1.5"/>
+              <clipPath id="silo4-clip">
+                <rect x="22" y="46" width="136" height="133"/>
+              </clipPath>
+              <rect id="silo4-powder" x="22" y="120" width="136" height="60" fill="url(#cementGrad)" clip-path="url(#silo4-clip)"/>
+              <circle cx="90" cy="28" r="7" fill="#06b6d4" stroke="#fff" stroke-width="1.5"/>
+              <polygon id="silo4-beam" points="86,35 94,35 125,120 55,120" fill="url(#radarBeam)"/>
+              <circle cx="85" cy="225" r="3" fill="#38bdf8"/>
+              <circle cx="95" cy="225" r="3" fill="#38bdf8"/>
+              <rect x="125" y="15" width="24" height="25" fill="#1e293b" stroke="#0ea5e9" stroke-width="1"/>
+              <circle id="silo4-pulse" cx="137" cy="12" r="3" fill="#10b981"/>
+              <circle id="silo4-prv" cx="45" cy="28" r="5" fill="#475569" stroke="#94a3b8" stroke-width="1.5"/>
+              <circle id="silo4-hh" cx="90" cy="12" r="5" fill="#334155" stroke="#64748b" stroke-width="1"/>
+              <text x="90" y="110" fill="#ffffff" font-size="13" font-weight="800" text-anchor="middle" font-family="'JetBrains Mono', monospace">FINISH SILO 4</text>
+              <text id="silo4-txt-pct" x="90" y="130" fill="#38bdf8" font-size="16" font-weight="800" text-anchor="middle" font-family="'JetBrains Mono', monospace">45.0%</text>
+              <text id="silo4-txt-tons" x="90" y="148" fill="#cbd5e1" font-size="10" text-anchor="middle" font-family="'JetBrains Mono', monospace">6,750 T</text>
+              <rect x="80" y="245" width="20" height="10" fill="#0284c7"/>
+            </g>
+
+            <!-- Bottom Airslides Header & Roots Blower Line -->
+            <path d="M 130,275 L 350,275 L 570,275 L 790,275 L 910,275" fill="none" stroke="#0284c7" stroke-width="5" stroke-dasharray="8 4"/>
+            <!-- Roots Rotary Lobe Blower (BL-101) Icon -->
+            <g id="svg-blower" transform="translate(900, 255)">
+              <rect x="0" y="0" width="35" height="28" rx="4" fill="#1e293b" stroke="#10b981" stroke-width="2"/>
+              <circle cx="12" cy="14" r="7" fill="none" stroke="#10b981" stroke-width="2"/>
+              <circle cx="23" cy="14" r="7" fill="none" stroke="#10b981" stroke-width="2"/>
+              <text x="17" y="38" fill="#10b981" font-size="8" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">BL-101 90kW</text>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Silo Telemetry & Aeration Cards -->
+        <div class="silo-cards-grid">
+          <!-- Silo 1 Card -->
+          <div class="silo-card active-silo" id="card-silo-1">
+            <div class="silo-card-header">
+              <span class="silo-name">SILO 1: OPC</span>
+              <span class="silo-type-badge">ACTIVE ROUTE</span>
+            </div>
+            <div class="silo-metric-row">
+              <span class="silo-level-pct" id="card-silo1-pct">78.4 %</span>
+              <span class="silo-tons" id="card-silo1-tons">11,760 / 15,000 T</span>
+            </div>
+            <div class="silo-progress-bar">
+              <div class="silo-progress-fill" id="card-silo1-fill" style="width: 78.4%;"></div>
+            </div>
+            <div class="silo-sub-metrics">
+              <span>Radar: 80.2 GHz</span>
+              <span>Filter ΔP: 1.2 kPa</span>
+              <span>Air: 0.82 Bar</span>
+            </div>
+          </div>
+
+          <!-- Silo 2 Card -->
+          <div class="silo-card" id="card-silo-2">
+            <div class="silo-card-header">
+              <span class="silo-name">SILO 2: SRC</span>
+              <span class="silo-type-badge" style="color: #94a3b8; background: #1e293b;">STANDBY</span>
+            </div>
+            <div class="silo-metric-row">
+              <span class="silo-level-pct" id="card-silo2-pct">62.1 %</span>
+              <span class="silo-tons" id="card-silo2-tons">9,315 / 15,000 T</span>
+            </div>
+            <div class="silo-progress-bar">
+              <div class="silo-progress-fill" id="card-silo2-fill" style="width: 62.1%;"></div>
+            </div>
+            <div class="silo-sub-metrics">
+              <span>Radar: 80.1 GHz</span>
+              <span>Filter ΔP: 1.1 kPa</span>
+              <span>Air: 0.81 Bar</span>
+            </div>
+          </div>
+
+          <!-- Silo 3 Card -->
+          <div class="silo-card" id="card-silo-3">
+            <div class="silo-card-header">
+              <span class="silo-name">SILO 3: PPC</span>
+              <span class="silo-type-badge" style="color: #94a3b8; background: #1e293b;">STANDBY</span>
+            </div>
+            <div class="silo-metric-row">
+              <span class="silo-level-pct" id="card-silo3-pct">88.5 %</span>
+              <span class="silo-tons" id="card-silo3-tons">13,275 / 15,000 T</span>
+            </div>
+            <div class="silo-progress-bar">
+              <div class="silo-progress-fill warn" id="card-silo3-fill" style="width: 88.5%;"></div>
+            </div>
+            <div class="silo-sub-metrics">
+              <span>Radar: 80.3 GHz</span>
+              <span>Filter ΔP: 1.4 kPa</span>
+              <span>Air: 0.80 Bar</span>
+            </div>
+          </div>
+
+          <!-- Silo 4 Card -->
+          <div class="silo-card" id="card-silo-4">
+            <div class="silo-card-header">
+              <span class="silo-name">SILO 4: FINISHING</span>
+              <span class="silo-type-badge" style="color: #94a3b8; background: #1e293b;">STANDBY</span>
+            </div>
+            <div class="silo-metric-row">
+              <span class="silo-level-pct" id="card-silo4-pct">45.0 %</span>
+              <span class="silo-tons" id="card-silo4-tons">6,750 / 15,000 T</span>
+            </div>
+            <div class="silo-progress-bar">
+              <div class="silo-progress-fill" id="card-silo4-fill" style="width: 45.0%;"></div>
+            </div>
+            <div class="silo-sub-metrics">
+              <span>Radar: 79.9 GHz</span>
+              <span>Filter ΔP: 0.9 kPa</span>
+              <span>Air: 0.82 Bar</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------------------------------------
+         MODULE 2: 8-SPOUT ROTARY PACKER & CHECKWEIGHER PLC LOGIC
+         ---------------------------------------------------------------------- -->
+    <section class="scada-panel" id="panel-packer">
+      <div class="panel-header">
+        <div class="panel-title-group">
+          <span class="panel-title">MODULE 2: 8-SPOUT ROTARY PACKER & CHECKWEIGHER PLC LOGIC</span>
+          <span class="badge-tag tag-cyan">HAVER & BOECKER STYLE</span>
+          <span class="badge-tag tag-green">2,400 BAGS/HR (50.00 kg ± 0.15 kg)</span>
+        </div>
+        <div class="font-mono text-muted" style="font-size: 11px;">
+          PROPORTIONAL PINCH DOSING | REJECT PUSHER INTERLOCK | PHOTOELECTRIC COUNTER
+        </div>
+      </div>
+
+      <div class="packer-layout">
+        <!-- Packer Mimic SVG -->
+        <div class="packer-mimic-panel">
+          <svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg" id="packer-svg">
+            <defs>
+              <linearGradient id="carouselGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#334155"/>
+                <stop offset="50%" stop-color="#1e293b"/>
+                <stop offset="100%" stop-color="#0f172a"/>
+              </linearGradient>
+              <linearGradient id="bagGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#d97706"/>
+                <stop offset="100%" stop-color="#b45309"/>
+              </linearGradient>
+            </defs>
+
+            <!-- BUCKET ELEVATOR (BE-201) Feeding Packer -->
+            <g id="svg-bucket-elevator" transform="translate(30, 20)">
+              <rect x="0" y="0" width="34" height="260" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+              <!-- Top Head Pulley & Drive -->
+              <circle cx="17" cy="20" r="14" fill="#334155" stroke="#10b981" stroke-width="2"/>
+              <text x="17" y="24" fill="#fff" font-size="8" font-weight="800" text-anchor="middle">BE</text>
+              <!-- Ascending & Descending Buckets -->
+              <rect x="4" y="50" width="10" height="14" rx="2" fill="#0284c7"/>
+              <rect x="4" y="90" width="10" height="14" rx="2" fill="#0284c7"/>
+              <rect x="4" y="130" width="10" height="14" rx="2" fill="#0284c7"/>
+              <rect x="4" y="170" width="10" height="14" rx="2" fill="#0284c7"/>
+              <rect x="4" y="210" width="10" height="14" rx="2" fill="#0284c7"/>
+              <rect x="20" y="70" width="10" height="14" rx="2" fill="#64748b"/>
+              <rect x="20" y="110" width="10" height="14" rx="2" fill="#64748b"/>
+              <rect x="20" y="150" width="10" height="14" rx="2" fill="#64748b"/>
+              <rect x="20" y="190" width="10" height="14" rx="2" fill="#64748b"/>
+              <!-- Discharge Chute into Buffer Hopper -->
+              <path d="M 34,30 L 75,50 L 75,65 L 34,42 Z" fill="#475569"/>
+              <text x="17" y="278" fill="#10b981" font-size="8" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">BE-201 (45kW)</text>
+            </g>
+
+            <!-- PACKER BUFFER HOPPER -->
+            <g id="svg-packer-hopper" transform="translate(100, 35)">
+              <polygon points="0,15 50,15 35,55 15,55" fill="#334155" stroke="#64748b" stroke-width="1.5"/>
+              <line x1="25" y1="55" x2="25" y2="80" stroke="#0284c7" stroke-width="6"/>
+              <text x="25" y="10" fill="#94a3b8" font-size="8" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">HOPPER</text>
+            </g>
+
+            <!-- 8-SPOUT ROTARY PACKER CAROUSEL (Center at x=230, y=180) -->
+            <g id="svg-packer-carousel">
+              <!-- Outer Stationary Ring Shield -->
+              <circle cx="230" cy="180" r="110" fill="none" stroke="#1e293b" stroke-width="4"/>
+              
+              <!-- Rotating Hub -->
+              <g id="carousel-rotating-group" transform="rotate(0, 230, 180)">
+                <circle cx="230" cy="180" r="85" fill="url(#carouselGrad)" stroke="#0ea5e9" stroke-width="2"/>
+                <circle cx="230" cy="180" r="35" fill="#0f172a" stroke="#64748b" stroke-width="2"/>
+                <text x="230" y="184" fill="#0ea5e9" font-size="11" font-weight="800" text-anchor="middle" font-family="'JetBrains Mono', monospace">H&B 8</text>
+
+                <!-- 8 Radial Filling Spouts -->
+                <!-- Spout 1 (0 deg - Top) -->
+                <g transform="translate(230, 180) rotate(0)">
+                  <line x1="0" y1="-35" x2="0" y2="-90" stroke="#38bdf8" stroke-width="4"/>
+                  <rect x="-10" y="-105" width="20" height="15" rx="3" fill="#0284c7" stroke="#fff" stroke-width="1"/>
+                  <text x="0" y="-94" fill="#fff" font-size="8" font-weight="800" text-anchor="middle">#1</text>
+                </g>
+                <!-- Spout 2 (45 deg) -->
+                <g transform="translate(230, 180) rotate(45)">
+                  <line x1="0" y1="-35" x2="0" y2="-90" stroke="#38bdf8" stroke-width="4"/>
+                  <rect x="-10" y="-105" width="20" height="15" rx="3" fill="#0284c7" stroke="#fff" stroke-width="1"/>
+                  <text x="0" y="-94" fill="#fff" font-size="8" font-weight="800" text-anchor="middle">#2</text>
+                </g>
+                <!-- Spout 3 (90 deg - Right: Filling Active) -->
+                <g transform="translate(230, 180) rotate(90)">
+                  <line x1="0" y1="-35" x2="0" y2="-90" stroke="#38bdf8" stroke-width="4"/>
+                  <rect x="-10" y="-105" width="20" height="15" rx="3" fill="#0284c7" stroke="#fff" stroke-width="1"/>
+                  <text x="0" y="-94" fill="#fff" font-size="8" font-weight="800" text-anchor="middle">#3</text>
+                </g>
+                <!-- Spout 4 (135 deg - Bottom Right) -->
+                <g transform="translate(230, 180) rotate(135)">
+                  <line x1="0" y1="-35" x2="0" y2="-90" stroke="#38bdf8" stroke-width="4"/>
+                  <rect x="-10" y="-105" width="20" height="15" rx="3" fill="#0284c7" stroke="#fff" stroke-width="1"/>
+                  <text x="0" y="-94" fill="#fff" font-size="8" font-weight="800" text-anchor="middle">#4</text>
+                </g>
+                <!-- Spout 5 (180 deg - Bottom) -->
+                <g transform="translate(230, 180) rotate(180)">
+                  <line x1="0" y1="-35" x2="0" y2="-90" stroke="#38bdf8" stroke-width="4"/>
+                  <rect x="-10" y="-105" width="20" height="15" rx="3" fill="#0284c7" stroke="#fff" stroke-width="1"/>
+                  <text x="0" y="-94" fill="#fff" font-size="8" font-weight="800" text-anchor="middle">#5</text>
+                </g>
+                <!-- Spout 6 (225 deg - Bottom Left) -->
+                <g transform="translate(230, 180) rotate(225)">
+                  <line x1="0" y1="-35" x2="0" y2="-90" stroke="#38bdf8" stroke-width="4"/>
+                  <rect x="-10" y="-105" width="20" height="15" rx="3" fill="#0284c7" stroke="#fff" stroke-width="1"/>
+                  <text x="0" y="-94" fill="#fff" font-size="8" font-weight="800" text-anchor="middle">#6</text>
+                </g>
+                <!-- Spout 7 (270 deg - Left: Discharge Point) -->
+                <g transform="translate(230, 180) rotate(270)">
+                  <line x1="0" y1="-35" x2="0" y2="-90" stroke="#38bdf8" stroke-width="4"/>
+                  <rect x="-10" y="-105" width="20" height="15" rx="3" fill="#10b981" stroke="#fff" stroke-width="1"/>
+                  <text x="0" y="-94" fill="#fff" font-size="8" font-weight="800" text-anchor="middle">#7</text>
+                </g>
+                <!-- Spout 8 (315 deg - Top Left: Empty / Saddle) -->
+                <g transform="translate(230, 180) rotate(315)">
+                  <line x1="0" y1="-35" x2="0" y2="-90" stroke="#38bdf8" stroke-width="4"/>
+                  <rect x="-10" y="-105" width="20" height="15" rx="3" fill="#0284c7" stroke="#fff" stroke-width="1"/>
+                  <text x="0" y="-94" fill="#fff" font-size="8" font-weight="800" text-anchor="middle">#8</text>
+                </g>
+              </g>
+
+              <!-- Rotation direction arrow -->
+              <path d="M 330,140 A 105 105 0 0 1 330,220" fill="none" stroke="#10b981" stroke-width="3" stroke-dasharray="6 3"/>
+              <polygon points="330,225 338,215 324,215" fill="#10b981"/>
+            </g>
+
+            <!-- DISCHARGED BAG CONVEYOR (BC-201) (From x=340 to x=720, y=270) -->
+            <g id="svg-conveyor">
+              <!-- Conveyor Rollers & Belt -->
+              <rect x="330" y="270" width="410" height="12" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+              <line x1="330" y1="276" x2="740" y2="276" stroke="#0ea5e9" stroke-width="2" stroke-dasharray="10 5"/>
+
+              <!-- Moving 50kg Bags on Conveyor -->
+              <!-- Bag 1: Freshly Discharged -->
+              <g id="conveyor-bag-1" transform="translate(350, 245)">
+                <rect x="0" y="0" width="28" height="22" rx="3" fill="url(#bagGrad)" stroke="#78350f" stroke-width="1"/>
+                <text x="14" y="14" fill="#fff" font-size="7" font-weight="800" text-anchor="middle">50kg</text>
+              </g>
+
+              <!-- INLINE DYNAMIC CHECKWEIGHER (CW-201) at x=440 -->
+              <g id="svg-checkweigher" transform="translate(435, 230)">
+                <rect x="0" y="38" width="55" height="6" fill="#10b981"/>
+                <!-- Load cell posts -->
+                <rect x="10" y="44" width="6" height="18" fill="#475569"/>
+                <rect x="39" y="44" width="6" height="18" fill="#475569"/>
+                <text x="27" y="25" fill="#10b981" font-size="8" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">CW-201</text>
+                <text id="svg-cw-reading" x="27" y="10" fill="#fff" font-size="10" font-weight="800" text-anchor="middle" font-family="'JetBrains Mono', monospace">50.02 kg</text>
+              </g>
+
+              <!-- PNEUMATIC BAG REJECTOR PUSHER (PR-201) at x=520 -->
+              <g id="svg-reject-pusher" transform="translate(515, 205)">
+                <!-- Cylinder Body -->
+                <rect x="0" y="0" width="40" height="20" rx="3" fill="#334155" stroke="#ef4444" stroke-width="1.5"/>
+                <!-- Piston Rod -->
+                <line id="pusher-rod" x1="20" y1="20" x2="20" y2="40" stroke="#e2e8f0" stroke-width="4"/>
+                <!-- Rubber Pusher Plate -->
+                <rect id="pusher-plate" x="5" y="38" width="30" height="8" rx="2" fill="#ef4444"/>
+                <text x="20" y="-4" fill="#ef4444" font-size="8" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">PR-201 PUSHER</text>
+                <!-- Reject Chute underneath -->
+                <polygon points="5,290 35,290 45,340 -5,340" fill="#1e293b" stroke="#64748b" stroke-width="1" stroke-dasharray="4 2"/>
+                <text x="20" y="325" fill="#ef4444" font-size="7" font-weight="700" text-anchor="middle">REJECT CHUTE</text>
+              </g>
+
+              <!-- Bag Burst / Optical Sensor at x=495 -->
+              <circle id="sensor-burst" cx="500" cy="255" r="4" fill="#10b981"/>
+
+              <!-- PHOTOELECTRIC COUNTER (PE-201) at x=610 -->
+              <g id="svg-photo-counter" transform="translate(610, 240)">
+                <line x1="0" y1="0" x2="0" y2="30" stroke="#f59e0b" stroke-width="2" stroke-dasharray="2 2"/>
+                <circle cx="0" cy="0" r="4" fill="#f59e0b"/>
+                <text x="0" y="-6" fill="#f59e0b" font-size="8" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">PE-201</text>
+              </g>
+
+              <!-- TELESCOPIC TRUCK LOADER (TL-101) at x=650-730 -->
+              <g id="svg-truck-loader" transform="translate(650, 235)">
+                <!-- Telescopic Boom -->
+                <rect x="0" y="30" width="85" height="10" rx="3" fill="#475569"/>
+                <!-- Stacked Bags on Truck Bed -->
+                <rect x="40" y="12" width="24" height="16" rx="2" fill="url(#bagGrad)"/>
+                <rect x="66" y="12" width="24" height="16" rx="2" fill="url(#bagGrad)"/>
+                <rect x="53" y="-5" width="24" height="16" rx="2" fill="url(#bagGrad)"/>
+                <!-- Truck Wheel representation -->
+                <circle cx="50" cy="65" r="12" fill="#1e293b" stroke="#64748b" stroke-width="3"/>
+                <circle cx="85" cy="65" r="12" fill="#1e293b" stroke="#64748b" stroke-width="3"/>
+                <text x="50" y="90" fill="#94a3b8" font-size="8" font-weight="700" text-anchor="middle" font-family="'JetBrains Mono', monospace">TL-101 LOADER</text>
+              </g>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Packer Telemetry, Load Cells & Checkweigher Sidebar -->
+        <div class="packer-sidebar">
+          <!-- 8 Spouts Digital Load Cell Matrix -->
+          <div class="spout-matrix-grid" id="spout-matrix">
+            <div class="spout-cell" id="cell-spout-1">
+              <span class="spout-num">SPOUT #1</span>
+              <span class="spout-wt" id="wt-spout-1">50.01 kg</span>
+              <span class="spout-phase">FINE DOSE</span>
+            </div>
+            <div class="spout-cell" id="cell-spout-2">
+              <span class="spout-num">SPOUT #2</span>
+              <span class="spout-wt" id="wt-spout-2">38.40 kg</span>
+              <span class="spout-phase">COARSE</span>
+            </div>
+            <div class="spout-cell" id="cell-spout-3">
+              <span class="spout-num">SPOUT #3</span>
+              <span class="spout-wt" id="wt-spout-3">12.10 kg</span>
+              <span class="spout-phase">COARSE</span>
+            </div>
+            <div class="spout-cell drift-spout" id="cell-spout-4">
+              <span class="spout-num text-amber">SPOUT #4 ⚠</span>
+              <span class="spout-wt text-amber" id="wt-spout-4">50.42 kg</span>
+              <span class="spout-phase text-amber">DRIFT +0.42</span>
+            </div>
+            <div class="spout-cell" id="cell-spout-5">
+              <span class="spout-num">SPOUT #5</span>
+              <span class="spout-wt" id="wt-spout-5">0.00 kg</span>
+              <span class="spout-phase">TARE / EMPTY</span>
+            </div>
+            <div class="spout-cell" id="cell-spout-6">
+              <span class="spout-num">SPOUT #6</span>
+              <span class="spout-wt" id="wt-spout-6">49.98 kg</span>
+              <span class="spout-phase">DISCHARGED</span>
+            </div>
+            <div class="spout-cell active-spout" id="cell-spout-7">
+              <span class="spout-num text-green">SPOUT #7</span>
+              <span class="spout-wt text-green" id="wt-spout-7">50.04 kg</span>
+              <span class="spout-phase">SEALING</span>
+            </div>
+            <div class="spout-cell" id="cell-spout-8">
+              <span class="spout-num">SPOUT #8</span>
+              <span class="spout-wt" id="wt-spout-8">26.80 kg</span>
+              <span class="spout-phase">COARSE</span>
+            </div>
+          </div>
+
+          <!-- Dynamic Checkweigher Readout -->
+          <div class="checkweigher-box" id="checkweigher-box">
+            <div class="cw-header">
+              <span class="cw-title">INLINE CHECKWEIGHER CW-201 (OIML R61 CLASS X)</span>
+              <span class="cw-status-pill text-green" id="cw-status-badge" style="background: rgba(16, 185, 129, 0.2);">ACCEPTED (±0.15kg)</span>
+            </div>
+            <div class="cw-main-readout">
+              <span class="cw-weight-val" id="cw-val-display">50.02</span>
+              <span class="cw-unit">kg NET</span>
+            </div>
+            <div class="cw-tolerance-scale">
+              <span>MIN: 49.85 kg</span>
+              <span class="text-cyan">TARGET: 50.00 kg</span>
+              <span>MAX: 50.15 kg</span>
+            </div>
+          </div>
+
+          <!-- Packer Key Metrics -->
+          <div class="packer-kpi-row">
+            <div class="kpi-card">
+              <span class="kpi-label">TOTAL PACKED</span>
+              <span class="kpi-value text-cyan" id="kpi-total-bags">18,482</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-label">TRUCK QUOTA</span>
+              <span class="kpi-value text-green" id="kpi-truck-quota">420 / 600</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-label">REJECTED (PR-201)</span>
+              <span class="kpi-value text-red" id="kpi-reject-count">14 (0.07%)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------------------------------------
+         MODULE 3: BULK TANKER DISPATCH & 400V SMART MCC
+         ---------------------------------------------------------------------- -->
+    <section class="scada-panel" id="panel-dispatch-mcc">
+      <div class="panel-header">
+        <div class="panel-title-group">
+          <span class="panel-title">MODULE 3: BULK TANKER DISPATCH & 400V SMART MCC</span>
+          <span class="badge-tag tag-cyan">WEIGHBRIDGE 0 - 60.0 T</span>
+          <span class="badge-tag tag-green">ATEX GROUNDING PERMISSIVE</span>
+          <span class="badge-tag tag-purple">SIMOCODE PRO V</span>
+        </div>
+        <div class="font-mono text-muted" style="font-size: 11px;">
+          TELESCOPIC BELLOWS BL-301 | AUTOMATIC TARGET CUTOFF | PROFINET IO
+        </div>
+      </div>
+
+      <div class="dispatch-mcc-wrapper">
+        <!-- Bulk Tanker Weighbridge Station -->
+        <div class="bulk-weighbridge-box">
+          <svg viewBox="0 0 680 240" xmlns="http://www.w3.org/2000/svg" id="weighbridge-svg">
+            <defs>
+              <linearGradient id="tankerGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#94a3b8"/>
+                <stop offset="60%" stop-color="#475569"/>
+                <stop offset="100%" stop-color="#1e293b"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Ground Weighbridge Pit & Steel Deck (60 Tons) -->
+            <rect x="40" y="185" width="600" height="12" rx="2" fill="#334155" stroke="#0ea5e9" stroke-width="2"/>
+            <!-- Weighbridge Load Cell Footings (4 corners) -->
+            <rect x="70" y="197" width="16" height="12" fill="#64748b"/>
+            <rect x="230" y="197" width="16" height="12" fill="#64748b"/>
+            <rect x="430" y="197" width="16" height="12" fill="#64748b"/>
+            <rect x="580" y="197" width="16" height="12" fill="#64748b"/>
+
+            <!-- Bulk Cement Tanker Body -->
+            <!-- Tractor Cabin -->
+            <g id="tanker-truck" transform="translate(480, 105)">
+              <rect x="20" y="20" width="85" height="60" rx="4" fill="#0369a1"/>
+              <!-- Windshield -->
+              <polygon points="75,25 100,25 100,50 75,50" fill="#38bdf8"/>
+              <!-- Cabin Headlights -->
+              <circle cx="102" cy="70" r="4" fill="#fef08a"/>
+              <!-- Cabin Wheels -->
+              <circle cx="45" cy="80" r="14" fill="#0f172a" stroke="#475569" stroke-width="4"/>
+              <circle cx="85" cy="80" r="14" fill="#0f172a" stroke="#475569" stroke-width="4"/>
+            </g>
+
+            <!-- Tanker Silo Trailer -->
+            <g id="tanker-trailer" transform="translate(100, 75)">
+              <!-- Torispherical heads / Bulged tank -->
+              <rect x="30" y="15" width="340" height="90" rx="45" fill="url(#tankerGrad)" stroke="#64748b" stroke-width="2"/>
+              <!-- 3 Top Loading Manholes -->
+              <rect x="100" y="5" width="30" height="12" rx="2" fill="#1e293b" stroke="#94a3b8" stroke-width="1.5"/>
+              <rect x="185" y="5" width="30" height="12" rx="2" fill="#1e293b" stroke="#94a3b8" stroke-width="1.5"/>
+              <rect x="270" y="5" width="30" height="12" rx="2" fill="#1e293b" stroke="#94a3b8" stroke-width="1.5"/>
+              <text x="200" y="65" fill="#f1f5f9" font-size="14" font-weight="800" text-anchor="middle" font-family="'JetBrains Mono', monospace">BULK CEMENT TANKER</text>
+              <!-- Trailer Tri-Axle Wheels -->
+              <circle cx="70" cy="110" r="14" fill="#0f172a" stroke="#475569" stroke-width="4"/>
+              <circle cx="105" cy="110" r="14" fill="#0f172a" stroke="#475569" stroke-width="4"/>
+              <circle cx="140" cy="110" r="14" fill="#0f172a" stroke="#475569" stroke-width="4"/>
+            </g>
+
+            <!-- TELESCOPIC LOADING BELLOWS (BL-301) docked on center manhole (x=285+15=300) -->
+            <g id="svg-bellows" transform="translate(285, 0)">
+              <!-- Upper Fixed Inlet from Silo Airslide -->
+              <rect x="5" y="0" width="20" height="25" fill="#0284c7"/>
+              <!-- Telescopic Accordion Bellows Rings -->
+              <path id="bellows-pleats" d="M 5,25 L 25,32 L 5,39 L 25,46 L 5,53 L 25,60 L 5,67 L 25,74 L 15,80" fill="none" stroke="#06b6d4" stroke-width="3"/>
+              <!-- Sealing Discharge Cone into Tanker Manhole -->
+              <polygon points="3,78 27,78 22,86 8,86" fill="#10b981" stroke="#fff" stroke-width="1"/>
+              <!-- Dust extraction vent pipe -->
+              <line x1="25" y1="20" x2="60" y2="20" stroke="#64748b" stroke-width="4"/>
+              <text x="75" y="23" fill="#64748b" font-size="7" font-weight="700">DUST EXHAUST</text>
+            </g>
+
+            <!-- ELECTROSTATIC GROUNDING CLAMP (ATEX Loop < 10 Ohm) -->
+            <g id="svg-grounding-clamp" transform="translate(80, 150)">
+              <line x1="0" y1="35" x2="45" y2="10" stroke="#10b981" stroke-width="2.5" stroke-dasharray="4 2"/>
+              <!-- Heavy Jaw Clamp -->
+              <circle cx="45" cy="10" r="6" fill="#10b981" stroke="#fff" stroke-width="1.5"/>
+              <text x="0" y="50" fill="#10b981" font-size="8" font-weight="700" font-family="'JetBrains Mono', monospace">GROUND CLAMP (2.4 Ω)</text>
+            </g>
+          </svg>
+
+          <!-- Weighbridge Digital Readout -->
+          <div class="weighbridge-readouts">
+            <div class="wb-metric-card">
+              <span class="wb-label">TRUCK GROSS WEIGHT</span>
+              <span class="wb-val text-cyan" id="wb-gross-val">54.20 T</span>
+            </div>
+            <div class="wb-metric-card">
+              <span class="wb-label">TARE WEIGHT</span>
+              <span class="wb-val text-muted" id="wb-tare-val">21.70 T</span>
+            </div>
+            <div class="wb-metric-card active-target">
+              <span class="wb-label">NET PAYLOAD / TARGET</span>
+              <span class="wb-val text-green" id="wb-net-val">32.50 / 32.50 T</span>
+            </div>
+          </div>
+
+          <!-- Grounding Interlock & Cutoff Status Bar -->
+          <div class="grounding-interlock-bar font-mono">
+            <span>ELECTROSTATIC PERMISSIVE: <strong class="text-green" id="grounding-status">LOOP &lt; 10 Ω (VERIFIED)</strong></span>
+            <span class="interlock-badge permissive" id="grounding-badge">DISPATCH PERMITTED</span>
+            <span>BELLOWS SHUTOFF VALVE: <strong class="text-cyan" id="bellows-valve-status">AUTO-CUTOFF CLOSED</strong></span>
+          </div>
+        </div>
+
+        <!-- 400V Smart MCC Drawers Panel (Profinet SIMOCODE Pro V) -->
+        <div class="mcc-panel-box">
+          <div style="font-size: 11px; font-weight: 700; color: var(--text-secondary); margin-bottom: 8px;" class="font-mono">
+            400V LOW VOLTAGE SMART MCC RACK (PROFINET SIMOCODE PRO V)
+          </div>
+
+          <div class="mcc-drawers-grid" id="mcc-drawers-container">
+            <!-- Drawer 1: Silo Aeration Blower BL-101 -->
+            <div class="mcc-drawer-card" id="mcc-d1">
+              <div class="mcc-drawer-head">
+                <span class="mcc-tag">BL-101 AERATION</span>
+                <span class="mcc-kw">90 kW | 400V</span>
+              </div>
+              <div class="mcc-status-row">
+                <span>MPCB: <strong class="text-green" id="mcc-d1-status">CLOSED</strong></span>
+                <button class="mcc-switch-toggle on" id="mcc-btn-d1" onclick="window.toggleMccDrawer(1)">RUN</button>
+              </div>
+              <div class="mcc-phase-readout">
+                <span>L1: 162A</span>
+                <span>L2: 161A</span>
+                <span>L3: 163A</span>
+                <span>RTD: 68°C</span>
+              </div>
+            </div>
+
+            <!-- Drawer 2: Bucket Elevator BE-201 -->
+            <div class="mcc-drawer-card" id="mcc-d2">
+              <div class="mcc-drawer-head">
+                <span class="mcc-tag">BE-201 ELEVATOR</span>
+                <span class="mcc-kw">45 kW | 400V</span>
+              </div>
+              <div class="mcc-status-row">
+                <span>MPCB: <strong class="text-green" id="mcc-d2-status">CLOSED</strong></span>
+                <button class="mcc-switch-toggle on" id="mcc-btn-d2" onclick="window.toggleMccDrawer(2)">RUN</button>
+              </div>
+              <div class="mcc-phase-readout">
+                <span id="mcc-d2-cur">L1: 82A</span>
+                <span>L2: 81A</span>
+                <span>L3: 82A</span>
+                <span>RTD: 72°C</span>
+              </div>
+            </div>
+
+            <!-- Drawer 3: Rotary Packer Main Drive RD-201 -->
+            <div class="mcc-drawer-card" id="mcc-d3">
+              <div class="mcc-drawer-head">
+                <span class="mcc-tag">RD-201 ROTARY PACKER</span>
+                <span class="mcc-kw">30 kW | 400V</span>
+              </div>
+              <div class="mcc-status-row">
+                <span>MPCB: <strong class="text-green" id="mcc-d3-status">CLOSED</strong></span>
+                <button class="mcc-switch-toggle on" id="mcc-btn-d3" onclick="window.toggleMccDrawer(3)">RUN</button>
+              </div>
+              <div class="mcc-phase-readout">
+                <span>L1: 54A</span>
+                <span>L2: 55A</span>
+                <span>L3: 54A</span>
+                <span>RTD: 61°C</span>
+              </div>
+            </div>
+
+            <!-- Drawer 4: Bag Conveyor BC-201 -->
+            <div class="mcc-drawer-card" id="mcc-d4">
+              <div class="mcc-drawer-head">
+                <span class="mcc-tag">BC-201 CONVEYOR</span>
+                <span class="mcc-kw">15 kW | 400V</span>
+              </div>
+              <div class="mcc-status-row">
+                <span>MPCB: <strong class="text-green" id="mcc-d4-status">CLOSED</strong></span>
+                <button class="mcc-switch-toggle on" id="mcc-btn-d4" onclick="window.toggleMccDrawer(4)">RUN</button>
+              </div>
+              <div class="mcc-phase-readout">
+                <span>L1: 28A</span>
+                <span>L2: 27A</span>
+                <span>L3: 28A</span>
+                <span>RTD: 54°C</span>
+              </div>
+            </div>
+
+            <!-- Drawer 5: Telescopic Truck Loader TL-101 -->
+            <div class="mcc-drawer-card" id="mcc-d5">
+              <div class="mcc-drawer-head">
+                <span class="mcc-tag">TL-101 LOADER</span>
+                <span class="mcc-kw">7.5 kW | 400V</span>
+              </div>
+              <div class="mcc-status-row">
+                <span>MPCB: <strong class="text-green" id="mcc-d5-status">CLOSED</strong></span>
+                <button class="mcc-switch-toggle on" id="mcc-btn-d5" onclick="window.toggleMccDrawer(5)">RUN</button>
+              </div>
+              <div class="mcc-phase-readout">
+                <span>L1: 14A</span>
+                <span>L2: 14A</span>
+                <span>L3: 13A</span>
+                <span>RTD: 49°C</span>
+              </div>
+            </div>
+
+            <!-- Drawer 6: Bulk Fluidization Blower BL-301 -->
+            <div class="mcc-drawer-card" id="mcc-d6">
+              <div class="mcc-drawer-head">
+                <span class="mcc-tag">BL-301 BULK BLOWER</span>
+                <span class="mcc-kw">37 kW | 400V</span>
+              </div>
+              <div class="mcc-status-row">
+                <span>MPCB: <strong class="text-green" id="mcc-d6-status">CLOSED</strong></span>
+                <button class="mcc-switch-toggle on" id="mcc-btn-d6" onclick="window.toggleMccDrawer(6)">RUN</button>
+              </div>
+              <div class="mcc-phase-readout">
+                <span>L1: 67A</span>
+                <span>L2: 66A</span>
+                <span>L3: 68A</span>
+                <span>RTD: 59°C</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------------------------------------
+         MODULE 4: AI PREDICTIVE MAINTENANCE WIDGET
+         ---------------------------------------------------------------------- -->
+    <section class="scada-panel" id="panel-predictive">
+      <div class="panel-header">
+        <div class="panel-title-group">
+          <span class="panel-title">MODULE 4: AI PREDICTIVE MAINTENANCE WIDGET</span>
+          <span class="badge-tag tag-purple">60FPS CANVAS TELEMETRY</span>
+          <span class="badge-tag tag-cyan">WEIBULL RUL ANALYSIS</span>
+        </div>
+        <div class="font-mono text-muted" style="font-size: 11px;">
+          BUCKET ELEVATOR ACOUSTICS | ROTARY PACKER LOAD CELL DRIFT
+        </div>
+      </div>
+
+      <div class="predictive-layout">
+        <!-- 60FPS Multi-Trace Canvas -->
+        <div class="canvas-card">
+          <div class="canvas-header">
+            <span>REAL-TIME SENSOR SIGNATURE (60 FPS STREAM)</span>
+            <div class="canvas-legend">
+              <div class="legend-item">
+                <span class="legend-color-dot" style="background: #06b6d4;"></span>
+                <span>BE-201 Chain Tension (kN)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color-dot" style="background: #a855f7;"></span>
+                <span>Bearing Vibration (mm/s RMS)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color-dot" style="background: #f59e0b;"></span>
+                <span>Spout #4 Drift (+kg)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="canvas-wrapper">
+            <canvas id="predictive-canvas"></canvas>
+          </div>
+        </div>
+
+        <!-- Predictive AI Alert & Health Gauges -->
+        <div class="predictive-ai-side">
+          <div class="ai-alert-box">
+            <div class="ai-alert-title">
+              <span>🧠 AI ANOMALY DETECTION ENGINE</span>
+            </div>
+            <div class="ai-alert-desc" id="ai-alert-text">
+              Early Warning: <strong>Spout #4 Load Cell Calibration Drift (+0.42 kg)</strong> detected across 12 consecutive cycles. Bucket Elevator BE-201 Upper Bearing harmonics indicate early cage micro-fracture.
+            </div>
+            <div class="rul-badge" id="ai-rul-text">
+              PREDICTED RUL (REMAINING USEFUL LIFE): 52 HOURS
+            </div>
+          </div>
+
+          <!-- Subsystem Health Indexes -->
+          <div class="health-index-list">
+            <div class="health-item">
+              <div class="health-head">
+                <span>H&B Rotary Packer Drive & Impeller</span>
+                <span class="text-green" id="health-val-packer">94 %</span>
+              </div>
+              <div class="health-bar-bg">
+                <div class="health-bar-fill" style="width: 94%;"></div>
+              </div>
+            </div>
+
+            <div class="health-item">
+              <div class="health-head">
+                <span>Cement Silos 80GHz FMCW Radars</span>
+                <span class="text-green" id="health-val-radars">98 %</span>
+              </div>
+              <div class="health-bar-bg">
+                <div class="health-bar-fill" style="width: 98%;"></div>
+              </div>
+            </div>
+
+            <div class="health-item">
+              <div class="health-head">
+                <span class="text-amber">Bucket Elevator BE-201 Mechanics</span>
+                <span class="text-amber" id="health-val-elevator">79 % (WARNING)</span>
+              </div>
+              <div class="health-bar-bg">
+                <div class="health-bar-fill warning" style="width: 79%;"></div>
+              </div>
+            </div>
+
+            <div class="health-item">
+              <div class="health-head">
+                <span>400V Smart MCC Drives & SIMOCODE</span>
+                <span class="text-green" id="health-val-mcc">99 %</span>
+              </div>
+              <div class="health-bar-bg">
+                <div class="health-bar-fill" style="width: 99%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------------------------------------
+         MODULE 5: FAULT INJECTION & SOE CHRONOLOGY PANEL
+         ---------------------------------------------------------------------- -->
+    <section class="scada-panel" id="panel-faults">
+      <div class="panel-header">
+        <div class="panel-title-group">
+          <span class="panel-title">MODULE 5: FAULT INJECTION & SOE CHRONOLOGY PANEL</span>
+          <span class="badge-tag tag-cyan">SOE RESOLUTION: 1 ms</span>
+          <span class="badge-tag tag-purple">INTERACTIVE INTERVIEW SUITE</span>
+        </div>
+        <div class="font-mono text-muted" style="font-size: 11px;">
+          FAIL-SAFE INTERLOCK TEST BENCH | DYNAMIC RECOVERY
+        </div>
+      </div>
+
+      <div class="fault-soe-container">
+        <!-- 4 Fault Buttons -->
+        <div class="fault-button-grid">
+          <!-- Button 1 -->
+          <button class="fault-btn-card" id="btn-fault-spout4">
+            <span class="btn-card-title text-amber">
+              <span>⚖️</span> Spout #4 Overweight / Burst
+            </span>
+            <span class="btn-card-sub">
+              Force weight to 50.85 kg. Triggers dynamic rejector pusher PR-201 and bursts sensor interlock.
+            </span>
+          </button>
+
+          <!-- Button 2 -->
+          <button class="fault-btn-card" id="btn-fault-elevator">
+            <span class="btn-card-title text-red">
+              <span>⚙️</span> Bucket Elevator Zero-Speed Slip
+            </span>
+            <span class="btn-card-sub">
+              Induce belt slip &lt; 80% nominal speed. Trips BE-201 drive on MCC drawer 2 and halts silo feed.
+            </span>
+          </button>
+
+          <!-- Button 3 -->
+          <button class="fault-btn-card" id="btn-fault-silo">
+            <span class="btn-card-title text-red">
+              <span>🌪️</span> Silo Overpressure / Filter Choke
+            </span>
+            <span class="btn-card-sub">
+              Silo #1 filter ΔP exceeds 4.5 kPa. Pops pressure relief valve (PRV) and trips Roots blower BL-101.
+            </span>
+          </button>
+
+          <!-- Button 4 -->
+          <button class="fault-btn-card btn-card-reset" id="btn-fault-reset">
+            <span class="btn-card-title text-green">
+              <span>🔄</span> System Reset & Resume Dispatch
+            </span>
+            <span class="btn-card-sub">
+              Acknowledge alarms, close tripped MCC breakers, clear pusher, and restore automated 2,400 bags/h flow.
+            </span>
+          </button>
+        </div>
+
+        <!-- Sequence of Events (SOE) Table -->
+        <div class="soe-box">
+          <div class="soe-table-header">
+            <span>SEQUENCE OF EVENTS (SOE) EVENT RECORDER</span>
+            <span class="text-muted" id="soe-count">EVENTS LOGGED: 4</span>
+          </div>
+          <div class="soe-table-wrap">
+            <table class="soe-table">
+              <thead>
+                <tr>
+                  <th style="width: 140px;">TIMESTAMP</th>
+                  <th style="width: 100px;">TAG</th>
+                  <th>EVENT DESCRIPTION</th>
+                  <th style="width: 110px;">SEVERITY</th>
+                  <th style="width: 100px;">STATUS</th>
+                </tr>
+              </thead>
+              <tbody id="soe-tbody">
+                <!-- Initial entries injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       ENGINEERING DOSSIER MODAL
+       ======================================================================== -->
+  <div class="modal-backdrop hidden" id="modal-dossier">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span style="font-size: 20px;">📋</span>
+          <span class="modal-title">PACK-SILO: Technical Dossier & Automation Control Philosophy</span>
+        </div>
+        <button class="modal-close-btn" id="modal-close-btn" title="Close Dossier">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Lead Engineer Card -->
+        <div class="author-dossier-card">
+          <div class="author-icon">👨‍💼</div>
+          <div class="author-details">
+            <div class="author-name">أ. طارق ابوعشي | Tareq Abuashi</div>
+            <div class="author-title">Lead Electrical & Automation Systems Engineer</div>
+            <div class="author-badge">
+              Industrial Automation, Siemens S7-1500 / TIA Portal, Profinet IO & SIMOCODE Pro V Specialist
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 1 -->
+        <div class="dossier-card">
+          <div class="section-title">1. System Architecture & Digital Twin Scope</div>
+          <div class="section-content">
+            The <strong>PACK-SILO</strong> industrial SCADA suite delivers real-time digital twin monitoring and fail-safe automation logic for a modern cement manufacturing dispatch terminal. It seamlessly bridges raw storage inventory, automated bag packaging, and bulk tanker logistics with microsecond event chronology.
+            <div class="formula-box">
+              <span>Controller: Siemens S7-1517F-3 PN/DP Fail-Safe PLC</span>
+              <span>Network: Redundant Profinet Ring (MRP) + IO-Link for Digital Sensors</span>
+              <span>Motor Management: Siemens SIMOCODE Pro V via Profinet IO</span>
+              <span>Weighing Electronics: OIML R61 Class X(1) Net-Weighing Controllers</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2 -->
+        <div class="dossier-card">
+          <div class="section-title">2. Cement Silo Aeration & 80GHz FMCW Radar Level Gauging</div>
+          <div class="section-content">
+            Four 15,000 Ton steel/concrete silos (OPC, SRC, PPC, Finishing) utilize high-frequency <strong>80 GHz FMCW</strong> (Frequency Modulated Continuous Wave) level radars. The narrow 3° beam angle avoids silo internal cross-bracing and dust buildup errors. Bottom fluidization is driven by positive displacement Roots rotary lobe blowers (400V - 90 kW - 0.8 Bar) injecting air through permeable polyester air pads to prevent powder clumping and bridging.
+            <table class="dossier-table">
+              <thead>
+                <tr>
+                  <th>Silo Identifier</th>
+                  <th>Cement Type</th>
+                  <th>Capacity</th>
+                  <th>Radar Technology</th>
+                  <th>Aeration Supply</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>SILO-01</td>
+                  <td>Ordinary Portland Cement (OPC 42.5R)</td>
+                  <td>15,000 Ton</td>
+                  <td>80 GHz FMCW (±1 mm)</td>
+                  <td>BL-101 (90 kW - 0.82 Bar)</td>
+                </tr>
+                <tr>
+                  <td>SILO-02</td>
+                  <td>Sulfate Resistant Cement (SRC 42.5N)</td>
+                  <td>15,000 Ton</td>
+                  <td>80 GHz FMCW (±1 mm)</td>
+                  <td>BL-101 (90 kW - 0.81 Bar)</td>
+                </tr>
+                <tr>
+                  <td>SILO-03</td>
+                  <td>Portland Pozzolana Cement (PPC 32.5N)</td>
+                  <td>15,000 Ton</td>
+                  <td>80 GHz FMCW (±1 mm)</td>
+                  <td>BL-101 (90 kW - 0.80 Bar)</td>
+                </tr>
+                <tr>
+                  <td>SILO-04</td>
+                  <td>Finishing Rapid Hardening Silo</td>
+                  <td>15,000 Ton</td>
+                  <td>80 GHz FMCW (±1 mm)</td>
+                  <td>BL-101 (90 kW - 0.82 Bar)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Section 3 -->
+        <div class="dossier-card">
+          <div class="section-title">3. Haver & Boecker 8-Spout Rotary Packer & Net-Weighing Algorithm</div>
+          <div class="section-content">
+            The rotary packaging carousel features 8 radially oriented filling spouts with dedicated high-speed digital strain gauge load cells. Dosing executes in a three-stage precision cycle:
+            <div class="formula-box">
+              <span>Stage 1: Tare & Bag Verification (Pneumatic saddle clamp engaged)</span>
+              <span>Stage 2: Coarse Filling (Impeller high RPM, proportional pinch valve 100% open, 0 -> 45.0 kg in 1.4s)</span>
+              <span>Stage 3: Fine Dosing (Proportional pinch valve throttles to 15%, fine pulse feed, 45.0 -> 50.00 kg ± 0.15 kg)</span>
+              <span>Discharge: Ultrasonic valve bag sealing, clamp release, and kicker arm drops bag onto BC-201 conveyor</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 4 -->
+        <div class="dossier-card">
+          <div class="section-title">4. Dynamic Checkweigher & High-Speed Pneumatic Rejector Interlock</div>
+          <div class="section-content">
+            Downstream belt conveyor BC-201 feeds into dynamic inline checkweigher CW-201. Any bag exceeding the statutory legal tolerance (&lt;49.85 kg or &gt;50.15 kg), or flagged with a ruptured bag ultrasonic sensor, triggers the high-speed pneumatic pusher PR-201 (0.8 MPa compressed air piston) within 45 ms, ejecting the out-of-spec bag into a dedicated recycle hopper while allowing compliant bags to proceed to telescopic loader TL-101.
+          </div>
+        </div>
+
+        <!-- Section 5 -->
+        <div class="dossier-card">
+          <div class="section-title">5. Bulk Tanker Weighbridge Cutoff & ATEX Grounding Permissive</div>
+          <div class="section-content">
+            The 60.0 Ton ground weighbridge features an automated cutoff interlock. Before the telescopic bellows BL-301 can lower into the tanker manhole, the ATEX intrinsically safe electrostatic grounding clamp must achieve a loop resistance &lt; 10 Ω. Once the target payload (e.g. 32.50 Tons) is reached, the pneumatic slide gate valve slams shut in 280 ms to prevent overfilling.
+          </div>
+        </div>
+
+        <!-- Section 6 -->
+        <div class="dossier-card">
+          <div class="section-title">6. Edge AI Predictive Maintenance & Vibration Spectral Signature</div>
+          <div class="section-content">
+            High-frequency accelerometers on the Bucket Elevator BE-201 upper bearings and continuous load cell drift tracking on the 8 spouts feed an on-premise Weibull Hazard Rate algorithm. Early bearing wear and load cell creep are detected dozens of operating hours before catastrophic failure, preserving uptime and preventing unmonitored dispatch errors.
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <div class="footer-note">
+          Digital Twin Engine Version 3.8.4 | Certified Compliant with IEC 61508 / SIL 2 Safety Functions
+        </div>
+        <button class="btn btn-secondary" id="modal-close-footer-btn">Close Dossier</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main TypeScript Application Entrypoint -->
+</body>
+</html>

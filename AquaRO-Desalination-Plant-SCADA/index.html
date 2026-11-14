@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AQUA-RO: Seawater Reverse Osmosis (SWRO) Desalination & Energy Recovery SCADA | Tareq Abuashi</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%230f172a' stroke='%2306b6d4' stroke-width='6'/><path d='M50 18 C50 18 26 46 26 62 C26 75.2 36.8 86 50 86 C63.2 86 74 75.2 74 62 C74 46 50 18 50 18 Z' fill='%2306b6d4'/><circle cx='50' cy='62' r='12' fill='%23070b14'/><circle cx='50' cy='62' r='6' fill='%2338bdf8'/></svg>">
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome 6 Free CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <script type="module" crossorigin src="./assets/index-DWhzzCqK.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DDfgpYH9.css">
+</head>
+<body>
+
+  <!-- Top SCADA Application Header -->
+  <header class="scada-header">
+    <div class="brand-section">
+      <div class="brand-logo-hex">
+        <i class="fa-solid fa-water"></i>
+      </div>
+      <div>
+        <div class="brand-title">
+          AQUA-RO
+          <span class="brand-badge">SCADA v5.2</span>
+        </div>
+        <div class="brand-subtitle">
+          SWRO Desalination Twin &bull; 11kV VFD HP Pump &bull; ERI PX Isobaric Recovery &bull; ANSI Relays
+        </div>
+      </div>
+    </div>
+
+    <!-- Lead Engineer Credentials -->
+    <div class="engineer-pill">
+      <div class="engineer-avatar">
+        <i class="fa-solid fa-droplet"></i>
+      </div>
+      <div class="engineer-info">
+        <span class="engineer-name">أ. طارق ابوعشي</span>
+        <span class="engineer-role">Lead Electrical & Automation Systems Engineer</span>
+      </div>
+    </div>
+
+    <!-- Telemetry Status Bar -->
+    <div class="header-telemetry-box">
+      <div class="header-stat">
+        <span class="header-stat-label">GRID FREQ</span>
+        <span class="header-stat-val text-cyan font-mono" id="header-grid-freq">50.00 Hz</span>
+      </div>
+      <div class="header-stat">
+        <span class="header-stat-label">11kV BUS VOLTS</span>
+        <span class="header-stat-val font-mono" id="header-bus-volts">11,020 V</span>
+      </div>
+      <div class="header-stat">
+        <span class="header-stat-label">RECOVERY RATIO</span>
+        <span class="header-stat-val text-green font-mono" id="header-recovery-val">43.5 %</span>
+      </div>
+      <div class="header-stat">
+        <span class="header-stat-label">SPECIFIC ENERGY</span>
+        <span class="header-stat-val text-cyan font-mono" id="header-sec-val">2.85 kWh/m³</span>
+      </div>
+      <div class="header-stat">
+        <span class="header-stat-label">SYSTEM TIME</span>
+        <span class="header-stat-val font-mono text-muted" id="header-clock">--:--:--</span>
+      </div>
+
+      <!-- Action Controls -->
+      <div class="header-actions">
+        <button class="btn btn-secondary" id="btn-audio-toggle" title="Toggle SCADA Audio Alarms">
+          <i class="fa-solid fa-volume-high" id="audio-icon"></i>
+          <span id="audio-text">Audio: Active</span>
+        </button>
+        <button class="btn btn-secondary" id="btn-screenshot" title="Capture SCADA Screen">
+          <i class="fa-solid fa-camera"></i>
+          <span>Snapshot</span>
+        </button>
+        <button class="btn btn-primary" id="btn-open-dossier" title="Open Engineering Dossier & Calculations">
+          <i class="fa-solid fa-file-shield"></i>
+          <span>Engineering Dossier</span>
+        </button>
+        <button class="btn btn-success" id="btn-quick-reset" title="Acknowledge Alarms and Reset System">
+          <i class="fa-solid fa-rotate-right"></i>
+          <span>System Reset</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Master Alarm & SOE Annunciator Banner -->
+  <div class="alarm-banner" id="master-alarm-banner">
+    <div class="alarm-info-side">
+      <span class="alarm-badge healthy" id="alarm-badge-status">NORMAL</span>
+      <span class="alarm-msg" id="alarm-banner-message">SYSTEM HEALTHY - ALL PROCESS LOOPS BALANCED & INTERLOCKS CLEAR</span>
+    </div>
+    <div class="alarm-meta-side font-mono">
+      <span class="text-muted">SOE RECORDER: </span>
+      <span id="soe-timestamp" class="text-cyan">00:00:00.000</span>
+    </div>
+  </div>
+
+  <!-- Main Dashboard Content -->
+  <main class="dashboard-container">
+
+    <!-- ROW 1: Process Mimic (Unit 1 & 2 Process Flow) + High-Pressure Pump Telemetry Readouts -->
+    <section class="scada-row row-primary-mimic">
+      <!-- Left: SVG Animated Process Mimic Container -->
+      <div class="scada-panel" id="ro-mimic-container" style="min-height: 440px; display: flex; flex-direction: column;">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <span class="badge-tag tag-cyan">PROCESS MIMIC</span>
+            <h4 class="panel-title">SWRO Desalination Train & ERI PX Isobaric Energy Recovery System</h4>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <span class="status-pill status-running" id="train-status-pill">TRAIN-A ONLINE</span>
+            <span class="font-mono text-cyan" style="font-size: 11px;">FLOW: 1,850 m³/h</span>
+          </div>
+        </div>
+        <div id="svg-mimic-wrapper" style="flex: 1; position: relative; width: 100%; min-height: 380px;">
+          <!-- Rendered dynamically by TypeScript SVG Engine -->
+        </div>
+      </div>
+
+      <!-- Right: Unit 1 HP Pump & 11kV VFD Telemetry Dashboard -->
+      <div class="scada-panel">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <span class="badge-tag tag-cyan">UNIT 1 TELEMETRY</span>
+            <h4 class="panel-title">High-Pressure Feed Pump: 11kV 3,800 kW VFD Drive</h4>
+          </div>
+          <span class="status-pill status-running" id="hp-pump-status">RUNNING (64.2 BAR)</span>
+        </div>
+
+        <div class="telemetry-dashboard-grid">
+          <!-- Discharge Pressure -->
+          <div class="digital-readout-card">
+            <div class="readout-top">
+              <span class="readout-label">Discharge Pressure (P_out)</span>
+              <span class="font-mono text-muted">Normal: 58 - 68.5 Bar</span>
+            </div>
+            <div class="readout-val-large font-mono text-cyan" id="hp-pressure-val">
+              64.2 <span class="readout-unit">Bar</span>
+            </div>
+            <div class="readout-bar">
+              <div class="readout-bar-fill" id="hp-pressure-bar" style="width: 80.2%;"></div>
+            </div>
+          </div>
+
+          <!-- Stator Current & Active Power -->
+          <div class="digital-readout-card">
+            <div class="readout-top">
+              <span class="readout-label">11kV Motor Current & Power</span>
+              <span class="font-mono text-muted">Rated: 245 A | 3.8 MW</span>
+            </div>
+            <div class="readout-val-large font-mono" id="hp-current-val">
+              218.4 <span class="readout-unit">A</span>
+              <span class="font-mono text-cyan" style="font-size: 14px; margin-left: 12px;" id="hp-power-val">3.45 MW</span>
+            </div>
+            <div class="readout-bar">
+              <div class="readout-bar-fill" id="hp-current-bar" style="width: 89.1%;"></div>
+            </div>
+          </div>
+
+          <!-- Specific Energy & Flow Rate -->
+          <div class="digital-readout-card">
+            <div class="readout-top">
+              <span class="readout-label">Specific Energy (SEC) & Flow</span>
+              <span class="font-mono text-muted" id="anti-hammer-valve-status">Anti-Hammer: 100% OPEN</span>
+            </div>
+            <div class="readout-val-large font-mono text-green" id="hp-sec-display">
+              2.85 <span class="readout-unit">kWh/m³</span>
+              <span class="font-mono text-muted" style="font-size: 13px; margin-left: 10px;" id="hp-flow-display">1,850 m³/h</span>
+            </div>
+          </div>
+
+          <!-- Stator Windings PT100 RTD Matrix -->
+          <div class="digital-readout-card">
+            <div class="readout-top">
+              <span class="readout-label">Stator Windings RTDs (PT100)</span>
+              <span class="font-mono text-muted">Trip > 130°C</span>
+            </div>
+            <div class="rtd-matrix">
+              <div class="rtd-tile" id="tile-u1">
+                <span class="rtd-channel">U1 PHASE</span>
+                <span class="rtd-temp font-mono text-cyan" id="temp-u1">88.4 °C</span>
+              </div>
+              <div class="rtd-tile" id="tile-v1">
+                <span class="rtd-channel">V1 PHASE</span>
+                <span class="rtd-temp font-mono text-cyan" id="temp-v1">89.1 °C</span>
+              </div>
+              <div class="rtd-tile" id="tile-w1">
+                <span class="rtd-channel">W1 PHASE</span>
+                <span class="rtd-temp font-mono text-cyan" id="temp-w1">87.6 °C</span>
+              </div>
+              <div class="rtd-tile" id="tile-u2">
+                <span class="rtd-channel">U2 PHASE</span>
+                <span class="rtd-temp font-mono text-cyan" id="temp-u2">88.9 °C</span>
+              </div>
+              <div class="rtd-tile" id="tile-v2">
+                <span class="rtd-channel">V2 PHASE</span>
+                <span class="rtd-temp font-mono text-cyan" id="temp-v2">89.5 °C</span>
+              </div>
+              <div class="rtd-tile" id="tile-w2">
+                <span class="rtd-channel">W2 PHASE</span>
+                <span class="rtd-temp font-mono text-cyan" id="temp-w2">88.1 °C</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Thrust & Journal Bearings RTDs (DE & NDE) -->
+          <div class="digital-readout-card">
+            <div class="readout-top">
+              <span class="readout-label">Pump & Motor Thrust Bearings RTDs</span>
+              <span class="font-mono text-muted">Warn > 75°C | Trip > 90°C</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <div class="rtd-tile">
+                <span class="rtd-channel">DRIVE END (DE)</span>
+                <span class="rtd-temp font-mono text-green" id="temp-de-bearing">64.2 °C</span>
+              </div>
+              <div class="rtd-tile">
+                <span class="rtd-channel">NON-DRIVE (NDE)</span>
+                <span class="rtd-temp font-mono text-green" id="temp-nde-bearing">58.7 °C</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROW 2: Unit 2 (RO Membrane & ERI PX Isobaric Recovery) + Unit 3 (Hydraulic Protection & 11kV GIS Substation SLD) -->
+    <section class="scada-row row-middle">
+      <!-- Unit 2: RO Membrane Train & PX Energy Recovery Telemetry -->
+      <div class="scada-panel">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <span class="badge-tag tag-cyan">UNIT 2 MEMBRANE & PX</span>
+            <h4 class="panel-title">RO Membrane Performance & ERI PX Isobaric Recovery</h4>
+          </div>
+          <span class="status-pill status-running" id="px-status-pill">PX ROTOR: 1,200 RPM (96.2% EFF)</span>
+        </div>
+
+        <!-- Metric Grid for Membrane & PX -->
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 12px;">
+          <!-- Feed TDS vs Permeate TDS -->
+          <div class="digital-readout-card">
+            <div class="readout-top">
+              <span class="readout-label">Salinity: Feed vs Permeate TDS</span>
+              <span class="font-mono text-muted" id="rejection-ratio-label">Rejection: 99.56%</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 6px;">
+              <div>
+                <span style="font-size: 10px; color: var(--text-muted); display: block;">FEED SEAWATER</span>
+                <span class="font-mono" style="font-size: 18px; color: #14b8a6;" id="feed-tds-val">42,500 <span class="readout-unit">ppm</span></span>
+              </div>
+              <i class="fa-solid fa-arrow-right text-muted"></i>
+              <div>
+                <span style="font-size: 10px; color: var(--text-muted); display: block;">PERMEATE WATER</span>
+                <span class="font-mono text-cyan" style="font-size: 18px; font-weight: 700;" id="permeate-tds-val">185 <span class="readout-unit">ppm</span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Permeate Conductivity & Water Quality (pH / ORP) -->
+          <div class="digital-readout-card">
+            <div class="readout-top">
+              <span class="readout-label">Permeate Conductivity & Chemistry</span>
+              <span class="font-mono text-muted">WHO Limit: &lt;500 µS/cm</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 6px;">
+              <div>
+                <span style="font-size: 10px; color: var(--text-muted); display: block;">CONDUCTIVITY</span>
+                <span class="font-mono text-green" style="font-size: 18px;" id="permeate-cond-val">320 <span class="readout-unit">µS/cm</span></span>
+              </div>
+              <div>
+                <span style="font-size: 10px; color: var(--text-muted); display: block;">pH LEVEL</span>
+                <span class="font-mono text-cyan" style="font-size: 18px;" id="water-ph-val">7.20</span>
+              </div>
+              <div>
+                <span style="font-size: 10px; color: var(--text-muted); display: block;">ORP POTENTIAL</span>
+                <span class="font-mono text-cyan" style="font-size: 18px;" id="water-orp-val">245 <span class="readout-unit">mV</span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ERI PX Isobaric Pressure Exchange -->
+          <div class="digital-readout-card">
+            <div class="readout-top">
+              <span class="readout-label">ERI PX Isobaric Energy Transfer</span>
+              <span class="font-mono text-muted">Ceramic Rotor: 1200 RPM</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 6px;">
+              <div>
+                <span style="font-size: 10px; color: var(--text-muted); display: block;">BRINE INLET</span>
+                <span class="font-mono text-amber" style="font-size: 16px;" id="px-brine-in-val">62.8 Bar</span>
+              </div>
+              <i class="fa-solid fa-arrows-rotate text-cyan px-rotor-spinning"></i>
+              <div>
+                <span style="font-size: 10px; color: var(--text-muted); display: block;">BOOSTED SEAWATER</span>
+                <span class="font-mono text-cyan" style="font-size: 16px;" id="px-sw-out-val">61.2 Bar</span>
+              </div>
+              <div>
+                <span style="font-size: 10px; color: var(--text-muted); display: block;">ENERGY RECOVERED</span>
+                <span class="font-mono text-green" style="font-size: 16px; font-weight: 700;" id="px-power-saved-val">4.62 MW</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Brine Outfall & Concentration Factor -->
+          <div class="digital-readout-card">
+            <div class="readout-top">
+              <span class="readout-label">Concentrated Brine Discharge</span>
+              <span class="font-mono text-muted">Recovery: 43.5%</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 6px;">
+              <div>
+                <span style="font-size: 10px; color: var(--text-muted); display: block;">BRINE SALINITY</span>
+                <span class="font-mono text-amber" style="font-size: 16px;" id="brine-tds-val">75,200 <span class="readout-unit">ppm</span></span>
+              </div>
+              <div>
+                <span style="font-size: 10px; color: var(--text-muted); display: block;">DISCHARGE PRESSURE</span>
+                <span class="font-mono text-muted" style="font-size: 16px;" id="brine-dp-val">1.8 Bar</span>
+              </div>
+              <div>
+                <span style="font-size: 10px; color: var(--text-muted); display: block;">BRINE FLOW</span>
+                <span class="font-mono text-amber" style="font-size: 16px;" id="brine-flow-val">1,045 m³/h</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desalination Flow Balancing Bar -->
+        <div class="interlock-rule-strip">
+          <div>
+            <span class="text-muted font-mono">FLOW BALANCE:</span>
+            <span class="font-mono text-cyan" style="margin-left: 6px;">Feed Seawater (1850 m³/h) = Permeate Product (805 m³/h) + Brine Reject (1045 m³/h)</span>
+          </div>
+          <div class="cascade-chain-diagram">
+            <span class="chain-node active" id="node-feed">RAW INTAKE</span>
+            <span>&rarr;</span>
+            <span class="chain-node active" id="node-hp">11kV HP PUMP</span>
+            <span>&rarr;</span>
+            <span class="chain-node active" id="node-membranes">RO TRAIN</span>
+            <span>&rarr;</span>
+            <span class="chain-node active" id="node-px">ERI PX (96%)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Unit 3: Hydraulic Protection Interlocks & 11kV GIS Substation (Interactive SLD) -->
+      <div class="scada-panel" id="sld-container">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <span class="badge-tag tag-cyan">UNIT 3 SUBSTATION & SAFETY</span>
+            <h4 class="panel-title">11kV SF6 GIS Substation SLD & Hydraulic Interlock System</h4>
+          </div>
+          <span class="status-pill status-running" id="sld-interlock-status">INTERLOCKS CLEAR (PERMISSIVE ACTIVE)</span>
+        </div>
+
+        <!-- Substation & Interlock Grid -->
+        <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 12px; height: calc(100% - 50px);">
+          <!-- Left: Interactive SLD Diagram -->
+          <div id="svg-sld-wrapper" style="background: #050811; border: 1px solid var(--border-subtle); border-radius: 6px; padding: 10px; display: flex; flex-direction: column;">
+            <!-- SVG Single Line Diagram rendered by TS -->
+          </div>
+
+          <!-- Right: Safety Interlocks Matrix -->
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <!-- Interlock 1: Low Suction Pressure (Cavitation Guard) -->
+            <div class="digital-readout-card" style="padding: 10px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <span style="font-size: 11px; font-weight: 700; color: #cbd5e1;">INTERLOCK 1: Low Suction Pressure</span>
+                <span class="interlock-badge interlock-safe" id="badge-interlock-suction">SAFE (2.45 Bar)</span>
+              </div>
+              <div style="font-size: 10px; color: var(--text-muted); line-height: 1.4;">
+                Threshold: P_suction &lt; 1.8 Bar. Prevents catastrophic impeller cavitation & NPSH starvation. Response: Instantaneous VFD Shutdown in 50ms.
+              </div>
+            </div>
+
+            <!-- Interlock 2: High ORP / Free Chlorine Breakthrough -->
+            <div class="digital-readout-card" style="padding: 10px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <span style="font-size: 11px; font-weight: 700; color: #cbd5e1;">INTERLOCK 2: Free Chlorine Guard</span>
+                <span class="interlock-badge interlock-safe" id="badge-interlock-chlorine">SAFE (245 mV)</span>
+              </div>
+              <div style="font-size: 10px; color: var(--text-muted); line-height: 1.4;">
+                Threshold: ORP &gt; 350 mV. Protects polyamide membrane sheets from irreversible oxidative destruction. Response: Emergency SMBS chemical injection + 3-Way Dump Valve redirect to outfall in 200ms.
+              </div>
+            </div>
+
+            <!-- Protective Relays Status Matrix -->
+            <div class="digital-readout-card" style="padding: 10px; flex: 1;">
+              <span style="font-size: 11px; font-weight: 700; color: #cbd5e1; display: block; margin-bottom: 6px;">
+                ANSI / IEEE Relays (SIPROTEC 7SJ85)
+              </span>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-family: var(--font-mono); font-size: 10px;">
+                <div style="background: #070b14; padding: 6px; border-radius: 4px; border: 1px solid var(--border-subtle); display: flex; justify-content: space-between;">
+                  <span class="text-cyan">ANSI 51 (TOC)</span>
+                  <span class="text-green" id="relay-51-val">IDLE</span>
+                </div>
+                <div style="background: #070b14; padding: 6px; border-radius: 4px; border: 1px solid var(--border-subtle); display: flex; justify-content: space-between;">
+                  <span class="text-amber">ANSI 46 (Unbal)</span>
+                  <span class="text-green" id="relay-46-val">2.1% (OK)</span>
+                </div>
+                <div style="background: #070b14; padding: 6px; border-radius: 4px; border: 1px solid var(--border-subtle); display: flex; justify-content: space-between;">
+                  <span class="text-purple">ANSI 37 (Under-I)</span>
+                  <span class="text-green" id="relay-37-val">ARMED</span>
+                </div>
+                <div style="background: #070b14; padding: 6px; border-radius: 4px; border: 1px solid var(--border-subtle); display: flex; justify-content: space-between;">
+                  <span class="text-red">ANSI 50N (Earth)</span>
+                  <span class="text-green" id="relay-50n-val">0.4A (OK)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROW 3: Unit 4 (AI Predictive Maintenance Widget 60fps) + Unit 5 (Fault Injection & SOE Chronology Panel) -->
+    <section class="scada-row row-middle">
+      <!-- Unit 4: AI Predictive Maintenance Widget -->
+      <div class="scada-panel" id="ai-panel-container">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <span class="badge-tag tag-purple">UNIT 4 AI PREDICTIVE</span>
+            <h4 class="panel-title">Membrane Fouling (TMP ΔP) & 1.4 kHz Pump Cavitation Acoustic Anomaly Engine</h4>
+          </div>
+          <span class="status-pill status-running" id="ai-health-pill">AI HEALTH: 98.4% (NORMAL)</span>
+        </div>
+
+        <!-- Anomaly Banner -->
+        <div class="anomaly-card anomaly-alert" id="anomaly-banner-card" style="margin-bottom: 10px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="fa-solid fa-microchip text-purple" style="font-size: 20px;"></i>
+            <div>
+              <div style="font-size: 11px; font-weight: 800; color: #f8fafc;" id="anomaly-headline">
+                NEURAL ANOMALY DETECTOR: STAGE-2 MEMBRANE & PUMP ACOUSTICS
+              </div>
+              <div style="font-size: 10px; color: #94a3b8;" id="anomaly-subtext">
+                Transmembrane Pressure ΔP: 1.42 Bar | FFT Peak at 1.4 kHz: 0.18 mm/s RMS (Healthy)
+              </div>
+            </div>
+          </div>
+          <span class="badge-tag tag-cyan" id="ai-recommendation-tag">CIP SCHEDULED: 180 DAYS</span>
+        </div>
+
+        <!-- 60fps Real-Time Canvas -->
+        <div class="canvas-container">
+          <canvas id="predictive-canvas"></canvas>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);">
+          <span><span style="color: #06b6d4;">■</span> Transmembrane ΔP (Bar)</span>
+          <span><span style="color: #a855f7;">■</span> Acoustic Vibration @ 1.4 kHz (mm/s)</span>
+          <span><span style="color: #f59e0b;">■</span> Critical Scaling Threshold (3.5 Bar)</span>
+          <span class="text-cyan">SAMPLING: 60 FPS / FFT 1024</span>
+        </div>
+      </div>
+
+      <!-- Unit 5: Fault Injection & SOE Chronology Panel -->
+      <div class="scada-panel">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <span class="badge-tag tag-cyan">UNIT 5 FAULT LAB & SOE</span>
+            <h4 class="panel-title">Fault Injection & Sequence of Events (SOE 1ms Chronology)</h4>
+          </div>
+          <span class="font-mono text-muted" style="font-size: 11px;">Interactive Safety Validation</span>
+        </div>
+
+        <!-- Fault Buttons Grid -->
+        <div class="fault-button-grid" style="margin-bottom: 10px;">
+          <!-- Fault 1: Suction Cavitation Low NPSH -->
+          <button class="fault-btn-card" id="btn-fault-suction">
+            <span class="btn-card-title text-amber">
+              <i class="fa-solid fa-triangle-exclamation"></i> 1. Suction Cavitation (Low NPSH)
+            </span>
+            <span class="btn-card-sub">Suction drops to 1.1 Bar (&lt;1.8 Bar). Triggers Interlock 1 & ANSI 37 trip.</span>
+          </button>
+
+          <!-- Fault 2: Free Chlorine Breakthrough -->
+          <button class="fault-btn-card" id="btn-fault-chlorine">
+            <span class="btn-card-title text-red">
+              <i class="fa-solid fa-biohazard"></i> 2. Free Chlorine (High ORP)
+            </span>
+            <span class="btn-card-sub">ORP surges to 460 mV (&gt;350 mV). Fires SMBS dosing & fast Dump Valve in 200ms.</span>
+          </button>
+
+          <!-- Fault 3: Membrane Bio-Fouling / High ΔP -->
+          <button class="fault-btn-card" id="btn-fault-scaling">
+            <span class="btn-card-title text-purple">
+              <i class="fa-solid fa-chart-line"></i> 3. Membrane Scaling & High ΔP
+            </span>
+            <span class="btn-card-sub">TMP rises to 3.8 Bar. Permeate TDS jumps to 480 ppm. Triggers CIP alert.</span>
+          </button>
+
+          <!-- Fault 4: 11kV Phase Unbalance ANSI 46 -->
+          <button class="fault-btn-card" id="btn-fault-unbalance">
+            <span class="btn-card-title text-red">
+              <i class="fa-solid fa-bolt"></i> 4. 11kV Phase Unbalance (ANSI 46)
+            </span>
+            <span class="btn-card-sub">Negative sequence current &gt;12%. Instantaneous 11kV SF6 GIS Breaker trip.</span>
+          </button>
+
+          <!-- Fault 5: System Flush & Normal Restart -->
+          <button class="fault-btn-card btn-card-reset" id="btn-fault-reset">
+            <span class="btn-card-title text-green">
+              <i class="fa-solid fa-rotate-right"></i> 5. System Flush & Normal Restart
+            </span>
+            <span class="btn-card-sub">Neutralizes chlorine, cleanses membranes, resets GIS breaker & ramps VFD to 64.2 Bar.</span>
+          </button>
+        </div>
+
+        <!-- SOE Sequence of Events Log Window -->
+        <div style="background: #070c17; border: 1px solid var(--border-subtle); border-radius: 6px; padding: 8px 10px; display: flex; flex-direction: column; gap: 4px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; font-size: 10px; color: var(--text-muted); font-weight: 700;">
+            <span>EVENT CHRONOLOGY (SOE 1ms RESOLUTION)</span>
+            <span class="text-cyan font-mono" id="soe-event-count">4 EVENTS LOGGED</span>
+          </div>
+          <div id="soe-log-box" style="font-family: var(--font-mono); font-size: 10px; color: #94a3b8; display: flex; flex-direction: column; gap: 3px; max-height: 85px; overflow-y: auto;">
+            <div>[00:00:01.042] 11kV Substation Incomer CB-01 energized at 11,020 V. Bus frequency 50.00 Hz balanced.</div>
+            <div>[00:00:02.115] Raw seawater intake booster pump running at 3.2 Bar. Dual Media & Cartridge filters verified clear.</div>
+            <div>[00:00:03.480] ERI PX Isobaric Pressure Exchanger spinning at 1,200 RPM. Energy recovery efficiency 96.2%.</div>
+            <div class="text-green">[00:00:04.210] 11kV VFD ramped to 64.2 Bar. Permeate quality nominal: 185 ppm TDS, 320 µS/cm.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Engineering Dossier Modal Container (Rendered dynamically) -->
+  <div id="engineering-dossier-root"></div>
+
+</body>
+</html>
