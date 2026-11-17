@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QATT-FRACTAL: Generative Asiri Geometry, Fractal Tessellation & Kinetic Mosaic Atelier</title>
+    <meta
+      name="description"
+      content="QATT-FRACTAL: Interactive Generative Asiri Geometry, Sacred Golden-Ratio Mandala, Hilbert Fractal Tessellation & Arabic Maqam Web Audio Atelier. Lead Creative Technologist & Systems Architect: أ. طارق ابوعشي | Tareq Abuashi."
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23060913'/><polygon points='50,10 62,38 90,50 62,62 50,90 38,62 10,50 38,38' fill='none' stroke='%23eab308' stroke-width='5'/><polygon points='50,24 64,50 50,76 36,50' fill='%23c83e2b' stroke='%23f8fafc' stroke-width='2.5'/></svg>"
+    />
+    <script type="module" crossorigin src="./assets/index-UE66gcZj.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CjOtlvju.css">
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="brand-section">
+        <div class="brand-icon-wrap" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <polygon points="12 2 15 9 22 12 15 15 12 22 9 15 2 12 9 9 12 2"></polygon>
+            <polygon points="12 6.5 15.5 12 12 17.5 8.5 12 12 6.5" fill="currentColor" fill-opacity="0.25"></polygon>
+          </svg>
+        </div>
+        <div class="title-wrap">
+          <h1>QATT-FRACTAL</h1>
+          <div class="subtitle">
+            <span>Generative Asiri Geometry &amp; Kinetic Mosaic Atelier</span>
+            <span>&bull;</span>
+            <span class="architect">أ. طارق ابوعشي | Tareq Abuashi — Lead Creative Technologist &amp; Systems Architect</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="header-audio-pill" class="btn-icon" title="Cycle Arabic Maqam Synth">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          </svg>
+          <span id="header-maqam-label">مقام الحجاز • Hijaz</span>
+        </button>
+
+        <button id="open-dossier-btn" class="btn-icon btn-accent" title="Open Geometry Dossier & Mathematical Equations">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+          <span>Geometry Dossier</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ATELIER MODE NAVIGATION -->
+    <nav class="system-nav" aria-label="Atelier Modes">
+      <button class="system-tab active" data-mode="kaleidoscope">
+        <span class="tab-badge">MOD 01</span>
+        <span>Generative Kaleidoscope &amp; Brush</span>
+        <span class="tab-ar">الكاليدوسكوب والتناظر الإشعاعي</span>
+      </button>
+      <button class="system-tab" data-mode="fractal_mandala">
+        <span class="tab-badge">MOD 02</span>
+        <span>Sacred Asiri Mandala &amp; Hilbert Fractal</span>
+        <span class="tab-ar">الفركتلات والفسيفساء الحركية</span>
+      </button>
+    </nav>
+
+    <!-- MAIN WORKSPACE -->
+    <main class="main-workspace">
+      <!-- DUAL-LAYER INTERACTIVE CANVAS ARENA -->
+      <section class="arena-container">
+        <canvas id="atelier-art-canvas"></canvas>
+        <canvas id="atelier-fx-canvas"></canvas>
+
+        <!-- TOP LIVE HUD OVERLAY -->
+        <div class="arena-hud-overlay">
+          <div class="hud-pill">
+            <span class="pulse-dot"></span>
+            <span id="hud-mode-title">Kaleidoscope Atelier</span>
+            <span>&bull;</span>
+            <span id="hud-fps">60 FPS</span>
+            <span>&bull;</span>
+            <span id="hud-entities">0 Entities</span>
+            <span>&bull;</span>
+            <span id="hud-symmetry">8-Fold</span>
+            <span>&bull;</span>
+            <span id="hud-maqam">Hijaz</span>
+          </div>
+          <div class="hud-pill" id="hud-interaction-hint">
+            <span>Drag / Touch canvas to weave Asiri geometry</span>
+          </div>
+        </div>
+
+        <!-- BOTTOM CONTROL & EXPORT BAR -->
+        <div class="arena-bottom-controls">
+          <button id="btn-undo" class="ctrl-btn" title="Undo Last Brush Stroke">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 14L4 9l5-5"></path>
+              <path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"></path>
+            </svg>
+            <span>Undo</span>
+          </button>
+
+          <button id="btn-clear" class="ctrl-btn" title="Clear Canvas">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+            </svg>
+            <span>Clear</span>
+          </button>
+
+          <button id="btn-autoweave" class="ctrl-btn" title="Toggle Auto-Weave Generative Bot">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+            <span id="txt-autoweave">Auto-Weave</span>
+          </button>
+
+          <button id="btn-plaster" class="ctrl-btn active" title="Toggle Authentic Gypsum Plaster Texture">
+            <span>Plaster Texture</span>
+          </button>
+
+          <button id="btn-export-svg" class="ctrl-btn ctrl-export" title="Export True CNC-Ready Vector SVG">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span>Export SVG</span>
+          </button>
+
+          <button id="btn-export-png" class="ctrl-btn ctrl-export-gold" title="Export Ultra-HD 4K PNG Artwork">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+            <span>Export 4K PNG</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- SIDEBAR ATELIER CONTROLS -->
+      <aside class="sidebar custom-scroll">
+        <!-- DYNAMIC MODE PANEL (Motifs or Hilbert Fractal) -->
+        <div class="sidebar-panel" id="panel-mode-controls"></div>
+
+        <!-- PANEL: ROTATIONAL SYMMETRY -->
+        <div class="sidebar-panel">
+          <div class="panel-header">
+            <span>Rotational Symmetry</span>
+            <span class="badge">Dihedral D<sub>n</sub></span>
+          </div>
+          <div class="preset-btn-group symmetry-grid" id="symmetry-selector">
+            <button class="sub-btn" data-folds="4">4-Fold</button>
+            <button class="sub-btn" data-folds="6">6-Fold</button>
+            <button class="sub-btn active" data-folds="8">8-Fold</button>
+            <button class="sub-btn" data-folds="12">12-Fold</button>
+            <button class="sub-btn" data-folds="16">16-Fold</button>
+          </div>
+          <div class="toggle-row">
+            <label class="toggle-chip">
+              <input type="checkbox" id="chk-emboss" checked />
+              <span>3D Gypsum Emboss Relief</span>
+            </label>
+            <label class="toggle-chip" id="wrap-mirror-toggle">
+              <input type="checkbox" id="chk-mirror" checked />
+              <span>Mirror Plane</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- PANEL: AUTHENTIC ABHA PIGMENT PALETTES -->
+        <div class="sidebar-panel">
+          <div class="panel-header">
+            <span>Abha Pigment Palettes</span>
+            <span class="badge">5 Authentic</span>
+          </div>
+          <div class="palette-list" id="palette-list"></div>
+        </div>
+
+        <!-- PANEL: ARABIC MAQAM SYNTH -->
+        <div class="sidebar-panel">
+          <div class="panel-header">
+            <span>Maqam Generative Synth</span>
+            <span class="badge">Web Audio</span>
+          </div>
+          <div class="preset-btn-group maqam-grid" id="maqam-selector">
+            <button class="sub-btn active" data-maqam="hijaz">الحجاز Hijaz</button>
+            <button class="sub-btn" data-maqam="bayati">بياتي Bayati</button>
+            <button class="sub-btn" data-maqam="nahawand">نهوند Nahawand</button>
+            <button class="sub-btn" data-maqam="mute">صامت Mute</button>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+  </body>
+</html>

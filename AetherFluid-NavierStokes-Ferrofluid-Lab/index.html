@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AETHER-FLUID: Real-Time Navier-Stokes Fluid, Ferrofluid &amp; Bioluminescent Particle Studio</title>
+    <meta
+      name="description"
+      content="Real-Time 2D Eulerian Navier-Stokes CFD solver, Ferrofluid magnetic spike dynamics, Kármán Vortex Street wind tunnel, and 8,192+ GPU Lagrangian bioluminescent particle studio. Architected by أ. طارق ابوعشي | Tareq Abuashi — Lead Creative Technologist & Systems Architect."
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23060913'/><circle cx='50' cy='50' r='36' fill='none' stroke='%2306b6d4' stroke-width='5'/><path d='M24 52c8-18 22-18 26 0s18 18 26 0' fill='none' stroke='%238b5cf6' stroke-width='6' stroke-linecap='round'/><circle cx='50' cy='50' r='7' fill='%23f59e0b'/></svg>"
+    />
+    <script type="module" crossorigin src="./assets/index-CeCm9B-i.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DeZ9Nnd_.css">
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="brand-section">
+        <div class="brand-icon-wrap" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M2 12c2.5-5 5.5-5 8 0s5.5 5 8 0 2.5-5 4 0"></path>
+            <path d="M2 6c2.5-3.5 5.5-3.5 8 0s5.5 3.5 8 0"></path>
+            <path d="M2 18c2.5-3.5 5.5-3.5 8 0s5.5 3.5 8 0"></path>
+          </svg>
+        </div>
+        <div class="title-wrap">
+          <h1>AETHER-FLUID</h1>
+          <div class="subtitle">
+            <span>Navier-Stokes CFD, Ferrofluid &amp; Bioluminescent Studio</span>
+            <span>&bull;</span>
+            <span class="architect">أ. طارق ابوعشي | Tareq Abuashi — Lead Creative Technologist &amp; Systems Architect</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="audio-toggle-btn" class="btn-icon" title="Toggle Web Audio Fluid Sonification (M)">
+          <svg id="audio-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+          <span id="audio-status-text">Audio: OFF</span>
+        </button>
+
+        <button id="open-math-btn" class="btn-icon" title="Open CFD & Navier-Stokes Dossier">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+          <span>CFD Dossier</span>
+        </button>
+
+        <button id="btn-export-4k" class="btn-icon btn-gold" title="Export 4K (3840×2160) PNG Snapshot">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Export 4K PNG</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- PHYSICS MODE SELECTOR NAVIGATION -->
+    <nav class="system-nav" aria-label="Fluid Simulation Modes">
+      <button class="system-tab active" data-mode="plasma">
+        <span class="tab-badge">CFD 01</span>
+        <span>Neon Plasma Advection</span>
+      </button>
+      <button class="system-tab" data-mode="ferrofluid">
+        <span class="tab-badge">CFD 02</span>
+        <span>Ferrofluid Magnetic Spikes</span>
+      </button>
+      <button class="system-tab" data-mode="karman">
+        <span class="tab-badge">CFD 03</span>
+        <span>Kármán Vortex Street &amp; Wind Tunnel</span>
+      </button>
+      <button class="system-tab" data-mode="plankton">
+        <span class="tab-badge">CFD 04</span>
+        <span>Bioluminescent Plankton</span>
+      </button>
+    </nav>
+
+    <!-- MAIN WORKSPACE -->
+    <main class="main-workspace">
+      <!-- FLUID ARENA -->
+      <section class="arena-container">
+        <canvas id="fluid-canvas"></canvas>
+
+        <!-- TOP HUD STATUS -->
+        <div class="arena-hud-overlay">
+          <div class="hud-pill">
+            <span class="pulse-dot"></span>
+            <span id="hud-mode-title">Neon Plasma Advection</span>
+            <span>&bull;</span>
+            <span id="hud-fps">60 FPS</span>
+            <span>&bull;</span>
+            <span id="hud-backend">WebGL2 Ping-Pong FBO</span>
+          </div>
+          <div class="hud-pill hud-hint" id="hud-interaction-hint">
+            <span>Drag across canvas to inject momentum &amp; plasma dye</span>
+          </div>
+        </div>
+
+        <!-- TOP RIGHT LIVE TELEMETRY PILLS -->
+        <div class="arena-hud-right">
+          <div class="hud-metric-pill">
+            <span class="m-label">Re</span>
+            <span class="m-val" id="hud-re">1,420</span>
+          </div>
+          <div class="hud-metric-pill">
+            <span class="m-label">ω<sub>max</sub></span>
+            <span class="m-val" id="hud-vort">0.0 s⁻¹</span>
+          </div>
+          <div class="hud-metric-pill">
+            <span class="m-label">E<sub>k</sub></span>
+            <span class="m-val" id="hud-ke">0.00</span>
+          </div>
+        </div>
+
+        <!-- BOTTOM SIMULATION CONTROLS -->
+        <div class="arena-bottom-controls">
+          <button id="btn-play-pause" class="ctrl-btn" title="Play / Pause Solver (Space)">
+            <svg id="icon-play-pause" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="6" y="4" width="4" height="16"></rect>
+              <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+            <span id="txt-play-pause">Pause</span>
+          </button>
+
+          <button id="btn-burst-pulse" class="ctrl-btn" title="Radial Shockwave / Vortex Burst (B)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"></path>
+            </svg>
+            <span>Burst Pulse</span>
+          </button>
+
+          <button id="btn-auto-demo" class="ctrl-btn active" title="Toggle Auto-Turbulence Demo">
+            <span>Auto-Turbulence Demo</span>
+          </button>
+
+          <button id="btn-clear-obstacles" class="ctrl-btn" title="Clear Solid Obstacles &amp; Poles (C)">
+            <span>Clear Obstacles</span>
+          </button>
+
+          <button id="btn-reset-fluid" class="ctrl-btn" title="Reset Fluid Field">
+            <span>Reset Field</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- SIDEBAR TELEMETRY & CONTROLS -->
+      <aside class="sidebar custom-scroll">
+        <!-- PANEL: LIVE CFD TELEMETRY -->
+        <div class="sidebar-panel">
+          <div class="panel-header">
+            <span>Eulerian CFD Telemetry</span>
+            <span class="badge" id="flow-regime-badge">TRANSITIONAL</span>
+          </div>
+
+          <div class="telemetry-grid">
+            <div class="telem-box">
+              <span class="label">Frame Rate</span>
+              <span class="value" id="val-fps">60<span class="unit">FPS</span></span>
+            </div>
+            <div class="telem-box">
+              <span class="label">Reynolds Number (Re)</span>
+              <span class="value" id="val-reynolds">1,420</span>
+            </div>
+            <div class="telem-box">
+              <span class="label">Peak Vorticity (ω)</span>
+              <span class="value" id="val-vorticity">0.0<span class="unit">s⁻¹</span></span>
+            </div>
+            <div class="telem-box">
+              <span class="label">Kinetic Energy (E<sub>k</sub>)</span>
+              <span class="value" id="val-ke">0.00<span class="unit">J/m²</span></span>
+            </div>
+          </div>
+
+          <div class="energy-meter-container">
+            <div class="energy-bar-wrap">
+              <div id="bar-turbulence" class="energy-bar-ke" style="width: 35%;"></div>
+            </div>
+            <div class="energy-labels">
+              <span class="energy-ke-txt">Turbulence Intensity: <strong id="val-turb-pct">35%</strong></span>
+              <span class="energy-pe-txt">Particles: <strong id="val-particle-count">8,192</strong></span>
+            </div>
+          </div>
+
+          <canvas id="telemetry-canvas"></canvas>
+        </div>
+
+        <!-- PANEL: MODE-SPECIFIC INTERACTION TOOLS -->
+        <div class="sidebar-panel" id="panel-mode-tools">
+          <!-- Populated dynamically by main.ts -->
+        </div>
+
+        <!-- PANEL: NAVIER-STOKES SOLVER PARAMETERS -->
+        <div class="sidebar-panel">
+          <div class="panel-header">
+            <span>Navier-Stokes Solver</span>
+            <span class="badge">Jos Stam + VC</span>
+          </div>
+
+          <div class="control-group">
+            <div class="control-label-row">
+              <span>Viscosity (ν)</span>
+              <span class="control-val" id="disp-viscosity">0.0002</span>
+            </div>
+            <input type="range" id="slider-viscosity" min="0" max="0.003" step="0.00005" value="0.0002" />
+          </div>
+
+          <div class="control-group">
+            <div class="control-label-row">
+              <span>Vorticity Confinement (ε)</span>
+              <span class="control-val" id="disp-vorticity">28.0</span>
+            </div>
+            <input type="range" id="slider-vorticity" min="0" max="60" step="1" value="28" />
+          </div>
+
+          <div class="control-group">
+            <div class="control-label-row">
+              <span>Dye Dissipation</span>
+              <span class="control-val" id="disp-dissipation">0.985</span>
+            </div>
+            <input type="range" id="slider-dissipation" min="0.90" max="0.999" step="0.001" value="0.985" />
+          </div>
+
+          <div class="control-group">
+            <div class="control-label-row">
+              <span>Wind / Gravity Jet</span>
+              <span class="control-val" id="disp-wind-jet">0.00</span>
+            </div>
+            <input type="range" id="slider-wind-jet" min="-1.0" max="1.5" step="0.05" value="0.0" />
+          </div>
+
+          <div class="control-group">
+            <div class="control-label-row">
+              <span>Solver Quality (Jacobi)</span>
+              <span class="control-val" id="disp-iterations">20 iters</span>
+            </div>
+            <div class="preset-btn-group">
+              <button class="sub-btn" data-iters="12">Fast (12)</button>
+              <button class="sub-btn active" data-iters="20">Balanced (20)</button>
+              <button class="sub-btn" data-iters="32">High CFD (32)</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANEL: ARCHITECT CREDIT -->
+        <div class="sidebar-panel architect-card">
+          <div class="architect-label">Lead Creative Technologist &amp; Systems Architect</div>
+          <div class="architect-name">أ. طارق ابوعشي | Tareq Abuashi</div>
+          <div class="architect-meta">AETHER-FLUID v1.0 &bull; WebGL2 Ping-Pong CFD &amp; TypedArray Engine</div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- CFD & NAVIER-STOKES DOSSIER MODAL (Populated via TypeScript) -->
+    <div id="math-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="dossier-title"></div>
+
+  </body>
+</html>

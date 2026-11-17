@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RESONANCE-CYMATICS: Chladni Plate Standing-Wave Simulator, 3D Harmonograph &amp; Polyphonic Synth</title>
+    <meta
+      name="description"
+      content="Computational acoustics and cymatics laboratory featuring 26,000-particle 2D Square &amp; Circular Chladni standing-wave simulator, 3D damped rotary harmonograph, circular ripple interference tank, and Web Audio polyphonic additive synth. Lead Creative Technologist &amp; Systems Architect: أ. طارق ابوعشي | Tareq Abuashi."
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23060913'/><circle cx='50' cy='50' r='38' fill='none' stroke='%2306b6d4' stroke-width='4'/><path d='M16 50 Q33 18 50 50 T84 50' fill='none' stroke='%23f59e0b' stroke-width='4'/><path d='M50 16 Q82 33 50 50 T50 84' fill='none' stroke='%238b5cf6' stroke-width='4'/><circle cx='50' cy='50' r='6' fill='%2306b6d4'/></svg>"
+    />
+    <script type="module" crossorigin src="./assets/index-BVrtewxH.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-D34CSl6v.css">
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="brand-section">
+        <div class="brand-icon-wrap" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+            <circle cx="12" cy="12" r="9.5"></circle>
+            <path d="M4.5 12c2.5-5 5-5 7.5 0s5 5 7.5 0"></path>
+            <path d="M12 4.5c5 2.5 5 5 0 7.5s-5 5 0 7.5"></path>
+          </svg>
+        </div>
+        <div class="title-wrap">
+          <h1>RESONANCE-CYMATICS</h1>
+          <div class="subtitle">
+            <span>Chladni Standing-Wave, 3D Harmonograph &amp; Polyphonic Synth</span>
+            <span>&bull;</span>
+            <span>Architect:</span>
+            <span class="architect">أ. طارق ابوعشي | Tareq Abuashi</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="audio-toggle-btn" class="btn-icon" title="Toggle Web Audio Additive Synth">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          </svg>
+          <span id="audio-status-text">Audio: OFF</span>
+        </button>
+
+        <button id="btn-snapshot-top" class="btn-icon" title="Save High-Res PNG Snapshot">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+            <circle cx="12" cy="13" r="4"></circle>
+          </svg>
+          <span>Snapshot</span>
+        </button>
+
+        <button id="open-dossier-btn" class="btn-icon" title="Open Computational Acoustics Physics Dossier">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+          <span>Physics Dossier</span>
+        </button>
+
+        <a
+          href="https://github.com/Tareq0001/ResonanceCymatics-Chladni-Harmonograph"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-icon"
+          title="View Source Repository on GitHub"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+            />
+          </svg>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- SYSTEM SELECTOR NAVIGATION -->
+    <nav class="system-nav" aria-label="Acoustics &amp; Cymatics Engines">
+      <button class="system-tab active" data-system="chladni">
+        <span class="tab-badge">SYS 01</span>
+        <span>Chladni Sand Plate (26K)</span>
+      </button>
+      <button class="system-tab" data-system="harmonograph">
+        <span class="tab-badge">SYS 02</span>
+        <span>3D Rotary Harmonograph</span>
+      </button>
+      <button class="system-tab" data-system="ripple">
+        <span class="tab-badge">SYS 03</span>
+        <span>Circular Ripple Tank</span>
+      </button>
+    </nav>
+
+    <!-- MAIN WORKSPACE -->
+    <main class="main-workspace">
+      <!-- LEFT COLUMN: ARENA + PIANO SYNTH DOCK -->
+      <section class="stage-column">
+        <div class="arena-container">
+          <canvas id="physics-canvas"></canvas>
+
+          <!-- TOP HUD STATUS -->
+          <div class="arena-hud-overlay">
+            <div class="hud-pill">
+              <span class="pulse-dot"></span>
+              <span id="hud-system-title">2D Standing-Wave Chladni Plate</span>
+              <span>&bull;</span>
+              <span id="hud-fps">60 FPS</span>
+              <span>&bull;</span>
+              <span id="hud-freq-badge">432.0 Hz</span>
+            </div>
+            <div class="hud-pill hud-hint" id="hud-interaction-hint">
+              <span>🖱 Drag across plate to scatter &amp; brush sand</span>
+            </div>
+          </div>
+
+          <!-- BOTTOM SIMULATION CONTROLS -->
+          <div class="arena-bottom-controls">
+            <button id="btn-play-pause" class="ctrl-btn" title="Toggle Play / Pause (Spacebar)">
+              <svg id="icon-play" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="6" y="4" width="4" height="16"></rect>
+                <rect x="14" y="4" width="4" height="16"></rect>
+              </svg>
+              <span id="txt-play-pause">Pause</span>
+            </button>
+
+            <button id="btn-scatter" class="ctrl-btn" title="Scatter Sand / Re-energize Field">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="6" cy="6" r="1.5" fill="currentColor"></circle>
+                <circle cx="18" cy="7" r="1.5" fill="currentColor"></circle>
+                <circle cx="11" cy="12" r="1.5" fill="currentColor"></circle>
+                <circle cx="7" cy="18" r="1.5" fill="currentColor"></circle>
+                <circle cx="17" cy="17" r="1.5" fill="currentColor"></circle>
+              </svg>
+              <span>Scatter Sand</span>
+            </button>
+
+            <button id="btn-sweep" class="ctrl-btn" title="Auto Frequency Sweep Mode">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M2 12h3l2-6 4 12 4-10 3 4h4"></path>
+              </svg>
+              <span>Sweep</span>
+            </button>
+
+            <button id="btn-snapshot" class="ctrl-btn" title="Export Canvas as PNG">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              <span>PNG</span>
+            </button>
+
+            <button id="btn-reset" class="ctrl-btn" title="Reset System">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                <path d="M3 3v5h5"></path>
+              </svg>
+              <span>Reset</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- POLYPHONIC PIANO & HARMONIC PRESET DOCK -->
+        <div class="synth-dock">
+          <div class="synth-dock-header">
+            <div class="synth-dock-title">
+              <span class="badge-live">POLYPHONIC SYNTH</span>
+              <span>Interactive Harmonic Keyboard (C4 – C5) &amp; Sacred Frequency Presets</span>
+            </div>
+            <div class="preset-bar">
+              <button class="preset-chip" data-preset="432" title="Verdi A4 = 432 Hz">432 Hz</button>
+              <button class="preset-chip" data-preset="528" title="Solfeggio 528 Hz">528 Hz</button>
+              <button class="preset-chip" data-preset="phi" title="Golden Ratio φ = 1.618">Golden Ratio φ</button>
+              <button class="preset-chip" data-preset="maj7" title="Play C Major 7th Polyphonic Chord">Chord Maj7</button>
+            </div>
+          </div>
+
+          <div class="piano-wrapper">
+            <div id="piano-keyboard" class="piano-keyboard" role="group" aria-label="Polyphonic Piano Keyboard"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SIDEBAR TELEMETRY & CONTROLS -->
+      <aside class="sidebar custom-scroll">
+        <!-- PANEL: LIVE FFT OSCILLOSCOPE & SPECTRUM -->
+        <div class="sidebar-panel">
+          <div class="panel-header">
+            <span>Live FFT Oscilloscope</span>
+            <span class="badge" id="fft-mode-badge">Waveform + Spectrum</span>
+          </div>
+          <canvas id="fft-canvas"></canvas>
+        </div>
+
+        <!-- PANEL: ACOUSTIC RESONANCE TELEMETRY -->
+        <div class="sidebar-panel">
+          <div class="panel-header">
+            <span>Resonance Telemetry</span>
+            <span class="badge" id="telem-status-badge">Nodal Equilibrium</span>
+          </div>
+
+          <div class="telemetry-grid">
+            <div class="telem-box">
+              <span class="label">Drive Frequency</span>
+              <span class="value" id="val-freq">432.0<span class="unit">Hz</span></span>
+            </div>
+            <div class="telem-box">
+              <span class="label">Eigenmode (n, m)</span>
+              <span class="value" id="val-modes">(3, 5)</span>
+            </div>
+            <div class="telem-box">
+              <span class="label">Nodal Settle %</span>
+              <span class="value" id="val-nodal">0.0<span class="unit">%</span></span>
+            </div>
+            <div class="telem-box">
+              <span class="label">Active Voices</span>
+              <span class="value" id="val-voices">0<span class="unit">ch</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANEL: SYSTEM SPECIFIC PARAMETERS -->
+        <div class="sidebar-panel" id="panel-dynamic-controls">
+          <!-- Populated dynamically based on chosen engine -->
+        </div>
+
+        <!-- PANEL: GLOBAL WEB AUDIO SYNTH -->
+        <div class="sidebar-panel">
+          <div class="panel-header">
+            <span>Additive Synth Engine</span>
+            <span class="badge">Web Audio API</span>
+          </div>
+
+          <div class="control-group">
+            <div class="control-label-row">
+              <span>Master Gain</span>
+              <span class="control-val" id="disp-volume">35%</span>
+            </div>
+            <input type="range" id="slider-volume" min="0" max="1" step="0.01" value="0.35" />
+          </div>
+
+          <div class="control-group">
+            <div class="control-label-row">
+              <span>Harmonic Timbre</span>
+              <span class="control-val" id="disp-timbre">Additive</span>
+            </div>
+            <div class="preset-btn-group">
+              <button class="sub-btn" data-timbre="sine">Pure Sine</button>
+              <button class="sub-btn active" data-timbre="additive">Additive</button>
+              <button class="sub-btn" data-timbre="crystal">Crystal</button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <div class="control-label-row">
+              <span>Continuous Drive Tone</span>
+              <span class="control-val" id="disp-drone">OFF</span>
+            </div>
+            <div class="preset-btn-group">
+              <button class="sub-btn active" data-drone="off">Key / Sweep Only</button>
+              <button class="sub-btn" data-drone="on">Continuous Tone</button>
+            </div>
+          </div>
+        </div>
+
+        <footer class="sidebar-footer">
+          <span>RESONANCE-CYMATICS v1.0</span>
+          <span>&bull;</span>
+          <strong>أ. طارق ابوعشي | Tareq Abuashi</strong>
+        </footer>
+      </aside>
+    </main>
+
+    <!-- PHYSICS DOSSIER MODAL CONTAINER -->
+    <div id="dossier-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="dossier-title"></div>
+
+    <!-- APP SCRIPT ENTRY -->
+  </body>
+</html>

@@ -1,0 +1,246 @@
+(function(){let e=document.createElement(`link`).relList;if(e&&e.supports&&e.supports(`modulepreload`))return;for(let e of document.querySelectorAll(`link[rel="modulepreload"]`))n(e);new MutationObserver(e=>{for(let t of e)if(t.type===`childList`)for(let e of t.addedNodes)e.tagName===`LINK`&&e.rel===`modulepreload`&&n(e)}).observe(document,{childList:!0,subtree:!0});function t(e){let t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),t.credentials=e.crossOrigin===`use-credentials`?`include`:e.crossOrigin===`anonymous`?`omit`:`same-origin`,t}function n(e){if(e.ep)return;e.ep=!0;let n=t(e);fetch(e.href,n)}})();var e=class{ctx=null;masterGain=null;compressor=null;analyser=null;droneOsc=null;droneGain=null;voices=new Map;timeData=new Uint8Array(new ArrayBuffer(512));freqData=new Uint8Array(new ArrayBuffer(256));enabled=!1;continuousDrone=!1;volume=.35;timbre=`additive`;currentFreq=432;ensureContext(){if(!this.ctx){let e=window.AudioContext||window.webkitAudioContext;this.ctx=new e,this.compressor=this.ctx.createDynamicsCompressor(),this.compressor.threshold.value=-16,this.compressor.knee.value=18,this.compressor.ratio.value=6,this.compressor.attack.value=.004,this.compressor.release.value=.15,this.masterGain=this.ctx.createGain(),this.masterGain.gain.value=this.enabled?this.volume:0,this.analyser=this.ctx.createAnalyser(),this.analyser.fftSize=512,this.analyser.smoothingTimeConstant=.82,this.timeData=new Uint8Array(new ArrayBuffer(this.analyser.fftSize)),this.freqData=new Uint8Array(new ArrayBuffer(this.analyser.frequencyBinCount)),this.compressor.connect(this.masterGain),this.masterGain.connect(this.analyser),this.analyser.connect(this.ctx.destination)}this.ctx.state===`suspended`&&this.ctx.resume()}setEnabled(e){if(this.enabled=e,e&&this.ensureContext(),this.ctx&&this.masterGain){let t=this.ctx.currentTime;this.masterGain.gain.cancelScheduledValues(t),this.masterGain.gain.setTargetAtTime(e?this.volume:0,t,.03)}e?this.continuousDrone&&this.startDrone(this.currentFreq):(this.stopDrone(),this.stopAllNotes())}setVolume(e){this.volume=Math.max(0,Math.min(1,e)),this.ctx&&this.masterGain&&this.enabled&&this.masterGain.gain.setTargetAtTime(this.volume,this.ctx.currentTime,.025)}setTimbre(e){this.timbre=e}setContinuousDrone(e){this.continuousDrone=e,e&&this.enabled?this.startDrone(this.currentFreq):this.stopDrone()}startDrone(e){if(this.currentFreq=e,!this.enabled||(this.ensureContext(),!this.ctx||!this.compressor))return;this.droneOsc&&this.droneGain||(this.droneOsc=this.ctx.createOscillator(),this.droneGain=this.ctx.createGain(),this.droneOsc.type=this.timbre===`sine`?`sine`:`triangle`,this.droneOsc.frequency.value=e,this.droneGain.gain.value=1e-4,this.droneOsc.connect(this.droneGain),this.droneGain.connect(this.compressor),this.droneOsc.start());let t=this.ctx.currentTime;this.droneOsc.type=this.timbre===`sine`?`sine`:`triangle`,this.droneOsc.frequency.setTargetAtTime(e,t,.03),this.droneGain.gain.setTargetAtTime(.22,t,.04)}updateDroneFreq(e){this.currentFreq=e,this.ctx&&this.droneOsc&&this.enabled&&this.droneOsc.frequency.setTargetAtTime(e,this.ctx.currentTime,.025)}stopDrone(){if(this.ctx&&this.droneGain&&this.droneOsc){let e=this.ctx.currentTime,t=this.droneOsc,n=this.droneGain;this.droneOsc=null,this.droneGain=null,n.gain.cancelScheduledValues(e),n.gain.setTargetAtTime(1e-4,e,.04),setTimeout(()=>{try{t.stop(),t.disconnect(),n.disconnect()}catch{}},180)}}triggerNote(e,t,n){if(this.currentFreq=t,!this.enabled||(this.ensureContext(),!this.ctx||!this.compressor))return;this.voices.has(e)&&this.releaseNote(e);let r=this.ctx.currentTime,i=this.ctx.createGain();i.gain.setValueAtTime(1e-4,r),i.gain.linearRampToValueAtTime(.32,r+.015),i.gain.exponentialRampToValueAtTime(.2,r+.25),i.connect(this.compressor);let a=this.timbre===`sine`?[{mult:1,amp:1,type:`sine`}]:this.timbre===`crystal`?[{mult:1,amp:.72,type:`sine`},{mult:2,amp:.3,type:`sine`},{mult:3.01,amp:.18,type:`triangle`},{mult:5.02,amp:.08,type:`sine`}]:[{mult:1,amp:.78,type:`sine`},{mult:2,amp:.26,type:`triangle`},{mult:3,amp:.12,type:`sine`}],o=[];for(let e of a){let n=this.ctx.createOscillator(),a=this.ctx.createGain();n.type=e.type,n.frequency.setValueAtTime(Math.min(14e3,t*e.mult),r),a.gain.value=e.amp,n.connect(a),a.connect(i),n.start(r),o.push(n)}this.voices.set(e,{oscillators:o,voiceGain:i,freq:t}),n&&n>0&&setTimeout(()=>this.releaseNote(e),n)}releaseNote(e){let t=this.voices.get(e);if(!t||!this.ctx)return;this.voices.delete(e);let n=this.ctx.currentTime;t.voiceGain.gain.cancelScheduledValues(n),t.voiceGain.gain.setValueAtTime(Math.max(.001,t.voiceGain.gain.value),n),t.voiceGain.gain.exponentialRampToValueAtTime(1e-4,n+.22),setTimeout(()=>{for(let e of t.oscillators)try{e.stop(),e.disconnect()}catch{}try{t.voiceGain.disconnect()}catch{}},260)}stopAllNotes(){let e=Array.from(this.voices.keys());for(let t of e)this.releaseNote(t)}getActiveVoiceCount(){return this.voices.size+ +!!this.droneOsc}getFFTData(){return this.analyser&&this.enabled&&(this.voices.size>0||this.droneOsc)?(this.analyser.getByteTimeDomainData(this.timeData),this.analyser.getByteFrequencyData(this.freqData),{time:this.timeData,freq:this.freqData,live:!0}):{time:this.timeData,freq:this.freqData,live:!1}}};function t(e){let t=Math.log2(Math.max(40,Math.min(2e3,e))/40)/Math.log2(50),n=Math.round(t*22),r=[[1,2,1,1],[1,3,1,-1],[2,3,1,1],[1,4,1,.8],[2,4,1,-1],[3,4,1,1],[2,5,1,1],[3,5,1,-1],[1,6,1,1],[4,5,1,1],[3,6,1,-.8],[2,7,1,1],[4,7,1,-1],[5,6,1,1],[3,8,1,1],[5,8,1,-1],[4,9,1,1],[6,8,1,-1],[5,9,1,1],[7,9,1,-1],[6,10,1,1],[7,11,1,-1],[8,11,1,1]],i=r[Math.max(0,Math.min(r.length-1,n))];return{n:i[0],m:i[1],a:i[2],b:i[3]}}var n=[[2.4048,5.5201,8.6537,11.7915,14.9309,18.0711,21.2116,24.3525],[3.8317,7.0156,10.1735,13.3237,16.4706,19.6159,22.7601,25.9037],[5.1356,8.4172,11.6198,14.796,17.9598,21.117,24.2701,27.4206],[6.3802,9.761,13.0152,16.2235,19.4094,22.5827,25.7482,28.9084],[7.5883,11.0647,14.3725,17.616,20.8269,24.019,27.1991,30.371],[8.7715,12.3386,15.7002,18.9801,22.2178,25.4303,28.6266,31.8117]];function r(e,t){if(t<1e-5)return+(e===0);if(t<8.5){let n=0,r=(t*.5)**e,i=1;for(let t=2;t<=e;t++)i*=t;r/=i;let a=-.25*t*t;for(let t=0;t<14&&(n+=r,r*=a/((t+1)*(t+1+e)),!(Math.abs(r)<1e-7));t++);return n}let n=t-e*Math.PI*.5-Math.PI*.25;return Math.sqrt(2/(Math.PI*t))*Math.cos(n)}var i=class{count=26e3;px=new Float32Array(this.count);py=new Float32Array(this.count);vx=new Float32Array(this.count);vy=new Float32Array(this.count);energy=new Float32Array(this.count);bufSize=640;offCanvas;offCtx;imgData;pixels32;bgColor32=4279437574;shape=`square`;palette=`gold`;n=3;m=5;a=1;b=-1;frequency=432;amplitude=1;nodalConvergence=0;impulseBoost=0;plateX=0;plateY=0;plateDrawSize=500;lut=new Uint32Array(256);constructor(){this.offCanvas=document.createElement(`canvas`),this.offCanvas.width=this.bufSize,this.offCanvas.height=this.bufSize;let e=this.offCanvas.getContext(`2d`);if(!e)throw Error(`Unable to create offscreen 2D context for Chladni plate`);this.offCtx=e,this.imgData=this.offCtx.createImageData(this.bufSize,this.bufSize),this.pixels32=new Uint32Array(this.imgData.data.buffer),this.rebuildPaletteLUT(),this.scatter()}setPalette(e){this.palette=e,this.rebuildPaletteLUT()}rebuildPaletteLUT(){for(let e=0;e<256;e++){let t=e/255,n=255,r=255,i=255;this.palette===`gold`?(n=Math.round(252-t*30),r=Math.round(218-t*105),i=Math.round(130+t*125)):this.palette===`cyan`?(n=Math.round(135+t*115),r=Math.round(240-t*90),i=255):(n=Math.round(230-t*170),r=Math.round(120+t*125),i=Math.round(255-t*15)),this.lut[e]=255<<24|i<<16|r<<8|n}}setShape(e){this.shape!==e&&(this.shape=e,this.scatter())}setModes(e,t,n,r){this.n=e,this.m=t,n!==void 0&&(this.a=n),r!==void 0&&(this.b=r),this.impulseBoost=Math.max(this.impulseBoost,.45)}excite(e=.8){this.impulseBoost=Math.min(1.5,this.impulseBoost+e)}scatter(){for(let e=0;e<this.count;e++){if(this.shape===`circular`){let t=Math.sqrt(Math.random())*.985,n=Math.random()*Math.PI*2;this.px[e]=t*Math.cos(n),this.py[e]=t*Math.sin(n)}else this.px[e]=(Math.random()*2-1)*.985,this.py[e]=(Math.random()*2-1)*.985;this.vx[e]=(Math.random()-.5)*.015,this.vy[e]=(Math.random()-.5)*.015,this.energy[e]=1}this.impulseBoost=.8}evalZ(e,t){if(this.shape===`square`){let n=Math.PI;return this.a*Math.cos(this.n*n*e)*Math.cos(this.m*n*t)+this.b*Math.cos(this.m*n*e)*Math.cos(this.n*n*t)}{let i=Math.sqrt(e*e+t*t),a=Math.atan2(t,e),o=Math.max(0,Math.min(5,Math.round(this.n)%6)),s=Math.max(0,Math.min(7,Math.round(this.m)-1)),c=n[o][s];return r(o,c*i)*(o===0?this.a+this.b*.5:this.a*Math.cos(o*a)+this.b*.35*Math.sin(o*a))}}brushAtCanvas(e,t,n=54){let r=(e-this.plateX)/this.plateDrawSize*2-1,i=(t-this.plateY)/this.plateDrawSize*2-1;if(r<-1.1||r>1.1||i<-1.1||i>1.1)return;let a=n/this.plateDrawSize*2,o=a*a;for(let e=0;e<this.count;e++){let t=this.px[e]-r,n=this.py[e]-i,s=t*t+n*n;if(s<o){let r=Math.sqrt(s)+1e-4,i=(1-r/a)*.045;this.vx[e]+=t/r*i+(Math.random()-.5)*.03,this.vy[e]+=n/r*i+(Math.random()-.5)*.03,this.energy[e]=1}}}step(e){let t=this.amplitude+this.impulseBoost;this.impulseBoost*=.91;let n=.004,r=1/Math.max(.5,Math.abs(this.a)+Math.abs(this.b)),i=Math.min(1.8,e*60),a=0,o=this.n*Math.PI,s=this.m*Math.PI,c=this.shape===`square`;for(let e=0;e<this.count;e++){let l=this.px[e],u=this.py[e],d,f,p;if(c){let e=Math.cos(o*l),t=Math.sin(o*l),n=Math.cos(s*u),i=Math.sin(s*u),a=Math.cos(s*l),c=Math.sin(s*l),m=Math.cos(o*u),h=Math.sin(o*u);d=(this.a*e*n+this.b*a*m)*r;let g=(-this.a*o*t*n-this.b*s*c*m)*r,_=(-this.a*s*e*i-this.b*o*a*h)*r;f=d*g,p=d*_}else{d=this.evalZ(l,u)*r;let e=this.evalZ(l+n,u)*r,t=this.evalZ(l,u+n)*r;f=d*((e-d)/n),p=d*((t-d)/n)}let m=Math.abs(d);m<.085&&a++;let h=m*.028*t,g=.0052*t,_=this.vx[e]*.68-f*g+(Math.random()-.5)*h,v=this.vy[e]*.68-p*g+(Math.random()-.5)*h;if(m>.04&&(_+=(Math.random()-.5)*.0018*t,v+=(Math.random()-.5)*.0018*t),l+=_*i,u+=v*i,c)l<-.992?(l=-.992,_*=-.5):l>.992&&(l=.992,_*=-.5),u<-.992?(u=-.992,v*=-.5):u>.992&&(u=.992,v*=-.5);else{let e=l*l+u*u;if(e>.970225){let t=.985/Math.sqrt(e);l*=t,u*=t,_*=-.45,v*=-.45}}this.px[e]=l,this.py[e]=u,this.vx[e]=_,this.vy[e]=v,this.energy[e]=Math.min(1,m*1.45)}this.nodalConvergence=a/this.count*100}render(e,t,n){let r=Math.min(t,n)*.14,i=Math.max(240,Math.min(t-40,n-r*1.65)),a=(t-i)*.5,o=(n-i)*.5;this.plateX=a,this.plateY=o,this.plateDrawSize=i,this.pixels32.fill(this.bgColor32);let s=this.bufSize,c=s*.5,l=this.lut;for(let e=0;e<this.count;e++){let t=(this.px[e]+1)*c|0,n=(this.py[e]+1)*c|0;if(t>=0&&t<s&&n>=0&&n<s){let r=l[Math.min(255,this.energy[e]*255|0)],i=n*s+t;this.pixels32[i]=r,t+1<s&&(this.pixels32[i+1]=r)}}this.offCtx.putImageData(this.imgData,0,0),e.clearRect(0,0,t,n),e.save();let u=e.createRadialGradient(a+i*.5,o+i*.5,i*.15,a+i*.5,o+i*.5,i*.72);u.addColorStop(0,`rgba(6, 182, 212, 0.12)`),u.addColorStop(.6,`rgba(139, 92, 246, 0.06)`),u.addColorStop(1,`rgba(6, 9, 19, 0)`),e.fillStyle=u,e.fillRect(0,0,t,n),e.beginPath(),this.shape===`circular`?e.arc(a+i*.5,o+i*.5,i*.5,0,Math.PI*2):e.roundRect(a,o,i,i,12),e.save(),e.clip(),e.imageSmoothingEnabled=!0,e.drawImage(this.offCanvas,a,o,i,i),e.strokeStyle=`rgba(6, 182, 212, 0.09)`,e.lineWidth=1,e.beginPath(),e.moveTo(a+i*.5,o),e.lineTo(a+i*.5,o+i),e.moveTo(a,o+i*.5),e.lineTo(a+i,o+i*.5),e.stroke(),e.restore(),e.strokeStyle=`rgba(6, 182, 212, 0.45)`,e.lineWidth=2,e.stroke(),e.fillStyle=`rgba(245, 158, 11, 0.85)`,e.beginPath(),e.arc(a+i*.5,o+i*.5,4.5,0,Math.PI*2),e.fill(),e.strokeStyle=`rgba(255, 255, 255, 0.5)`,e.lineWidth=1.2,e.stroke(),e.restore()}},a={unison:{label:`1:1 Unison`,fx:1,fy:1.003,fz:2},fifth:{label:`3:2 Fifth`,fx:3,fy:2.004,fz:1.5},fourth:{label:`4:3 Fourth`,fx:4,fy:3.005,fz:2.5},major3:{label:`5:4 Maj 3rd`,fx:5,fy:4.006,fz:3},harmonic7:{label:`7:4 Harmonic`,fx:7,fy:4.005,fz:3.5},free:{label:`Free Ratio`,fx:3.14,fy:2.01,fz:1.618}},o=class{maxPoints=9e3;ptsX=new Float32Array(this.maxPoints);ptsY=new Float32Array(this.maxPoints);ptsZ=new Float32Array(this.maxPoints);ptCount=0;preset=`fifth`;fx=3;fy=2.004;fz=1.5;phaseOffset=Math.PI*.35;damping=.008;rotSpeed=.28;baseFreqHz=432;simTime=0;rotYaw=.45;rotPitch=.38;dragYawVel=0;constructor(){this.reset()}setRatioPreset(e){this.preset=e;let t=a[e];this.fx=t.fx,this.fy=t.fy,this.fz=t.fz,this.reset()}setFrequencyRatio(e,t){this.fx=e,this.fy=t,this.preset=`free`,this.reset()}rotateBy(e,t){this.rotYaw+=e*.008,this.rotPitch=Math.max(-1.25,Math.min(1.25,this.rotPitch+t*.006)),this.dragYawVel=e*5e-4}reset(){this.ptCount=0,this.simTime=0,this.advancePoints(350,.012)}samplePendulum(e){let t=Math.exp(-this.damping*e),n=Math.exp(-this.damping*1.15*e),r=this.fx*2.15,i=(this.fx+.012)*2.15,a=this.fy*2.15,o=(this.fy-.009)*2.15,s=this.fz*2.15;return{x:.56*t*Math.sin(r*e+this.phaseOffset)+.44*n*Math.cos(i*e-this.phaseOffset*.5),y:.56*t*Math.sin(a*e)+.44*n*Math.sin(o*e+Math.PI*.5),z:.65*t*Math.cos(s*e+this.phaseOffset*.7)}}advancePoints(e,t){for(let n=0;n<e;n++){this.simTime+=t;let e=this.samplePendulum(this.simTime);this.ptCount<this.maxPoints?(this.ptsX[this.ptCount]=e.x,this.ptsY[this.ptCount]=e.y,this.ptsZ[this.ptCount]=e.z,this.ptCount++):(this.ptsX.copyWithin(0,1),this.ptsY.copyWithin(0,1),this.ptsZ.copyWithin(0,1),this.ptsX[this.maxPoints-1]=e.x,this.ptsY[this.maxPoints-1]=e.y,this.ptsZ[this.maxPoints-1]=e.z)}}step(e){this.rotYaw+=(this.rotSpeed+this.dragYawVel)*e,this.dragYawVel*=.94,Math.exp(-this.damping*this.simTime)<.04&&(this.simTime=0,this.ptCount=0),this.advancePoints(18,Math.min(.018,e*.75))}render(e,t,n){e.clearRect(0,0,t,n);let r=t*.5,i=n*.5,a=Math.min(t,n)*.34;e.save(),e.strokeStyle=`rgba(6, 182, 212, 0.08)`,e.lineWidth=1;for(let t=.35;t<=1.05;t+=.35)e.beginPath(),e.arc(r,i,a*t,0,Math.PI*2),e.stroke();if(this.ptCount<2){e.restore();return}let o=Math.cos(this.rotYaw),s=Math.sin(this.rotYaw),c=Math.cos(this.rotPitch),l=Math.sin(this.rotPitch),u=3.2,d=Math.max(12,Math.floor(this.ptCount/32));e.lineCap=`round`,e.lineJoin=`round`;let f=0,p=0,m=0,h=0;for(let t=0;t<this.ptCount-1;t+=d){let n=Math.min(this.ptCount-1,t+d),g=t/Math.max(1,this.ptCount),_=185+g*145,v=.16+.78*g;e.beginPath();for(let d=t;d<=n;d++){let n=this.ptsX[d],g=this.ptsY[d],_=this.ptsZ[d],v=n*o-_*s,y=n*s+_*o,b=g*c-y*l,x=u/(u+(g*l+y*c)),S=r+v*a*x,C=i+b*a*x;d===t?t>0?(e.moveTo(f,p),e.lineTo(S,C)):e.moveTo(S,C):e.lineTo(S,C),f=S,p=C,m=S,h=C}e.strokeStyle=`hsla(${_.toFixed(0)}, 92%, 62%, ${v.toFixed(3)})`,e.lineWidth=1.2+g*1.4,e.stroke()}let g=e.createRadialGradient(m,h,1,m,h,16);g.addColorStop(0,`#ffffff`),g.addColorStop(.3,`#f59e0b`),g.addColorStop(1,`rgba(245, 158, 11, 0)`),e.fillStyle=g,e.beginPath(),e.arc(m,h,16,0,Math.PI*2),e.fill(),e.restore()}},s=class{gridSize=260;offCanvas;offCtx;imgData;pixels32;lut=new Uint32Array(512);sources=[];sourceCount=3;frequency=432;waveK=22;damping=.55;palette=`cyan`;phaseTime=0;tankCenterX=0;tankCenterY=0;tankRadius=220;draggedIndex=-1;constructor(){this.offCanvas=document.createElement(`canvas`),this.offCanvas.width=this.gridSize,this.offCanvas.height=this.gridSize;let e=this.offCanvas.getContext(`2d`);if(!e)throw Error(`Unable to create offscreen 2D context for Ripple Tank`);this.offCtx=e,this.imgData=this.offCtx.createImageData(this.gridSize,this.gridSize),this.pixels32=new Uint32Array(this.imgData.data.buffer),this.rebuildLUT(),this.setSourceCount(3)}setPalette(e){this.palette=e,this.rebuildLUT()}rebuildLUT(){for(let e=0;e<512;e++){let t=e/511*2-1,n=Math.abs(t),r=Math.max(0,t),i=Math.max(0,-t),a=6,o=10,s=22;this.palette===`cyan`?(a=Math.round(8+r*225+n**3*20),o=Math.round(16+r*235+i*40),s=Math.round(36+r*215+i*165)):this.palette===`plasma`?(a=Math.round(12+r*240+i*95),o=Math.round(8+r*155+r**2*85),s=Math.round(28+i*215+r*65)):(a=Math.round(6+r*135),o=Math.round(18+r*235+i*70),s=Math.round(24+r*165+i*130)),this.lut[e]=255<<24|Math.min(255,s)<<16|Math.min(255,o)<<8|Math.min(255,a)}}setSourceCount(e){this.sourceCount=Math.max(2,Math.min(6,e)),this.sources=[];let t=.44;for(let e=0;e<this.sourceCount;e++){let n=e/this.sourceCount*Math.PI*2-Math.PI*.5;this.sources.push({x:Math.cos(n)*t,y:Math.sin(n)*t,phase:0})}}reset(){this.setSourceCount(this.sourceCount),this.phaseTime=0}pointerDown(e,t){let n=(e-this.tankCenterX)/this.tankRadius,r=(t-this.tankCenterY)/this.tankRadius,i=-1,a=.14;for(let e=0;e<this.sources.length;e++){let t=Math.hypot(this.sources[e].x-n,this.sources[e].y-r);t<a&&(a=t,i=e)}return this.draggedIndex=i,i!==-1}pointerMove(e,t){if(this.draggedIndex<0||this.draggedIndex>=this.sources.length)return;let n=(e-this.tankCenterX)/this.tankRadius,r=(t-this.tankCenterY)/this.tankRadius,i=Math.hypot(n,r);i>.9&&(n=n/i*.9,r=r/i*.9),this.sources[this.draggedIndex].x=n,this.sources[this.draggedIndex].y=r}pointerUp(){this.draggedIndex=-1}step(e){let t=3.5+this.frequency/432*3.8;this.phaseTime+=e*t}render(e,t,n){let r=Math.min(t,n)*.14,i=Math.max(240,Math.min(t-40,n-r*1.65)),a=i*.5,o=t*.5,s=n*.5;this.tankCenterX=o,this.tankCenterY=s,this.tankRadius=a;let c=this.gridSize,l=2/c,u=this.waveK,d=this.phaseTime,f=this.damping,p=this.sources.length,m=1/Math.max(1,p*.72);for(let e=0;e<c;e++){let t=e*l-1,n=t*t,r=e*c;for(let e=0;e<c;e++){let i=e*l-1;if(i*i+n>1){this.pixels32[r+e]=4279437574;continue}let a=0;for(let e=0;e<p;e++){let n=this.sources[e],r=i-n.x,o=t-n.y,s=Math.sqrt(r*r+o*o+.0025),c=1/(1+f*s*2.4);a+=Math.sin(u*s-d+n.phase)*c}let o=(Math.max(-1,Math.min(1,a*m))+1)*255.5|0;this.pixels32[r+e]=this.lut[o]}}this.offCtx.putImageData(this.imgData,0,0),e.clearRect(0,0,t,n),e.save(),e.beginPath(),e.arc(o,s,a,0,Math.PI*2),e.save(),e.clip(),e.imageSmoothingEnabled=!0,e.drawImage(this.offCanvas,o-a,s-a,i,i),e.restore(),e.strokeStyle=`rgba(6, 182, 212, 0.55)`,e.lineWidth=2.5,e.stroke();for(let t=0;t<this.sources.length;t++){let n=o+this.sources[t].x*a,r=s+this.sources[t].y*a;e.beginPath(),e.arc(n,r,10,0,Math.PI*2),e.fillStyle=`rgba(245, 158, 11, 0.25)`,e.fill(),e.beginPath(),e.arc(n,r,5,0,Math.PI*2),e.fillStyle=`#f59e0b`,e.fill(),e.strokeStyle=`#ffffff`,e.lineWidth=1.5,e.stroke()}e.restore()}},c=class{modalEl;constructor(e){let t=document.getElementById(e);if(!t)throw Error(`Modal element #${e} not found`);this.modalEl=t,this.renderMarkup(),this.attachEvents()}renderMarkup(){this.modalEl.innerHTML=`
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <div class="modal-title-wrap">
+            <span class="modal-badge">COMPUTATIONAL ACOUSTICS &amp; CYMATICS DOSSIER</span>
+            <h2 id="dossier-title">Mathematical &amp; Physical Architecture of RESONANCE-CYMATICS</h2>
+            <p class="modal-author">
+              Lead Creative Technologist &amp; Systems Architect:
+              <strong>أ. طارق ابوعشي | Tareq Abuashi</strong>
+            </p>
+          </div>
+          <button id="close-dossier-x" class="close-btn" aria-label="Close Physics Dossier">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <div class="modal-body custom-scroll">
+          <section class="math-section">
+            <span class="section-tag">01 // CHLADNI STANDING-WAVE EIGENMODES (2D PLATE)</span>
+            <h3>Square Plate &amp; Circular Bessel Nodal Contours</h3>
+            <p>
+              When a thin elastic metal plate is driven at an eigenfrequency, constructive and destructive interference produces
+              stationary regions of zero vertical displacement called <span class="highlight-text">Nodal Lines (|Z| ≈ 0)</span>.
+              26,000 sand grains experience stochastic vibrational agitation proportional to |Z(x, y)| at antinodes and drift
+              down the gradient &minus;&nabla;(Z&sup2;) until settling along geometric cymatic mandalas.
+            </p>
+            <div class="formula-box highlight">
+              <div>Square Plate: &nbsp;Z(x, y) = a &middot; cos(n&pi;x) &middot; cos(m&pi;y) + b &middot; cos(m&pi;x) &middot; cos(n&pi;y)</div>
+              <div>Circular Plate: Z(r, &theta;) = J<sub>n</sub>(k<sub>n,m</sub> r) &middot; [a &middot; cos(n&theta;) + b &middot; sin(n&theta;)]</div>
+            </div>
+          </section>
+
+          <section class="math-section">
+            <span class="section-tag">02 // 3D DAMPED ROTARY HARMONOGRAPH &amp; LISSAJOUS GEOMETRY</span>
+            <h3>Four-Pendulum Coupled Phase Space</h3>
+            <p>
+              A rotary harmonograph couples orthogonal damped harmonic oscillators. Small rational frequency ratios
+              (Just Intonation intervals) trace crystalline closed-loop symmetry, whereas irrational detuning or phase drift
+              weaves dense 3D toroidal Lissajous ribbons decaying exponentially via viscous damping e<sup>&minus;dt</sup>.
+            </p>
+            <div class="formula-box">
+              <div>x(t) = A<sub>1</sub>e<sup>&minus;d<sub>1</sub>t</sup> sin(&omega;<sub>1</sub>t + &phi;<sub>1</sub>) + A<sub>2</sub>e<sup>&minus;d<sub>2</sub>t</sup> cos(&omega;<sub>2</sub>t + &phi;<sub>2</sub>)</div>
+              <div>y(t) = A<sub>3</sub>e<sup>&minus;d<sub>3</sub>t</sup> sin(&omega;<sub>3</sub>t) + A<sub>4</sub>e<sup>&minus;d<sub>4</sub>t</sup> sin(&omega;<sub>4</sub>t + &pi;/2)</div>
+              <div>z(t) = A<sub>z</sub>e<sup>&minus;d<sub>z</sub>t</sup> cos(&omega;<sub>z</sub>t + &phi;<sub>z</sub>)</div>
+            </div>
+          </section>
+
+          <section class="math-section">
+            <span class="section-tag">03 // MUSICAL INTERVALS AS GEOMETRIC SYMMETRY</span>
+            <h3>Harmonic Ratios &amp; Acoustic Resonance</h3>
+            <p>
+              Pythagorean and Just Intonation intervals translate directly into spatial symmetry orders:
+              <span class="highlight-text">1:1 Unison</span> (elliptical symmetry),
+              <span class="highlight-text">3:2 Perfect Fifth</span> (3-lobed knot),
+              <span class="highlight-text">4:3 Perfect Fourth</span> (4-fold weave),
+              <span class="highlight-text">5:4 Major Third</span> (5-petal rose), and
+              <span class="highlight-text">7:4 Harmonic Seventh</span> (7-fold star). Playing the Web Audio polyphonic piano
+              or triggering presets like 432 Hz, 528 Hz, or &phi; instantaneously re-tunes both the harmonic spectrum and standing-wave modes.
+            </p>
+          </section>
+
+          <section class="math-section">
+            <span class="section-tag">04 // CIRCULAR RIPPLE INTERFERENCE TANK</span>
+            <h3>Multi-Source Wave Superposition</h3>
+            <p>
+              Each draggable point emitter radiates attenuated cylindrical ripples into a circular fluid tank. The instantaneous
+              surface elevation is the linear superposition &Sigma; A<sub>i</sub>(r<sub>i</sub>) sin(k &middot; r<sub>i</sub> &minus; &omega;t + &phi;<sub>i</sub>),
+              visualizing hyperbolic nodal interference fringes in real time.
+            </p>
+          </section>
+        </div>
+
+        <div class="modal-footer">
+          <span class="footer-note">Zero-Allocation Float32Array &amp; Uint32Array Pipeline &bull; Designed by أ. طارق ابوعشي | Tareq Abuashi</span>
+          <button id="close-dossier-btn" class="action-btn">Return to Lab</button>
+        </div>
+      </div>
+    `}attachEvents(){let e=document.getElementById(`close-dossier-x`),t=document.getElementById(`close-dossier-btn`);e?.addEventListener(`click`,()=>this.close()),t?.addEventListener(`click`,()=>this.close()),this.modalEl.addEventListener(`click`,e=>{e.target===this.modalEl&&this.close()}),window.addEventListener(`keydown`,e=>{e.key===`Escape`&&!this.modalEl.classList.contains(`hidden`)&&this.close()})}open(){this.modalEl.classList.remove(`hidden`)}close(){this.modalEl.classList.add(`hidden`)}},l=[{note:`C4`,freq:261.63,isSharp:!1,hotkey:`A`,whiteIndex:0},{note:`C#4`,freq:277.18,isSharp:!0,hotkey:`W`,whiteIndex:0},{note:`D4`,freq:293.66,isSharp:!1,hotkey:`S`,whiteIndex:1},{note:`D#4`,freq:311.13,isSharp:!0,hotkey:`E`,whiteIndex:1},{note:`E4`,freq:329.63,isSharp:!1,hotkey:`D`,whiteIndex:2},{note:`F4`,freq:349.23,isSharp:!1,hotkey:`F`,whiteIndex:3},{note:`F#4`,freq:369.99,isSharp:!0,hotkey:`T`,whiteIndex:3},{note:`G4`,freq:392,isSharp:!1,hotkey:`G`,whiteIndex:4},{note:`G#4`,freq:415.3,isSharp:!0,hotkey:`Y`,whiteIndex:4},{note:`A4`,freq:440,isSharp:!1,hotkey:`H`,whiteIndex:5},{note:`A#4`,freq:466.16,isSharp:!0,hotkey:`U`,whiteIndex:5},{note:`B4`,freq:493.88,isSharp:!1,hotkey:`J`,whiteIndex:6},{note:`C5`,freq:523.25,isSharp:!1,hotkey:`K`,whiteIndex:7}],u=class{mainCanvas;mainCtx;fftCanvas;fftCtx;audio=new e;chladni=new i;harmonograph=new o;ripple=new s;dossier;activeSystem=`chladni`;isPlaying=!0;isSweeping=!1;sweepDir=1;masterFrequency=432;canvasWidth=800;canvasHeight=520;dpr=1;lastTime=performance.now();fpsFrames=0;fpsTimer=0;currentFps=60;phasePreview=0;isPointerDown=!1;lastPointerX=0;lastPointerY=0;keyElements=new Map;pressedHotkeys=new Set;constructor(){let e=document.getElementById(`physics-canvas`),t=document.getElementById(`fft-canvas`);if(!e||!t)throw Error(`Required canvas elements missing`);let n=e.getContext(`2d`),r=t.getContext(`2d`);if(!n||!r)throw Error(`2D context unavailable`);this.mainCanvas=e,this.mainCtx=n,this.fftCanvas=t,this.fftCtx=r,this.dossier=new c(`dossier-modal`),this.initLayoutResize(),this.initNavigation(),this.initHeaderAndTransport(),this.initSynthControls(),this.initPianoKeyboard(),this.initPresets(),this.initPointerInteractions(),this.renderDynamicSidebar(),this.applyFrequencyToEngines(this.masterFrequency,!1),requestAnimationFrame(e=>this.loop(e))}initLayoutResize(){let e=()=>{let e=this.mainCanvas.getBoundingClientRect();this.dpr=Math.min(window.devicePixelRatio||1,2),this.canvasWidth=Math.max(300,Math.floor(e.width)),this.canvasHeight=Math.max(300,Math.floor(e.height)),this.mainCanvas.width=Math.floor(this.canvasWidth*this.dpr),this.mainCanvas.height=Math.floor(this.canvasHeight*this.dpr),this.mainCtx.setTransform(this.dpr,0,0,this.dpr,0,0);let t=this.fftCanvas.getBoundingClientRect(),n=Math.max(200,Math.floor(t.width)),r=Math.max(100,Math.floor(t.height));this.fftCanvas.width=Math.floor(n*this.dpr),this.fftCanvas.height=Math.floor(r*this.dpr),this.fftCtx.setTransform(this.dpr,0,0,this.dpr,0,0)};window.addEventListener(`resize`,e),setTimeout(e,0),e()}initNavigation(){let e=document.querySelectorAll(`.system-tab`);e.forEach(t=>{t.addEventListener(`click`,()=>{let n=t.dataset.system;n&&n!==this.activeSystem&&(e.forEach(e=>e.classList.remove(`active`)),t.classList.add(`active`),this.activeSystem=n,this.updateHudForSystem(),this.renderDynamicSidebar())})}),this.updateHudForSystem()}updateHudForSystem(){let e=document.getElementById(`hud-system-title`),t=document.getElementById(`hud-interaction-hint`),n=document.getElementById(`btn-scatter`);this.activeSystem===`chladni`?(e&&(e.textContent=`2D Standing-Wave Chladni Plate (26,000 Particles)`),t&&(t.innerHTML=`<span>🖱 Drag across plate to brush &amp; scatter sand</span>`),n&&(n.style.display=`flex`)):this.activeSystem===`harmonograph`?(e&&(e.textContent=`3D Damped Rotary Harmonograph (4 Pendulums)`),t&&(t.innerHTML=`<span>🖱 Drag canvas to orbit 3D Lissajous figure</span>`),n&&(n.style.display=`none`)):(e&&(e.textContent=`Circular Ripple Interference Tank`),t&&(t.innerHTML=`<span>🖱 Drag amber point emitters inside tank</span>`),n&&(n.style.display=`none`))}initHeaderAndTransport(){let e=document.getElementById(`audio-toggle-btn`),t=document.getElementById(`audio-status-text`);e?.addEventListener(`click`,()=>{let n=!this.audio.enabled;this.audio.setEnabled(n),e.classList.toggle(`active`,n),t&&(t.textContent=n?`Audio: ON`:`Audio: OFF`)}),document.getElementById(`open-dossier-btn`)?.addEventListener(`click`,()=>this.dossier.open());let n=()=>this.exportSnapshotPNG();document.getElementById(`btn-snapshot`)?.addEventListener(`click`,n),document.getElementById(`btn-snapshot-top`)?.addEventListener(`click`,n);let r=document.getElementById(`btn-play-pause`),i=document.getElementById(`txt-play-pause`),a=()=>{this.isPlaying=!this.isPlaying,i&&(i.textContent=this.isPlaying?`Pause`:`Resume`),r?.classList.toggle(`active`,!this.isPlaying)};r?.addEventListener(`click`,a),document.getElementById(`btn-scatter`)?.addEventListener(`click`,()=>{this.chladni.scatter()});let o=document.getElementById(`btn-sweep`);o?.addEventListener(`click`,()=>{this.isSweeping=!this.isSweeping,o.classList.toggle(`sweep-on`,this.isSweeping),this.isSweeping&&this.audio.enabled?this.audio.startDrone(this.masterFrequency):!this.isSweeping&&!this.audio.continuousDrone&&this.audio.stopDrone()}),document.getElementById(`btn-reset`)?.addEventListener(`click`,()=>{this.activeSystem===`chladni`?this.chladni.scatter():this.activeSystem===`harmonograph`?this.harmonograph.reset():this.ripple.reset()}),window.addEventListener(`keydown`,e=>{e.code===`Space`&&document.activeElement?.tagName!==`INPUT`&&(e.preventDefault(),a())})}initSynthControls(){let e=document.getElementById(`slider-volume`),t=document.getElementById(`disp-volume`);e?.addEventListener(`input`,()=>{let n=parseFloat(e.value);this.audio.setVolume(n),t&&(t.textContent=`${Math.round(n*100)}%`)});let n=document.querySelectorAll(`[data-timbre]`),r=document.getElementById(`disp-timbre`);n.forEach(e=>{e.addEventListener(`click`,()=>{let t=e.dataset.timbre;n.forEach(e=>e.classList.remove(`active`)),e.classList.add(`active`),this.audio.setTimbre(t),r&&(r.textContent=e.textContent||t)})});let i=document.querySelectorAll(`[data-drone]`),a=document.getElementById(`disp-drone`);i.forEach(e=>{e.addEventListener(`click`,()=>{let t=e.dataset.drone===`on`;i.forEach(e=>e.classList.remove(`active`)),e.classList.add(`active`),this.audio.setContinuousDrone(t),a&&(a.textContent=t?`ON`:`OFF`),t&&!this.audio.enabled&&document.getElementById(`audio-toggle-btn`)?.click()})})}initPianoKeyboard(){let e=document.getElementById(`piano-keyboard`);if(e){for(let t of l){if(t.isSharp)continue;let n=document.createElement(`button`);n.className=`piano-key-white`,n.type=`button`,n.innerHTML=`
+        <span class="key-hotkey">${t.hotkey}</span>
+        <span class="key-note">${t.note}</span>
+        <span class="key-hz">${Math.round(t.freq)}</span>
+      `,this.bindPianoKeyEvents(n,t),e.appendChild(n),this.keyElements.set(t.note,n)}for(let t of l){if(!t.isSharp)continue;let n=document.createElement(`button`);n.className=`piano-key-black`,n.type=`button`;let r=(t.whiteIndex+1)*12.5-3.25;n.style.left=`${r}%`,n.innerHTML=`<span class="key-note">${t.note}</span>`,this.bindPianoKeyEvents(n,t),e.appendChild(n),this.keyElements.set(t.note,n)}window.addEventListener(`keydown`,e=>{if(e.repeat||e.target instanceof HTMLInputElement)return;let t=e.key.toUpperCase(),n=l.find(e=>e.hotkey===t);n&&!this.pressedHotkeys.has(t)&&(this.pressedHotkeys.add(t),this.activateNote(n))}),window.addEventListener(`keyup`,e=>{let t=e.key.toUpperCase(),n=l.find(e=>e.hotkey===t);n&&(this.pressedHotkeys.delete(t),this.deactivateNote(n))})}}bindPianoKeyEvents(e,t){let n=e=>{e.preventDefault(),this.activateNote(t)},r=()=>this.deactivateNote(t);e.addEventListener(`mousedown`,n),e.addEventListener(`mouseup`,r),e.addEventListener(`mouseleave`,r),e.addEventListener(`touchstart`,n,{passive:!1}),e.addEventListener(`touchend`,r)}activateNote(e){this.keyElements.get(e.note)?.classList.add(`active`),this.audio.enabled||document.getElementById(`audio-toggle-btn`)?.click(),this.audio.triggerNote(e.note,e.freq),this.applyFrequencyToEngines(e.freq,!0)}deactivateNote(e){this.keyElements.get(e.note)?.classList.remove(`active`),this.audio.releaseNote(e.note)}initPresets(){let e=document.querySelectorAll(`.preset-chip`);e.forEach(t=>{t.addEventListener(`click`,()=>{e.forEach(e=>e.classList.remove(`active`)),t.classList.add(`active`);let n=t.dataset.preset;if(this.audio.enabled||document.getElementById(`audio-toggle-btn`)?.click(),n===`432`)this.applyFrequencyToEngines(432,!0),this.audio.triggerNote(`preset-432`,432,950);else if(n===`528`)this.applyFrequencyToEngines(528,!0),this.audio.triggerNote(`preset-528`,528,950);else if(n===`phi`){let e=698.990688;this.applyFrequencyToEngines(e,!0),this.harmonograph.setFrequencyRatio(1.618,1),this.audio.triggerNote(`preset-phi-1`,432,1100),this.audio.triggerNote(`preset-phi-2`,e,1100)}else n===`maj7`&&([{id:`C4`,f:261.63},{id:`E4`,f:329.63},{id:`G4`,f:392},{id:`B4`,f:493.88}].forEach(e=>{this.audio.triggerNote(`chord-${e.id}`,e.f,1250);let t=this.keyElements.get(e.id);t?.classList.add(`active`),setTimeout(()=>t?.classList.remove(`active`),1100)}),this.applyFrequencyToEngines(493.88,!0),this.chladni.setModes(4,7,1,1),this.harmonograph.setRatioPreset(`major3`),this.renderDynamicSidebar())})})}applyFrequencyToEngines(e,n){this.masterFrequency=Math.max(40,Math.min(2e3,e)),this.chladni.frequency=this.masterFrequency,this.ripple.frequency=this.masterFrequency,this.harmonograph.baseFreqHz=this.masterFrequency;let r=t(this.masterFrequency);this.chladni.setModes(r.n,r.m,r.a,r.b),n&&this.chladni.excite(.85),this.ripple.waveK=12+(this.masterFrequency-40)/1960*32,(this.audio.continuousDrone||this.isSweeping)&&this.audio.updateDroneFreq(this.masterFrequency);let i=document.getElementById(`slider-chladni-freq`),a=document.getElementById(`disp-chladni-freq`);i&&(i.value=String(Math.round(this.masterFrequency))),a&&(a.textContent=`${Math.round(this.masterFrequency)} Hz`);let o=document.getElementById(`slider-mode-n`),s=document.getElementById(`disp-mode-n`),c=document.getElementById(`slider-mode-m`),l=document.getElementById(`disp-mode-m`);o&&(o.value=String(this.chladni.n)),s&&(s.textContent=String(this.chladni.n)),c&&(c.value=String(this.chladni.m)),l&&(l.textContent=String(this.chladni.m))}initPointerInteractions(){let e=e=>{let t=this.mainCanvas.getBoundingClientRect();return{x:e.clientX-t.left,y:e.clientY-t.top}};this.mainCanvas.addEventListener(`pointerdown`,t=>{this.isPointerDown=!0;let n=e(t);this.lastPointerX=n.x,this.lastPointerY=n.y,this.mainCanvas.setPointerCapture(t.pointerId),this.activeSystem===`chladni`?this.chladni.brushAtCanvas(n.x,n.y):this.activeSystem===`ripple`&&this.ripple.pointerDown(n.x,n.y)}),this.mainCanvas.addEventListener(`pointermove`,t=>{if(!this.isPointerDown)return;let n=e(t),r=n.x-this.lastPointerX,i=n.y-this.lastPointerY;this.lastPointerX=n.x,this.lastPointerY=n.y,this.activeSystem===`chladni`?this.chladni.brushAtCanvas(n.x,n.y):this.activeSystem===`harmonograph`?this.harmonograph.rotateBy(r,i):this.ripple.pointerMove(n.x,n.y)});let t=()=>{this.isPointerDown=!1,this.ripple.pointerUp()};this.mainCanvas.addEventListener(`pointerup`,t),this.mainCanvas.addEventListener(`pointercancel`,t)}renderDynamicSidebar(){let e=document.getElementById(`panel-dynamic-controls`);if(e){if(this.activeSystem===`chladni`){e.innerHTML=`
+        <div class="panel-header">
+          <span>Chladni Plate Physics</span>
+          <span class="badge">26,000 Grains</span>
+        </div>
+
+        <div class="control-group">
+          <div class="control-label-row">
+            <span>Plate Geometry</span>
+            <span class="control-val" id="disp-plate-shape">${this.chladni.shape===`square`?`Square`:`Circular Bessel`}</span>
+          </div>
+          <div class="preset-btn-group">
+            <button class="sub-btn ${this.chladni.shape===`square`?`active`:``}" data-shape="square">Square Plate</button>
+            <button class="sub-btn ${this.chladni.shape===`circular`?`active`:``}" data-shape="circular">Circular (Bessel)</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <div class="control-label-row">
+            <span>Acoustic Frequency</span>
+            <span class="control-val" id="disp-chladni-freq">${Math.round(this.masterFrequency)} Hz</span>
+          </div>
+          <input type="range" id="slider-chladni-freq" min="40" max="2000" step="1" value="${Math.round(this.masterFrequency)}" />
+        </div>
+
+        <div class="control-group">
+          <div class="control-label-row">
+            <span>Mode Index n</span>
+            <span class="control-val" id="disp-mode-n">${this.chladni.n}</span>
+          </div>
+          <input type="range" id="slider-mode-n" min="1" max="12" step="1" value="${this.chladni.n}" />
+        </div>
+
+        <div class="control-group">
+          <div class="control-label-row">
+            <span>Mode Index m</span>
+            <span class="control-val" id="disp-mode-m">${this.chladni.m}</span>
+          </div>
+          <input type="range" id="slider-mode-m" min="1" max="12" step="1" value="${this.chladni.m}" />
+        </div>
+
+        <div class="control-group">
+          <div class="control-label-row">
+            <span>Coefficient b (Symmetry)</span>
+            <span class="control-val" id="disp-coeff-b">${this.chladni.b.toFixed(1)}</span>
+          </div>
+          <input type="range" id="slider-coeff-b" min="-1.5" max="1.5" step="0.1" value="${this.chladni.b}" />
+        </div>
+
+        <div class="control-group">
+          <div class="control-label-row">
+            <span>Vibration Amplitude</span>
+            <span class="control-val" id="disp-amp">${this.chladni.amplitude.toFixed(2)}×</span>
+          </div>
+          <input type="range" id="slider-amp" min="0.3" max="2.0" step="0.05" value="${this.chladni.amplitude}" />
+        </div>
+
+        <div class="control-group">
+          <div class="control-label-row">
+            <span>Sand Spectrum</span>
+          </div>
+          <div class="preset-btn-group">
+            <button class="sub-btn ${this.chladni.palette===`gold`?`active`:``}" data-pal="gold">Solar Gold</button>
+            <button class="sub-btn ${this.chladni.palette===`cyan`?`active`:``}" data-pal="cyan">Quantum Cyan</button>
+            <button class="sub-btn ${this.chladni.palette===`plasma`?`active`:``}" data-pal="plasma">Plasma Violet</button>
+          </div>
+        </div>
+      `,e.querySelectorAll(`[data-shape]`).forEach(e=>{e.addEventListener(`click`,()=>{let t=e.dataset.shape;this.chladni.setShape(t),this.renderDynamicSidebar()})}),e.querySelectorAll(`[data-pal]`).forEach(e=>{e.addEventListener(`click`,()=>{let t=e.dataset.pal;this.chladni.setPalette(t),this.renderDynamicSidebar()})});let t=document.getElementById(`slider-chladni-freq`);t.addEventListener(`input`,()=>{this.applyFrequencyToEngines(parseFloat(t.value),!0)});let n=document.getElementById(`slider-mode-n`),r=document.getElementById(`disp-mode-n`);n.addEventListener(`input`,()=>{let e=parseInt(n.value,10);r.textContent=String(e),this.chladni.setModes(e,this.chladni.m)});let i=document.getElementById(`slider-mode-m`),a=document.getElementById(`disp-mode-m`);i.addEventListener(`input`,()=>{let e=parseInt(i.value,10);a.textContent=String(e),this.chladni.setModes(this.chladni.n,e)});let o=document.getElementById(`slider-coeff-b`),s=document.getElementById(`disp-coeff-b`);o.addEventListener(`input`,()=>{let e=parseFloat(o.value);s.textContent=e.toFixed(1),this.chladni.setModes(this.chladni.n,this.chladni.m,this.chladni.a,e)});let c=document.getElementById(`slider-amp`),l=document.getElementById(`disp-amp`);c.addEventListener(`input`,()=>{let e=parseFloat(c.value);this.chladni.amplitude=e,l.textContent=`${e.toFixed(2)}×`})}else if(this.activeSystem===`harmonograph`){e.innerHTML=`
+        <div class="panel-header">
+          <span>3D Harmonograph Pendulums</span>
+          <span class="badge">4-DOF Lissajous</span>
+        </div>
+
+        <div class="control-group">
+          <div class="control-label-row">
+            <span>Musical Frequency Ratio</span>
+          </div>
+          <div class="preset-btn-group">${Object.keys(a).map(e=>`<button class="sub-btn ${this.harmonograph.preset===e?`active`:``}" data-ratio="${e}">${a[e].label}</button>`).join(``)}</div>
+        </div>
+
+        <div class="control-group">
+          <div class="control-label-row">
+            <span>X-Pendulum Ratio (fx)</span>
+            <span class="control-val" id="disp-h-fx">${this.harmonograph.fx.toFixed(2)}</span>
+          </div>
+          <input type="range" id="slider-h-fx" min="1" max="8" step="0.02" value="${this.harmonograph.fx}" />
+        </div>
+
+        <div class="control-group">
+          <div class="control-label-row">
+            <span>Y-Pendulum Ratio (fy)</span>
+            <span class="control-val" id="disp-h-fy">${this.harmonograph.fy.toFixed(2)}</span>
+          </div>
+          <input type="range" id="slider-h-fy" min="1" max="8" step="0.02" value="${this.harmonograph.fy}" />
+        </div>
+
+        <div class="control-group">
+          <div class="control-label-row">
+            <span>Phase Offset (&Delta;&phi;)</span>
+            <span class="control-val" id="disp-h-phase">${this.harmonograph.phaseOffset.toFixed(2)} rad</span>
+          </div>
+          <input type="range" id="slider-h-phase" min="0" max="6.28" step="0.05" value="${this.harmonograph.phaseOffset}" />
+        </div>
+
+        <div class="control-group">
+          <div class="control-label-row">
+            <span>Viscous Damping</span>
+            <span class="control-val" id="disp-h-damp">${this.harmonograph.damping.toFixed(3)}</span>
+          </div>
+          <input type="range" id="slider-h-damp" min="0.001" max="0.03" step="0.001" value="${this.harmonograph.damping}" />
+        </div>
+
+        <div class="control-group">
+          <div class="control-label-row">
+            <span>3D Orbit Spin Speed</span>
+            <span class="control-val" id="disp-h-rot">${this.harmonograph.rotSpeed.toFixed(2)}</span>
+          </div>
+          <input type="range" id="slider-h-rot" min="0" max="1.2" step="0.04" value="${this.harmonograph.rotSpeed}" />
+        </div>
+      `,e.querySelectorAll(`[data-ratio]`).forEach(e=>{e.addEventListener(`click`,()=>{let t=e.dataset.ratio;this.harmonograph.setRatioPreset(t),this.renderDynamicSidebar()})});let t=document.getElementById(`slider-h-fx`),n=document.getElementById(`slider-h-fy`),r=document.getElementById(`disp-h-fx`),i=document.getElementById(`disp-h-fy`);t.addEventListener(`input`,()=>{let e=parseFloat(t.value);r.textContent=e.toFixed(2),this.harmonograph.setFrequencyRatio(e,this.harmonograph.fy)}),n.addEventListener(`input`,()=>{let e=parseFloat(n.value);i.textContent=e.toFixed(2),this.harmonograph.setFrequencyRatio(this.harmonograph.fx,e)});let o=document.getElementById(`slider-h-phase`),s=document.getElementById(`disp-h-phase`);o.addEventListener(`input`,()=>{let e=parseFloat(o.value);this.harmonograph.phaseOffset=e,this.harmonograph.reset(),s.textContent=`${e.toFixed(2)} rad`});let c=document.getElementById(`slider-h-damp`),l=document.getElementById(`disp-h-damp`);c.addEventListener(`input`,()=>{let e=parseFloat(c.value);this.harmonograph.damping=e,this.harmonograph.reset(),l.textContent=e.toFixed(3)});let u=document.getElementById(`slider-h-rot`),d=document.getElementById(`disp-h-rot`);u.addEventListener(`input`,()=>{let e=parseFloat(u.value);this.harmonograph.rotSpeed=e,d.textContent=e.toFixed(2)})}else{e.innerHTML=`
+        <div class="panel-header">
+          <span>Circular Ripple Tank</span>
+          <span class="badge">Wave Superposition</span>
+        </div>
+
+        <div class="control-group">
+          <div class="control-label-row">
+            <span>Point Emitters</span>
+            <span class="control-val" id="disp-r-src">${this.ripple.sourceCount} Sources</span>
+          </div>
+          <div class="preset-btn-group">
+            ${[2,3,4,5,6].map(e=>`<button class="sub-btn ${this.ripple.sourceCount===e?`active`:``}" data-src="${e}">${e}</button>`).join(``)}
+          </div>
+        </div>
+
+        <div class="control-group">
+          <div class="control-label-row">
+            <span>Spatial Wavenumber (k)</span>
+            <span class="control-val" id="disp-r-k">${this.ripple.waveK.toFixed(1)}</span>
+          </div>
+          <input type="range" id="slider-r-k" min="8" max="48" step="0.5" value="${this.ripple.waveK}" />
+        </div>
+
+        <div class="control-group">
+          <div class="control-label-row">
+            <span>Fluid Attenuation</span>
+            <span class="control-val" id="disp-r-damp">${this.ripple.damping.toFixed(2)}</span>
+          </div>
+          <input type="range" id="slider-r-damp" min="0.05" max="1.8" step="0.05" value="${this.ripple.damping}" />
+        </div>
+
+        <div class="control-group">
+          <div class="control-label-row">
+            <span>Spectral Map</span>
+          </div>
+          <div class="preset-btn-group">
+            <button class="sub-btn ${this.ripple.palette===`cyan`?`active`:``}" data-rpal="cyan">Spectral Cyan</button>
+            <button class="sub-btn ${this.ripple.palette===`plasma`?`active`:``}" data-rpal="plasma">Interference Plasma</button>
+            <button class="sub-btn ${this.ripple.palette===`emerald`?`active`:``}" data-rpal="emerald">Deep Emerald</button>
+          </div>
+        </div>
+      `,e.querySelectorAll(`[data-src]`).forEach(e=>{e.addEventListener(`click`,()=>{let t=parseInt(e.dataset.src||`3`,10);this.ripple.setSourceCount(t),this.renderDynamicSidebar()})}),e.querySelectorAll(`[data-rpal]`).forEach(e=>{e.addEventListener(`click`,()=>{this.ripple.setPalette(e.dataset.rpal),this.renderDynamicSidebar()})});let t=document.getElementById(`slider-r-k`),n=document.getElementById(`disp-r-k`);t.addEventListener(`input`,()=>{let e=parseFloat(t.value);this.ripple.waveK=e,n.textContent=e.toFixed(1)});let r=document.getElementById(`slider-r-damp`),i=document.getElementById(`disp-r-damp`);r.addEventListener(`input`,()=>{let e=parseFloat(r.value);this.ripple.damping=e,i.textContent=e.toFixed(2)})}}}renderFFTOscilloscope(e){let t=this.fftCanvas.width/this.dpr,n=this.fftCanvas.height/this.dpr,r=this.fftCtx;r.clearRect(0,0,t,n),r.strokeStyle=`rgba(139, 92, 246, 0.14)`,r.lineWidth=1,r.beginPath(),r.moveTo(0,n*.5),r.lineTo(t,n*.5),r.stroke();let i=this.audio.getFFTData();if(this.phasePreview+=e*(4+this.masterFrequency/432*8),i.live){let e=Math.max(1,Math.floor(i.freq.length/48)),a=t/48;for(let t=0;t<48;t++){let o=i.freq[t*e]/255,s=o*n*.85;r.fillStyle=`rgba(139, 92, 246, ${.22+o*.5})`,r.fillRect(t*a+1,n-s,Math.max(1,a-2),s)}r.beginPath();let o=i.time.length;for(let e=0;e<o;e++){let a=e/(o-1)*t,s=(i.time[e]-128)/128,c=n*.5+n*.42*s;e===0?r.moveTo(a,c):r.lineTo(a,c)}r.strokeStyle=`#06b6d4`,r.lineWidth=1.8,r.stroke()}else{let e=this.chladni.n,i=this.chladni.m;r.beginPath();for(let a=0;a<=120;a++){let o=a/120,s=o*t,c=.62*Math.sin(o*Math.PI*2*(2+this.masterFrequency/432*2)+this.phasePreview)+.28*Math.sin(o*Math.PI*2*(e+i)*.5-this.phasePreview*1.4),l=n*.5+c*n*.34;a===0?r.moveTo(s,l):r.lineTo(s,l)}r.strokeStyle=`rgba(6, 182, 212, 0.78)`,r.lineWidth=1.6,r.stroke();for(let a=0;a<18;a++){let o=Math.abs(a-(e+i)%18),s=Math.max(.08,1-o*.25)*.5*n*.65;r.fillStyle=`rgba(245, 158, 11, 0.22)`,r.fillRect(a/18*t+2,n-s,t/18-4,s)}}}updateTelemetry(){let e=document.getElementById(`hud-freq-badge`),t=document.getElementById(`val-freq`),n=document.getElementById(`val-modes`),r=document.getElementById(`val-nodal`),i=document.getElementById(`val-voices`);e&&(e.textContent=`${this.masterFrequency.toFixed(1)} Hz`),t&&(t.innerHTML=`${this.masterFrequency.toFixed(1)}<span class="unit">Hz</span>`),this.activeSystem===`chladni`?(n&&(n.textContent=`(${this.chladni.n}, ${this.chladni.m})`),r&&(r.innerHTML=`${this.chladni.nodalConvergence.toFixed(1)}<span class="unit">%</span>`)):this.activeSystem===`harmonograph`?(n&&(n.textContent=`${this.harmonograph.fx.toFixed(2)}:${this.harmonograph.fy.toFixed(2)}`),r&&(r.innerHTML=`3D<span class="unit">Lissajous</span>`)):(n&&(n.textContent=`${this.ripple.sourceCount} src`),r&&(r.innerHTML=`k=${this.ripple.waveK.toFixed(1)}`)),i&&(i.innerHTML=`${this.audio.getActiveVoiceCount()}<span class="unit">ch</span>`)}exportSnapshotPNG(){let e=document.createElement(`a`),t=new Date().toISOString().replace(/[:.]/g,`-`).slice(0,19);e.download=`resonance-cymatics-${this.activeSystem}-${t}.png`,e.href=this.mainCanvas.toDataURL(`image/png`),e.click()}loop(e){let t=Math.min(.05,Math.max(.001,(e-this.lastTime)/1e3));if(this.lastTime=e,this.fpsFrames++,this.fpsTimer+=t,this.fpsTimer>=.45){this.currentFps=Math.round(this.fpsFrames/this.fpsTimer),this.fpsFrames=0,this.fpsTimer=0;let e=document.getElementById(`hud-fps`);e&&(e.textContent=`${this.currentFps} FPS`)}if(this.isPlaying){if(this.isSweeping){let e=this.masterFrequency+this.sweepDir*t*115;e>=1400?(e=1400,this.sweepDir=-1):e<=90&&(e=90,this.sweepDir=1),this.applyFrequencyToEngines(e,!1)}this.activeSystem===`chladni`?this.chladni.step(t):this.activeSystem===`harmonograph`?this.harmonograph.step(t):this.ripple.step(t)}this.activeSystem===`chladni`?this.chladni.render(this.mainCtx,this.canvasWidth,this.canvasHeight):this.activeSystem===`harmonograph`?this.harmonograph.render(this.mainCtx,this.canvasWidth,this.canvasHeight):this.ripple.render(this.mainCtx,this.canvasWidth,this.canvasHeight),this.renderFFTOscilloscope(t),this.updateTelemetry(),requestAnimationFrame(e=>this.loop(e))}};window.addEventListener(`DOMContentLoaded`,()=>{new u});
