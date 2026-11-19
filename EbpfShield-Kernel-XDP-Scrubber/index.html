@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EBPF-SHIELD: Linux Kernel eBPF/XDP Line-Rate DDoS Scrubber &amp; Syscall Tracer</title>
+    <meta
+      name="description"
+      content="100GbE NIC RX Ring eBPF/XDP line-rate DDoS scrubber (<120 ns), interactive eBPF Verifier & C filter compiler, Per-CPU HashMap telemetry, and Kubernetes Seccomp-BPF/LSM syscall tracer. Architected by أ. طارق ابوعشي | Tareq Abuashi."
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,6 90,22 90,54 50,94 10,54 10,22' fill='%23060913' stroke='%2306b6d4' stroke-width='6'/><path d='M50 24 L72 34 V52 C72 67 50 78 50 78 C50 78 28 67 28 52 V34 Z' fill='rgba(16,185,129,0.22)' stroke='%2310b981' stroke-width='4'/></svg>"
+    />
+    <script type="module" crossorigin src="./assets/index-wJCKD7tv.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-D-xXAq-Q.css">
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="brand-section">
+        <div class="brand-icon-wrap" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L3 6v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6l-9-4z"></path>
+            <path d="M9 12l2 2 4-4" stroke="#10b981"></path>
+          </svg>
+        </div>
+        <div class="title-wrap">
+          <h1>EBPF-SHIELD</h1>
+          <div class="subtitle">
+            <span>Linux Kernel eBPF/XDP Line-Rate DDoS Scrubber &amp; Syscall Tracer</span>
+            <span>&bull;</span>
+            <span>Lead Software Engineer &amp; AI Systems Architect:</span>
+            <span class="architect">أ. طارق ابوعشي | Tareq Abuashi</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="audio-toggle-btn" class="btn-icon active" title="Toggle Web Audio Kernel Telemetry Soundscape">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          </svg>
+          <span id="audio-status-text">Audio: ON</span>
+        </button>
+
+        <button id="open-dossier-btn" class="btn-icon" title="Open Linux Kernel eBPF/XDP Architecture Dossier">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+          <span>Kernel Dossier</span>
+        </button>
+
+        <a
+          href="https://github.com/Tareq0001/EbpfShield-Kernel-XDP-Scrubber"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-icon"
+          title="View Source Repository on GitHub"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+            />
+          </svg>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- VOLUMETRIC ATTACK & RED-TEAM FAULT INJECTION TOOLBAR -->
+    <nav class="chaos-toolbar" aria-label="Volumetric Attack and Red-Team Fault Injection">
+      <div class="toolbar-group">
+        <span class="toolbar-label">KERNEL HOOK:</span>
+        <span class="mode-pill active static-pill">XDP_DRV (Zero sk_buff)</span>
+        <span class="mode-pill static-pill">Linux 6.8 LTS</span>
+      </div>
+
+      <div class="toolbar-divider"></div>
+
+      <div class="toolbar-group chaos-group">
+        <span class="toolbar-label">RED-TEAM INJECTION:</span>
+        <button id="btn-syn-flood" class="chaos-btn danger">Launch 45 Mpps SYN Flood</button>
+        <button id="btn-udp-amp" class="chaos-btn warn">Launch UDP DNS/NTP Amplification</button>
+        <button id="btn-container-escape" class="chaos-btn danger-outline">Inject Container Escape (ptrace / /etc/shadow)</button>
+        <button id="btn-verifier-fault" class="chaos-btn warn-outline">Trigger eBPF Verifier Bounds Fault</button>
+        <button id="btn-clear-threats" class="chaos-btn success">Clear Threats &amp; Baseline Traffic</button>
+      </div>
+
+      <div class="toolbar-group sim-controls">
+        <button id="btn-play-pause" class="mode-pill active" title="Pause / Resume Kernel Telemetry">
+          <span id="txt-play-pause">Running</span>
+        </button>
+        <button class="mode-pill speed-btn" data-speed="0.5">0.5×</button>
+        <button class="mode-pill speed-btn active" data-speed="1">1×</button>
+        <button class="mode-pill speed-btn" data-speed="2">2×</button>
+      </div>
+    </nav>
+
+    <!-- MAIN TELEMETRY WORKSPACE -->
+    <main class="main-workspace">
+      <!-- LEFT / CENTER VISUALIZATION ARENAS -->
+      <section class="visual-grid">
+        <!-- 1. 60FPS NIC -> XDP -> VERDICT PIPELINE CANVAS -->
+        <div class="canvas-card xdp-card">
+          <div class="card-hud-top">
+            <div class="hud-pill">
+              <span class="pulse-dot" id="xdp-pulse-dot"></span>
+              <span>100GbE NIC RX RING &rarr; eBPF XDP HOOK (&lt;120 ns)</span>
+              <span>&bull;</span>
+              <span id="hud-fps">60 FPS</span>
+            </div>
+            <div class="hud-pill status-pill" id="hud-attack-badge">BASELINE • LINE-RATE CLEAN</div>
+          </div>
+
+          <canvas id="xdp-canvas"></canvas>
+
+          <div class="card-hud-bottom">
+            <div class="legend-chip"><span class="dot emerald"></span>XDP_PASS &rarr; Linux Network Stack</div>
+            <div class="legend-chip"><span class="dot crimson"></span>XDP_DROP &rarr; Driver Burn (Pre-sk_buff)</div>
+            <div class="legend-chip"><span class="dot cyan"></span>XDP_TX &rarr; NIC Hairpin Forward</div>
+            <div class="legend-chip"><span class="dot amber"></span>Per-CPU HashMap Lookup</div>
+          </div>
+        </div>
+
+        <!-- LIVE XDP LINE-RATE KPI STRIP -->
+        <div class="kpi-strip">
+          <div class="kpi-card">
+            <span class="kpi-label">RX Throughput</span>
+            <span class="kpi-value cyan" id="kpi-mpps">1.84 Mpps</span>
+            <span class="kpi-sub" id="kpi-gbps">14.7 Gbps Wire</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Drop Ratio</span>
+            <span class="kpi-value crimson" id="kpi-drop-ratio">2.4%</span>
+            <span class="kpi-sub" id="kpi-drop-pps">0.04 Mpps Scrubbed</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">XDP Hook Latency</span>
+            <span class="kpi-value emerald" id="kpi-latency">89 ns</span>
+            <span class="kpi-sub">Bounds: 84–118 ns</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">CPU Savings vs. iptables</span>
+            <span class="kpi-value amber" id="kpi-cpu-savings">91.4%</span>
+            <span class="kpi-sub" id="kpi-skbuff-saved">0.0 GB sk_buff Avoided</span>
+          </div>
+        </div>
+
+        <!-- LOWER SPLIT: C VERIFIER & PER-CPU HASHMAP -->
+        <div class="bottom-panels">
+          <!-- 2. eBPF C FILTER & KERNEL VERIFIER -->
+          <div class="panel-card verifier-card">
+            <div class="panel-header">
+              <span>aegis_xdp_filter.c &amp; Linux eBPF Verifier</span>
+              <span class="badge emerald" id="verifier-status-badge">VERIFIED • JIT ATTACHED</span>
+            </div>
+
+            <div class="rule-toggles" id="rule-toggles">
+              <label class="toggle-chip active">
+                <input type="checkbox" id="rule-syn" checked />
+                <span>SYN Cookie / Rate Limit</span>
+              </label>
+              <label class="toggle-chip active">
+                <input type="checkbox" id="rule-malformed" checked />
+                <span>Malformed Header Drop</span>
+              </label>
+              <label class="toggle-chip active">
+                <input type="checkbox" id="rule-udp" checked />
+                <span>UDP Amp 53/123/1900 Scrub</span>
+              </label>
+              <label class="toggle-chip active">
+                <input type="checkbox" id="rule-cidr" checked />
+                <span>Geo/CIDR Blocklist</span>
+              </label>
+            </div>
+
+            <pre id="ebpf-code-view" class="code-viewer custom-scroll"></pre>
+
+            <div class="verifier-checks" id="verifier-checks"></div>
+
+            <div class="verifier-actions">
+              <button id="btn-recompile-xdp" class="action-btn sm">Compile &amp; Hot-Swap XDP (0-Loss)</button>
+              <span class="verifier-meta" id="verifier-meta">Stack: 152/512 B &bull; Insns: 84 &bull; x86_64 JIT</span>
+            </div>
+          </div>
+
+          <!-- 3. eBPF PER-CPU HASHMAP TELEMETRY -->
+          <div class="panel-card map-card">
+            <div class="panel-header">
+              <span>eBPF Per-CPU HashMap (bpf_map_lookup_elem)</span>
+              <span class="badge cyan">BPF_MAP_TYPE_PERCPU_HASH</span>
+            </div>
+
+            <div class="map-meta-row">
+              <span>Map: <code>xdp_cidr_blocklist</code></span>
+              <span>Key: <code>struct lpm_v4_key</code></span>
+              <span>Entries: <strong id="hashmap-count">6 / 1024</strong></span>
+            </div>
+
+            <div class="table-wrap custom-scroll">
+              <table class="telemetry-table">
+                <thead>
+                  <tr>
+                    <th>Blocked IPv4 CIDR</th>
+                    <th>Vector</th>
+                    <th>Drop PPS</th>
+                    <th>Total Hits</th>
+                    <th>CPU</th>
+                  </tr>
+                </thead>
+                <tbody id="hashmap-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT SIDEBAR: CPU BENCHMARK, SYSCALL TRACER & KERNEL RINGBUF -->
+      <aside class="control-sidebar">
+        <!-- 4. XDP VS IPTABLES CPU SATURATION BENCHMARK -->
+        <div class="sidebar-panel">
+          <div class="panel-header">
+            <span>Kernel CPU vs. Legacy iptables</span>
+            <span class="badge emerald" id="verdict-pill">XDP_DRV ACTIVE</span>
+          </div>
+
+          <div class="cpu-compare">
+            <div class="bar-group">
+              <div class="control-label-row">
+                <span>eBPF / XDP Hook (Pre-sk_buff)</span>
+                <span class="control-val emerald" id="val-xdp-cpu">6.2%</span>
+              </div>
+              <div class="energy-bar-wrap">
+                <div id="bar-xdp-cpu" class="bar-fill-emerald" style="width: 6.2%;"></div>
+              </div>
+            </div>
+
+            <div class="bar-group">
+              <div class="control-label-row">
+                <span>Legacy iptables (netfilter sk_buff)</span>
+                <span class="control-val crimson" id="val-iptables-cpu">22.4%</span>
+              </div>
+              <div class="energy-bar-wrap">
+                <div id="bar-iptables-cpu" class="bar-fill-crimson" style="width: 22.4%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="telemetry-grid three-col">
+            <div class="telem-box">
+              <span class="label">XDP_PASS</span>
+              <span class="value emerald" id="val-pass-count">0</span>
+            </div>
+            <div class="telem-box">
+              <span class="label">XDP_DROP</span>
+              <span class="value crimson" id="val-drop-count">0</span>
+            </div>
+            <div class="telem-box">
+              <span class="label">XDP_TX</span>
+              <span class="value cyan" id="val-tx-count">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. LIVE CONTAINER SYSCALL & SECCOMP-BPF TRACER -->
+        <div class="sidebar-panel syscall-panel">
+          <div class="panel-header">
+            <span>Container Syscall &amp; Seccomp-BPF Tracer</span>
+            <span class="badge crimson" id="lsm-kill-badge">LSM SIGKILL: 0</span>
+          </div>
+
+          <div class="pod-strip">
+            <span class="pod-pill" id="pod-api-gateway">api-gateway-7f9c</span>
+            <span class="pod-pill" id="pod-auth-worker">auth-worker-2a1d</span>
+            <span class="pod-pill" id="pod-redis-primary">redis-primary-0</span>
+          </div>
+
+          <div class="tracepoint-tags">
+            <span>tp/syscalls:</span>
+            <code>execve</code><code>openat</code><code>connect</code><code>ptrace</code><code>setuid</code><code>bpf</code>
+          </div>
+
+          <div id="syscall-feed" class="syscall-feed custom-scroll"></div>
+        </div>
+
+        <!-- 6. KERNEL RINGBUF SECURITY AUDIT STREAM -->
+        <div class="sidebar-panel event-panel">
+          <div class="panel-header">
+            <span>BPF_MAP_TYPE_RINGBUF Audit Stream</span>
+            <span class="badge">LIVE</span>
+          </div>
+          <div id="event-log" class="event-log custom-scroll"></div>
+        </div>
+      </aside>
+    </main>
+
+  </body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AST-FORGE: AI-Powered Codebase Migration Engine &amp; Interactive AST Compiler Workbench</title>
+    <meta
+      name="description"
+      content="AST-FORGE (#96): In-browser AI-Powered Codebase Migration Engine & Interactive AST Compiler Workbench featuring 60fps HiDPI AST Visualizer, 11-Phase Pipeline, SHA-256 Semantic Hash Cache, Unified Diff Viewer, and Atomic Rollback Lab. Architected exclusively by أ. طارق ابوعشي | Tareq Abuashi."
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23060913'/><circle cx='50' cy='22' r='10' fill='%2306b6d4'/><circle cx='25' cy='68' r='10' fill='%238b5cf6'/><circle cx='75' cy='68' r='10' fill='%2310b981'/><path d='M50 32 L25 58 M50 32 L75 58' stroke='%2338bdf8' stroke-width='4' fill='none'/></svg>"
+    />
+    <script type="module" crossorigin src="./assets/index-BE7iFZfo.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CvGlj8gi.css">
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="brand-section">
+        <div class="brand-icon-wrap" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="9" y="2" width="6" height="5" rx="1.5"></rect>
+            <rect x="2" y="17" width="6" height="5" rx="1.5"></rect>
+            <rect x="16" y="17" width="6" height="5" rx="1.5"></rect>
+            <path d="M12 7v4M5 17v-3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3"></path>
+          </svg>
+        </div>
+        <div class="title-wrap">
+          <h1>AST-FORGE</h1>
+          <div class="subtitle">
+            <span>AI-Powered Codebase Migration Engine &amp; Interactive AST Compiler Workbench</span>
+            <span>&bull;</span>
+            <span>Exclusive Architect:</span>
+            <span class="architect">أ. طارق ابوعشي | Tareq Abuashi — Lead Software Engineer &amp; AI Systems Architect</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="audio-toggle-btn" class="btn-icon active" title="Toggle Web Audio Telemetry">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          </svg>
+          <span id="audio-status-text">Audio: ON</span>
+        </button>
+
+        <button id="open-dossier-btn" class="btn-icon" title="Open Compiler & AST Architecture Dossier">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+          <span>Compiler &amp; AST Dossier</span>
+        </button>
+
+        <a
+          href="https://github.com/Tareq0001/AstForge-AI-Code-Migration-Engine"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-icon"
+          title="View Source Repository on GitHub"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+            />
+          </svg>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- COMMAND & TELEMETRY BAR -->
+    <section class="command-bar">
+      <div class="command-controls-row">
+        <div id="template-pills" class="preset-pills" aria-label="System Templates"></div>
+
+        <div class="lang-switch-group">
+          <label class="lang-field">
+            <span>SOURCE</span>
+            <select id="source-lang-select">
+              <option value="python">Python 3.12</option>
+              <option value="go">Go 1.23</option>
+              <option value="typescript">TypeScript 5.9</option>
+            </select>
+          </label>
+          <span class="lang-arrow" aria-hidden="true">⟶</span>
+          <label class="lang-field">
+            <span>TARGET</span>
+            <select id="target-lang-select">
+              <option value="go">Go 1.23</option>
+              <option value="typescript">TypeScript 5.9</option>
+              <option value="python">Python 3.12</option>
+            </select>
+          </label>
+          <button id="btn-run-migration" class="btn-primary">
+            <span>Run 11-Phase Migration</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 11-PHASE PIPELINE STEPPER -->
+      <div class="pipeline-strip-wrap">
+        <div id="pipeline-stages-grid" class="pipeline-stages-grid"></div>
+        <div class="command-meta-row">
+          <div class="trace-log-strip">
+            <span class="trace-tag">COMPILER TRACE</span>
+            <span id="pipeline-trace-text">AST Compiler initialized. Ready for deterministic transpilation.</span>
+          </div>
+          <div class="telemetry-strip">
+            <div id="pipeline-status-pill" class="status-pill status-ready">
+              <span class="pulse-dot"></span>
+              <span id="pipeline-status-text">COMPILER READY</span>
+            </div>
+            <div id="cache-badge-chip" class="metric-chip">Cache: <strong id="telem-cache">WARM</strong></div>
+            <div class="metric-chip">Tokens: <strong id="telem-tokens">0</strong></div>
+            <div class="metric-chip">Saved: <strong id="telem-saved">0%</strong></div>
+            <div class="metric-chip">AST Nodes: <strong id="telem-nodes">0</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAIN WORKSPACE GRID -->
+    <main class="workspace-grid">
+      <!-- LEFT STAGE: 60FPS AST CANVAS + LIVE SOURCE EDITOR -->
+      <div class="stage-left">
+        <section class="glass-panel ast-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <span class="panel-badge cyan">60FPS HIDPI AST TREE</span>
+              <h2>Interactive Abstract Syntax Tree Visualizer</h2>
+            </div>
+            <div class="panel-actions">
+              <div class="graph-legend">
+                <span class="legend-item"><i class="dot prog"></i>Program</span>
+                <span class="legend-item"><i class="dot struct"></i>Struct</span>
+                <span class="legend-item"><i class="dot fn"></i>Func</span>
+                <span class="legend-item"><i class="dot type"></i>Type</span>
+                <span class="legend-item"><i class="dot expr"></i>Expr/Guard</span>
+              </div>
+              <button id="btn-zoom-in" class="btn-mini" title="Zoom In">+</button>
+              <button id="btn-zoom-out" class="btn-mini" title="Zoom Out">-</button>
+              <button id="btn-fit-ast" class="btn-mini" title="Fit AST to Viewport">Fit Tree</button>
+            </div>
+          </div>
+
+          <div class="ast-canvas-wrap">
+            <canvas id="ast-canvas"></canvas>
+            <div class="graph-hud-hint">Drag to pan &bull; Scroll to zoom &bull; Click any AST node to inspect SHA-256 hash &amp; span</div>
+            <div id="node-inspector" class="node-inspector"></div>
+          </div>
+        </section>
+
+        <section class="glass-panel editor-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <span class="panel-badge violet">LIVE RECURSIVE DESCENT INPUT</span>
+              <h2>Interactive Source Code Editor</h2>
+            </div>
+            <div class="panel-actions">
+              <span id="editor-metrics-badge" class="panel-badge emerald">0 LINES • 0 TOKENS</span>
+            </div>
+          </div>
+          <div class="editor-body">
+            <div id="editor-gutter" class="editor-gutter" aria-hidden="true"></div>
+            <textarea
+              id="source-code-editor"
+              class="code-textarea custom-scroll"
+              spellcheck="false"
+              aria-label="Source Code Editor"
+            ></textarea>
+          </div>
+        </section>
+      </div>
+
+      <!-- RIGHT STAGE: FAULT INJECTION LAB + ATOMIC SNAPSHOTS + UNIFIED DIFF VIEWER -->
+      <div class="stage-right">
+        <section class="glass-panel lab-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <span class="panel-badge rose">FAULT INJECTION &amp; CACHE LAB</span>
+              <h2>Atomic Rollback &amp; Verification Gate</h2>
+            </div>
+            <span id="gate-state-badge" class="panel-badge emerald">GATE: ARMED</span>
+          </div>
+
+          <div class="lab-btn-grid">
+            <button id="btn-inject-mismatch" class="fault-btn danger">
+              <span class="fault-title">Inject Type-Mismatch Error</span>
+              <span class="fault-sub">Phase 09 detects &amp; triggers Atomic Rollback</span>
+            </button>
+            <button id="btn-inject-deprecation" class="fault-btn amber">
+              <span class="fault-title">Inject Breaking API Deprecation</span>
+              <span class="fault-sub">Applies AI Patch &amp; highlights AST node</span>
+            </button>
+            <button id="btn-sim-cold-cache" class="fault-btn cyan">
+              <span class="fault-title">Simulate Cold Semantic Cache</span>
+              <span class="fault-sub">Cold vs Hot Cache time &amp; ~78% token delta</span>
+            </button>
+            <button id="btn-atomic-rollback" class="fault-btn violet">
+              <span class="fault-title">Atomic Rollback</span>
+              <span class="fault-sub">Revert code &amp; AST to last green snapshot</span>
+            </button>
+            <button id="btn-reset-workspace" class="fault-btn neutral full-span">
+              <span class="fault-title">Reset Workspace &amp; Clear Faults</span>
+            </button>
+          </div>
+
+          <div id="lab-alert-banner" class="security-banner hidden"></div>
+          <div id="cache-benchmark-card" class="benchmark-card hidden"></div>
+        </section>
+
+        <!-- ATOMIC SNAPSHOT TIMELINE -->
+        <section class="glass-panel snapshots-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <span class="panel-badge emerald">ATOMIC COMMIT TIMELINE</span>
+              <h2>Immutable Workspace Snapshots</h2>
+            </div>
+            <span id="snapshot-count-badge" class="panel-badge cyan">0 SNAPSHOTS</span>
+          </div>
+          <div id="snapshot-timeline" class="snapshot-timeline custom-scroll"></div>
+        </section>
+
+        <!-- UNIFIED DIFF VIEWER & COMPILER TELEMETRY -->
+        <section class="glass-panel diff-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <span class="panel-badge cyan">TRANSPILATION OUTPUT</span>
+              <h2>Unified Diff Viewer &amp; Semantic Telemetry</h2>
+            </div>
+            <button id="btn-copy-target" class="btn-mini" title="Copy Transpiled Code">Copy Target</button>
+          </div>
+
+          <div class="subtabs" role="tablist">
+            <button class="subtab active" data-tab="diff">Unified Diff (Source ↔ Target)</button>
+            <button class="subtab" data-tab="target">Target Code Output</button>
+            <button class="subtab" data-tab="symbols">Symbol Table &amp; Diagnostics</button>
+          </div>
+
+          <div id="tab-content-diff" class="tab-pane active custom-scroll"></div>
+          <div id="tab-content-target" class="tab-pane custom-scroll"></div>
+          <div id="tab-content-symbols" class="tab-pane custom-scroll"></div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      <span>AST-FORGE Reference Workbench (#96)</span>
+      <span>&bull;</span>
+      <span>Architected &amp; Engineered exclusively by <strong>أ. طارق ابوعشي | Tareq Abuashi — Lead Software Engineer &amp; AI Systems Architect</strong></span>
+    </footer>
+
+  </body>
+</html>
