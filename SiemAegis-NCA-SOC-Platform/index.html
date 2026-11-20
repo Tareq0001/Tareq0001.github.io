@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIEM-AEGIS: NCA ECC Security Operations Center, MITRE ATT&amp;CK Correlation &amp; DFIR Playbook Studio</title>
+    <meta
+      name="description"
+      content="NCA ECC-2:2024 Security Operations Center (SOC), multi-source Sigma log correlation, interactive 7-tactic MITRE ATT&CK Enterprise Matrix, 60fps Kill-Chain Topology, SOAR Playbook automation, and NIST SP 800-61 DFIR studio. Architected by أ. طارق ابوعشي | Tareq Abuashi."
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,6 90,22 90,54 50,94 10,54 10,22' fill='%23060913' stroke='%2306b6d4' stroke-width='6'/><circle cx='50' cy='50' r='16' fill='rgba(16,185,129,0.2)' stroke='%2310b981' stroke-width='4'/><circle cx='50' cy='50' r='5' fill='%23f43f5e'/></svg>"
+    />
+    <script type="module" crossorigin src="./assets/index-_rVwNOOs.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-s7l_nQUU.css">
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="brand-section">
+        <div class="brand-icon-wrap" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L3 6v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6l-9-4z"></path>
+            <circle cx="12" cy="12" r="3" stroke="#10b981"></circle>
+          </svg>
+        </div>
+        <div class="title-wrap">
+          <h1>SIEM-AEGIS</h1>
+          <div class="subtitle">
+            <span>NCA ECC Security Operations Center, MITRE ATT&amp;CK Correlation &amp; DFIR Playbook Studio</span>
+            <span>&bull;</span>
+            <span class="architect">أ. طارق ابوعشي | Tareq Abuashi — Cybersecurity &amp; Distributed Systems Architect</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="audio-toggle-btn" class="btn-icon active" title="Toggle Web Audio SOC Telemetry Soundscape">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          </svg>
+          <span id="audio-status-text">Audio: ON</span>
+        </button>
+
+        <button id="open-dossier-btn" class="btn-icon" title="Open NCA ECC &amp; MITRE SOC Architecture Dossier">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+          <span>NCA ECC &amp; MITRE SOC Dossier</span>
+        </button>
+
+        <a
+          href="https://github.com/Tareq0001/SiemAegis-NCA-SOC-Platform"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-icon"
+          title="View Source Repository on GitHub"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+            />
+          </svg>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- ATTACK INJECTION & SOAR PLAYBOOK TOOLBAR -->
+    <nav class="chaos-toolbar" aria-label="Adversary Simulation and SOAR Playbook Controls">
+      <div class="toolbar-group">
+        <span class="toolbar-label">FRAMEWORK:</span>
+        <span class="mode-pill active static-pill">NCA ECC-2:2024</span>
+        <span class="mode-pill static-pill">MITRE ATT&amp;CK v16</span>
+        <span class="mode-pill static-pill">Sigma v2.0</span>
+      </div>
+
+      <div class="toolbar-divider"></div>
+
+      <div class="toolbar-group">
+        <span class="toolbar-label">INCIDENT INJECTION:</span>
+        <button id="btn-phish-c2" class="chaos-btn warn">Inject Spear-Phishing &amp; C2 Beacon (T1566 / T1071)</button>
+        <button id="btn-kerberoast-smb" class="chaos-btn danger-outline">Inject Kerberoasting &amp; SMB Lateral Movement (T1558 / T1021)</button>
+        <button id="btn-ransomware-wipe" class="chaos-btn danger">Inject Ransomware Encryption &amp; Shadow Copy Wipe (T1486 / T1490)</button>
+        <button id="btn-soar-contain" class="chaos-btn soar">Execute SOAR Playbook: Isolate Host &amp; Revoke Kerberos TGT</button>
+        <button id="btn-reset-soc" class="chaos-btn success">Reset SOC Baseline</button>
+      </div>
+
+      <div class="toolbar-group sim-controls">
+        <button id="btn-play-pause" class="mode-pill active" title="Pause / Resume SIEM Stream">
+          <span id="txt-play-pause">Live</span>
+        </button>
+        <button class="mode-pill speed-btn" data-speed="0.5">0.5×</button>
+        <button class="mode-pill speed-btn active" data-speed="1">1×</button>
+        <button class="mode-pill speed-btn" data-speed="2">2×</button>
+      </div>
+    </nav>
+
+    <!-- MAIN TELEMETRY WORKSPACE -->
+    <main class="main-workspace">
+      <!-- LEFT / CENTER VISUALIZATION ARENAS -->
+      <section class="visual-grid">
+        <!-- 1. 60FPS KILL-CHAIN TOPOLOGY CANVAS -->
+        <div class="canvas-card soc-card">
+          <div class="card-hud-top">
+            <div class="hud-pill">
+              <span class="pulse-dot" id="soc-pulse-dot"></span>
+              <span>ENTERPRISE KILL-CHAIN TOPOLOGY &bull; 60 FPS</span>
+              <span>&bull;</span>
+              <span id="hud-fps">60 FPS</span>
+            </div>
+            <div class="hud-pill status-pill" id="hud-incident-badge">BASELINE • SOC MONITORING ACTIVE</div>
+          </div>
+
+          <canvas id="soc-canvas"></canvas>
+
+          <div class="card-hud-bottom">
+            <div class="legend-chip"><span class="dot emerald"></span>Normal Encrypted Telemetry</div>
+            <div class="legend-chip"><span class="dot crimson"></span>Lateral Movement Arcs</div>
+            <div class="legend-chip"><span class="dot amber"></span>C2 Beaconing (TLS JA3)</div>
+            <div class="legend-chip"><span class="dot cyan"></span>SOAR Quarantine Ring</div>
+          </div>
+        </div>
+
+        <!-- LIVE SOC KPI STRIP -->
+        <div class="kpi-strip">
+          <div class="kpi-card">
+            <span class="kpi-label">Ingestion Rate (EPS)</span>
+            <span class="kpi-value cyan" id="kpi-eps">4,820 EPS</span>
+            <span class="kpi-sub" id="kpi-total-events">184,290 Correlated Events</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">MTTD / MTTR</span>
+            <span class="kpi-value emerald" id="kpi-mttd-mttr">1.4s / 11.8s</span>
+            <span class="kpi-sub" id="kpi-tgt-revoked">SOAR TGT Revocations: 0</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Sigma Detections</span>
+            <span class="kpi-value crimson" id="kpi-alerts-count">0 CRIT • 2 HIGH</span>
+            <span class="kpi-sub" id="kpi-alerts-sub">19 MED • 148 LOW</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">NCA ECC Compliance</span>
+            <span class="kpi-value amber" id="kpi-nca-overall">96.5%</span>
+            <span class="kpi-sub" id="kpi-nca-status">96.5% Compliant</span>
+          </div>
+        </div>
+
+        <!-- 2. MITRE ATT&CK 7-COLUMN ENTERPRISE MATRIX & SIGMA INSPECTOR -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <span>MITRE ATT&amp;CK Enterprise Matrix (7 Tactical Kill-Chain Columns)</span>
+            <span class="badge cyan" id="mitre-active-badge">CLICK ANY TECHNIQUE FOR SIGMA RULE</span>
+          </div>
+
+          <div class="mitre-matrix-grid" id="mitre-matrix-grid"></div>
+
+          <div class="sigma-inspector" id="sigma-inspector">
+            <div class="sigma-meta">
+              <div class="sigma-meta-title" id="inspector-title">T1190 &bull; Exploit Public-Facing App</div>
+              <p class="sigma-meta-desc" id="inspector-desc">Select any technique above to inspect Sigma correlation logic and NCA ECC control mapping.</p>
+              <div class="sigma-nca-tag" id="inspector-nca">NCA ECC Mapping: ECC 2-5-2</div>
+            </div>
+            <pre class="code-viewer custom-scroll" id="inspector-sigma-yaml"></pre>
+          </div>
+        </div>
+
+        <!-- 3. MULTI-SOURCE CORRELATED SIEM LOG STREAM -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <span>Multi-Source Correlated SIEM Stream (Windows Event / Linux Auditd / Zeek / EDR / WAF)</span>
+            <span class="badge" id="log-stream-badge">SIGMA CORRELATION LIVE</span>
+          </div>
+
+          <div class="log-filter-bar">
+            <div class="filter-chips" id="log-filter-chips">
+              <button class="filter-chip active" data-filter="ALL">ALL SOURCES</button>
+              <button class="filter-chip" data-filter="CRITICAL">CRITICAL</button>
+              <button class="filter-chip" data-filter="HIGH">HIGH</button>
+              <button class="filter-chip" data-filter="Windows Event">WinEvent (4625/4688/4672)</button>
+              <button class="filter-chip" data-filter="Zeek DNS/TLS">Zeek DNS/TLS</button>
+              <button class="filter-chip" data-filter="EDR Process Tree">EDR Process Tree</button>
+            </div>
+          </div>
+
+          <div class="table-wrap custom-scroll">
+            <table class="telemetry-table">
+              <thead>
+                <tr>
+                  <th>UTC Time</th>
+                  <th>Source</th>
+                  <th>Event / ID</th>
+                  <th>Host &amp; Flow</th>
+                  <th>Severity</th>
+                  <th>Sigma / MITRE &amp; Detail</th>
+                </tr>
+              </thead>
+              <tbody id="siem-log-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT SIDEBAR: NCA ECC READINESS, DFIR TIMELINE & SOAR AUDIT -->
+      <aside class="control-sidebar">
+        <!-- 4. NCA ECC COMPLIANCE READINESS GAUGE -->
+        <div class="sidebar-panel">
+          <div class="panel-header">
+            <span>NCA ECC Compliance Readiness Gauge</span>
+            <span class="badge emerald" id="nca-readiness-badge">96.5% Compliant</span>
+          </div>
+
+          <div class="nca-overall-box">
+            <div>
+              <div class="kpi-label">Aggregate NCA ECC Posture</div>
+              <div class="kpi-sub" id="nca-controls-summary">126 / 132 Controls Verified</div>
+            </div>
+            <div class="nca-score-big" id="nca-big-score">96.5%</div>
+          </div>
+
+          <div class="nca-domains-list" id="nca-domains-list"></div>
+        </div>
+
+        <!-- 5. NIST SP 800-61 DFIR TIMELINE & IOC ARTIFACTS -->
+        <div class="sidebar-panel">
+          <div class="panel-header">
+            <span>NIST SP 800-61 DFIR Timeline &amp; IOC Forensics</span>
+            <span class="badge amber" id="dfir-phase-badge">PREPARATION</span>
+          </div>
+
+          <div class="dfir-timeline" id="dfir-timeline"></div>
+
+          <div class="panel-header" style="margin-top: 4px;">
+            <span>Extracted IOCs &amp; SHA-256 Fingerprints</span>
+            <span class="badge">FORENSIC CHAIN</span>
+          </div>
+
+          <div class="ioc-list" id="ioc-list"></div>
+        </div>
+
+        <!-- 6. SOAR AUTOMATED PLAYBOOK AUDIT -->
+        <div class="sidebar-panel">
+          <div class="panel-header">
+            <span>SOAR Playbook &amp; SOC Audit Stream</span>
+            <span class="badge">LIVE</span>
+          </div>
+          <div id="soar-audit-log" class="event-log custom-scroll"></div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- NCA ECC & MITRE SOC DOSSIER MODAL -->
+    <div id="dossier-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="dossier-title">
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <div class="modal-title-wrap">
+            <span class="modal-badge">NCA ECC-2:2024 &bull; MITRE ATT&amp;CK &bull; NIST SP 800-61</span>
+            <h2 id="dossier-title">SIEM-AEGIS Technical Architecture &amp; Compliance Dossier</h2>
+            <p class="modal-author">
+              Lead Architect: <strong>أ. طارق ابوعشي | Tareq Abuashi — Cybersecurity &amp; Distributed Systems Architect</strong>
+            </p>
+          </div>
+          <button id="close-dossier-btn" class="close-btn" aria-label="Close Dossier Modal">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <div class="modal-body custom-scroll">
+          <section class="math-section">
+            <span class="section-tag">01 // SIGMA MULTI-SOURCE LOG CORRELATION &amp; TELEMETRY</span>
+            <h3>Normalized Ingestion Across 5 Enterprise Telemetry Planes</h3>
+            <p>
+              SIEM-AEGIS normalizes heterogeneous streams from <strong>Windows Security Events (4625, 4688, 4672, 4769)</strong>,
+              <strong>Linux Auditd/Syslog</strong>, <strong>Zeek DNS/TLS JA3</strong>, <strong>EDR Process Trees</strong>, and
+              <strong>Perimeter WAF</strong> into deterministic Sigma v2.0 correlation rules with sub-2-second MTTD.
+            </p>
+            <div class="formula-box">
+              <span>EPS(t) = &Sigma; Events_Ingested(Windows + Auditd + Zeek + EDR + WAF) / &Delta;t</span>
+              <span>MTTD = t_sigma_match - t_initial_compromise &nbsp;|&nbsp; MTTR = t_soar_quarantine - t_sigma_match</span>
+            </div>
+          </section>
+
+          <section class="math-section">
+            <span class="section-tag">02 // NCA ESSENTIAL CYBERSECURITY CONTROLS (ECC) READINESS MODEL</span>
+            <h3>Dynamic 5-Domain Compliance Scoring</h3>
+            <p>
+              Each active uncontained MITRE ATT&amp;CK kill-chain stage penalizes the corresponding NCA ECC control domains
+              (Governance, Defense, Resilience, Third-Party/Cloud, ICS/OT). Executing the automated SOAR Playbook isolates
+              compromised hosts, revokes Kerberos TGTs, and restores posture to <strong>98.6% Compliant</strong>.
+            </p>
+            <div class="formula-box highlight">
+              <span>NCA_Readiness = (1 / 5) &times; &Sigma;<sub>d=1..5</sub> Score(ECC_Domain<sub>d</sub>)</span>
+              <span class="highlight-text">Post-SOAR Containment Target: 98.6% Compliant (132/132 Active Controls Verified)</span>
+            </div>
+          </section>
+
+          <section class="math-section">
+            <span class="section-tag">03 // NIST SP 800-61 DFIR &amp; MITRE ATT&amp;CK KILL-CHAIN CONTAINMENT</span>
+            <h3>Automated Adversary Disruption</h3>
+            <p>
+              Every attack scenario lights up its exact MITRE ATT&amp;CK techniques across the 7-column Enterprise Matrix and triggers
+              forensic artifact extraction (SHA-256 binary hashes, C2 JA3 fingerprints, Kerberos SPN abuse, and process lineage trees)
+              aligned with NIST SP 800-61 Incident Handling phases.
+            </p>
+          </section>
+        </div>
+
+        <div class="modal-footer">
+          <span class="footer-note">Designed for NCA &amp; SITE Cybersecurity Program • أ. طارق ابوعشي | Tareq Abuashi</span>
+          <button id="close-dossier-footer-btn" class="action-btn">Return to SOC Console</button>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

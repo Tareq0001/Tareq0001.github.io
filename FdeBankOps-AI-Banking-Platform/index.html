@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FDE-BANKOPS: Forward Deployed AI Context Engineering &amp; SAMA Banking FinTech Lab</title>
+    <meta
+      name="description"
+      content="FDE-BANKOPS (#99): Forward Deployed AI Context Engineering, Docker Telemetry, 60fps SHAP Fraud Explainability, IFRS-9/Basel III Credit Risk, and SAMA/AML Compliance Lab. Architected exclusively by أ. طارق ابوعشي | Tareq Abuashi."
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23060913'/><path d='M50 14 L82 28 V52 C82 70 68 83 50 88 C32 83 18 70 18 52 V28 Z' fill='none' stroke='%2310b981' stroke-width='5'/><path d='M35 52 L46 63 L67 40' fill='none' stroke='%23f59e0b' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/></svg>"
+    />
+    <script type="module" crossorigin src="./assets/index-CMjAKogh.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-BBkg1Dby.css">
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="brand-section">
+        <div class="brand-icon-wrap" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L20 6V12C20 17 16.5 20.5 12 22C7.5 20.5 4 17 4 12V6L12 2Z"></path>
+            <path d="M9 12.5L11.2 14.7L15.5 9.8" stroke="#f59e0b"></path>
+          </svg>
+        </div>
+        <div class="title-wrap">
+          <h1>FDE-BANKOPS <span class="badge-inline">PROJECT #99</span></h1>
+          <div class="subtitle">
+            <span>Forward Deployed AI Context Engineering &amp; SAMA Banking FinTech Lab</span>
+            <span>&bull;</span>
+            <span class="program-tag">Tuwaiq FDE &times; مصرفيي المستقبل (مصرف الإنماء)</span>
+            <span>&bull;</span>
+            <span class="architect">أ. طارق ابوعشي | Tareq Abuashi — Forward Deployed AI &amp; FinTech Systems Engineer</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="audio-toggle-btn" class="btn-icon active" title="Toggle Web Audio Telemetry">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          </svg>
+          <span id="audio-status-text">Audio: ON</span>
+        </button>
+
+        <button id="open-dossier-btn" class="btn-icon" title="Open FDE & FinTech AI Architecture Dossier">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+          <span>FDE Architecture Dossier</span>
+        </button>
+
+        <a
+          href="https://github.com/Tareq0001/FdeBankOps-AI-Banking-Platform"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-icon"
+          title="View Source Repository on GitHub"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+            />
+          </svg>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- TELEMETRY & STATUS RIBBON -->
+    <section class="command-bar">
+      <div class="command-meta-row">
+        <div class="telemetry-strip">
+          <div id="mesh-status-pill" class="status-pill status-ready">
+            <span class="pulse-dot"></span>
+            <span id="mesh-status-text">FDE MESH NOMINAL</span>
+          </div>
+          <div class="metric-chip">Inference SLA: <strong id="telem-inference">13.4 ms (&lt;18ms)</strong></div>
+          <div class="metric-chip">Risk Score: <strong id="telem-risk">12 / 100</strong></div>
+          <div class="metric-chip">Context Tokens: <strong id="telem-tokens">3,220 / 32,768</strong></div>
+          <div class="metric-chip">Zero-PII Masking: <strong id="telem-pii">4/4 Fields Masked</strong></div>
+          <div class="metric-chip">Circuit Breaker: <strong id="telem-cb">CLOSED</strong></div>
+          <div class="metric-chip">Semantic Cache: <strong id="telem-cache">91.4%</strong></div>
+        </div>
+      </div>
+
+      <div id="scenario-banner" class="scenario-banner emerald">
+        <span class="banner-tag">FDE OPS</span>
+        <span id="scenario-banner-text">FDE Banking Mesh Nominal &bull; All 5 Docker services HTTP 200 &bull; Inference SLA &lt;18 ms</span>
+      </div>
+    </section>
+
+    <!-- MAIN WORKSPACE GRID -->
+    <main class="workspace-grid">
+      <!-- LEFT STAGE: 60FPS CANVAS + DOCKER TELEMETRY + CONTEXT ENGINEERING -->
+      <div class="stage-left">
+        <!-- CARD 1: 60FPS BANKING TRANSACTIONS & SHAP EXPLAINABILITY -->
+        <section class="glass-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <span class="panel-badge cyan">60FPS CANVAS 2D &bull; XGBOOST + SHAP</span>
+              <h2>Real-Time Banking Rails &amp; SHAP Fraud Explainability</h2>
+            </div>
+            <div class="panel-actions">
+              <span id="active-verdict-badge" class="panel-badge emerald">APPROVED</span>
+            </div>
+          </div>
+
+          <div class="canvas-wrap">
+            <canvas id="banking-canvas"></canvas>
+          </div>
+
+          <div class="tx-stream-header">
+            <span>LIVE ISO 20022 / MADA / TREASURY STREAM (Click row to inspect SHAP &amp; Prompt Context)</span>
+            <span id="tx-explanation-line" class="tx-explain-inline"></span>
+          </div>
+          <div id="tx-stream-list" class="tx-stream-list custom-scroll"></div>
+        </section>
+
+        <!-- CARD 2: DOCKER CONTAINER TELEMETRY GRID -->
+        <section class="glass-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <span class="panel-badge violet">CLIENT VPC DOCKER TELEMETRY</span>
+              <h2>Deployed Microservices Grid (5 Containers &bull; Interactive Restart / Scale)</h2>
+            </div>
+            <span id="docker-health-badge" class="panel-badge emerald">5 / 5 HEALTHY</span>
+          </div>
+
+          <div id="docker-grid" class="docker-grid"></div>
+        </section>
+
+        <!-- CARD 3: CONTEXT ENGINEERING & LLM CLIENT INTEGRATION -->
+        <section class="glass-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <span class="panel-badge gold">CONTEXT ENGINEERING &amp; LLM GUARDRAIL</span>
+              <h2>Client Banking Sources, Prompt Context Inspector &amp; Pydantic Schema</h2>
+            </div>
+            <span id="pydantic-status-badge" class="panel-badge emerald">PYDANTIC V2: VALID</span>
+          </div>
+
+          <div id="sources-grid" class="sources-grid"></div>
+
+          <div class="token-budget-wrap">
+            <div class="token-budget-head">
+              <span>Context Window Budget Utilization</span>
+              <span id="token-breakdown-label" class="mono-text">--</span>
+            </div>
+            <div class="token-bar-track">
+              <div id="tok-seg-sys" class="tok-seg cyan" title="System Directive"></div>
+              <div id="tok-seg-bank" class="tok-seg emerald" title="Masked Banking Sources"></div>
+              <div id="tok-seg-sama" class="tok-seg violet" title="SAMA Policy Vector Store"></div>
+              <div id="tok-seg-schema" class="tok-seg gold" title="Pydantic Schema Contract"></div>
+            </div>
+          </div>
+
+          <div class="subtabs" role="tablist">
+            <button class="subtab active" data-ctx-tab="prompt">Prompt Context Inspector</button>
+            <button class="subtab" data-ctx-tab="pii">Zero-PII Masking Vault</button>
+            <button class="subtab" data-ctx-tab="schema">JSON Schema / Pydantic Output</button>
+          </div>
+
+          <div id="ctx-pane-prompt" class="ctx-pane active custom-scroll">
+            <pre id="prompt-inspector-code" class="code-box"></pre>
+          </div>
+          <div id="ctx-pane-pii" class="ctx-pane custom-scroll">
+            <div id="pii-vault-table" class="pii-vault-table"></div>
+          </div>
+          <div id="ctx-pane-schema" class="ctx-pane custom-scroll">
+            <pre id="pydantic-json-code" class="code-box"></pre>
+          </div>
+        </section>
+      </div>
+
+      <!-- RIGHT STAGE: FAULT INJECTION + IFRS-9 CREDIT RISK + SAMA/AML COMPLIANCE -->
+      <div class="stage-right">
+        <!-- CARD 4: FDE & BANKING FAULT INJECTION LAB -->
+        <section class="glass-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <span class="panel-badge rose">FDE &amp; BANKING FAULT INJECTION</span>
+              <h2>Field Scenarios &amp; Resilience Chaos Lab</h2>
+            </div>
+            <span id="fault-mode-badge" class="panel-badge emerald">MODE: NORMAL</span>
+          </div>
+
+          <div class="fault-btn-grid">
+            <button id="btn-inject-ato" class="fault-btn danger">
+              <span class="fault-title">Inject Account Takeover &amp; SAR 480,000 Wire Anomaly</span>
+              <span class="fault-sub">Risk 96/100 &bull; SHAP Spike &bull; Instant Block + SAMA STR</span>
+            </button>
+            <button id="btn-inject-smurfing" class="fault-btn crimson">
+              <span class="fault-title">Inject AML Structuring / Smurfing Ring (Multi-Account)</span>
+              <span class="fault-sub">6 &times; SAR 49,500 split transfers &bull; AML Rule 40 Breach</span>
+            </button>
+            <button id="btn-simulate-503" class="fault-btn amber">
+              <span class="fault-title">Simulate Core-Banking REST API Latency Spike (503)</span>
+              <span class="fault-sub">Trips Circuit Breaker &bull; Semantic Cache &bull; Auto-Scales Docker 3x</span>
+            </button>
+            <button id="btn-run-credit" class="fault-btn cyan">
+              <span class="fault-title">Run Corporate Credit Risk Underwriting Case</span>
+              <span class="fault-sub">Loads SAR 850k SME Murabaha into IFRS-9 / Basel III Engine</span>
+            </button>
+            <button id="btn-reset-env" class="fault-btn neutral full-span">
+              <span class="fault-title">Reset FDE Banking Environment</span>
+              <span class="fault-sub">Restores HTTP 200 across all 5 Docker containers &amp; closes Circuit Breaker</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- CARD 5: CREDIT RISK ASSESSMENT (IFRS-9 / BASEL III) -->
+        <section class="glass-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <span class="panel-badge gold">IFRS-9 &bull; BASEL III &bull; SAMA DTI</span>
+              <h2>Murabaha Credit Risk Underwriting Calculator</h2>
+            </div>
+            <span id="credit-verdict-badge" class="panel-badge emerald">Murabaha Tier-A Approved</span>
+          </div>
+
+          <div class="credit-form-grid">
+            <label class="field-box">
+              <span>Segment</span>
+              <select id="cr-segment">
+                <option value="Retail Salary-Assigned">Retail Salary-Assigned</option>
+                <option value="Corporate SME Murabaha">Corporate SME Murabaha</option>
+              </select>
+            </label>
+            <label class="field-box">
+              <span>Monthly Income (SAR)</span>
+              <input id="cr-income" type="number" min="4000" max="500000" step="500" value="24000" />
+            </label>
+            <label class="field-box">
+              <span>Requested Murabaha (SAR)</span>
+              <input id="cr-amount" type="number" min="10000" max="5000000" step="5000" value="180000" />
+            </label>
+            <label class="field-box">
+              <span>Existing Obligations (SAR/mo)</span>
+              <input id="cr-obligations" type="number" min="0" max="200000" step="250" value="2200" />
+            </label>
+            <label class="field-box">
+              <span>Tenor (Months)</span>
+              <input id="cr-tenor" type="number" min="6" max="120" step="6" value="48" />
+            </label>
+            <label class="field-box">
+              <span>SIMAH Credit Score (300-850)</span>
+              <input id="cr-simah" type="number" min="300" max="850" step="10" value="745" />
+            </label>
+            <label class="field-box full-span">
+              <span>Collateral Coverage: <strong id="cr-collateral-val">40%</strong></span>
+              <input id="cr-collateral" type="range" min="0" max="100" step="5" value="40" />
+            </label>
+          </div>
+
+          <div id="credit-kpi-grid" class="credit-kpi-grid"></div>
+          <div id="credit-rationale" class="credit-rationale"></div>
+        </section>
+
+        <!-- CARD 6: SAMA / AML COMPLIANCE AUDIT MATRIX & STR PAYLOAD -->
+        <section class="glass-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <span class="panel-badge emerald">SAUDI REGULATORY GUARDRAIL</span>
+              <h2>SAMA / AML Compliance Matrix &amp; STR Payload</h2>
+            </div>
+            <button id="btn-generate-str" class="btn-mini">Generate / Copy STR</button>
+          </div>
+
+          <div id="compliance-matrix" class="compliance-matrix"></div>
+
+          <div class="str-panel-head">
+            <span>SAMA FIU / SAFIU Suspicious Transaction Report (STR) Payload</span>
+            <span id="str-copy-feedback" class="str-feedback"></span>
+          </div>
+          <pre id="str-payload-code" class="code-box str-box custom-scroll"></pre>
+        </section>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      <span>FDE-BANKOPS (#99) &bull; Tuwaiq FDE &times; Alinma Bank Future Bankers</span>
+      <span>&bull;</span>
+      <span>Architected &amp; Engineered exclusively by <strong>أ. طارق ابوعشي | Tareq Abuashi — Forward Deployed AI &amp; FinTech Systems Engineer</strong></span>
+    </footer>
+
+  </body>
+</html>
