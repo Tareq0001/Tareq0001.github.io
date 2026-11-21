@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DATA-FORGE: Medallion Lakehouse ETL/ELT, Streaming CDC &amp; PDPL Data Governance Studio</title>
+    <meta
+      name="description"
+      content="DATA-FORGE (#100): Medallion Lakehouse ETL/ELT, Streaming CDC, 60fps Bronze/Silver/Gold Pipeline, In-Browser 5,000-Row SQL EXPLAIN ANALYZE Cost Optimizer, and SDAIA PDPL Governance Studio. Architected exclusively by أ. طارق ابوعشي | Tareq Abuashi."
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23060913'/><polygon points='50,14 84,32 50,50 16,32' fill='none' stroke='%2306b6d4' stroke-width='5'/><polyline points='16,52 50,70 84,52' fill='none' stroke='%2310b981' stroke-width='5'/><polyline points='16,70 50,88 84,70' fill='none' stroke='%23f59e0b' stroke-width='5'/></svg>"
+    />
+    <script type="module" crossorigin src="./assets/index-UJakOFtk.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-B3JgPHJp.css">
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="brand-section">
+        <div class="brand-icon-wrap" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <ellipse cx="12" cy="5" rx="8" ry="3" stroke="#06b6d4"></ellipse>
+            <path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5" stroke="#10b981"></path>
+            <path d="M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6" stroke="#f59e0b"></path>
+          </svg>
+        </div>
+        <div class="title-wrap">
+          <h1>DATA-FORGE <span class="badge-inline">PROJECT #100</span></h1>
+          <div class="subtitle">
+            <span>Medallion Lakehouse ETL/ELT, Streaming CDC &amp; PDPL Data Governance Studio</span>
+            <span>&bull;</span>
+            <span class="architect">أ. طارق ابوعشي | Tareq Abuashi — Lead Data Engineer &amp; AI Systems Architect</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="audio-toggle-btn" class="btn-icon active" title="Toggle Web Audio Telemetry">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          </svg>
+          <span id="audio-status-text">Audio: ON</span>
+        </button>
+
+        <button id="open-dossier-btn" class="btn-icon" title="Open Data Engineering & Medallion Architecture Dossier">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+          <span>Medallion Architecture Dossier</span>
+        </button>
+
+        <a
+          href="https://github.com/Tareq0001/DataForge-Lakehouse-ETL-Platform"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-icon"
+          title="View Source Repository on GitHub"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+            />
+          </svg>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- TELEMETRY & STATUS RIBBON -->
+    <section class="command-bar">
+      <div class="command-meta-row">
+        <div class="telemetry-strip">
+          <div id="pipeline-status-pill" class="status-pill">
+            <span class="pulse-dot"></span>
+            <span id="pipeline-status-text">LAKEHOUSE NOMINAL</span>
+          </div>
+          <div class="metric-chip">Throughput: <strong id="telem-rps">6,420 rows/s</strong></div>
+          <div class="metric-chip">Kafka Lag: <strong id="telem-lag">18 ms</strong></div>
+          <div class="metric-chip">Schema Validity: <strong id="telem-validity">99.95%</strong></div>
+          <div class="metric-chip">DLQ Quarantined: <strong id="telem-dlq">14</strong></div>
+          <div class="metric-chip">Parquet Ratio: <strong id="telem-parquet">4.82x ZSTD</strong></div>
+          <div class="metric-chip">PDPL Guard: <strong id="telem-pdpl">SDAIA COMPLIANT</strong></div>
+        </div>
+      </div>
+
+      <div id="scenario-banner" class="scenario-banner emerald">
+        <span class="banner-tag">LAKEHOUSE OPS</span>
+        <span id="scenario-banner-text">Medallion Lakehouse Nominal &bull; 4 Ingestion Sources Streaming &bull; Silver PDPL SHA-256 Masking Active</span>
+      </div>
+    </section>
+
+    <!-- MAIN WORKSPACE GRID -->
+    <main class="workspace-grid">
+      <!-- LEFT STAGE: 60FPS MEDALLION CANVAS + STREAM/DLQ INSPECTOR + PDPL GOVERNANCE -->
+      <div class="stage-left">
+        <!-- CARD 1: 60FPS MEDALLION LAKEHOUSE PIPELINE -->
+        <section class="glass-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <span class="panel-badge cyan">60FPS CANVAS 2D &bull; BRONZE &rarr; SILVER &rarr; GOLD + DLQ</span>
+              <h2>Medallion Lakehouse Streaming CDC &amp; Batch ETL Pipeline</h2>
+            </div>
+            <span id="gold-integrity-badge" class="panel-badge emerald">GOLD: 100% PROTECTED</span>
+          </div>
+
+          <div class="canvas-wrap">
+            <canvas id="lakehouse-canvas"></canvas>
+          </div>
+
+          <div class="subtabs stream-tabs" role="tablist">
+            <button class="subtab active" data-stream-tab="live">Live CDC / ETL Stream</button>
+            <button class="subtab" data-stream-tab="dlq">Dead-Letter Queue (DLQ) <span id="dlq-tab-count" class="count-pill">14</span></button>
+            <button class="subtab" data-stream-tab="gold">Gold Star Schema Tables (4)</button>
+          </div>
+
+          <div id="stream-pane-live" class="stream-pane active custom-scroll">
+            <div id="cdc-stream-list" class="cdc-stream-list"></div>
+          </div>
+          <div id="stream-pane-dlq" class="stream-pane custom-scroll">
+            <div id="dlq-list" class="dlq-list"></div>
+          </div>
+          <div id="stream-pane-gold" class="stream-pane custom-scroll">
+            <div id="gold-tables-grid" class="gold-tables-grid"></div>
+          </div>
+        </section>
+
+        <!-- CARD 2: DATA QUALITY & SDAIA / PDPL GOVERNANCE -->
+        <section class="glass-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <span class="panel-badge gold">DATA QUALITY &amp; SDAIA / PDPL GOVERNANCE</span>
+              <h2>Lakehouse Quality Telemetry &amp; Live PDPL SHA-256 Masking</h2>
+            </div>
+            <span id="pdpl-status-badge" class="panel-badge emerald">SDAIA PDPL COMPLIANT</span>
+          </div>
+
+          <div id="quality-kpi-grid" class="quality-kpi-grid"></div>
+
+          <div class="pdpl-head-bar">
+            <span>LIVE SILVER LAYER BEFORE / AFTER PDPL TOKENIZATION (SHA-256)</span>
+            <span class="mono-text">Zero Raw PII in Gold Warehouse</span>
+          </div>
+          <div id="pdpl-vault-table" class="pdpl-vault-table"></div>
+        </section>
+      </div>
+
+      <!-- RIGHT STAGE: CHAOS INJECTION + SQL ENGINE & EXPLAIN ANALYZE OPTIMIZER -->
+      <div class="stage-right">
+        <!-- CARD 3: PIPELINE CHAOS & FAULT INJECTION -->
+        <section class="glass-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <span class="panel-badge rose">PIPELINE CHAOS &amp; FAULT INJECTION</span>
+              <h2>Lakehouse Resilience &amp; Governance Chaos Lab</h2>
+            </div>
+            <span id="fault-mode-badge" class="panel-badge emerald">MODE: NOMINAL</span>
+          </div>
+
+          <div class="fault-btn-grid">
+            <button id="btn-inject-drift" class="fault-btn danger">
+              <span class="fault-title">Inject Upstream Schema Drift (Column Rename)</span>
+              <span class="fault-sub">Silver Schema Contract quarantines drifted rows to DLQ &bull; Gold tables stay 100% intact</span>
+            </button>
+            <button id="btn-inject-spike" class="fault-btn violet">
+              <span class="fault-title">Inject Duplicate CDC Kafka Spike (35k rows/s)</span>
+              <span class="fault-sub">Engages Event-Time Watermark Deduplication &amp; Micro-Batch Parquet Compaction</span>
+            </button>
+            <button id="btn-inject-pii" class="fault-btn amber">
+              <span class="fault-title">Inject Unmasked PII Leak (National ID / IBAN)</span>
+              <span class="fault-sub">Triggers SDAIA PDPL Violation Alert &amp; Auto-Engages SHA-256 Tokenization</span>
+            </button>
+            <button id="btn-benchmark-sql" class="fault-btn cyan">
+              <span class="fault-title">Benchmark Seq Scan vs Partition Pruning Index</span>
+              <span class="fault-sub">Runs live 5,000-row comparison (~420ms Full Scan vs ~11ms Index Only Scan)</span>
+            </button>
+            <button id="btn-reset-pipeline" class="fault-btn neutral">
+              <span class="fault-title">Reset Lakehouse Pipeline</span>
+              <span class="fault-sub">Restores Nominal Streaming across 4 Sources &amp; clears active fault alerts</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- CARD 4: SQL QUERY ENGINE & EXPLAIN ANALYZE COST OPTIMIZER -->
+        <section class="glass-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <span class="panel-badge cyan">5,000-ROW IN-BROWSER WAREHOUSE &bull; EXPLAIN ANALYZE</span>
+              <h2>Interactive SQL Engine &amp; Cost Optimizer</h2>
+            </div>
+            <span id="sql-speedup-badge" class="panel-badge emerald">SPEEDUP: 38.2x</span>
+          </div>
+
+          <div id="sql-preset-tabs" class="sql-preset-tabs"></div>
+
+          <div class="sql-editor-wrap">
+            <textarea id="sql-editor" class="sql-editor custom-scroll" spellcheck="false" rows="7"></textarea>
+            <div class="sql-action-bar">
+              <button id="btn-run-indexed" class="btn-sql primary">Run Indexed Partition Pruning</button>
+              <button id="btn-run-seq" class="btn-sql warn">Run Unindexed Seq Scan</button>
+              <span id="sql-filter-summary" class="sql-filter-summary"></span>
+            </div>
+          </div>
+
+          <!-- BENCHMARK COMPARISON BAR -->
+          <div id="benchmark-box" class="benchmark-box"></div>
+
+          <!-- EXPLAIN ANALYZE PLAN TREE -->
+          <div class="sub-section-head">
+            <span>EXPLAIN ANALYZE EXECUTION PLAN TREE</span>
+            <span id="explain-pruned-label" class="mono-text">--</span>
+          </div>
+          <div id="explain-tree" class="explain-tree"></div>
+
+          <!-- ACTUAL RESULT ROWS -->
+          <div class="sub-section-head">
+            <span>QUERY RESULT ROWS (LIVE 5,000-ROW ENGINE)</span>
+            <span id="sql-rows-meta" class="mono-text">--</span>
+          </div>
+          <div id="sql-result-wrap" class="sql-result-wrap custom-scroll"></div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      <span>DATA-FORGE (#100) &bull; Medallion Lakehouse ETL/ELT, Streaming CDC &amp; PDPL Governance Studio</span>
+      <span>&bull;</span>
+      <span>Architected &amp; Engineered exclusively by <strong>أ. طارق ابوعشي | Tareq Abuashi — Lead Data Engineer &amp; AI Systems Architect</strong></span>
+    </footer>
+
+  </body>
+</html>
