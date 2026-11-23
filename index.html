@@ -2373,6 +2373,47 @@
                     </div>
                 </div>
 
+                <!-- 101. Wathiq-RAG (Span 12) -->
+                <div class="bento-3d-card span-12 bento-item ai sec" style="border-color: rgba(16, 185, 129, 0.65); background: linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(6, 182, 212, 0.12) 50%, rgba(6, 9, 19, 0.88) 100%);">
+                    <div class="card-pill pill-ai" data-i18n="c_wathiq_pill" style="color: #34d399; border-color: rgba(16, 185, 129, 0.5); background: rgba(16, 185, 129, 0.16);">
+                        <i class="fa-solid fa-file-shield"></i> Bilingual Document ETL, Hybrid RAG (BM25 + pgvector) &amp; Saudi PDPL Guardrails
+                    </div>
+                    <h3 data-i18n="c_wathiq_title">WATHIQ-RAG (وَثِيق): Bilingual Document ETL &amp; Hybrid RAG Engine</h3>
+                    <p data-i18n="c_wathiq_desc">
+                        Production-structured Arabic &amp; English Document ETL and Hybrid Retrieval-Augmented Generation (RAG) engine built with FastAPI, PyMuPDF, Docker, and PostgreSQL 16 (pgvector HNSW) with SQLite WAL fallback and automated pytest verification. Combines Saudi PDPL PII redaction (National ID, IBAN, phone, email), prompt/SQL injection guardrails, SHA-256 deduplication, Arabic text normalization, Okapi BM25 + 256-dim dense cosine similarity fused via Reciprocal Rank Fusion (RRF, k=60), grounded citations, and immutable audit logs.
+                    </p>
+                    <div class="card-benchmark-hud">
+                        <div class="hud-stat-box">
+                            <div class="num">BM25 + pgvector RRF</div>
+                            <div class="desc" data-i18n="c_wathiq_stat1">Hybrid Lexical &amp; 256-d Dense Fusion</div>
+                        </div>
+                        <div class="hud-stat-box">
+                            <div class="num">Saudi PDPL + Guardrails</div>
+                            <div class="desc" data-i18n="c_wathiq_stat2">PII Masking &amp; Injection Defense</div>
+                        </div>
+                        <div class="hud-stat-box">
+                            <div class="num">FastAPI + Docker</div>
+                            <div class="desc" data-i18n="c_wathiq_stat3">PyMuPDF ETL, SHA-256 &amp; pytest</div>
+                        </div>
+                    </div>
+                    <div class="badge-tags">
+                        <span class="badge-tag">Python &amp; FastAPI</span>
+                        <span class="badge-tag">PostgreSQL pgvector (HNSW)</span>
+                        <span class="badge-tag">Okapi BM25 + RRF</span>
+                        <span class="badge-tag">PyMuPDF Arabic ETL</span>
+                        <span class="badge-tag">Saudi PDPL PII Redaction</span>
+                        <span class="badge-tag">Docker &amp; pytest</span>
+                    </div>
+                    <div class="card-actions-row">
+                        <a href="https://github.com/Tareq0001/wathiq-rag" target="_blank" class="card-action-link">
+                            <span data-i18n="c_wathiq_link">Inspect WATHIQ-RAG Code</span> <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <a href="https://tareq0001.github.io/wathiq-rag/" target="_blank" class="card-badge-link" style="background: rgba(16, 185, 129, 0.22); border-color: rgba(16, 185, 129, 0.55); color: #34d399;">
+                            <i class="fa-solid fa-file-shield"></i> <span data-i18n="c_wathiq_demo">Launch WATHIQ-RAG Workbench</span>
+                        </a>
+                    </div>
+                </div>
+
                 <!-- 100. DataForge-Lakehouse-ETL-Platform (Span 12) -->
                 <div class="bento-3d-card span-12 bento-item ai industrial" style="border-color: rgba(6, 182, 212, 0.65); background: linear-gradient(135deg, rgba(6, 182, 212, 0.16) 0%, rgba(16, 185, 129, 0.12) 50%, rgba(6, 9, 19, 0.88) 100%);">
                     <div class="card-pill pill-ai" data-i18n="c_dataforge_pill" style="color: #22d3ee; border-color: rgba(6, 182, 212, 0.5); background: rgba(6, 182, 212, 0.16);">
@@ -6798,6 +6839,15 @@ char _license[] SEC("license") = "GPL";</code></pre>
                 c_dataforge_link: "Inspect DATA-FORGE Code",
                 c_dataforge_demo: "Launch DATA-FORGE Studio",
 
+                c_wathiq_pill: '<i class="fa-solid fa-file-shield"></i> Bilingual Document ETL, Hybrid RAG (BM25 + pgvector) & Saudi PDPL Guardrails',
+                c_wathiq_title: "WATHIQ-RAG (وَثِيق): Bilingual Document ETL & Hybrid RAG Engine",
+                c_wathiq_desc: "Production-structured Arabic & English Document ETL and Hybrid Retrieval-Augmented Generation (RAG) engine built with FastAPI, PyMuPDF, Docker, and PostgreSQL 16 (pgvector HNSW) with SQLite WAL fallback and automated pytest verification. Combines Saudi PDPL PII redaction (National ID, IBAN, phone, email), prompt/SQL injection guardrails, SHA-256 deduplication, Arabic text normalization, Okapi BM25 + 256-dim dense cosine similarity fused via Reciprocal Rank Fusion (RRF, k=60), grounded citations, and immutable audit logs.",
+                c_wathiq_stat1: "Hybrid Lexical & 256-d Dense Fusion",
+                c_wathiq_stat2: "PII Masking & Injection Defense",
+                c_wathiq_stat3: "PyMuPDF ETL, SHA-256 & pytest",
+                c_wathiq_link: "Inspect WATHIQ-RAG Code",
+                c_wathiq_demo: "Launch WATHIQ-RAG Workbench",
+
 
 
 
@@ -7625,6 +7675,15 @@ char _license[] SEC("license") = "GPL";</code></pre>
         c_dataforge_stat3: "تشفير PII SHA-256 ومختبر الأعطال",
         c_dataforge_link: "فحص كود DATA-FORGE",
         c_dataforge_demo: "تشغيل استوديو DATA-FORGE",
+
+        c_wathiq_pill: '<i class="fa-solid fa-file-shield"></i> محرك ETL ثنائي اللغة والبحث الهجين RAG (BM25 + pgvector) وحماية PDPL',
+        c_wathiq_title: "وثيق (WATHIQ-RAG): محرك استخراج المستندات والبحث الهجين RAG",
+        c_wathiq_desc: "محرك إنتاجي ثنائي اللغة (عربي/إنجليزي) لاستخراج المستندات (ETL) والتوليد المعزز بالاسترجاع الهجين (Hybrid RAG) مبني بـ FastAPI وPyMuPDF وDocker وPostgreSQL 16 (pgvector HNSW) مع دعم SQLite WAL واختبارات pytest آلية. يجمع بين تنقيح البيانات الشخصية وفق نظام PDPL السعودي (الهوية الوطنية، الآيبان، الجوال، البريد)، وحواجز الحماية ضد حقن الأوامر وSQL، وإزالة التكرار بـ SHA-256، وتطبيع النصوص العربية، ودمج Okapi BM25 مع التضمين الدلالي عبر Reciprocal Rank Fusion (RRF, k=60) مع استشهادات موثقة وسجل تدقيق غير قابل للتعديل.",
+        c_wathiq_stat1: "دمج البحث اللفظي BM25 والدلالي",
+        c_wathiq_stat2: "حجب بيانات PDPL ومقاومة الحقن",
+        c_wathiq_stat3: "معالجة PyMuPDF وSHA-256 وpytest",
+        c_wathiq_link: "فحص كود WATHIQ-RAG",
+        c_wathiq_demo: "تشغيل منصة وَثِيق",
 
 
                 inspector_tag: "// فاحص الكود المصدري المعماري",
